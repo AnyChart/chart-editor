@@ -1,0 +1,25 @@
+{
+  "name": "chart-editor",
+  "version": "1.0.0",
+  "description": "Anychart Chart Editor utility",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AnyChart/chart-editor.git"
+  },
+  "keywords": [
+    "anychart"
+  ],
+  "author": "anychart",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AnyChart/chart-editor/issues"
+  },
+  "homepage": "https://github.com/AnyChart/chart-editor#readme",
+  "devDependencies": {
+    "google-closure-compiler": "^20180204.0.0"
+  }
+}
