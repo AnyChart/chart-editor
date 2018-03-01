@@ -1,21 +1,21 @@
-goog.provide('anychart.chartEditorModule.settings.pointers.Tank');
+goog.provide('chartEditor.settings.pointers.Tank');
 
-goog.require('anychart.chartEditorModule.colorPicker.Base');
-goog.require('anychart.chartEditorModule.controls.LabeledControl');
-goog.require('anychart.chartEditorModule.settings.pointers.LinearBase');
+goog.require('chartEditor.colorPicker.Base');
+goog.require('chartEditor.controls.LabeledControl');
+goog.require('chartEditor.settings.pointers.LinearBase');
 
 
 /**
- * @param {anychart.chartEditorModule.EditorModel} model
+ * @param {chartEditor.EditorModel} model
  * @param {string} type
  * @param {string|number} pointerId
  * @param {number} pointerIndex
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  * @constructor
- * @extends {anychart.chartEditorModule.settings.pointers.LinearBase}
+ * @extends {chartEditor.settings.pointers.LinearBase}
  */
-anychart.chartEditorModule.settings.pointers.Tank = function(model, type, pointerId, pointerIndex, opt_domHelper) {
-  anychart.chartEditorModule.settings.pointers.Tank.base(this, 'constructor', model, type, pointerId, pointerIndex, opt_domHelper);
+chartEditor.settings.pointers.Tank = function(model, type, pointerId, pointerIndex, opt_domHelper) {
+  chartEditor.settings.pointers.Tank.base(this, 'constructor', model, type, pointerId, pointerIndex, opt_domHelper);
 
   this.pointerType_ = 'tank';
 
@@ -23,19 +23,19 @@ anychart.chartEditorModule.settings.pointers.Tank = function(model, type, pointe
 
   this.addClassName(goog.getCssName('anychart-settings-panel-pointer-tank'));
 };
-goog.inherits(anychart.chartEditorModule.settings.pointers.Tank, anychart.chartEditorModule.settings.pointers.LinearBase);
+goog.inherits(chartEditor.settings.pointers.Tank, chartEditor.settings.pointers.LinearBase);
 
 
 /** @override */
-anychart.chartEditorModule.settings.pointers.Tank.prototype.createDom = function() {
-  anychart.chartEditorModule.settings.pointers.Tank.base(this, 'createDom');
+chartEditor.settings.pointers.Tank.prototype.createDom = function() {
+  chartEditor.settings.pointers.Tank.base(this, 'createDom');
 
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
 
   this.addContentSeparator();
 
-  var emptyFill = new anychart.chartEditorModule.colorPicker.Base();
-  var emptyFillLC = new anychart.chartEditorModule.controls.LabeledControl(emptyFill, 'Empty Fill');
+  var emptyFill = new chartEditor.colorPicker.Base();
+  var emptyFillLC = new chartEditor.controls.LabeledControl(emptyFill, 'Empty Fill');
   emptyFillLC.init(model, this.genKey('emptyFill()'));
   this.addChildControl(emptyFillLC);
 };

@@ -1,7 +1,7 @@
-goog.provide('anychart.chartEditorModule.button.Toggle');
+goog.provide('chartEditor.button.Toggle');
 
-goog.require('anychart.chartEditorModule.events');
-goog.require('anychart.ui.button.Base');
+goog.require('chartEditor.events');
+goog.require('chartEditor.ui.button.Base');
 
 goog.require('goog.ui.INLINE_BLOCK_CLASSNAME');
 
@@ -9,19 +9,19 @@ goog.require('goog.ui.INLINE_BLOCK_CLASSNAME');
 
 /**
  * A toggle button control.
- * Extends {@link anychart.ui.button.Base} by providing checkbox-like semantics.
+ * Extends {@link chartEditor.ui.button.Base} by providing checkbox-like semantics.
  * @param {goog.ui.ControlContent=} opt_content
  * @param {goog.ui.ButtonRenderer=} opt_renderer
  * @param {goog.dom.DomHelper=} opt_domHelper
  * @constructor
- * @extends {anychart.ui.button.Base}
+ * @extends {chartEditor.ui.button.Base}
  */
-anychart.chartEditorModule.button.Toggle = function(opt_content, opt_renderer, opt_domHelper) {
-  anychart.chartEditorModule.button.Toggle.base(this, 'constructor', opt_content, opt_renderer, opt_domHelper);
+chartEditor.button.Toggle = function(opt_content, opt_renderer, opt_domHelper) {
+  chartEditor.button.Toggle.base(this, 'constructor', opt_content, opt_renderer, opt_domHelper);
 
   this.addClassName(goog.ui.INLINE_BLOCK_CLASSNAME);
   this.addClassName('anychart-button-standard');
-  this.addClassName(anychart.chartEditorModule.button.Toggle.CSS_CLASS);
+  this.addClassName(chartEditor.button.Toggle.CSS_CLASS);
 
   this.setSupportedState(goog.ui.Component.State.CHECKED, true);
   this.setAutoStates(goog.ui.Component.State.CHECKED, false);
@@ -42,7 +42,7 @@ anychart.chartEditorModule.button.Toggle = function(opt_content, opt_renderer, o
   /**
    * Editor Model key.
    *
-   * @type {anychart.chartEditorModule.EditorModel.Key}
+   * @type {chartEditor.EditorModel.Key}
    * @protected
    */
   this.key = [];
@@ -53,22 +53,22 @@ anychart.chartEditorModule.button.Toggle = function(opt_content, opt_renderer, o
    */
   this.noDispatch = false;
 };
-goog.inherits(anychart.chartEditorModule.button.Toggle, anychart.ui.button.Base);
+goog.inherits(chartEditor.button.Toggle, chartEditor.ui.button.Base);
 
 
 /** @type {string} */
-anychart.chartEditorModule.button.Toggle.CSS_CLASS = goog.getCssName('anychart-button-toggle');
+chartEditor.button.Toggle.CSS_CLASS = goog.getCssName('anychart-button-toggle');
 
 
 /**
  * @type {*}
  * @private
  */
-anychart.chartEditorModule.button.Toggle.prototype.normalValue_ = '';
+chartEditor.button.Toggle.prototype.normalValue_ = '';
 
 
 /** @param {*} value */
-anychart.chartEditorModule.button.Toggle.prototype.setNormalValue = function(value) {
+chartEditor.button.Toggle.prototype.setNormalValue = function(value) {
   this.normalValue_ = value;
 };
 
@@ -77,40 +77,40 @@ anychart.chartEditorModule.button.Toggle.prototype.setNormalValue = function(val
  * @type {*}
  * @private
  */
-anychart.chartEditorModule.button.Toggle.prototype.checkedValue_ = '';
+chartEditor.button.Toggle.prototype.checkedValue_ = '';
 
 
 /** @param {*} value */
-anychart.chartEditorModule.button.Toggle.prototype.setCheckedValue = function(value) {
+chartEditor.button.Toggle.prototype.setCheckedValue = function(value) {
   this.checkedValue_ = value;
 };
 
 
-/** @return {anychart.chartEditorModule.EditorModel.Key} */
-anychart.chartEditorModule.button.Toggle.prototype.getKey = function() {
+/** @return {chartEditor.EditorModel.Key} */
+chartEditor.button.Toggle.prototype.getKey = function() {
   return this.key;
 };
 
 
-/** @param {anychart.chartEditorModule.EditorModel.Key} value */
-anychart.chartEditorModule.button.Toggle.prototype.setKey = function(value) {
+/** @param {chartEditor.EditorModel.Key} value */
+chartEditor.button.Toggle.prototype.setKey = function(value) {
   this.key = value;
 };
 
 
 /** @override */
-anychart.chartEditorModule.button.Toggle.prototype.enterDocument = function() {
-  anychart.chartEditorModule.button.Toggle.base(this, 'enterDocument');
+chartEditor.button.Toggle.prototype.enterDocument = function() {
+  chartEditor.button.Toggle.base(this, 'enterDocument');
 
   goog.events.listen(this, goog.ui.Component.EventType.ACTION, this.onChange, false, this);
 };
 
 
 /** @override */
-anychart.chartEditorModule.button.Toggle.prototype.exitDocument = function() {
+chartEditor.button.Toggle.prototype.exitDocument = function() {
   goog.events.unlisten(this, goog.ui.Component.EventType.ACTION, this.onChange, false, this);
 
-  anychart.chartEditorModule.button.Toggle.base(this, 'exitDocument');
+  chartEditor.button.Toggle.base(this, 'exitDocument');
 };
 
 
@@ -118,7 +118,7 @@ anychart.chartEditorModule.button.Toggle.prototype.exitDocument = function() {
  * @param {goog.events.Event} evt
  * @protected
  */
-anychart.chartEditorModule.button.Toggle.prototype.onChange = function(evt) {
+chartEditor.button.Toggle.prototype.onChange = function(evt) {
   evt.stopPropagation();
 
   if (!this.noDispatch && this.editorModel) {
@@ -135,15 +135,15 @@ anychart.chartEditorModule.button.Toggle.prototype.onChange = function(evt) {
 /**
  * Connects control with EditorMode.
  *
- * @param {anychart.chartEditorModule.EditorModel} model Editor model instance to connect with.
- * @param {anychart.chartEditorModule.EditorModel.Key} key Key of control's field in model's structure.
+ * @param {chartEditor.EditorModel} model Editor model instance to connect with.
+ * @param {chartEditor.EditorModel.Key} key Key of control's field in model's structure.
  * @param {string=} opt_callback Callback function that will be called on control's value change instead of simple change value in model.
  *  This function should be model's public method.
  * @param {boolean=} opt_noRebuild Should or not rebuild chart on change value of this control.
  */
-anychart.chartEditorModule.button.Toggle.prototype.init = function(model, key, opt_callback, opt_noRebuild) {
+chartEditor.button.Toggle.prototype.init = function(model, key, opt_callback, opt_noRebuild) {
   /**
-   * @type {anychart.chartEditorModule.EditorModel}
+   * @type {chartEditor.EditorModel}
    * @protected
    */
   this.editorModel = model;
@@ -161,11 +161,11 @@ anychart.chartEditorModule.button.Toggle.prototype.init = function(model, key, o
  * Updates model state.
  * @param {?Object} target Object, who's property corresponds to control's key. Used to get value of this control.
  */
-anychart.chartEditorModule.button.Toggle.prototype.setValueByTarget = function(target) {
+chartEditor.button.Toggle.prototype.setValueByTarget = function(target) {
   this.target = target;
 
-  var stringKey = anychart.chartEditorModule.EditorModel.getStringKey(this.key);
-  var value = /** @type {string} */(anychart.bindingModule.exec(this.target, stringKey));
+  var stringKey = chartEditor.EditorModel.getStringKey(this.key);
+  var value = /** @type {string} */(chartEditor.binding.exec(this.target, stringKey));
 
   this.noDispatch = true;
   this.setChecked(value === this.checkedValue_);

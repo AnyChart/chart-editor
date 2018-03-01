@@ -1,34 +1,34 @@
-goog.provide('anychart.chartEditorModule.DataLabelsPanel');
+goog.provide('chartEditor.DataLabelsPanel');
 
-goog.require('anychart.chartEditorModule.SettingsPanel');
-goog.require('anychart.chartEditorModule.settings.Labels');
+goog.require('chartEditor.SettingsPanel');
+goog.require('chartEditor.settings.Labels');
 
 
 
 /**
- * @param {anychart.chartEditorModule.EditorModel} model
+ * @param {chartEditor.EditorModel} model
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  * @constructor
- * @extends {anychart.chartEditorModule.SettingsPanel}
+ * @extends {chartEditor.SettingsPanel}
  */
-anychart.chartEditorModule.DataLabelsPanel = function(model, opt_domHelper) {
-  anychart.chartEditorModule.DataLabelsPanel.base(this, 'constructor', model, 'Data Labels', opt_domHelper);
+chartEditor.DataLabelsPanel = function(model, opt_domHelper) {
+  chartEditor.DataLabelsPanel.base(this, 'constructor', model, 'Data Labels', opt_domHelper);
 
   this.stringId = 'dataLabels';
 
   this.key = [['chart'], ['settings'], 'labels()'];
 };
-goog.inherits(anychart.chartEditorModule.DataLabelsPanel, anychart.chartEditorModule.SettingsPanel);
+goog.inherits(chartEditor.DataLabelsPanel, chartEditor.SettingsPanel);
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.DataLabelsPanel.prototype.createDom = function() {
-  anychart.chartEditorModule.DataLabelsPanel.base(this, 'createDom');
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+chartEditor.DataLabelsPanel.prototype.createDom = function() {
+  chartEditor.DataLabelsPanel.base(this, 'createDom');
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
 
   this.enableContentCheckbox.init(model, this.genKey('enabled()'), 'setSettingForSeries');
 
-  var settings = new anychart.chartEditorModule.settings.Labels(model);
+  var settings = new chartEditor.settings.Labels(model);
   settings.allowEnabled(false);
   settings.setName(null);
   settings.setKey(this.getKey());
@@ -39,13 +39,13 @@ anychart.chartEditorModule.DataLabelsPanel.prototype.createDom = function() {
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.DataLabelsPanel.prototype.onModelChange = function(evt) {
-  anychart.chartEditorModule.DataLabelsPanel.base(this, 'onModelChange', evt);
+chartEditor.DataLabelsPanel.prototype.onModelChange = function(evt) {
+  chartEditor.DataLabelsPanel.base(this, 'onModelChange', evt);
 
   // Hardcoding - Set values for all series.
   var lastKey = evt && evt.lastKey;
   if (lastKey) {
-    var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+    var model = /** @type {chartEditor.EditorModel} */(this.getModel());
     model.suspendDispatch();
 
     var settingsComponent = this.settings_.getSettingsComponent();
@@ -80,9 +80,9 @@ anychart.chartEditorModule.DataLabelsPanel.prototype.onModelChange = function(ev
 
 
 /** @override */
-anychart.chartEditorModule.DataLabelsPanel.prototype.disposeInternal = function() {
+chartEditor.DataLabelsPanel.prototype.disposeInternal = function() {
   goog.dispose(this.settings_);
   this.settings_ = null;
 
-  anychart.chartEditorModule.DataLabelsPanel.base(this, 'disposeInternal');
+  chartEditor.DataLabelsPanel.base(this, 'disposeInternal');
 };

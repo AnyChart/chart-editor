@@ -1,8 +1,8 @@
-goog.provide('anychart.chartEditorModule.controls.select.ScaleType');
-goog.provide('anychart.chartEditorModule.controls.select.ScaleTypeDataFieldSelect');
+goog.provide('chartEditor.controls.select.ScaleType');
+goog.provide('chartEditor.controls.select.ScaleTypeDataFieldSelect');
 
-goog.require('anychart.chartEditorModule.controls.select.DataField');
-goog.require('anychart.chartEditorModule.controls.select.DataFieldSelect');
+goog.require('chartEditor.controls.select.DataField');
+goog.require('chartEditor.controls.select.DataFieldSelect');
 
 
 /**
@@ -16,12 +16,12 @@ goog.require('anychart.chartEditorModule.controls.select.DataFieldSelect');
  * @param {string=} opt_menuAdditionalClass
  *
  * @constructor
- * @extends {anychart.chartEditorModule.controls.select.DataField}
+ * @extends {chartEditor.controls.select.DataField}
  */
-anychart.chartEditorModule.controls.select.ScaleType = function(opt_model, opt_menu, opt_renderer, opt_domHelper, opt_menuRenderer, opt_menuAdditionalClass) {
-  anychart.chartEditorModule.controls.select.ScaleType.base(this, 'constructor',opt_model, opt_menu, opt_renderer, opt_domHelper, opt_menuRenderer, opt_menuAdditionalClass);
+chartEditor.controls.select.ScaleType = function(opt_model, opt_menu, opt_renderer, opt_domHelper, opt_menuRenderer, opt_menuAdditionalClass) {
+  chartEditor.controls.select.ScaleType.base(this, 'constructor',opt_model, opt_menu, opt_renderer, opt_domHelper, opt_menuRenderer, opt_menuAdditionalClass);
 
-  this.setSelect(new anychart.chartEditorModule.controls.select.ScaleTypeDataFieldSelect(
+  this.setSelect(new chartEditor.controls.select.ScaleTypeDataFieldSelect(
       opt_model,
       opt_menu,
       opt_renderer,
@@ -30,7 +30,7 @@ anychart.chartEditorModule.controls.select.ScaleType = function(opt_model, opt_m
       opt_menuAdditionalClass
   ));
 };
-goog.inherits(anychart.chartEditorModule.controls.select.ScaleType, anychart.chartEditorModule.controls.select.DataField);
+goog.inherits(chartEditor.controls.select.ScaleType, chartEditor.controls.select.DataField);
 
 
 /**
@@ -41,10 +41,10 @@ goog.inherits(anychart.chartEditorModule.controls.select.ScaleType, anychart.cha
  * @param {!goog.ui.MenuRenderer=} opt_menuRenderer
  * @param {string=} opt_menuAdditionalClass
  * @constructor
- * @extends {anychart.chartEditorModule.controls.select.DataFieldSelect}
+ * @extends {chartEditor.controls.select.DataFieldSelect}
  */
-anychart.chartEditorModule.controls.select.ScaleTypeDataFieldSelect = function (opt_model, opt_menu, opt_renderer, opt_domHelper, opt_menuRenderer, opt_menuAdditionalClass) {
-  anychart.chartEditorModule.controls.select.ScaleTypeDataFieldSelect.base(this, 'constructor',
+chartEditor.controls.select.ScaleTypeDataFieldSelect = function (opt_model, opt_menu, opt_renderer, opt_domHelper, opt_menuRenderer, opt_menuAdditionalClass) {
+  chartEditor.controls.select.ScaleTypeDataFieldSelect.base(this, 'constructor',
       opt_model,
       opt_menu,
       opt_renderer,
@@ -52,15 +52,15 @@ anychart.chartEditorModule.controls.select.ScaleTypeDataFieldSelect = function (
       opt_menuRenderer,
       opt_menuAdditionalClass);
 };
-goog.inherits(anychart.chartEditorModule.controls.select.ScaleTypeDataFieldSelect, anychart.chartEditorModule.controls.select.DataFieldSelect);
+goog.inherits(chartEditor.controls.select.ScaleTypeDataFieldSelect, chartEditor.controls.select.DataFieldSelect);
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.controls.select.ScaleTypeDataFieldSelect.prototype.handleSelectionChange = function(evt) {
+chartEditor.controls.select.ScaleTypeDataFieldSelect.prototype.handleSelectionChange = function(evt) {
   if (this.isExcluded()) return;
 
   if (!this.noDispatch && this.editorModel) {
-    var stringKey = anychart.chartEditorModule.EditorModel.getStringKey(this.key);
+    var stringKey = chartEditor.EditorModel.getStringKey(this.key);
     var tmp = stringKey.split('.');
     var lastKey = tmp[tmp.length - 1];
     stringKey = stringKey.replace('.' + lastKey, '');
@@ -68,5 +68,5 @@ anychart.chartEditorModule.controls.select.ScaleTypeDataFieldSelect.prototype.ha
     this.editorModel.dropChartSettings(stringKey);
   }
 
-  anychart.chartEditorModule.controls.select.ScaleTypeDataFieldSelect.base(this, 'handleSelectionChange', evt);
+  chartEditor.controls.select.ScaleTypeDataFieldSelect.base(this, 'handleSelectionChange', evt);
 };

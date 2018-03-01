@@ -1,6 +1,6 @@
-goog.provide('anychart.chartEditorModule.comboBox.Percent');
+goog.provide('chartEditor.comboBox.Percent');
 
-goog.require('anychart.chartEditorModule.comboBox.Base');
+goog.require('chartEditor.comboBox.Base');
 goog.require('goog.ui.ComboBox');
 
 
@@ -12,26 +12,26 @@ goog.require('goog.ui.ComboBox');
  * @param {goog.ui.LabelInput=} opt_labelInput Optional label input.
  *     This label input is disposed of by this control.
  * @constructor
- * @extends {anychart.chartEditorModule.comboBox.Base}
+ * @extends {chartEditor.comboBox.Base}
  * @suppress {visibility}
  */
-anychart.chartEditorModule.comboBox.Percent = function(opt_domHelper, opt_menu, opt_labelInput) {
-  anychart.chartEditorModule.comboBox.Percent.base(this, 'constructor', opt_domHelper, opt_menu, opt_labelInput);
+chartEditor.comboBox.Percent = function(opt_domHelper, opt_menu, opt_labelInput) {
+  chartEditor.comboBox.Percent.base(this, 'constructor', opt_domHelper, opt_menu, opt_labelInput);
 
   this.allowNegative(false);
 };
-goog.inherits(anychart.chartEditorModule.comboBox.Percent, anychart.chartEditorModule.comboBox.Base);
+goog.inherits(chartEditor.comboBox.Percent, chartEditor.comboBox.Base);
 
 
 /**
  * @type {boolean}
  * @private
  */
-anychart.chartEditorModule.comboBox.Percent.prototype.allowNegative_ = false;
+chartEditor.comboBox.Percent.prototype.allowNegative_ = false;
 
 
 /** @param {boolean} value */
-anychart.chartEditorModule.comboBox.Percent.prototype.allowNegative = function(value) {
+chartEditor.comboBox.Percent.prototype.allowNegative = function(value) {
   this.allowNegative_ = value;
 
   if (this.allowNegative_) {
@@ -64,8 +64,8 @@ anychart.chartEditorModule.comboBox.Percent.prototype.allowNegative = function(v
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.comboBox.Percent.prototype.setOptions = function(value) {
-  anychart.chartEditorModule.comboBox.Percent.base(this, 'setOptions', value);
+chartEditor.comboBox.Percent.prototype.setOptions = function(value) {
+  chartEditor.comboBox.Percent.base(this, 'setOptions', value);
   var self = this;
   self.captions.length = 0;
   goog.array.forEach(self.options, function(item){

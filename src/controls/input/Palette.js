@@ -1,7 +1,7 @@
-goog.provide('anychart.chartEditorModule.input.Palette');
+goog.provide('chartEditor.input.Palette');
 
 
-goog.require('anychart.chartEditorModule.input.Base');
+goog.require('chartEditor.input.Base');
 
 
 /**
@@ -9,38 +9,38 @@ goog.require('anychart.chartEditorModule.input.Base');
  * @param {string=} opt_label The text to show as the label.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
  * @constructor
- * @extends {anychart.chartEditorModule.input.Base}
+ * @extends {chartEditor.input.Base}
  */
-anychart.chartEditorModule.input.Palette = function(opt_label, opt_domHelper) {
-  anychart.chartEditorModule.input.Palette.base(this, 'constructor', opt_label, opt_domHelper);
+chartEditor.input.Palette = function(opt_label, opt_domHelper) {
+  chartEditor.input.Palette.base(this, 'constructor', opt_label, opt_domHelper);
 };
-goog.inherits(anychart.chartEditorModule.input.Palette, anychart.chartEditorModule.input.Base);
+goog.inherits(chartEditor.input.Palette, chartEditor.input.Base);
 
 
 /**
  * Default CSS class.
  * @type {string}
  */
-anychart.chartEditorModule.input.Palette.CSS_CLASS = goog.getCssName('anychart-chart-editor-input-palette');
+chartEditor.input.Palette.CSS_CLASS = goog.getCssName('anychart-chart-editor-input-palette');
 
 
 /** @override */
-anychart.chartEditorModule.input.Palette.prototype.createDom = function() {
-  anychart.chartEditorModule.input.Palette.base(this, 'createDom');
-  goog.dom.classlist.add(this.getElement(), anychart.chartEditorModule.input.Palette.CSS_CLASS);
+chartEditor.input.Palette.prototype.createDom = function() {
+  chartEditor.input.Palette.base(this, 'createDom');
+  goog.dom.classlist.add(this.getElement(), chartEditor.input.Palette.CSS_CLASS);
 };
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.input.Palette.prototype.enterDocument = function() {
-  anychart.chartEditorModule.input.Palette.base(this, 'enterDocument');
+chartEditor.input.Palette.prototype.enterDocument = function() {
+  chartEditor.input.Palette.base(this, 'enterDocument');
   goog.events.unlisten(this.inputHandler_, goog.events.InputHandler.EventType.INPUT, this.onChange, false, this);
   goog.events.listen(this.getElement(), goog.events.EventType.BLUR, this.onChange, false, this);
 };
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.input.Palette.prototype.onChange = function() {
+chartEditor.input.Palette.prototype.onChange = function() {
   var value = this.getValue();
 
   if (!this.noDispatch && value !== this.lastValue && this.editorModel) {
@@ -64,13 +64,13 @@ anychart.chartEditorModule.input.Palette.prototype.onChange = function() {
  * @param {?Object} target Object, who's property corresponds to control's key. Used to get value of this control.
  * @param {boolean=} opt_force
  */
-anychart.chartEditorModule.input.Palette.prototype.setValueByTarget = function(target, opt_force) {
+chartEditor.input.Palette.prototype.setValueByTarget = function(target, opt_force) {
   if (!opt_force && this.revisionCount1 - this.revisionCount2 > 1) return;
 
   this.revisionCount2 = this.revisionCount1;
   this.target = target;
-  var stringKey = anychart.chartEditorModule.EditorModel.getStringKey(this.key);
-  var value = /** @type {*} */(anychart.bindingModule.exec(this.target, stringKey));
+  var stringKey = chartEditor.EditorModel.getStringKey(this.key);
+  var value = /** @type {*} */(chartEditor.binding.exec(this.target, stringKey));
   value = this.valueToString(value);
 
   this.noDispatch = true;
@@ -84,7 +84,7 @@ anychart.chartEditorModule.input.Palette.prototype.setValueByTarget = function(t
 /**
  * @param {?*} colors
  */
-anychart.chartEditorModule.input.Palette.prototype.setValueByColors = function(colors) {
+chartEditor.input.Palette.prototype.setValueByColors = function(colors) {
   this.noDispatch = true;
   var value = this.valueToString(colors);
   this.setValue(value);
@@ -96,7 +96,7 @@ anychart.chartEditorModule.input.Palette.prototype.setValueByColors = function(c
  * @param {*=} opt_value
  * @return {string}
  */
-anychart.chartEditorModule.input.Palette.prototype.valueToString = function(opt_value) {
+chartEditor.input.Palette.prototype.valueToString = function(opt_value) {
   if (!goog.isDef(opt_value))
     return '';
 
@@ -120,7 +120,7 @@ anychart.chartEditorModule.input.Palette.prototype.valueToString = function(opt_
         if (goog.isString(item.color))
           color = item.color;
         else if (goog.isArray(item.color))
-          color = anychart.chartEditorModule.input.Palette.rgbToHex(item.color[0], item.color[1], item.color[2]);
+          color = chartEditor.input.Palette.rgbToHex(item.color[0], item.color[1], item.color[2]);
       }
       return color;
     });
@@ -135,7 +135,7 @@ anychart.chartEditorModule.input.Palette.prototype.valueToString = function(opt_
  * @param {number} c
  * @return {string}
  */
-anychart.chartEditorModule.input.Palette.componentToHex = function(c) {
+chartEditor.input.Palette.componentToHex = function(c) {
   var hex = c.toString(16);
   return hex.length === 1 ? "0" + hex : hex;
 };
@@ -147,8 +147,8 @@ anychart.chartEditorModule.input.Palette.componentToHex = function(c) {
  * @param {number} b
  * @return {string}
  */
-anychart.chartEditorModule.input.Palette.rgbToHex = function(r, g, b) {
-  return "#" + anychart.chartEditorModule.input.Palette.componentToHex(r) +
-      anychart.chartEditorModule.input.Palette.componentToHex(g) +
-      anychart.chartEditorModule.input.Palette.componentToHex(b);
+chartEditor.input.Palette.rgbToHex = function(r, g, b) {
+  return "#" + chartEditor.input.Palette.componentToHex(r) +
+      chartEditor.input.Palette.componentToHex(g) +
+      chartEditor.input.Palette.componentToHex(b);
 };

@@ -1,26 +1,26 @@
-goog.provide('anychart.chartEditorModule.settings.Series');
+goog.provide('chartEditor.settings.Series');
 
-goog.require('anychart.chartEditorModule.SettingsPanelZippy');
-goog.require('anychart.chartEditorModule.colorPicker.Base');
-goog.require('anychart.chartEditorModule.input.Base');
-goog.require('anychart.chartEditorModule.settings.Labels');
-goog.require('anychart.chartEditorModule.settings.Markers');
-goog.require('anychart.chartEditorModule.settings.Stroke');
-goog.require('anychart.chartEditorModule.settings.Title');
-goog.require('anychart.chartEditorModule.settings.scales.Base');
+goog.require('chartEditor.SettingsPanelZippy');
+goog.require('chartEditor.colorPicker.Base');
+goog.require('chartEditor.input.Base');
+goog.require('chartEditor.settings.Labels');
+goog.require('chartEditor.settings.Markers');
+goog.require('chartEditor.settings.Stroke');
+goog.require('chartEditor.settings.Title');
+goog.require('chartEditor.settings.scales.Base');
 
 
 /**
- * @param {anychart.chartEditorModule.EditorModel} model
+ * @param {chartEditor.EditorModel} model
  * @param {string|number} seriesId
  * @param {number} seriesIndex
  * @param {number=} opt_plotIndex
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  * @constructor
- * @extends {anychart.chartEditorModule.SettingsPanelZippy}
+ * @extends {chartEditor.SettingsPanelZippy}
  */
-anychart.chartEditorModule.settings.Series = function(model, seriesId, seriesIndex, opt_plotIndex, opt_domHelper) {
-  anychart.chartEditorModule.settings.Series.base(this, 'constructor', model, seriesIndex, null, opt_domHelper);
+chartEditor.settings.Series = function(model, seriesId, seriesIndex, opt_plotIndex, opt_domHelper) {
+  chartEditor.settings.Series.base(this, 'constructor', model, seriesIndex, null, opt_domHelper);
 
   this.seriesId_ = String(seriesId);
 
@@ -36,17 +36,17 @@ anychart.chartEditorModule.settings.Series = function(model, seriesId, seriesInd
   this.allowEnabled(false);
   this.addClassName(goog.getCssName('anychart-settings-panel-series-single'));
 };
-goog.inherits(anychart.chartEditorModule.settings.Series, anychart.chartEditorModule.SettingsPanelZippy);
+goog.inherits(chartEditor.settings.Series, chartEditor.SettingsPanelZippy);
 
 
 /** @override */
-anychart.chartEditorModule.settings.Series.prototype.createDom = function() {
-  anychart.chartEditorModule.settings.Series.base(this, 'createDom');
+chartEditor.settings.Series.prototype.createDom = function() {
+  chartEditor.settings.Series.base(this, 'createDom');
 
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
 
   // region ==== Header
-  var name = new anychart.chartEditorModule.input.Base('Series name');
+  var name = new chartEditor.input.Base('Series name');
   name.init(model, this.genKey('name()'));
   this.addHeaderChildControl(name);
 
@@ -55,21 +55,21 @@ anychart.chartEditorModule.settings.Series.prototype.createDom = function() {
 
   goog.dom.classlist.add(name.getElement(), goog.getCssName('anychart-chart-editor-series-name-input'));
 
-  var color = new anychart.chartEditorModule.colorPicker.Base();
+  var color = new chartEditor.colorPicker.Base();
   color.init(model, this.genKey('color()'));
   this.addHeaderChildControl(color);
   color.addClassName(goog.getCssName('anychart-chart-editor-settings-control-right'));
   // endregion
 
   // region ==== Content
-  var stroke = new anychart.chartEditorModule.settings.Stroke(model);
+  var stroke = new chartEditor.settings.Stroke(model);
   stroke.setKey(this.genKey('stroke()'));
   this.addChildControl(stroke);
 
   this.addContentSeparator();
 
   // Tooltip
-  var tooltip = new anychart.chartEditorModule.settings.Title(model, 'Tooltip');
+  var tooltip = new chartEditor.settings.Title(model, 'Tooltip');
   tooltip.allowEnabled(true);
   tooltip.allowEditPosition(false);
   tooltip.allowEditAlign(false);
@@ -80,7 +80,7 @@ anychart.chartEditorModule.settings.Series.prototype.createDom = function() {
   this.addContentSeparator();
 
   // Data labels
-  var dataLabels = new anychart.chartEditorModule.settings.Labels(model);
+  var dataLabels = new chartEditor.settings.Labels(model);
   dataLabels.setName('Data Labels');
   dataLabels.allowEnabled(true);
   dataLabels.setKey(this.genKey('labels()'));
@@ -89,7 +89,7 @@ anychart.chartEditorModule.settings.Series.prototype.createDom = function() {
   this.addContentSeparator();
 
   // Data markers
-  var dataMarkers = new anychart.chartEditorModule.settings.Markers(model);
+  var dataMarkers = new chartEditor.settings.Markers(model);
   dataMarkers.setName('Data Markers');
   dataMarkers.allowEnabled(true);
   dataMarkers.setKey(this.genKey('markers()'));
@@ -99,7 +99,7 @@ anychart.chartEditorModule.settings.Series.prototype.createDom = function() {
   if (this.seriesType_ === 'choropleth') {
     this.addContentSeparator();
 
-    var colorScale = new anychart.chartEditorModule.settings.scales.Base(model, ['linear-color', 'ordinal-color']);
+    var colorScale = new chartEditor.settings.scales.Base(model, ['linear-color', 'ordinal-color']);
     colorScale.setKey(this.genKey('colorScale()'));
     this.addChildControl(colorScale);
   }

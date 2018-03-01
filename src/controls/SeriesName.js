@@ -1,32 +1,32 @@
-goog.provide('anychart.chartEditorModule.controls.SeriesName');
+goog.provide('chartEditor.controls.SeriesName');
 
-goog.require('anychart.chartEditorModule.button.Toggle');
-goog.require('anychart.chartEditorModule.checkbox.Base');
-goog.require('anychart.chartEditorModule.controls.LabeledControl');
+goog.require('chartEditor.button.Toggle');
+goog.require('chartEditor.checkbox.Base');
+goog.require('chartEditor.controls.LabeledControl');
 
 
 /**
- * @param {(anychart.chartEditorModule.comboBox.Base|anychart.chartEditorModule.controls.select.Base|anychart.chartEditorModule.input.Base|anychart.chartEditorModule.colorPicker.Base)} control
+ * @param {(chartEditor.comboBox.Base|chartEditor.controls.select.Base|chartEditor.input.Base|chartEditor.colorPicker.Base)} control
  * @param {string=} opt_label
  * @param {boolean=} opt_isSingeValues
  * @param {goog.dom.DomHelper=} opt_domHelper
  * @constructor
- * @extends {anychart.chartEditorModule.controls.LabeledControl}
+ * @extends {chartEditor.controls.LabeledControl}
  */
-anychart.chartEditorModule.controls.SeriesName = function(control, opt_label, opt_isSingeValues, opt_domHelper) {
-  anychart.chartEditorModule.controls.SeriesName.base(this, 'constructor', control, opt_label, opt_domHelper);
+chartEditor.controls.SeriesName = function(control, opt_label, opt_isSingeValues, opt_domHelper) {
+  chartEditor.controls.SeriesName.base(this, 'constructor', control, opt_label, opt_domHelper);
 
   this.addClassName(goog.getCssName('anychart-chart-editor-control-series-name'));
 
   /**
    * Lock button
-   * @type {anychart.chartEditorModule.button.Toggle|null}
+   * @type {chartEditor.button.Toggle|null}
    * @private
    */
   this.lockButton_ = null;
 
   if (opt_isSingeValues) {
-    var button = new anychart.chartEditorModule.button.Toggle();
+    var button = new chartEditor.button.Toggle();
     button.setIcon('ac ac-unlock');
     button.setNormalValue(false);
     button.setCheckedValue(true);
@@ -34,12 +34,12 @@ anychart.chartEditorModule.controls.SeriesName = function(control, opt_label, op
     this.lockButton_ = button;
   }
 };
-goog.inherits(anychart.chartEditorModule.controls.SeriesName, anychart.chartEditorModule.controls.LabeledControl);
+goog.inherits(chartEditor.controls.SeriesName, chartEditor.controls.LabeledControl);
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.controls.SeriesName.prototype.createDom = function() {
-  anychart.chartEditorModule.controls.SeriesName.base(this, 'createDom');
+chartEditor.controls.SeriesName.prototype.createDom = function() {
+  chartEditor.controls.SeriesName.base(this, 'createDom');
 
   if (this.lockButton_)
     this.addChildAt(this.lockButton_, 0, true);
@@ -47,10 +47,10 @@ anychart.chartEditorModule.controls.SeriesName.prototype.createDom = function() 
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.controls.SeriesName.prototype.enterDocument = function() {
-  anychart.chartEditorModule.controls.SeriesName.base(this, 'enterDocument');
+chartEditor.controls.SeriesName.prototype.enterDocument = function() {
+  chartEditor.controls.SeriesName.base(this, 'enterDocument');
 
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
   var checkedValue = model.getValue(this.lockKey_);
   if (checkedValue) {
     this.control_.setEnabled(false);
@@ -68,8 +68,8 @@ anychart.chartEditorModule.controls.SeriesName.prototype.enterDocument = functio
 
 
 /** @override */
-anychart.chartEditorModule.controls.SeriesName.prototype.init = function(model, key, opt_callback, opt_noRebuild, opt_noRebuildMapping) {
-  anychart.chartEditorModule.controls.SeriesName.base(this, 'init', model, key, opt_callback, opt_noRebuild, opt_noRebuildMapping);
+chartEditor.controls.SeriesName.prototype.init = function(model, key, opt_callback, opt_noRebuild, opt_noRebuildMapping) {
+  chartEditor.controls.SeriesName.base(this, 'init', model, key, opt_callback, opt_noRebuild, opt_noRebuildMapping);
 
   this.lockKey_ = [['editorSettings'], ['lockSeriesName'], this.control_.getKey()[2]];
 
@@ -84,9 +84,9 @@ anychart.chartEditorModule.controls.SeriesName.prototype.init = function(model, 
 
 
 /** @override */
-anychart.chartEditorModule.controls.SeriesName.prototype.disposeInternal = function() {
+chartEditor.controls.SeriesName.prototype.disposeInternal = function() {
   goog.dispose(this.lockButton_);
   this.lockButton_ = null;
 
-  anychart.chartEditorModule.controls.SeriesName.base(this, 'disposeInternal');
+  chartEditor.controls.SeriesName.base(this, 'disposeInternal');
 };

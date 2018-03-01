@@ -1,31 +1,31 @@
-goog.provide('anychart.chartEditorModule.LegendPanel');
+goog.provide('chartEditor.LegendPanel');
 
-goog.require('anychart.chartEditorModule.MultiplePanelsBase');
-goog.require('anychart.chartEditorModule.settings.Legend');
+goog.require('chartEditor.MultiplePanelsBase');
+goog.require('chartEditor.settings.Legend');
 
 
 
 /**
- * @param {anychart.chartEditorModule.EditorModel} model
+ * @param {chartEditor.EditorModel} model
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  * @constructor
- * @extends {anychart.chartEditorModule.MultiplePanelsBase}
+ * @extends {chartEditor.MultiplePanelsBase}
  */
-anychart.chartEditorModule.LegendPanel = function(model, opt_domHelper) {
-  anychart.chartEditorModule.LegendPanel.base(this, 'constructor', model, 'Legend', opt_domHelper);
+chartEditor.LegendPanel = function(model, opt_domHelper) {
+  chartEditor.LegendPanel.base(this, 'constructor', model, 'Legend', opt_domHelper);
 
   this.stringId = 'legend';
 
   this.allowAddPanels(false);
 };
-goog.inherits(anychart.chartEditorModule.LegendPanel, anychart.chartEditorModule.MultiplePanelsBase);
+goog.inherits(chartEditor.LegendPanel, chartEditor.MultiplePanelsBase);
 
 
 /**
  * Create legend settings panels.
  */
-anychart.chartEditorModule.LegendPanel.prototype.createPanels = function() {
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+chartEditor.LegendPanel.prototype.createPanels = function() {
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
   var chartType = model.getValue([['chart'], 'type']);
   var mappings = model.getValue([['dataSettings'], 'mappings']);
 
@@ -33,7 +33,7 @@ anychart.chartEditorModule.LegendPanel.prototype.createPanels = function() {
   var legend;
   for (var i = 0; i < mappings.length; i++) {
     plotIndex = chartType === 'stock' ? i : void 0;
-    legend = new anychart.chartEditorModule.settings.Legend(model, plotIndex);
+    legend = new chartEditor.settings.Legend(model, plotIndex);
 
     this.addPanelInstance(legend);
   }

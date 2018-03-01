@@ -1,40 +1,40 @@
-goog.provide('anychart.chartEditorModule.TooltipPanel');
+goog.provide('chartEditor.TooltipPanel');
 
-goog.require('anychart.chartEditorModule.SettingsPanel');
-goog.require('anychart.chartEditorModule.controls.select.DataField');
-goog.require('anychart.chartEditorModule.settings.Title');
-goog.require('anychart.chartEditorModule.settings.TooltipTitle');
+goog.require('chartEditor.SettingsPanel');
+goog.require('chartEditor.controls.select.DataField');
+goog.require('chartEditor.settings.Title');
+goog.require('chartEditor.settings.TooltipTitle');
 
 
 
 /**
- * @param {anychart.chartEditorModule.EditorModel} model
+ * @param {chartEditor.EditorModel} model
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  * @constructor
- * @extends {anychart.chartEditorModule.SettingsPanel}
+ * @extends {chartEditor.SettingsPanel}
  */
-anychart.chartEditorModule.TooltipPanel = function(model, opt_domHelper) {
-  anychart.chartEditorModule.TooltipPanel.base(this, 'constructor', model, 'Tooltip', opt_domHelper);
+chartEditor.TooltipPanel = function(model, opt_domHelper) {
+  chartEditor.TooltipPanel.base(this, 'constructor', model, 'Tooltip', opt_domHelper);
 
   this.key = [['chart'], ['settings'], 'tooltip()'];
 };
-goog.inherits(anychart.chartEditorModule.TooltipPanel, anychart.chartEditorModule.SettingsPanel);
+goog.inherits(chartEditor.TooltipPanel, chartEditor.SettingsPanel);
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.TooltipPanel.prototype.createDom = function() {
-  anychart.chartEditorModule.TooltipPanel.base(this, 'createDom');
+chartEditor.TooltipPanel.prototype.createDom = function() {
+  chartEditor.TooltipPanel.base(this, 'createDom');
 
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
 
   // Display mode
-  var displayMode = new anychart.chartEditorModule.controls.select.DataField({label: 'Display mode'});
+  var displayMode = new chartEditor.controls.select.DataField({label: 'Display mode'});
   displayMode.getSelect().setOptions(['separated', 'single', 'union']);
   displayMode.init(model, this.genKey('displayMode()'));
   this.addChildControl(displayMode);
 
   // Position mode
-  var positionMode = new anychart.chartEditorModule.controls.select.DataField({label: 'Position mode'});
+  var positionMode = new chartEditor.controls.select.DataField({label: 'Position mode'});
   positionMode.getSelect().setOptions(['chart', 'float', 'point']);
   positionMode.init(model, this.genKey('positionMode()'));
   this.addChildControl(positionMode);
@@ -42,7 +42,7 @@ anychart.chartEditorModule.TooltipPanel.prototype.createDom = function() {
   this.addContentSeparator();
 
   // Title
-  var title = new anychart.chartEditorModule.settings.TooltipTitle(model, 'Title');
+  var title = new chartEditor.settings.TooltipTitle(model, 'Title');
   title.setTitleFormatKey([['chart'], ['settings'], 'tooltip().titleFormat()']);
   title.setKey(this.genKey('title()'));
   this.addChildControl(title);
@@ -50,7 +50,7 @@ anychart.chartEditorModule.TooltipPanel.prototype.createDom = function() {
   this.addContentSeparator();
 
   // Content
-  var contentComponent = new anychart.chartEditorModule.settings.Title(model, 'Content');
+  var contentComponent = new chartEditor.settings.Title(model, 'Content');
   contentComponent.allowEnabled(false);
   contentComponent.allowEditPosition(false);
   contentComponent.allowEditAlign(false);

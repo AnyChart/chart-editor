@@ -1,20 +1,20 @@
-goog.provide('anychart.chartEditorModule.Chart');
+goog.provide('chartEditor.Chart');
 
-goog.require('anychart.bindingModule.entry');
-goog.require('anychart.chartEditorModule.Component');
-goog.require('anychart.chartEditorModule.EditorModel');
+goog.require('chartEditor.binding');
+goog.require('chartEditor.Component');
+goog.require('chartEditor.EditorModel');
 
 
 /**
  * Chart widget.
  *
- * @param {anychart.chartEditorModule.EditorModel} model
+ * @param {chartEditor.EditorModel} model
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  * @constructor
- * @extends {anychart.chartEditorModule.Component}
+ * @extends {chartEditor.Component}
  */
-anychart.chartEditorModule.Chart = function(model, opt_domHelper) {
-  anychart.chartEditorModule.Chart.base(this, 'constructor', opt_domHelper);
+chartEditor.Chart = function(model, opt_domHelper) {
+  chartEditor.Chart.base(this, 'constructor', opt_domHelper);
 
   this.setModel(model);
 
@@ -26,12 +26,12 @@ anychart.chartEditorModule.Chart = function(model, opt_domHelper) {
    */
   this.containerId_ = 'chart-container-' + goog.string.createUniqueString();
 };
-goog.inherits(anychart.chartEditorModule.Chart, anychart.chartEditorModule.Component);
+goog.inherits(chartEditor.Chart, chartEditor.Component);
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.Chart.prototype.createDom = function() {
-  anychart.chartEditorModule.Chart.base(this, 'createDom');
+chartEditor.Chart.prototype.createDom = function() {
+  chartEditor.Chart.base(this, 'createDom');
 
 
   goog.dom.classlist.add(this.getElement(), 'chart-container');
@@ -42,13 +42,13 @@ anychart.chartEditorModule.Chart.prototype.createDom = function() {
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.Chart.prototype.enterDocument = function() {
-  anychart.chartEditorModule.Chart.base(this, 'enterDocument');
+chartEditor.Chart.prototype.enterDocument = function() {
+  chartEditor.Chart.base(this, 'enterDocument');
 
   this.onModelChange(null);
 
-  this.getHandler().listen(/** @type {anychart.chartEditorModule.EditorModel} */(this.getModel()),
-      anychart.chartEditorModule.events.EventType.EDITOR_MODEL_UPDATE, this.onModelChange);
+  this.getHandler().listen(/** @type {chartEditor.EditorModel} */(this.getModel()),
+      chartEditor.events.EventType.EDITOR_MODEL_UPDATE, this.onModelChange);
 };
 
 
@@ -56,9 +56,9 @@ anychart.chartEditorModule.Chart.prototype.enterDocument = function() {
  * Updates component on model change.
  * @param {?Object} evt
  */
-anychart.chartEditorModule.Chart.prototype.onModelChange = function(evt) {
+chartEditor.Chart.prototype.onModelChange = function(evt) {
   var self = this;
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
   var rawData = model.getRawData();
   var settings = model.getModel();
   var chartType = settings['chart']['type'];
@@ -69,14 +69,14 @@ anychart.chartEditorModule.Chart.prototype.onModelChange = function(evt) {
 
   // Global settings
   goog.object.forEach(settings['anychart'], function(value, key) {
-    anychart.bindingModule.exec(self.anychart, key, value);
+    chartEditor.binding.exec(self.anychart, key, value);
   });
 
   // Chart creation
   if (rebuild) {
     goog.dispose(this.chart_);
 
-    this.chart_ = /** @type {anychart.core.Chart} */(anychart.bindingModule.exec(this.anychart, chartType + '()'));
+    this.chart_ = /** @type {anychart.core.Chart} */(chartEditor.binding.exec(this.anychart, chartType + '()'));
 
     if (chartType === 'map') {
       var geoData = model.getRawData(true);
@@ -140,7 +140,7 @@ anychart.chartEditorModule.Chart.prototype.onModelChange = function(evt) {
 
         } else {
           var seriesCtor = plotMapping[j]['ctor'];
-          seriesCtor = anychart.chartEditorModule.EditorModel.Series[seriesCtor]['ctor'] || seriesCtor;
+          seriesCtor = chartEditor.EditorModel.Series[seriesCtor]['ctor'] || seriesCtor;
 
           var series;
           var stringKey = 'getSeries(\'' + plotMapping[j]['id'] + '\').name()';
@@ -192,7 +192,7 @@ anychart.chartEditorModule.Chart.prototype.onModelChange = function(evt) {
         value = self.anychart['palettes'][value];
     }
 
-    anychart.bindingModule.exec(self.chart_, key, value);
+    chartEditor.binding.exec(self.chart_, key, value);
   });
 
   this.getHandler().listenOnce(this.chart_, 'chartdraw', function() {
@@ -210,11 +210,11 @@ anychart.chartEditorModule.Chart.prototype.onModelChange = function(evt) {
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.Chart.prototype.dispose = function() {
+chartEditor.Chart.prototype.dispose = function() {
   if (this.chart_ && typeof this.chart_['dispose'] === 'function') {
     this.chart_['dispose']();
     this.chart_ = null;
   }
 
-  anychart.chartEditorModule.Chart.base(this, 'dispose');
+  chartEditor.Chart.base(this, 'dispose');
 };

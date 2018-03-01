@@ -1,34 +1,34 @@
-goog.provide('anychart.chartEditorModule.settings.pointers.Needle');
+goog.provide('chartEditor.settings.pointers.Needle');
 
-goog.require('anychart.chartEditorModule.comboBox.Percent');
-goog.require('anychart.chartEditorModule.controls.LabeledControl');
-goog.require('anychart.chartEditorModule.settings.pointers.CircularBase');
+goog.require('chartEditor.comboBox.Percent');
+goog.require('chartEditor.controls.LabeledControl');
+goog.require('chartEditor.settings.pointers.CircularBase');
 
 
 /**
- * @param {anychart.chartEditorModule.EditorModel} model
+ * @param {chartEditor.EditorModel} model
  * @param {string} type
  * @param {string|number} pointerId
  * @param {number} pointerIndex
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  * @constructor
- * @extends {anychart.chartEditorModule.settings.pointers.CircularBase}
+ * @extends {chartEditor.settings.pointers.CircularBase}
  */
-anychart.chartEditorModule.settings.pointers.Needle = function(model, type, pointerId, pointerIndex, opt_domHelper) {
-  anychart.chartEditorModule.settings.pointers.Needle.base(this, 'constructor', model, type, pointerId, pointerIndex, opt_domHelper);
+chartEditor.settings.pointers.Needle = function(model, type, pointerId, pointerIndex, opt_domHelper) {
+  chartEditor.settings.pointers.Needle.base(this, 'constructor', model, type, pointerId, pointerIndex, opt_domHelper);
 
   this.pointerType_ = 'needle';
 
   this.addClassName(goog.getCssName('anychart-settings-panel-pointer-needle'));
 };
-goog.inherits(anychart.chartEditorModule.settings.pointers.Needle, anychart.chartEditorModule.settings.pointers.CircularBase);
+goog.inherits(chartEditor.settings.pointers.Needle, chartEditor.settings.pointers.CircularBase);
 
 
 /** @override */
-anychart.chartEditorModule.settings.pointers.Needle.prototype.createDom = function() {
-  anychart.chartEditorModule.settings.pointers.Needle.base(this, 'createDom');
+chartEditor.settings.pointers.Needle.prototype.createDom = function() {
+  chartEditor.settings.pointers.Needle.base(this, 'createDom');
 
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
 
   var validateFunction = function(value) {
     return /^-?\d{1,3}%?$/.test(value);
@@ -41,45 +41,45 @@ anychart.chartEditorModule.settings.pointers.Needle.prototype.createDom = functi
   var radiusOptions = [-20, -10, 0, 10, 30, 50, 70, 100, 110];
   var widthOptions = [0, 3, 5, 10, 15, 20];
 
-  var startRadius = new anychart.chartEditorModule.comboBox.Percent();
+  var startRadius = new chartEditor.comboBox.Percent();
   startRadius.setValidateFunction(validateFunction);
   startRadius.setFormatterFunction(formatterFunction);
   startRadius.setOptions(radiusOptions);
-  var startRadiusLC = new anychart.chartEditorModule.controls.LabeledControl(startRadius, 'Start Radius');
+  var startRadiusLC = new chartEditor.controls.LabeledControl(startRadius, 'Start Radius');
   startRadiusLC.init(model, this.genKey('startRadius()'));
   this.addChildControl(startRadiusLC);
 
-  var startWidth = new anychart.chartEditorModule.comboBox.Percent();
+  var startWidth = new chartEditor.comboBox.Percent();
   startWidth.setOptions(widthOptions);
-  var startWidthLC = new anychart.chartEditorModule.controls.LabeledControl(startWidth, 'Start Width');
+  var startWidthLC = new chartEditor.controls.LabeledControl(startWidth, 'Start Width');
   startWidthLC.init(model, this.genKey('startWidth()'));
   this.addChildControl(startWidthLC);
 
-  var middleRadius = new anychart.chartEditorModule.comboBox.Percent();
+  var middleRadius = new chartEditor.comboBox.Percent();
   middleRadius.setValidateFunction(validateFunction);
   middleRadius.setFormatterFunction(formatterFunction);
   middleRadius.setOptions(radiusOptions);
-  var middleRadiusLC = new anychart.chartEditorModule.controls.LabeledControl(middleRadius, 'Middle Radius');
+  var middleRadiusLC = new chartEditor.controls.LabeledControl(middleRadius, 'Middle Radius');
   middleRadiusLC.init(model, this.genKey('middleRadius()'));
   this.addChildControl(middleRadiusLC);
 
-  var middleWidth = new anychart.chartEditorModule.comboBox.Percent();
+  var middleWidth = new chartEditor.comboBox.Percent();
   middleWidth.setOptions(widthOptions);
-  var middleWidthLC = new anychart.chartEditorModule.controls.LabeledControl(middleWidth, 'Middle Width');
+  var middleWidthLC = new chartEditor.controls.LabeledControl(middleWidth, 'Middle Width');
   middleWidthLC.init(model, this.genKey('middleWidth()'));
   this.addChildControl(middleWidthLC);
 
-  var endRadius = new anychart.chartEditorModule.comboBox.Percent();
+  var endRadius = new chartEditor.comboBox.Percent();
   endRadius.setValidateFunction(validateFunction);
   endRadius.setFormatterFunction(formatterFunction);
   endRadius.setOptions(radiusOptions);
-  var endRadiusLC = new anychart.chartEditorModule.controls.LabeledControl(endRadius, 'End Radius');
+  var endRadiusLC = new chartEditor.controls.LabeledControl(endRadius, 'End Radius');
   endRadiusLC.init(model, this.genKey('endRadius()'));
   this.addChildControl(endRadiusLC);
 
-  var endWidth = new anychart.chartEditorModule.comboBox.Percent();
+  var endWidth = new chartEditor.comboBox.Percent();
   endWidth.setOptions(widthOptions);
-  var endWidthLC = new anychart.chartEditorModule.controls.LabeledControl(endWidth, 'End Width');
+  var endWidthLC = new chartEditor.controls.LabeledControl(endWidth, 'End Width');
   endWidthLC.init(model, this.genKey('endWidth()'));
   this.addChildControl(endWidthLC);
 };

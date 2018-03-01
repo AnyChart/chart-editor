@@ -1,8 +1,8 @@
-goog.provide('anychart.chartEditorModule.controls.select.DataField');
+goog.provide('chartEditor.controls.select.DataField');
 
-goog.require('anychart.chartEditorModule.controls.LabeledControl');
-goog.require('anychart.chartEditorModule.controls.select.DataFieldSelect');
-goog.require('anychart.ui.Component');
+goog.require('chartEditor.controls.LabeledControl');
+goog.require('chartEditor.controls.select.DataFieldSelect');
+goog.require('chartEditor.Component');
 
 
 /**
@@ -13,10 +13,10 @@ goog.require('anychart.ui.Component');
  * @param {!goog.ui.MenuRenderer=} opt_menuRenderer
  * @param {string=} opt_menuAdditionalClass
  * @constructor
- * @extends {anychart.chartEditorModule.controls.LabeledControl}
+ * @extends {chartEditor.controls.LabeledControl}
  */
-anychart.chartEditorModule.controls.select.DataField = function(opt_model, opt_menu, opt_renderer, opt_domHelper, opt_menuRenderer, opt_menuAdditionalClass) {
-  var select = new anychart.chartEditorModule.controls.select.DataFieldSelect(
+chartEditor.controls.select.DataField = function(opt_model, opt_menu, opt_renderer, opt_domHelper, opt_menuRenderer, opt_menuAdditionalClass) {
+  var select = new chartEditor.controls.select.DataFieldSelect(
       opt_model,
       opt_menu,
       opt_renderer,
@@ -25,34 +25,34 @@ anychart.chartEditorModule.controls.select.DataField = function(opt_model, opt_m
       opt_menuAdditionalClass);
 
   var label = opt_model && opt_model.label || '';
-  anychart.chartEditorModule.controls.select.DataField.base(this, 'constructor', select, label, opt_domHelper);
+  chartEditor.controls.select.DataField.base(this, 'constructor', select, label, opt_domHelper);
 };
-goog.inherits(anychart.chartEditorModule.controls.select.DataField, anychart.chartEditorModule.controls.LabeledControl);
+goog.inherits(chartEditor.controls.select.DataField, chartEditor.controls.LabeledControl);
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.controls.select.DataField.prototype.enterDocument = function() {
-  anychart.chartEditorModule.controls.select.DataField.base(this, 'enterDocument');
+chartEditor.controls.select.DataField.prototype.enterDocument = function() {
+  chartEditor.controls.select.DataField.base(this, 'enterDocument');
 
   this.updateExclusion();
 };
 
 
-/** @return {anychart.chartEditorModule.controls.select.Base} */
-anychart.chartEditorModule.controls.select.DataField.prototype.getSelect = function() {
-  return /** @type {anychart.chartEditorModule.controls.select.Base} */(this.getControl());
+/** @return {chartEditor.controls.select.Base} */
+chartEditor.controls.select.DataField.prototype.getSelect = function() {
+  return /** @type {chartEditor.controls.select.Base} */(this.getControl());
 };
 
 
-/** @param {anychart.chartEditorModule.controls.select.DataFieldSelect} select */
-anychart.chartEditorModule.controls.select.DataField.prototype.setSelect = function(select) {
+/** @param {chartEditor.controls.select.DataFieldSelect} select */
+chartEditor.controls.select.DataField.prototype.setSelect = function(select) {
   this.setControl(select);
 };
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.controls.select.DataField.prototype.init = function(model, key, opt_callback, opt_noRebuild) {
-  anychart.chartEditorModule.controls.select.DataField.base(this, 'init', model, key, opt_callback, opt_noRebuild);
+chartEditor.controls.select.DataField.prototype.init = function(model, key, opt_callback, opt_noRebuild) {
+  chartEditor.controls.select.DataField.base(this, 'init', model, key, opt_callback, opt_noRebuild);
 
   this.updateExclusion();
 };
@@ -62,7 +62,7 @@ anychart.chartEditorModule.controls.select.DataField.prototype.init = function(m
  * Hide or show control by assigning 'hidden' class
  * @param {boolean} value True if excluded.
  */
-anychart.chartEditorModule.controls.select.DataField.prototype.exclude = function(value) {
+chartEditor.controls.select.DataField.prototype.exclude = function(value) {
   if (this.isInDocument()) goog.style.setElementShown(this.getElement(), !value);
   this.control_.exclude(value);
 };
@@ -71,6 +71,6 @@ anychart.chartEditorModule.controls.select.DataField.prototype.exclude = functio
 /**
  * @public
  */
-anychart.chartEditorModule.controls.select.DataField.prototype.updateExclusion = function() {
+chartEditor.controls.select.DataField.prototype.updateExclusion = function() {
   this.exclude(!!this.control_.updateExclusion());
 };

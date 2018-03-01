@@ -1,39 +1,39 @@
-goog.provide('anychart.chartEditorModule.settings.scales.SpecificBase');
+goog.provide('chartEditor.settings.scales.SpecificBase');
 
-goog.require('anychart.chartEditorModule.SettingsPanel');
+goog.require('chartEditor.SettingsPanel');
 
 
 /**
- * @param {anychart.chartEditorModule.EditorModel} model
+ * @param {chartEditor.EditorModel} model
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  * @constructor
- * @extends {anychart.chartEditorModule.SettingsPanel}
+ * @extends {chartEditor.SettingsPanel}
  */
-anychart.chartEditorModule.settings.scales.SpecificBase = function(model, opt_domHelper) {
-  anychart.chartEditorModule.settings.scales.SpecificBase.base(this, 'constructor', model, null, opt_domHelper);
+chartEditor.settings.scales.SpecificBase = function(model, opt_domHelper) {
+  chartEditor.settings.scales.SpecificBase.base(this, 'constructor', model, null, opt_domHelper);
 
   this.allowEnabled(false);
 
   this.scale_ = null;
 };
-goog.inherits(anychart.chartEditorModule.settings.scales.SpecificBase, anychart.chartEditorModule.SettingsPanel);
+goog.inherits(chartEditor.settings.scales.SpecificBase, chartEditor.SettingsPanel);
 
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.settings.scales.SpecificBase.prototype.onChartDraw = function(evt) {
-  anychart.chartEditorModule.settings.scales.SpecificBase.base(this, 'onChartDraw', evt);
+chartEditor.settings.scales.SpecificBase.prototype.onChartDraw = function(evt) {
+  chartEditor.settings.scales.SpecificBase.base(this, 'onChartDraw', evt);
 
   if (!this.isExcluded()) {
-    var stringKey = anychart.chartEditorModule.EditorModel.getStringKey(this.key);
-    this.scale_ = /** @type {anychart.colorScalesModule.Ordinal|anychart.colorScalesModule.Linear} */(anychart.bindingModule.exec(evt.chart, stringKey));
+    var stringKey = chartEditor.EditorModel.getStringKey(this.key);
+    this.scale_ = /** @type {anychart.colorScalesModule.Ordinal|anychart.colorScalesModule.Linear} */(chartEditor.binding.exec(evt.chart, stringKey));
   }
 };
 
 
 /** @override */
-anychart.chartEditorModule.settings.scales.SpecificBase.prototype.disposeInternal = function() {
+chartEditor.settings.scales.SpecificBase.prototype.disposeInternal = function() {
   goog.dispose(this.scale_);
   this.scale_ = null;
-  anychart.chartEditorModule.settings.scales.SpecificBase.base(this, 'disposeInternal');
+  chartEditor.settings.scales.SpecificBase.base(this, 'disposeInternal');
 };

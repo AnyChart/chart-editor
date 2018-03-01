@@ -1,4 +1,4 @@
-goog.provide('anychart.chartEditorModule.IconButtonRenderer');
+goog.provide('chartEditor.IconButtonRenderer');
 
 goog.require('goog.ui.CustomButtonRenderer');
 goog.require('goog.ui.INLINE_BLOCK_CLASSNAME');
@@ -11,11 +11,11 @@ goog.require('goog.ui.INLINE_BLOCK_CLASSNAME');
  * @constructor
  * @extends {goog.ui.CustomButtonRenderer}
  */
-anychart.chartEditorModule.IconButtonRenderer = function() {
-  anychart.chartEditorModule.IconButtonRenderer.base(this, 'constructor');
+chartEditor.IconButtonRenderer = function() {
+  chartEditor.IconButtonRenderer.base(this, 'constructor');
 };
-goog.inherits(anychart.chartEditorModule.IconButtonRenderer, goog.ui.CustomButtonRenderer);
-goog.addSingletonGetter(anychart.chartEditorModule.IconButtonRenderer);
+goog.inherits(chartEditor.IconButtonRenderer, goog.ui.CustomButtonRenderer);
+goog.addSingletonGetter(chartEditor.IconButtonRenderer);
 
 
 /**
@@ -23,17 +23,17 @@ goog.addSingletonGetter(anychart.chartEditorModule.IconButtonRenderer);
  * by this renderer.
  * @type {string}
  */
-anychart.chartEditorModule.IconButtonRenderer.CSS_CLASS = goog.getCssName('anychart-icon-button');
+chartEditor.IconButtonRenderer.CSS_CLASS = goog.getCssName('anychart-icon-button');
 
 
 /** @override */
-anychart.chartEditorModule.IconButtonRenderer.prototype.getCssClass = function() {
-  return anychart.chartEditorModule.IconButtonRenderer.CSS_CLASS;
+chartEditor.IconButtonRenderer.prototype.getCssClass = function() {
+  return chartEditor.IconButtonRenderer.CSS_CLASS;
 };
 
 
 /** @override */
-anychart.chartEditorModule.IconButtonRenderer.prototype.createDom = function(control) {
+chartEditor.IconButtonRenderer.prototype.createDom = function(control) {
   var button = /** @type {goog.ui.Button} */ (control);
   var classNames = this.getClassNames(button);
   var attributes = {
@@ -49,6 +49,6 @@ anychart.chartEditorModule.IconButtonRenderer.prototype.createDom = function(con
 
 
 /** @override */
-anychart.chartEditorModule.IconButtonRenderer.prototype.getContentElement = function(element) {
+chartEditor.IconButtonRenderer.prototype.getContentElement = function(element) {
   return element;
 };

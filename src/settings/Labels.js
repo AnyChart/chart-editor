@@ -1,39 +1,39 @@
-goog.provide('anychart.chartEditorModule.settings.Labels');
+goog.provide('chartEditor.settings.Labels');
 
-goog.require('anychart.chartEditorModule.SettingsPanel');
-goog.require('anychart.chartEditorModule.settings.Title');
+goog.require('chartEditor.SettingsPanel');
+goog.require('chartEditor.settings.Title');
 
 
 /**
- * @param {anychart.chartEditorModule.EditorModel} model
+ * @param {chartEditor.EditorModel} model
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  * @constructor
- * @extends {anychart.chartEditorModule.SettingsPanel}
+ * @extends {chartEditor.SettingsPanel}
  */
-anychart.chartEditorModule.settings.Labels = function(model, opt_domHelper) {
-  anychart.chartEditorModule.settings.Labels.base(this, 'constructor', model, 'Labels', opt_domHelper);
+chartEditor.settings.Labels = function(model, opt_domHelper) {
+  chartEditor.settings.Labels.base(this, 'constructor', model, 'Labels', opt_domHelper);
 };
-goog.inherits(anychart.chartEditorModule.settings.Labels, anychart.chartEditorModule.SettingsPanel);
+goog.inherits(chartEditor.settings.Labels, chartEditor.SettingsPanel);
 
 
 /**
  * Default CSS class.
  * @type {string}
  */
-anychart.chartEditorModule.settings.Labels.CSS_CLASS = goog.getCssName('anychart-chart-editor-settings-labels');
+chartEditor.settings.Labels.CSS_CLASS = goog.getCssName('anychart-chart-editor-settings-labels');
 
 
 /**
  * @type {boolean}
  * @private
  */
-anychart.chartEditorModule.settings.Labels.prototype.allowEditPosition_ = true;
+chartEditor.settings.Labels.prototype.allowEditPosition_ = true;
 
 
 /**
  * @param {boolean} value
  */
-anychart.chartEditorModule.settings.Labels.prototype.allowEditPosition = function(value) {
+chartEditor.settings.Labels.prototype.allowEditPosition = function(value) {
   this.allowEditPosition_ = value;
 };
 
@@ -42,26 +42,26 @@ anychart.chartEditorModule.settings.Labels.prototype.allowEditPosition = functio
  * @type {boolean}
  * @private
  */
-anychart.chartEditorModule.settings.Labels.prototype.allowEditAnchor_ = true;
+chartEditor.settings.Labels.prototype.allowEditAnchor_ = true;
 
 
 /**
  * @param {boolean} value
  */
-anychart.chartEditorModule.settings.Labels.prototype.allowEditAnchor = function(value) {
+chartEditor.settings.Labels.prototype.allowEditAnchor = function(value) {
   this.allowEditAnchor_ = value;
 };
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.settings.Labels.prototype.createDom = function() {
-  anychart.chartEditorModule.settings.Labels.base(this, 'createDom');
+chartEditor.settings.Labels.prototype.createDom = function() {
+  chartEditor.settings.Labels.base(this, 'createDom');
 
   var element = this.getElement();
-  goog.dom.classlist.add(element, anychart.chartEditorModule.settings.Labels.CSS_CLASS);
+  goog.dom.classlist.add(element, chartEditor.settings.Labels.CSS_CLASS);
 
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
-  var settings = new anychart.chartEditorModule.settings.Title(model, null);
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
+  var settings = new chartEditor.settings.Title(model, null);
   settings.allowEnabled(false);
 
   settings.allowEditPosition(this.allowEditPosition_);
@@ -80,23 +80,23 @@ anychart.chartEditorModule.settings.Labels.prototype.createDom = function() {
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.settings.Labels.prototype.enterDocument = function() {
-  anychart.chartEditorModule.settings.Labels.base(this, 'enterDocument');
+chartEditor.settings.Labels.prototype.enterDocument = function() {
+  chartEditor.settings.Labels.base(this, 'enterDocument');
 
   if (this.allowEditPosition_) {
     var positionValuesEnum;
-    var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+    var model = /** @type {chartEditor.EditorModel} */(this.getModel());
     var chartType = model.getModel()['chart']['type'];
     var addValueOption = false;
     switch (chartType) {
       case 'pie':
-        positionValuesEnum = anychart.enums.SidePosition;
+        positionValuesEnum = chartEditor.enums.SidePosition;
         break;
       case 'funnel':
-        positionValuesEnum = anychart.enums.PyramidLabelsPosition;
+        positionValuesEnum = chartEditor.enums.PyramidLabelsPosition;
         break;
       default:
-        positionValuesEnum = anychart.enums.Position;
+        positionValuesEnum = chartEditor.enums.Position;
         addValueOption = true;
     }
 
@@ -106,44 +106,44 @@ anychart.chartEditorModule.settings.Labels.prototype.enterDocument = function() 
     });
     if (addValueOption) positionValues.push('value');
 
-    var positionField = /** @type {anychart.chartEditorModule.controls.select.DataField} */(this.settings_.getPositionField());
+    var positionField = /** @type {chartEditor.controls.select.DataField} */(this.settings_.getPositionField());
     positionField.getSelect().setOptions(positionValues);
   }
 
   if (this.allowEditAnchor_) {
-    var alignValues = goog.object.getValues(anychart.enums.Anchor);
+    var alignValues = goog.object.getValues(chartEditor.enums.Anchor);
     alignValues = goog.array.filter(alignValues, function(i) {
       return goog.typeOf(i) == 'string';
     });
 
-    var alignField = /** @type {anychart.chartEditorModule.controls.select.DataField} */(this.settings_.getAlignField());
+    var alignField = /** @type {chartEditor.controls.select.DataField} */(this.settings_.getAlignField());
     alignField.getSelect().setOptions(alignValues);
   }
 };
 
 
 /**
- * @return {anychart.chartEditorModule.settings.Title|null}
+ * @return {chartEditor.settings.Title|null}
  */
-anychart.chartEditorModule.settings.Labels.prototype.getSettingsComponent = function() {
+chartEditor.settings.Labels.prototype.getSettingsComponent = function() {
   return this.settings_;
 };
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.settings.Labels.prototype.updateKeys = function() {
+chartEditor.settings.Labels.prototype.updateKeys = function() {
   if (!this.isExcluded()) {
     if (this.settings_) this.settings_.setKey(this.getKey());
   }
 
-  anychart.chartEditorModule.settings.Labels.base(this, 'updateKeys');
+  chartEditor.settings.Labels.base(this, 'updateKeys');
 };
 
 
 /** @override */
-anychart.chartEditorModule.settings.Labels.prototype.disposeInternal = function() {
+chartEditor.settings.Labels.prototype.disposeInternal = function() {
   this.settings_.dispose();
   this.settings_ = null;
 
-  anychart.chartEditorModule.settings.Labels.base(this, 'disposeInternal');
+  chartEditor.settings.Labels.base(this, 'disposeInternal');
 };

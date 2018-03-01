@@ -1,7 +1,7 @@
-goog.provide('anychart.chartEditorModule.PlotPanel');
+goog.provide('chartEditor.PlotPanel');
 
-goog.require('anychart.chartEditorModule.ComponentWithKey');
-goog.require('anychart.chartEditorModule.SeriesPanel');
+goog.require('chartEditor.ComponentWithKey');
+goog.require('chartEditor.SeriesPanel');
 goog.require('goog.ui.Button');
 goog.require('goog.ui.Component');
 
@@ -9,14 +9,14 @@ goog.require('goog.ui.Component');
 /**
  * Plot panel on Setup chart step.
  *
- * @param {anychart.chartEditorModule.EditorModel} model
+ * @param {chartEditor.EditorModel} model
  * @param {number} index
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  * @constructor
- * @extends {anychart.chartEditorModule.ComponentWithKey}
+ * @extends {chartEditor.ComponentWithKey}
  */
-anychart.chartEditorModule.PlotPanel = function (model, index, opt_domHelper) {
-    anychart.chartEditorModule.PlotPanel.base(this, 'constructor', model, opt_domHelper);
+chartEditor.PlotPanel = function (model, index, opt_domHelper) {
+    chartEditor.PlotPanel.base(this, 'constructor', model, opt_domHelper);
 
     /**
      * @type {number}
@@ -25,19 +25,19 @@ anychart.chartEditorModule.PlotPanel = function (model, index, opt_domHelper) {
     this.index_ = index;
 
     /**
-     * @type {Array.<anychart.chartEditorModule.SeriesPanel>}
+     * @type {Array.<chartEditor.SeriesPanel>}
      * @private
      */
     this.series_ = [];
 
     this.addClassName('anychart-plot-panel');
 };
-goog.inherits(anychart.chartEditorModule.PlotPanel, anychart.chartEditorModule.ComponentWithKey);
+goog.inherits(chartEditor.PlotPanel, chartEditor.ComponentWithKey);
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.PlotPanel.prototype.createDom = function () {
-    anychart.chartEditorModule.PlotPanel.base(this, 'createDom');
+chartEditor.PlotPanel.prototype.createDom = function () {
+    chartEditor.PlotPanel.base(this, 'createDom');
 
     var dom = this.getDomHelper();
     var element = this.getElement();
@@ -48,16 +48,16 @@ anychart.chartEditorModule.PlotPanel.prototype.createDom = function () {
     var remove = dom.createDom(goog.dom.TagName.DIV, 'anychart-plot-panel-remove-btn', '');
     goog.dom.appendChild(this.getElement(), remove);
     this.getHandler().listen(remove, goog.events.EventType.CLICK, function () {
-        /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel()).dropPlot(this.index_);
+        /** @type {chartEditor.EditorModel} */(this.getModel()).dropPlot(this.index_);
     });
 };
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.PlotPanel.prototype.onModelChange = function (evt) {
+chartEditor.PlotPanel.prototype.onModelChange = function (evt) {
     if (evt && !evt.rebuildMapping) return;
 
-    var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+    var model = /** @type {chartEditor.EditorModel} */(this.getModel());
     var chartType = model.getValue([['chart'], 'type']);
 
     // toggle stock specific settings
@@ -71,7 +71,7 @@ anychart.chartEditorModule.PlotPanel.prototype.onModelChange = function (evt) {
     var plotModel = model.getValue([['dataSettings'], ['mappings', this.index_]]);
 
     for (var i = 0; i < plotModel.length; i++) {
-        var series = new anychart.chartEditorModule.SeriesPanel(/** @type {anychart.chartEditorModule.EditorModel} */(this.getModel()), i);
+        var series = new chartEditor.SeriesPanel(/** @type {chartEditor.EditorModel} */(this.getModel()), i);
         if (i === 0) series.addClassName('anychart-plot-panel-series-first');
         this.series_.push(series);
         this.addChild(series, true);
@@ -93,9 +93,9 @@ anychart.chartEditorModule.PlotPanel.prototype.onModelChange = function (evt) {
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.PlotPanel.prototype.exitDocument = function () {
+chartEditor.PlotPanel.prototype.exitDocument = function () {
     this.removeAllSeries_();
-    anychart.chartEditorModule.PlotPanel.base(this, 'exitDocument');
+    chartEditor.PlotPanel.base(this, 'exitDocument');
 };
 
 
@@ -103,8 +103,8 @@ anychart.chartEditorModule.PlotPanel.prototype.exitDocument = function () {
  * Asks model to add series.
  * @private
  */
-anychart.chartEditorModule.PlotPanel.prototype.onAddSeries_ = function () {
-    /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel()).addSeries(this.index_);
+chartEditor.PlotPanel.prototype.onAddSeries_ = function () {
+    /** @type {chartEditor.EditorModel} */(this.getModel()).addSeries(this.index_);
 };
 
 
@@ -112,7 +112,7 @@ anychart.chartEditorModule.PlotPanel.prototype.onAddSeries_ = function () {
  * Removes all series panels elements from panel.
  * @private
  */
-anychart.chartEditorModule.PlotPanel.prototype.removeAllSeries_ = function () {
+chartEditor.PlotPanel.prototype.removeAllSeries_ = function () {
     for (var i = 0; i < this.series_.length; i++) {
         this.removeChild(this.series_[i], true);
         this.series_[i].dispose();
@@ -125,9 +125,9 @@ anychart.chartEditorModule.PlotPanel.prototype.removeAllSeries_ = function () {
  * Getter/setter for index.
  *
  * @param {number=} opt_value
- * @return {number|anychart.chartEditorModule.PlotPanel}
+ * @return {number|chartEditor.PlotPanel}
  */
-anychart.chartEditorModule.PlotPanel.prototype.index = function (opt_value) {
+chartEditor.PlotPanel.prototype.index = function (opt_value) {
     if (goog.isDef(opt_value)) {
         if (goog.isNumber(opt_value)) {
             this.index_ = opt_value;
@@ -140,15 +140,15 @@ anychart.chartEditorModule.PlotPanel.prototype.index = function (opt_value) {
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.PlotPanel.prototype.dispose = function () {
+chartEditor.PlotPanel.prototype.dispose = function () {
     this.removeAllSeries_();
-    anychart.chartEditorModule.PlotPanel.base(this, 'dispose');
+    chartEditor.PlotPanel.base(this, 'dispose');
 };
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.PlotPanel.prototype.getKey = function (opt_completion) {
+chartEditor.PlotPanel.prototype.getKey = function (opt_completion) {
     if (!this.key)
         this.key = [['plot', this.index()]];
-    return anychart.chartEditorModule.PlotPanel.base(this, 'getKey', opt_completion);
+    return chartEditor.PlotPanel.base(this, 'getKey', opt_completion);
 };

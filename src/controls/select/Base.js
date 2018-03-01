@@ -1,7 +1,7 @@
-goog.provide('anychart.chartEditorModule.controls.select.Base');
+goog.provide('chartEditor.controls.select.Base');
 
-goog.require('anychart.chartEditorModule.controls.select.DataFieldSelectMenuItem');
-goog.require('anychart.chartEditorModule.events');
+goog.require('chartEditor.controls.select.DataFieldSelectMenuItem');
+goog.require('chartEditor.events');
 goog.require('goog.ui.Option');
 goog.require('goog.ui.Select');
 
@@ -22,13 +22,13 @@ goog.require('goog.ui.Select');
  * @constructor
  * @extends {goog.ui.Select}
  */
-anychart.chartEditorModule.controls.select.Base = function(opt_caption, opt_menu, opt_renderer, opt_domHelper, opt_menuRenderer) {
-  anychart.chartEditorModule.controls.select.Base.base(this, 'constructor', opt_caption, opt_menu, opt_renderer, opt_domHelper, opt_menuRenderer);
+chartEditor.controls.select.Base = function(opt_caption, opt_menu, opt_renderer, opt_domHelper, opt_menuRenderer) {
+  chartEditor.controls.select.Base.base(this, 'constructor', opt_caption, opt_menu, opt_renderer, opt_domHelper, opt_menuRenderer);
 
   /**
    * Editor Model key.
    *
-   * @type {anychart.chartEditorModule.EditorModel.Key}
+   * @type {chartEditor.EditorModel.Key}
    * @protected
    */
   this.key = [];
@@ -52,14 +52,14 @@ anychart.chartEditorModule.controls.select.Base = function(opt_caption, opt_menu
    */
   this.target = null;
 };
-goog.inherits(anychart.chartEditorModule.controls.select.Base, goog.ui.Select);
+goog.inherits(chartEditor.controls.select.Base, goog.ui.Select);
 
 
 /**
  * Set model for options.
  * @param {Array.<Object|string>} options
  */
-anychart.chartEditorModule.controls.select.Base.prototype.setOptions = function(options) {
+chartEditor.controls.select.Base.prototype.setOptions = function(options) {
   for (var a = this.getItemCount(); a--;) {
     this.removeItemAt(a);
   }
@@ -75,36 +75,36 @@ anychart.chartEditorModule.controls.select.Base.prototype.setOptions = function(
         option.caption = goog.string.capitalize(val);
       }
 
-      this.addItem(new anychart.chartEditorModule.controls.select.DataFieldSelectMenuItem(option));
+      this.addItem(new chartEditor.controls.select.DataFieldSelectMenuItem(option));
     }
   }
 };
 
 
-/** @param {anychart.chartEditorModule.EditorModel.Key} value */
-anychart.chartEditorModule.controls.select.Base.prototype.setKey = function(value) {
+/** @param {chartEditor.EditorModel.Key} value */
+chartEditor.controls.select.Base.prototype.setKey = function(value) {
   this.key = value;
 };
 
 
 /**
  * Gets key.
- * @return {anychart.chartEditorModule.EditorModel.Key}
+ * @return {chartEditor.EditorModel.Key}
  */
-anychart.chartEditorModule.controls.select.Base.prototype.getKey = function() {
+chartEditor.controls.select.Base.prototype.getKey = function() {
   return this.key;
 };
 
 
 /** @override */
-anychart.chartEditorModule.controls.select.Base.prototype.enterDocument = function() {
-  anychart.chartEditorModule.controls.select.Base.base(this, 'enterDocument');
+chartEditor.controls.select.Base.prototype.enterDocument = function() {
+  chartEditor.controls.select.Base.base(this, 'enterDocument');
   goog.style.setElementShown(this.getElement(), !this.excluded);
 };
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.controls.select.Base.prototype.handleSelectionChange = function (evt) {
+chartEditor.controls.select.Base.prototype.handleSelectionChange = function (evt) {
   evt.preventDefault();
   evt.stopPropagation();
   if (this.excluded) return;
@@ -128,16 +128,16 @@ anychart.chartEditorModule.controls.select.Base.prototype.handleSelectionChange 
 /**
  * Connects control with EditorMode.
  *
- * @param {anychart.chartEditorModule.EditorModel} model Editor model instance to connect with.
- * @param {anychart.chartEditorModule.EditorModel.Key} key Key of control's field in model's structure.
+ * @param {chartEditor.EditorModel} model Editor model instance to connect with.
+ * @param {chartEditor.EditorModel.Key} key Key of control's field in model's structure.
  * @param {string=} opt_callback Callback function that will be called on control's value change instead of simple change value in model.
  *  This function should be model's public method.
  * @param {boolean=} opt_noRebuild Should or not rebuild target (chart) on change value of this control.
  * @public
  */
-anychart.chartEditorModule.controls.select.Base.prototype.init = function(model, key, opt_callback, opt_noRebuild) {
+chartEditor.controls.select.Base.prototype.init = function(model, key, opt_callback, opt_noRebuild) {
   /**
-   * @type {anychart.chartEditorModule.EditorModel}
+   * @type {chartEditor.EditorModel}
    * @protected
    */
   this.editorModel = model;
@@ -156,7 +156,7 @@ anychart.chartEditorModule.controls.select.Base.prototype.init = function(model,
  * @param {*} value
  * @param {Object=} opt_additionalValues
  */
-anychart.chartEditorModule.controls.select.Base.prototype.setValue = function(value, opt_additionalValues) {
+chartEditor.controls.select.Base.prototype.setValue = function(value, opt_additionalValues) {
   var selectionModel = this.getSelectionModel();
   if (goog.isDefAndNotNull(value) && selectionModel) {
     for (var i = 0, item; item = selectionModel.getItemAt(i); i++) {
@@ -194,7 +194,7 @@ anychart.chartEditorModule.controls.select.Base.prototype.setValue = function(va
  *
  * @param {Object=} opt_additionalValues Object of additional values.
  */
-anychart.chartEditorModule.controls.select.Base.prototype.setValueByModel = function(opt_additionalValues) {
+chartEditor.controls.select.Base.prototype.setValueByModel = function(opt_additionalValues) {
   var modelValue;
   this.noDispatch = true;
 
@@ -205,7 +205,7 @@ anychart.chartEditorModule.controls.select.Base.prototype.setValueByModel = func
     this.setValue(modelValue, opt_additionalValues);
 
   if (!this.getSelectedItem())
-    anychart.core.reporting.warning(anychart.enums.WarningCode.EDITOR_MODEL_VALUE_NOT_FOUND, null, this.key);
+    anychart.core.reporting.warning(chartEditor.enums.WarningCode.EDITOR_MODEL_VALUE_NOT_FOUND, null, this.key);
 
   this.noDispatch = false;
 };
@@ -216,7 +216,7 @@ anychart.chartEditorModule.controls.select.Base.prototype.setValueByModel = func
  * Updates model state.
  * @param {?Object} target Object, who's property corresponds to control's key. Used to get value of this control.
  */
-anychart.chartEditorModule.controls.select.Base.prototype.setValueByTarget = function(target) {
+chartEditor.controls.select.Base.prototype.setValueByTarget = function(target) {
   if (this.excluded) return;
 
   if (!this.key || !this.key.length) {
@@ -225,8 +225,8 @@ anychart.chartEditorModule.controls.select.Base.prototype.setValueByTarget = fun
   }
   this.target = target;
 
-  var stringKey = anychart.chartEditorModule.EditorModel.getStringKey(this.key);
-  var value = /** @type {string} */(anychart.bindingModule.exec(this.target, stringKey));
+  var stringKey = chartEditor.EditorModel.getStringKey(this.key);
+  var value = /** @type {string} */(chartEditor.binding.exec(this.target, stringKey));
 
   this.noDispatch = true;
   this.setValue(value);
@@ -237,7 +237,7 @@ anychart.chartEditorModule.controls.select.Base.prototype.setValueByTarget = fun
 /**
  * @param {boolean} value
  */
-anychart.chartEditorModule.controls.select.Base.prototype.suspendDispatch = function(value) {
+chartEditor.controls.select.Base.prototype.suspendDispatch = function(value) {
   this.noDispatch = value;
 };
 
@@ -247,7 +247,7 @@ anychart.chartEditorModule.controls.select.Base.prototype.suspendDispatch = func
  * @param {boolean} value True if excluded.
  * @return {boolean}
  */
-anychart.chartEditorModule.controls.select.Base.prototype.exclude = function(value) {
+chartEditor.controls.select.Base.prototype.exclude = function(value) {
   var dirty = this.excluded !== value;
   this.excluded = value;
   if (this.isInDocument())
@@ -263,13 +263,13 @@ anychart.chartEditorModule.controls.select.Base.prototype.exclude = function(val
 /**
  * @return {boolean}
  */
-anychart.chartEditorModule.controls.select.Base.prototype.isExcluded = function() {
+chartEditor.controls.select.Base.prototype.isExcluded = function() {
   return this.excluded;
 };
 
 
 /** @return {boolean|undefined} */
-anychart.chartEditorModule.controls.select.Base.prototype.updateExclusion = function() {
+chartEditor.controls.select.Base.prototype.updateExclusion = function() {
   if (!this.key || !this.key.length || !this.editorModel) return;
 
   var stringKey = this.editorModel.getStringKey(this.key);

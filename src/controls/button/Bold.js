@@ -1,19 +1,19 @@
-goog.provide('anychart.chartEditorModule.button.Bold');
+goog.provide('chartEditor.button.Bold');
 
-goog.require('anychart.chartEditorModule.button.Toggle');
+goog.require('chartEditor.button.Toggle');
 
 
 
 /**
  * Bold button for text appearance.
  * @constructor
- * @extends {anychart.chartEditorModule.button.Toggle}
+ * @extends {chartEditor.button.Toggle}
  */
-anychart.chartEditorModule.button.Bold = function() {
-  anychart.chartEditorModule.button.Bold.base(this, 'constructor');
+chartEditor.button.Bold = function() {
+  chartEditor.button.Bold.base(this, 'constructor');
 
   this.setIcon('ac ac-bold');
   this.setNormalValue('normal');
   this.setCheckedValue('bold');
 };
-goog.inherits(anychart.chartEditorModule.button.Bold, anychart.chartEditorModule.button.Toggle);
+goog.inherits(chartEditor.button.Bold, chartEditor.button.Toggle);

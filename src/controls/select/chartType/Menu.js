@@ -1,8 +1,8 @@
-goog.provide('anychart.chartEditorModule.controls.chartType.Menu');
-goog.provide('anychart.chartEditorModule.controls.chartType.MenuRenderer');
+goog.provide('chartEditor.controls.chartType.Menu');
+goog.provide('chartEditor.controls.chartType.MenuRenderer');
 
-goog.require('anychart.chartEditorModule.controls.chartType.Filters');
-goog.require('anychart.chartEditorModule.controls.chartType.Pages');
+goog.require('chartEditor.controls.chartType.Filters');
+goog.require('chartEditor.controls.chartType.Pages');
 goog.require('goog.ui.Menu');
 goog.require('goog.ui.MenuRenderer');
 
@@ -14,16 +14,16 @@ goog.require('goog.ui.MenuRenderer');
  * @constructor
  * @extends {goog.ui.Menu}
  */
-anychart.chartEditorModule.controls.chartType.Menu = function (opt_domHelper, opt_renderer) {
-  anychart.chartEditorModule.controls.chartType.Menu.base(this, 'constructor',
+chartEditor.controls.chartType.Menu = function (opt_domHelper, opt_renderer) {
+  chartEditor.controls.chartType.Menu.base(this, 'constructor',
       opt_domHelper,
-      opt_renderer || anychart.chartEditorModule.controls.chartType.MenuRenderer.getInstance());
+      opt_renderer || chartEditor.controls.chartType.MenuRenderer.getInstance());
 };
-goog.inherits(anychart.chartEditorModule.controls.chartType.Menu, goog.ui.Menu);
+goog.inherits(chartEditor.controls.chartType.Menu, goog.ui.Menu);
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.controls.chartType.Menu.prototype.setVisible = function(show, opt_force, opt_e) {
+chartEditor.controls.chartType.Menu.prototype.setVisible = function(show, opt_force, opt_e) {
   if (show) {
     var select = this.getParent();
     var pages = this.getRenderer().getPages();
@@ -47,7 +47,7 @@ anychart.chartEditorModule.controls.chartType.Menu.prototype.setVisible = functi
     var menuItemSize = goog.style.getSize(menuItemEl);
     var pagePaddings = menuSize.height - pageContentSize.height;
 
-    var editorEl = goog.dom.getAncestorByClass(select.getElement(), anychart.chartEditorModule.Editor.CSS_CLASS);
+    var editorEl = goog.dom.getAncestorByClass(select.getElement(), chartEditor.Editor.CSS_CLASS);
     var editorSize = goog.style.getSize(editorEl);
     var maxContentHeight = (editorSize.height * 0.70) - pagePaddings;
 
@@ -63,13 +63,13 @@ anychart.chartEditorModule.controls.chartType.Menu.prototype.setVisible = functi
     // end of hack
     goog.style.setElementShown(this.getElement(), false);
   }
-  return anychart.chartEditorModule.controls.chartType.Menu.base(this, 'setVisible', show, opt_force, opt_e);
+  return chartEditor.controls.chartType.Menu.base(this, 'setVisible', show, opt_force, opt_e);
 };
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.controls.chartType.Menu.prototype.enterDocument = function() {
-  anychart.chartEditorModule.controls.chartType.Menu.base(this, 'enterDocument');
+chartEditor.controls.chartType.Menu.prototype.enterDocument = function() {
+  chartEditor.controls.chartType.Menu.base(this, 'enterDocument');
 
   this.onFiltersChange();
 
@@ -84,7 +84,7 @@ anychart.chartEditorModule.controls.chartType.Menu.prototype.enterDocument = fun
   });
 
   // Add theme class
-  var editorEl = goog.dom.getAncestorByClass(this.getParent().getElement(), anychart.chartEditorModule.Editor.CSS_CLASS);
+  var editorEl = goog.dom.getAncestorByClass(this.getParent().getElement(), chartEditor.Editor.CSS_CLASS);
   if (editorEl) {
     var classes = goog.dom.classlist.get(editorEl);
     for (var i = 0; i < classes.length; i++) {
@@ -100,7 +100,7 @@ anychart.chartEditorModule.controls.chartType.Menu.prototype.enterDocument = fun
  *
  * @param {goog.events.BrowserEvent} evt
  */
-anychart.chartEditorModule.controls.chartType.Menu.prototype.onWheel = function(evt) {
+chartEditor.controls.chartType.Menu.prototype.onWheel = function(evt) {
   evt.preventDefault();
   evt.stopPropagation();
 
@@ -112,7 +112,7 @@ anychart.chartEditorModule.controls.chartType.Menu.prototype.onWheel = function(
 /**
  * Filters checkbox change handler.
  */
-anychart.chartEditorModule.controls.chartType.Menu.prototype.onFiltersChange = function() {
+chartEditor.controls.chartType.Menu.prototype.onFiltersChange = function() {
   var filters = this.getRenderer().getFilters();
   var filterValues = filters.getValue();
 
@@ -149,22 +149,22 @@ anychart.chartEditorModule.controls.chartType.Menu.prototype.onFiltersChange = f
  * @constructor
  * @extends {goog.ui.MenuRenderer}
  */
-anychart.chartEditorModule.controls.chartType.MenuRenderer = function (opt_ariaRole) {
-  anychart.chartEditorModule.controls.chartType.MenuRenderer.base(this, 'constructor', opt_ariaRole);
+chartEditor.controls.chartType.MenuRenderer = function (opt_ariaRole) {
+  chartEditor.controls.chartType.MenuRenderer.base(this, 'constructor', opt_ariaRole);
 };
-goog.inherits(anychart.chartEditorModule.controls.chartType.MenuRenderer, goog.ui.MenuRenderer);
-goog.addSingletonGetter(anychart.chartEditorModule.controls.chartType.MenuRenderer);
+goog.inherits(chartEditor.controls.chartType.MenuRenderer, goog.ui.MenuRenderer);
+goog.addSingletonGetter(chartEditor.controls.chartType.MenuRenderer);
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.controls.chartType.MenuRenderer.prototype.createDom = function (container) {
-  var element = anychart.chartEditorModule.controls.chartType.MenuRenderer.base(this, 'createDom', container);
+chartEditor.controls.chartType.MenuRenderer.prototype.createDom = function (container) {
+  var element = chartEditor.controls.chartType.MenuRenderer.base(this, 'createDom', container);
 
-  this.filters_ = new anychart.chartEditorModule.controls.chartType.Filters();
+  this.filters_ = new chartEditor.controls.chartType.Filters();
   this.filters_.render();
   element.appendChild(this.filters_.getElement());
 
-  this.pages_ = new anychart.chartEditorModule.controls.chartType.Pages();
+  this.pages_ = new chartEditor.controls.chartType.Pages();
   this.pages_.render();
   element.appendChild(this.pages_.getElement());
 
@@ -173,29 +173,29 @@ anychart.chartEditorModule.controls.chartType.MenuRenderer.prototype.createDom =
 
 
 /**
- * @return {anychart.chartEditorModule.controls.chartType.Filters|null}
+ * @return {chartEditor.controls.chartType.Filters|null}
  */
-anychart.chartEditorModule.controls.chartType.MenuRenderer.prototype.getFilters = function() {
+chartEditor.controls.chartType.MenuRenderer.prototype.getFilters = function() {
   return this.filters_;
 };
 
 
 /**
- * @return {anychart.chartEditorModule.controls.chartType.Pages|null}
+ * @return {chartEditor.controls.chartType.Pages|null}
  */
-anychart.chartEditorModule.controls.chartType.MenuRenderer.prototype.getPages = function() {
+chartEditor.controls.chartType.MenuRenderer.prototype.getPages = function() {
   return this.pages_;
 };
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.controls.chartType.MenuRenderer.prototype.getContentElement = function(element) {
+chartEditor.controls.chartType.MenuRenderer.prototype.getContentElement = function(element) {
   return this.pages_ && this.pages_.getElement();
 };
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.controls.chartType.MenuRenderer.prototype.getCssClass = function () {
+chartEditor.controls.chartType.MenuRenderer.prototype.getCssClass = function () {
   return 'anychart-chart-editor-select-chart-type-menu';
 };
 // endregion

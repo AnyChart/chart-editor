@@ -1,10 +1,10 @@
-goog.provide('anychart.chartEditorModule.comboBox.Base');
-goog.provide('anychart.chartEditorModule.comboBox.ComboBoxItem');
+goog.provide('chartEditor.comboBox.Base');
+goog.provide('chartEditor.comboBox.ComboBoxItem');
 
-goog.require('anychart.chartEditorModule.controls.Menu');
-goog.require('anychart.chartEditorModule.controls.MenuRenderer');
-goog.require('anychart.chartEditorModule.controls.select.DataFieldSelectMenuItemRenderer');
-goog.require('anychart.chartEditorModule.events');
+goog.require('chartEditor.controls.Menu');
+goog.require('chartEditor.controls.MenuRenderer');
+goog.require('chartEditor.controls.select.DataFieldSelectMenuItemRenderer');
+goog.require('chartEditor.events');
 goog.require('goog.string');
 goog.require('goog.ui.ComboBox');
 goog.require('goog.ui.ComboBoxItem');
@@ -25,10 +25,10 @@ goog.forwardDeclare('goog.events.BrowserEvent');
  * @extends {goog.ui.ComboBox}
  * @suppress {visibility}
  */
-anychart.chartEditorModule.comboBox.Base = function(opt_domHelper, opt_menu, opt_labelInput) {
-  anychart.chartEditorModule.comboBox.Base.base(this, 'constructor',
+chartEditor.comboBox.Base = function(opt_domHelper, opt_menu, opt_labelInput) {
+  chartEditor.comboBox.Base.base(this, 'constructor',
       opt_domHelper,
-      opt_menu || new anychart.chartEditorModule.controls.Menu('', opt_domHelper),
+      opt_menu || new chartEditor.controls.Menu('', opt_domHelper),
       opt_labelInput);
 
   // If no value is set.
@@ -41,7 +41,7 @@ anychart.chartEditorModule.comboBox.Base = function(opt_domHelper, opt_menu, opt
   /**
    * Editor Model key.
    *
-   * @type {anychart.chartEditorModule.EditorModel.Key}
+   * @type {chartEditor.EditorModel.Key}
    * @protected
    */
   this.key = [];
@@ -77,7 +77,7 @@ anychart.chartEditorModule.comboBox.Base = function(opt_domHelper, opt_menu, opt
    */
   this.noDispatch = false;
 };
-goog.inherits(anychart.chartEditorModule.comboBox.Base, goog.ui.ComboBox);
+goog.inherits(chartEditor.comboBox.Base, goog.ui.ComboBox);
 
 
 /**
@@ -85,14 +85,14 @@ goog.inherits(anychart.chartEditorModule.comboBox.Base, goog.ui.ComboBox);
  * @type {boolean}
  * @private
  */
-anychart.chartEditorModule.comboBox.Base.prototype.useTypeahead_ = true;
+chartEditor.comboBox.Base.prototype.useTypeahead_ = true;
 
 
 /**
  * @param {number} minimum
  * @param {number} maximum
  */
-anychart.chartEditorModule.comboBox.Base.prototype.setRange = function(minimum, maximum) {
+chartEditor.comboBox.Base.prototype.setRange = function(minimum, maximum) {
   this.minimum_ = minimum;
   this.maximum_ = maximum;
 };
@@ -104,7 +104,7 @@ anychart.chartEditorModule.comboBox.Base.prototype.setRange = function(minimum, 
  * @return {boolean}
  * @private
  */
-anychart.chartEditorModule.comboBox.Base.prototype.validateFunction_ = function(value) {
+chartEditor.comboBox.Base.prototype.validateFunction_ = function(value) {
   return true;
 };
 
@@ -115,7 +115,7 @@ anychart.chartEditorModule.comboBox.Base.prototype.validateFunction_ = function(
  * @return {string}
  * @private
  */
-anychart.chartEditorModule.comboBox.Base.prototype.formatterFunction_ = function(value) {
+chartEditor.comboBox.Base.prototype.formatterFunction_ = function(value) {
   return value;
 };
 
@@ -124,30 +124,30 @@ anychart.chartEditorModule.comboBox.Base.prototype.formatterFunction_ = function
  * @type {Array.<string>}
  * @protected
  */
-anychart.chartEditorModule.comboBox.Base.prototype.options;
+chartEditor.comboBox.Base.prototype.options;
 
 
 /**
  * @type {Array.<string>}
  * @protected
  */
-anychart.chartEditorModule.comboBox.Base.prototype.captions;
+chartEditor.comboBox.Base.prototype.captions;
 
 
 /** @param {Array.<string>} value */
-anychart.chartEditorModule.comboBox.Base.prototype.setOptions = function(value) {
+chartEditor.comboBox.Base.prototype.setOptions = function(value) {
   this.options = value;
 };
 
 
-/** @return {anychart.chartEditorModule.EditorModel.Key} */
-anychart.chartEditorModule.comboBox.Base.prototype.getKey = function() {
+/** @return {chartEditor.EditorModel.Key} */
+chartEditor.comboBox.Base.prototype.getKey = function() {
   return this.key;
 };
 
 
-/** @param {anychart.chartEditorModule.EditorModel.Key} value */
-anychart.chartEditorModule.comboBox.Base.prototype.setKey = function(value) {
+/** @param {chartEditor.EditorModel.Key} value */
+chartEditor.comboBox.Base.prototype.setKey = function(value) {
   this.key = value;
 };
 
@@ -157,7 +157,7 @@ anychart.chartEditorModule.comboBox.Base.prototype.setKey = function(value) {
  * This option defaults to true for backwards compatibility.
  * @param {boolean} useTypeahead False to don't use the typeahead.
  */
-anychart.chartEditorModule.comboBox.Base.prototype.setUseTypeahead = function(useTypeahead) {
+chartEditor.comboBox.Base.prototype.setUseTypeahead = function(useTypeahead) {
   this.useTypeahead_ = !!useTypeahead;
   if (!this.useTypeahead_) {
     this.setMatchFunction(goog.string.caseInsensitiveEquals);
@@ -168,7 +168,7 @@ anychart.chartEditorModule.comboBox.Base.prototype.setUseTypeahead = function(us
 /**
  * @return {?goog.ui.Control} The currently selected item or null.
  */
-anychart.chartEditorModule.comboBox.Base.prototype.getSelectedItem = function() {
+chartEditor.comboBox.Base.prototype.getSelectedItem = function() {
   return this.getMenu().getHighlighted();
 };
 
@@ -177,13 +177,13 @@ anychart.chartEditorModule.comboBox.Base.prototype.getSelectedItem = function() 
  * @override
  * @suppress {visibility}
  */
-anychart.chartEditorModule.comboBox.Base.prototype.createDom = function() {
+chartEditor.comboBox.Base.prototype.createDom = function() {
   // This hack for render menu into the body instead into the same parent as this button.
   var menu = this.getMenu();
   menu.render();
   menu.setParent(this);
 
-  anychart.chartEditorModule.comboBox.Base.base(this, 'createDom');
+  chartEditor.comboBox.Base.base(this, 'createDom');
 
   var element = this.getElement();
   var button = this.getElementByClass(goog.getCssName('anychart-combobox-button'));
@@ -201,7 +201,7 @@ anychart.chartEditorModule.comboBox.Base.prototype.createDom = function() {
 /**
  * @suppress {checkTypes} set option to ComboBoxItem
  */
-anychart.chartEditorModule.comboBox.Base.prototype.updateOptions = function() {
+chartEditor.comboBox.Base.prototype.updateOptions = function() {
   var optionsCount = this.options.length;
   var count = Math.max(this.getChildCount(), optionsCount);
 
@@ -213,7 +213,7 @@ anychart.chartEditorModule.comboBox.Base.prototype.updateOptions = function() {
       var caption = this.captions[i] || option.toString();
 
       if (!optionItem) {
-        optionItem = new anychart.chartEditorModule.comboBox.ComboBoxItem(caption, option);
+        optionItem = new chartEditor.comboBox.ComboBoxItem(caption, option);
         this.addItemAt(optionItem, i);
       } else {
         optionItem.setContent(caption);
@@ -228,8 +228,8 @@ anychart.chartEditorModule.comboBox.Base.prototype.updateOptions = function() {
 
 
 /** @override */
-anychart.chartEditorModule.comboBox.Base.prototype.enterDocument = function() {
-  anychart.chartEditorModule.comboBox.Base.base(this, 'enterDocument');
+chartEditor.comboBox.Base.prototype.enterDocument = function() {
+  chartEditor.comboBox.Base.base(this, 'enterDocument');
 
   goog.style.setElementShown(this.getElement(), !this.excluded);
   goog.events.listen(this, goog.ui.Component.EventType.CHANGE, this.onChange, false, this);
@@ -237,10 +237,10 @@ anychart.chartEditorModule.comboBox.Base.prototype.enterDocument = function() {
 
 
 /** @override */
-anychart.chartEditorModule.comboBox.Base.prototype.exitDocument = function() {
+chartEditor.comboBox.Base.prototype.exitDocument = function() {
   goog.events.unlisten(this, goog.ui.Component.EventType.CHANGE, this.onChange, false, this);
 
-  anychart.chartEditorModule.comboBox.Base.base(this, 'exitDocument');
+  chartEditor.comboBox.Base.base(this, 'exitDocument');
 };
 
 
@@ -248,8 +248,8 @@ anychart.chartEditorModule.comboBox.Base.prototype.exitDocument = function() {
  * Dismisses the menu and resets the value of the edit field.
  * @suppress {visibility}
  */
-anychart.chartEditorModule.comboBox.Base.prototype.dismiss = function() {
-  anychart.chartEditorModule.comboBox.Base.base(this, 'dismiss');
+chartEditor.comboBox.Base.prototype.dismiss = function() {
+  chartEditor.comboBox.Base.base(this, 'dismiss');
 
   this.input_.blur();
 };
@@ -259,7 +259,7 @@ anychart.chartEditorModule.comboBox.Base.prototype.dismiss = function() {
  * Set validate function.
  * @param {function(string):boolean} validateFunction
  */
-anychart.chartEditorModule.comboBox.Base.prototype.setValidateFunction = function(validateFunction) {
+chartEditor.comboBox.Base.prototype.setValidateFunction = function(validateFunction) {
   this.validateFunction_ = validateFunction;
 };
 
@@ -267,7 +267,7 @@ anychart.chartEditorModule.comboBox.Base.prototype.setValidateFunction = functio
 /**
  * @return {function(string):boolean} The validate function.
  */
-anychart.chartEditorModule.comboBox.Base.prototype.getValidateFunction = function() {
+chartEditor.comboBox.Base.prototype.getValidateFunction = function() {
   return this.validateFunction_;
 };
 
@@ -276,7 +276,7 @@ anychart.chartEditorModule.comboBox.Base.prototype.getValidateFunction = functio
  * Set formatter function.
  * @param {function(string):string} formatterFunction
  */
-anychart.chartEditorModule.comboBox.Base.prototype.setFormatterFunction = function(formatterFunction) {
+chartEditor.comboBox.Base.prototype.setFormatterFunction = function(formatterFunction) {
   this.formatterFunction_ = formatterFunction;
 };
 
@@ -284,7 +284,7 @@ anychart.chartEditorModule.comboBox.Base.prototype.setFormatterFunction = functi
 /**
  * @return {function(string):string} The formatter function.
  */
-anychart.chartEditorModule.comboBox.Base.prototype.getFormatterFunction = function() {
+chartEditor.comboBox.Base.prototype.getFormatterFunction = function() {
   return this.formatterFunction_;
 };
 
@@ -294,7 +294,7 @@ anychart.chartEditorModule.comboBox.Base.prototype.getFormatterFunction = functi
  * @param {string} value The new value.
  * @suppress {visibility}
  */
-anychart.chartEditorModule.comboBox.Base.prototype.setValue = function(value) {
+chartEditor.comboBox.Base.prototype.setValue = function(value) {
   if (this.lastToken_ !== value && this.validateFunction_(value)) {
     value = this.formatterFunction_(value);
     this.lastToken_ = value;
@@ -310,8 +310,8 @@ anychart.chartEditorModule.comboBox.Base.prototype.setValue = function(value) {
  * @private
  * @suppress {visibility}
  */
-anychart.chartEditorModule.comboBox.Base.prototype.onInputBlur_ = function(e) {
-  anychart.chartEditorModule.comboBox.Base.base(this, 'onInputBlur_', e);
+chartEditor.comboBox.Base.prototype.onInputBlur_ = function(e) {
+  chartEditor.comboBox.Base.base(this, 'onInputBlur_', e);
 
   this.labelInput_.setValue(/** @type {string} */(this.lastToken_));
 };
@@ -325,7 +325,7 @@ anychart.chartEditorModule.comboBox.Base.prototype.onInputBlur_ = function(e) {
  * @protected
  * @suppress {visibility|accessControls}
  */
-anychart.chartEditorModule.comboBox.Base.prototype.handleKeyEvent = function(e) {
+chartEditor.comboBox.Base.prototype.handleKeyEvent = function(e) {
   var isMenuVisible = this.menu_.isVisible();
   var token;
 
@@ -411,7 +411,7 @@ anychart.chartEditorModule.comboBox.Base.prototype.handleKeyEvent = function(e) 
  * @private
  * @suppress {visibility}
  */
-anychart.chartEditorModule.comboBox.Base.prototype.setItemVisibilityFromToken_ = function(token) {
+chartEditor.comboBox.Base.prototype.setItemVisibilityFromToken_ = function(token) {
   goog.log.info(this.logger_, 'setItemVisibilityFromToken_() - ' + token);
   var isVisibleItem = false;
   var count = 0;
@@ -456,7 +456,7 @@ anychart.chartEditorModule.comboBox.Base.prototype.setItemVisibilityFromToken_ =
  * @private
  * @suppress {visibility}
  */
-anychart.chartEditorModule.comboBox.Base.prototype.handleInputChange_ = function() {
+chartEditor.comboBox.Base.prototype.handleInputChange_ = function() {
   var token = this.getTokenText_();
   // anychart fixed
   if (this.useTypeahead_) {
@@ -486,7 +486,7 @@ anychart.chartEditorModule.comboBox.Base.prototype.handleInputChange_ = function
  * @private
  * @suppress {visibility}
  */
-anychart.chartEditorModule.comboBox.Base.prototype.setItemHighlightFromToken_ = function(token) {
+chartEditor.comboBox.Base.prototype.setItemHighlightFromToken_ = function(token) {
   goog.log.info(this.logger_, 'setItemHighlightFromToken_() - ' + token);
 
   if (token == '') {
@@ -513,7 +513,7 @@ anychart.chartEditorModule.comboBox.Base.prototype.setItemHighlightFromToken_ = 
  * @param {goog.events.Event} evt
  * @protected
  */
-anychart.chartEditorModule.comboBox.Base.prototype.onChange = function(evt) {
+chartEditor.comboBox.Base.prototype.onChange = function(evt) {
   evt.preventDefault();
   evt.stopPropagation();
 
@@ -533,15 +533,15 @@ anychart.chartEditorModule.comboBox.Base.prototype.onChange = function(evt) {
 /**
  * Connects control with EditorMode.
  *
- * @param {anychart.chartEditorModule.EditorModel} model Editor model instance to connect with.
- * @param {anychart.chartEditorModule.EditorModel.Key} key Key of control's field in model's structure.
+ * @param {chartEditor.EditorModel} model Editor model instance to connect with.
+ * @param {chartEditor.EditorModel.Key} key Key of control's field in model's structure.
  * @param {string=} opt_callback Callback function that will be called on control's value change instead of simple change value in model.
  *  This function should be model's public method.
  * @param {boolean=} opt_noRebuild Should or not rebuild chart on change value of this control.
  */
-anychart.chartEditorModule.comboBox.Base.prototype.init = function(model, key, opt_callback, opt_noRebuild) {
+chartEditor.comboBox.Base.prototype.init = function(model, key, opt_callback, opt_noRebuild) {
   /**
-   * @type {anychart.chartEditorModule.EditorModel}
+   * @type {chartEditor.EditorModel}
    * @protected
    */
   this.editorModel = model;
@@ -559,13 +559,13 @@ anychart.chartEditorModule.comboBox.Base.prototype.init = function(model, key, o
  * Updates model state.
  * @param {?Object} target Object, who's property corresponds to control's key. Used to get value of this control.
  */
-anychart.chartEditorModule.comboBox.Base.prototype.setValueByTarget = function(target) {
+chartEditor.comboBox.Base.prototype.setValueByTarget = function(target) {
   if (this.excluded) return;
 
   this.target = target;
 
-  var stringKey = anychart.chartEditorModule.EditorModel.getStringKey(this.key);
-  var value = /** @type {string} */(anychart.bindingModule.exec(this.target, stringKey));
+  var stringKey = chartEditor.EditorModel.getStringKey(this.key);
+  var value = /** @type {string} */(chartEditor.binding.exec(this.target, stringKey));
   this.noDispatch = true;
   this.setValue(value);
   this.noDispatch = false;
@@ -577,7 +577,7 @@ anychart.chartEditorModule.comboBox.Base.prototype.setValueByTarget = function(t
  * @param {boolean} value True if excluded.
  * @param {boolean=} opt_needRedraw
  */
-anychart.chartEditorModule.comboBox.Base.prototype.exclude = function(value, opt_needRedraw) {
+chartEditor.comboBox.Base.prototype.exclude = function(value, opt_needRedraw) {
   var dirty = this.excluded != value;
   this.excluded = value;
 
@@ -592,14 +592,14 @@ anychart.chartEditorModule.comboBox.Base.prototype.exclude = function(value, opt
 /**
  * @return {boolean}
  */
-anychart.chartEditorModule.comboBox.Base.prototype.isExcluded = function() {
+chartEditor.comboBox.Base.prototype.isExcluded = function() {
   return this.excluded;
 };
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.comboBox.Base.prototype.positionMenu = function() {
-  anychart.chartEditorModule.comboBox.Base.base(this, 'positionMenu');
+chartEditor.comboBox.Base.prototype.positionMenu = function() {
+  chartEditor.comboBox.Base.base(this, 'positionMenu');
   var o = goog.style.getPageOffset(this.getElement());
   goog.style.setPosition(this.getMenu().getElement(), o.x);
 };
@@ -617,13 +617,13 @@ anychart.chartEditorModule.comboBox.Base.prototype.positionMenu = function() {
  * @constructor
  * @extends {goog.ui.ComboBoxItem}
  */
-anychart.chartEditorModule.comboBox.ComboBoxItem = function(content, opt_data, opt_domHelper, opt_renderer) {
+chartEditor.comboBox.ComboBoxItem = function(content, opt_data, opt_domHelper, opt_renderer) {
   goog.ui.ComboBoxItem.call(
       this,
       content,
       opt_data,
       opt_domHelper,
-      opt_renderer || anychart.chartEditorModule.controls.select.DataFieldSelectMenuItemRenderer.getInstance()
+      opt_renderer || chartEditor.controls.select.DataFieldSelectMenuItemRenderer.getInstance()
   );
 };
-goog.inherits(anychart.chartEditorModule.comboBox.ComboBoxItem, goog.ui.ComboBoxItem);
+goog.inherits(chartEditor.comboBox.ComboBoxItem, goog.ui.ComboBoxItem);

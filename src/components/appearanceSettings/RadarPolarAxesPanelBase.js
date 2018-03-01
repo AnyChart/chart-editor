@@ -1,19 +1,19 @@
-goog.provide('anychart.chartEditorModule.RadarPolarAxesPanelBase');
+goog.provide('chartEditor.RadarPolarAxesPanelBase');
 
-goog.require('anychart.chartEditorModule.MultiplePanelsBase');
-goog.require('anychart.chartEditorModule.settings.axes.Polar');
-goog.require('anychart.chartEditorModule.settings.axes.Radar');
-goog.require('anychart.chartEditorModule.settings.axes.Radial');
+goog.require('chartEditor.MultiplePanelsBase');
+goog.require('chartEditor.settings.axes.Polar');
+goog.require('chartEditor.settings.axes.Radar');
+goog.require('chartEditor.settings.axes.Radial');
 
 
 /**
- * @param {anychart.chartEditorModule.EditorModel} model
+ * @param {chartEditor.EditorModel} model
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  * @constructor
- * @extends {anychart.chartEditorModule.MultiplePanelsBase}
+ * @extends {chartEditor.MultiplePanelsBase}
  */
-anychart.chartEditorModule.RadarPolarAxesPanelBase = function(model, opt_domHelper) {
-  anychart.chartEditorModule.RadarPolarAxesPanelBase.base(this, 'constructor', model, 'RadarAxesPanelBase', opt_domHelper);
+chartEditor.RadarPolarAxesPanelBase = function(model, opt_domHelper) {
+  chartEditor.RadarPolarAxesPanelBase.base(this, 'constructor', model, 'RadarAxesPanelBase', opt_domHelper);
 
   this.stringId = 'radarPolarAxes';
 
@@ -26,13 +26,13 @@ anychart.chartEditorModule.RadarPolarAxesPanelBase = function(model, opt_domHelp
 
   this.allowAddPanels(false);
 };
-goog.inherits(anychart.chartEditorModule.RadarPolarAxesPanelBase, anychart.chartEditorModule.MultiplePanelsBase);
+goog.inherits(chartEditor.RadarPolarAxesPanelBase, chartEditor.MultiplePanelsBase);
 
 
 /** @override */
-anychart.chartEditorModule.RadarPolarAxesPanelBase.prototype.createPanels = function() {
+chartEditor.RadarPolarAxesPanelBase.prototype.createPanels = function() {
   if (!this.isExcluded()) {
-    var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+    var model = /** @type {chartEditor.EditorModel} */(this.getModel());
     var settings = model.getModel()['chart']['settings'];
     var chartType = model.getModel()['chart']['type'];
 
@@ -51,10 +51,10 @@ anychart.chartEditorModule.RadarPolarAxesPanelBase.prototype.createPanels = func
       // Always create 0 axis panel
       var panel = this.xOrY === 'x' ?
           chartType === 'polar' ?
-              new anychart.chartEditorModule.settings.axes.Polar(model) :
-              new anychart.chartEditorModule.settings.axes.Radar(model)
+              new chartEditor.settings.axes.Polar(model) :
+              new chartEditor.settings.axes.Radar(model)
           :
-          new anychart.chartEditorModule.settings.axes.Radial(model);
+          new chartEditor.settings.axes.Radial(model);
       this.addPanelInstance(panel);
     }
   }

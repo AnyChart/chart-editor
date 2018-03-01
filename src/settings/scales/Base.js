@@ -1,40 +1,40 @@
-goog.provide('anychart.chartEditorModule.settings.scales.Base');
+goog.provide('chartEditor.settings.scales.Base');
 
-goog.require('anychart.chartEditorModule.SettingsPanel');
-goog.require('anychart.chartEditorModule.controls.select.ScaleType');
-goog.require('anychart.chartEditorModule.settings.scales.LinearColorSpecific');
-goog.require('anychart.chartEditorModule.settings.scales.LinearSpecific');
-goog.require('anychart.chartEditorModule.settings.scales.LogarithmicSpecific');
-goog.require('anychart.chartEditorModule.settings.scales.OrdinalColorSpecific');
-goog.require('anychart.ui.Component');
+goog.require('chartEditor.SettingsPanel');
+goog.require('chartEditor.controls.select.ScaleType');
+goog.require('chartEditor.settings.scales.LinearColorSpecific');
+goog.require('chartEditor.settings.scales.LinearSpecific');
+goog.require('chartEditor.settings.scales.LogarithmicSpecific');
+goog.require('chartEditor.settings.scales.OrdinalColorSpecific');
+goog.require('chartEditor.Component');
 
 
 /**
- * @param {anychart.chartEditorModule.EditorModel} model
+ * @param {chartEditor.EditorModel} model
  * @param {string|Array.<string>} types
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  * @constructor
- * @extends {anychart.chartEditorModule.SettingsPanel}
+ * @extends {chartEditor.SettingsPanel}
  */
-anychart.chartEditorModule.settings.scales.Base = function(model, types, opt_domHelper) {
-  anychart.chartEditorModule.settings.scales.Base.base(this, 'constructor', model, null, opt_domHelper);
+chartEditor.settings.scales.Base = function(model, types, opt_domHelper) {
+  chartEditor.settings.scales.Base.base(this, 'constructor', model, null, opt_domHelper);
 
   this.descriptors_ = {
     'linear': {
       name: 'Linear',
-      classFunc: anychart.chartEditorModule.settings.scales.LinearSpecific
+      classFunc: chartEditor.settings.scales.LinearSpecific
     },
     'log': {
       name: 'Logarithmic',
-      classFunc: anychart.chartEditorModule.settings.scales.LogarithmicSpecific
+      classFunc: chartEditor.settings.scales.LogarithmicSpecific
     },
     'linear-color': {
       name: 'Linear Color',
-      classFunc: anychart.chartEditorModule.settings.scales.LinearColorSpecific
+      classFunc: chartEditor.settings.scales.LinearColorSpecific
     },
     'ordinal-color': {
       name: 'Ordinal Color',
-      classFunc: anychart.chartEditorModule.settings.scales.OrdinalColorSpecific
+      classFunc: chartEditor.settings.scales.OrdinalColorSpecific
     }
   };
 
@@ -60,15 +60,15 @@ anychart.chartEditorModule.settings.scales.Base = function(model, types, opt_dom
 
   this.addClassName(goog.getCssName('anychart-settings-panel-scale-single'));
 };
-goog.inherits(anychart.chartEditorModule.settings.scales.Base, anychart.chartEditorModule.SettingsPanel);
+goog.inherits(chartEditor.settings.scales.Base, chartEditor.SettingsPanel);
 
 
 /** @override */
-anychart.chartEditorModule.settings.scales.Base.prototype.createDom = function() {
-  anychart.chartEditorModule.settings.scales.Base.base(this, 'createDom');
+chartEditor.settings.scales.Base.prototype.createDom = function() {
+  chartEditor.settings.scales.Base.base(this, 'createDom');
 
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
-  var type = new anychart.chartEditorModule.controls.select.ScaleType({
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
+  var type = new chartEditor.controls.select.ScaleType({
     label: 'Scale Type',
     caption: 'Choose scale type'
   });
@@ -77,7 +77,7 @@ anychart.chartEditorModule.settings.scales.Base.prototype.createDom = function()
   this.addChild(type, true);
   this.scaleTypeField_ = type;
 
-  var specificWrapper = new anychart.ui.Component();
+  var specificWrapper = new chartEditor.Component();
   this.addChild(specificWrapper, true);
   this.specificWrapper_ = specificWrapper;
 
@@ -86,10 +86,10 @@ anychart.chartEditorModule.settings.scales.Base.prototype.createDom = function()
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.settings.scales.Base.prototype.enterDocument = function() {
-  anychart.chartEditorModule.settings.scales.Base.base(this, 'enterDocument');
+chartEditor.settings.scales.Base.prototype.enterDocument = function() {
+  chartEditor.settings.scales.Base.base(this, 'enterDocument');
 
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
   var scale = model.getValue(this.getKey());
   if (scale && scale.type)
     this.updateSpecific(true);
@@ -100,11 +100,11 @@ anychart.chartEditorModule.settings.scales.Base.prototype.enterDocument = functi
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.settings.scales.Base.prototype.onModelChange = function(evt) {
-  anychart.chartEditorModule.settings.scales.Base.base(this, 'onModelChange', evt);
+chartEditor.settings.scales.Base.prototype.onModelChange = function(evt) {
+  chartEditor.settings.scales.Base.base(this, 'onModelChange', evt);
 
   if (!this.isExcluded()) {
-    var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+    var model = /** @type {chartEditor.EditorModel} */(this.getModel());
     var scale = model.getValue(this.getKey());
     var scaleType = scale ? scale.type : void 0;
 
@@ -122,13 +122,13 @@ anychart.chartEditorModule.settings.scales.Base.prototype.onModelChange = functi
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.settings.scales.Base.prototype.onChartDraw = function(evt) {
-  anychart.chartEditorModule.settings.scales.Base.base(this, 'onChartDraw', evt);
+chartEditor.settings.scales.Base.prototype.onChartDraw = function(evt) {
+  chartEditor.settings.scales.Base.base(this, 'onChartDraw', evt);
 
   if (!this.isExcluded()) {
     var target = evt.chart;
-    var stringKey = anychart.chartEditorModule.EditorModel.getStringKey(this.key);
-    this.scale_ = /** @type {anychart.colorScalesModule.Ordinal|anychart.colorScalesModule.Linear} */(anychart.bindingModule.exec(target, stringKey));
+    var stringKey = chartEditor.EditorModel.getStringKey(this.key);
+    this.scale_ = /** @type {anychart.colorScalesModule.Ordinal|anychart.colorScalesModule.Linear} */(chartEditor.binding.exec(target, stringKey));
 
     if (this.scale_ && this.scaleTypeField_) {
       var type = this.scale_.getType();
@@ -148,13 +148,13 @@ anychart.chartEditorModule.settings.scales.Base.prototype.onChartDraw = function
  * @param {boolean=} opt_force
  * @return {boolean}
  */
-anychart.chartEditorModule.settings.scales.Base.prototype.updateSpecific = function(opt_force) {
+chartEditor.settings.scales.Base.prototype.updateSpecific = function(opt_force) {
   var selectValue = this.scaleTypeField_.getValue();
   var newScaleType = selectValue && selectValue.value;
 
   if (newScaleType && (opt_force || newScaleType !== this.scaleType_)) {
     this.scaleType_ = newScaleType;
-    var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+    var model = /** @type {chartEditor.EditorModel} */(this.getModel());
 
     if (this.specificComponent_) {
       this.specificWrapper_.removeChild(this.specificComponent_, true);
@@ -176,7 +176,7 @@ anychart.chartEditorModule.settings.scales.Base.prototype.updateSpecific = funct
 
 
 /** @override */
-anychart.chartEditorModule.settings.scales.Base.prototype.disposeInternal = function() {
+chartEditor.settings.scales.Base.prototype.disposeInternal = function() {
   goog.disposeAll([
     this.scaleTypeField_,
     this.specificComponent_
@@ -185,5 +185,5 @@ anychart.chartEditorModule.settings.scales.Base.prototype.disposeInternal = func
   this.scaleTypeField_ = null;
   this.specificComponent_ = null;
 
-  anychart.chartEditorModule.settings.scales.Base.base(this, 'disposeInternal');
+  chartEditor.settings.scales.Base.base(this, 'disposeInternal');
 };

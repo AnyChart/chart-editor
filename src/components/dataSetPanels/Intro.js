@@ -1,21 +1,21 @@
-goog.provide('anychart.chartEditorModule.dataSetPanelList.Intro');
-goog.require('anychart.ui.Component');
+goog.provide('chartEditor.dataSetPanelList.Intro');
+goog.require('chartEditor.Component');
 
 
 /**
  * @constructor
- * @extends {anychart.ui.Component}
+ * @extends {chartEditor.Component}
  */
-anychart.chartEditorModule.dataSetPanelList.Intro = function () {
-    anychart.chartEditorModule.dataSetPanelList.Intro.base(this, 'constructor');
+chartEditor.dataSetPanelList.Intro = function () {
+    chartEditor.dataSetPanelList.Intro.base(this, 'constructor');
     this.addClassName('anychart-connected-data-sets-intro');
 };
-goog.inherits(anychart.chartEditorModule.dataSetPanelList.Intro, anychart.ui.Component);
+goog.inherits(chartEditor.dataSetPanelList.Intro, chartEditor.Component);
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.dataSetPanelList.Intro.prototype.createDom = function () {
-    anychart.chartEditorModule.dataSetPanelList.Intro.base(this, 'createDom');
+chartEditor.dataSetPanelList.Intro.prototype.createDom = function () {
+    chartEditor.dataSetPanelList.Intro.base(this, 'createDom');
 
     var element = this.getElement();
     var caption = goog.dom.createDom(

@@ -1,31 +1,31 @@
-goog.provide('anychart.chartEditorModule.UserData');
-goog.require('anychart.ui.Component');
+goog.provide('chartEditor.UserData');
+goog.require('chartEditor.Component');
 
 
 
 /**
  * @param {Array.<{id: string, type:string, caption: string, icon:string}>=} opt_model
  * @constructor
- * @extends {anychart.ui.Component}
+ * @extends {chartEditor.Component}
  */
-anychart.chartEditorModule.UserData = function(opt_model) {
-  anychart.chartEditorModule.UserData.base(this, 'constructor');
+chartEditor.UserData = function(opt_model) {
+  chartEditor.UserData.base(this, 'constructor');
   this.addClassName('anychart-user-data');
   this.setModel(opt_model);
 
   this.items_ = [];
 };
-goog.inherits(anychart.chartEditorModule.UserData, anychart.ui.Component);
+goog.inherits(chartEditor.UserData, chartEditor.Component);
 
 /** @enum {string} */
-anychart.chartEditorModule.UserData.EventType = {
+chartEditor.UserData.EventType = {
   ACTION: goog.events.getUniqueId('action')
 };
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.UserData.prototype.createDom = function() {
-  anychart.chartEditorModule.UserData.base(this, 'createDom');
+chartEditor.UserData.prototype.createDom = function() {
+  chartEditor.UserData.base(this, 'createDom');
   var element = this.getElement();
   var model = /** @type {Array.<{id: string, caption: string, icon:string}>} */(this.getModel());
 
@@ -65,8 +65,8 @@ anychart.chartEditorModule.UserData.prototype.createDom = function() {
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.UserData.prototype.enterDocument = function() {
-  anychart.chartEditorModule.UserData.base(this, 'enterDocument');
+chartEditor.UserData.prototype.enterDocument = function() {
+  chartEditor.UserData.base(this, 'enterDocument');
   for (var i = 0; i < this.items_.length; i++) {
     var itemElement = this.items_[i];
     this.getHandler().listen(itemElement, goog.events.EventType.CLICK, this.onItemClick_);
@@ -78,18 +78,18 @@ anychart.chartEditorModule.UserData.prototype.enterDocument = function() {
  * @param {Object} e
  * @private
  */
-anychart.chartEditorModule.UserData.prototype.onItemClick_ = function(e) {
+chartEditor.UserData.prototype.onItemClick_ = function(e) {
   e.preventDefault();
   e.stopPropagation();
   this.dispatchEvent({
-    type: anychart.chartEditorModule.UserData.EventType.ACTION,
+    type: chartEditor.UserData.EventType.ACTION,
     value: e.currentTarget.getAttribute('data-value')
   });
 };
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.UserData.prototype.disposeInternal = function () {
+chartEditor.UserData.prototype.disposeInternal = function () {
   this.items_.length = 0;
-  anychart.chartEditorModule.UserData.base(this, 'disposeInternal');
+  chartEditor.UserData.base(this, 'disposeInternal');
 };

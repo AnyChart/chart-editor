@@ -1,8 +1,8 @@
-goog.provide('anychart.chartEditorModule.steps.Base');
+goog.provide('chartEditor.steps.Base');
 
-goog.require('anychart.chartEditorModule.Component');
-goog.require('anychart.ui.button.Primary');
-goog.require('anychart.ui.button.Secondary');
+goog.require('chartEditor.Component');
+goog.require('chartEditor.ui.button.Primary');
+goog.require('chartEditor.ui.button.Secondary');
 goog.require('goog.a11y.aria');
 goog.require('goog.a11y.aria.Role');
 goog.require('goog.dom');
@@ -19,10 +19,10 @@ goog.forwardDeclare('anychart.data.Set');
  * @param {number} index Step index
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
  * @constructor
- * @extends {anychart.chartEditorModule.Component}
+ * @extends {chartEditor.Component}
  */
-anychart.chartEditorModule.steps.Base = function(index, opt_domHelper) {
-  anychart.chartEditorModule.steps.Base.base(this, 'constructor', opt_domHelper);
+chartEditor.steps.Base = function(index, opt_domHelper) {
+  chartEditor.steps.Base.base(this, 'constructor', opt_domHelper);
 
   /**
    * @type {string}
@@ -49,22 +49,22 @@ anychart.chartEditorModule.steps.Base = function(index, opt_domHelper) {
    */
   this.index_ = index;
 };
-goog.inherits(anychart.chartEditorModule.steps.Base, anychart.chartEditorModule.Component);
+goog.inherits(chartEditor.steps.Base, chartEditor.Component);
 
 
 /**
  * CSS class name.
  * @type {string}
  */
-anychart.chartEditorModule.steps.Base.CSS_CLASS = goog.getCssName('anychart-chart-editor-step');
+chartEditor.steps.Base.CSS_CLASS = goog.getCssName('anychart-chart-editor-step');
 
 
 /**
  * Getter/setter for step name.
  * @param {string=} opt_value
- * @return {string|anychart.chartEditorModule.steps.Base}
+ * @return {string|chartEditor.steps.Base}
  */
-anychart.chartEditorModule.steps.Base.prototype.name = function(opt_value) {
+chartEditor.steps.Base.prototype.name = function(opt_value) {
   if (opt_value) {
     this.name_ = opt_value;
     return this;
@@ -76,9 +76,9 @@ anychart.chartEditorModule.steps.Base.prototype.name = function(opt_value) {
 /**
  * Getter/setter for step title.
  * @param {string=} opt_value
- * @return {string|anychart.chartEditorModule.steps.Base}
+ * @return {string|chartEditor.steps.Base}
  */
-anychart.chartEditorModule.steps.Base.prototype.title = function(opt_value) {
+chartEditor.steps.Base.prototype.title = function(opt_value) {
   if (opt_value) {
     this.title_ = opt_value;
     return this;
@@ -90,15 +90,15 @@ anychart.chartEditorModule.steps.Base.prototype.title = function(opt_value) {
 /**
  * @returns {number}
  */
-anychart.chartEditorModule.steps.Base.prototype.getIndex = function() {
+chartEditor.steps.Base.prototype.getIndex = function() {
   return this.index_;
 };
 
 
 /** @override */
-anychart.chartEditorModule.steps.Base.prototype.createDom = function() {
+chartEditor.steps.Base.prototype.createDom = function() {
   goog.base(this, 'createDom');
 
   var element = /** @type {Element} */(this.getElement());
-  goog.dom.classlist.add(element, anychart.chartEditorModule.steps.Base.CSS_CLASS);
+  goog.dom.classlist.add(element, chartEditor.steps.Base.CSS_CLASS);
 };

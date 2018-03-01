@@ -1,19 +1,19 @@
-goog.provide('anychart.chartEditorModule.SettingsPanel');
+goog.provide('chartEditor.SettingsPanel');
 
-goog.require('anychart.chartEditorModule.ComponentWithKey');
-goog.require('anychart.chartEditorModule.checkbox.Base');
-goog.require('anychart.ui.button.Base');
+goog.require('chartEditor.ComponentWithKey');
+goog.require('chartEditor.checkbox.Base');
+goog.require('chartEditor.ui.button.Base');
 
 
 /**
- * @param {anychart.chartEditorModule.EditorModel} model
+ * @param {chartEditor.EditorModel} model
  * @param {?string=} opt_name
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  * @constructor
- * @extends {anychart.chartEditorModule.ComponentWithKey}
+ * @extends {chartEditor.ComponentWithKey}
  */
-anychart.chartEditorModule.SettingsPanel = function(model, opt_name, opt_domHelper) {
-  anychart.chartEditorModule.SettingsPanel.base(this, 'constructor', model, opt_domHelper);
+chartEditor.SettingsPanel = function(model, opt_name, opt_domHelper) {
+  chartEditor.SettingsPanel.base(this, 'constructor', model, opt_domHelper);
 
   /**
    * @type {?string|undefined}
@@ -47,7 +47,7 @@ anychart.chartEditorModule.SettingsPanel = function(model, opt_name, opt_domHelp
   this.allowRemove_ = false;
 
   /**
-   * @type {Array.<anychart.chartEditorModule.SettingsPanel|anychart.chartEditorModule.controls.LabeledControl|anychart.chartEditorModule.checkbox.Base|anychart.chartEditorModule.controls.select.Base|anychart.chartEditorModule.comboBox.Base|anychart.chartEditorModule.colorPicker.Base|anychart.chartEditorModule.input.Base>}
+   * @type {Array.<chartEditor.SettingsPanel|chartEditor.controls.LabeledControl|chartEditor.checkbox.Base|chartEditor.controls.select.Base|chartEditor.comboBox.Base|chartEditor.colorPicker.Base|chartEditor.input.Base>}
    * @private
    */
   this.childControls_ = [];
@@ -68,19 +68,19 @@ anychart.chartEditorModule.SettingsPanel = function(model, opt_name, opt_domHelp
 
   this.addClassName(goog.getCssName('anychart-settings-panel'));
 };
-goog.inherits(anychart.chartEditorModule.SettingsPanel, anychart.chartEditorModule.ComponentWithKey);
+goog.inherits(chartEditor.SettingsPanel, chartEditor.ComponentWithKey);
 
 
 /**
  * @return {boolean} Whether the title settings is enabled.
  */
-anychart.chartEditorModule.SettingsPanel.prototype.isEnabled = function() {
+chartEditor.SettingsPanel.prototype.isEnabled = function() {
   return this.enabled;
 };
 
 
 /** @return {string} */
-anychart.chartEditorModule.SettingsPanel.prototype.getStringId = function() {
+chartEditor.SettingsPanel.prototype.getStringId = function() {
   return this.stringId;
 };
 
@@ -88,22 +88,22 @@ anychart.chartEditorModule.SettingsPanel.prototype.getStringId = function() {
 /**
  * @return {?string|undefined}
  */
-anychart.chartEditorModule.SettingsPanel.prototype.getName = function() {
+chartEditor.SettingsPanel.prototype.getName = function() {
   return this.name;
 };
 
 
 /** @param {?string} value */
-anychart.chartEditorModule.SettingsPanel.prototype.setName = function(value) {
+chartEditor.SettingsPanel.prototype.setName = function(value) {
   this.name = value;
 };
 
 
 /**
- * @param {anychart.chartEditorModule.EditorModel.Key=} opt_key
- * @return {anychart.chartEditorModule.EditorModel.Key|anychart.chartEditorModule.SettingsPanel}
+ * @param {chartEditor.EditorModel.Key=} opt_key
+ * @return {chartEditor.EditorModel.Key|chartEditor.SettingsPanel}
  */
-anychart.chartEditorModule.SettingsPanel.prototype.enabledKey = function(opt_key) {
+chartEditor.SettingsPanel.prototype.enabledKey = function(opt_key) {
   if (goog.isDef(opt_key)) {
     this.enabledKey_ = opt_key;
     return this;
@@ -116,17 +116,17 @@ anychart.chartEditorModule.SettingsPanel.prototype.enabledKey = function(opt_key
  * @type {boolean}
  * @private
  */
-anychart.chartEditorModule.SettingsPanel.prototype.allowEnabled_ = true;
+chartEditor.SettingsPanel.prototype.allowEnabled_ = true;
 
 
 /** @param {boolean} value */
-anychart.chartEditorModule.SettingsPanel.prototype.allowEnabled = function(value) {
+chartEditor.SettingsPanel.prototype.allowEnabled = function(value) {
   this.allowEnabled_ = value;
 };
 
 
 /** @param {boolean} value */
-anychart.chartEditorModule.SettingsPanel.prototype.allowRemove = function(value) {
+chartEditor.SettingsPanel.prototype.allowRemove = function(value) {
   this.allowRemove_ = value;
   if (this.removeButton) {
     goog.style.setElementShown(this.removeButton, this.allowRemove_);
@@ -139,21 +139,21 @@ anychart.chartEditorModule.SettingsPanel.prototype.allowRemove = function(value)
  * @type {Element}
  * @private
  */
-anychart.chartEditorModule.SettingsPanel.prototype.enabledButtonContainer_ = null;
+chartEditor.SettingsPanel.prototype.enabledButtonContainer_ = null;
 
 
 /**
  * Set container for enabled button.
  * @param {Element} enabledButtonContainer
  */
-anychart.chartEditorModule.SettingsPanel.prototype.setEnabledButtonContainer = function(enabledButtonContainer) {
+chartEditor.SettingsPanel.prototype.setEnabledButtonContainer = function(enabledButtonContainer) {
   this.enabledButtonContainer_ = enabledButtonContainer;
 };
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.SettingsPanel.prototype.createDom = function() {
-  anychart.chartEditorModule.SettingsPanel.base(this, 'createDom');
+chartEditor.SettingsPanel.prototype.createDom = function() {
+  chartEditor.SettingsPanel.base(this, 'createDom');
 
   var element = /** @type {Element} */(this.getElement());
 
@@ -173,8 +173,8 @@ anychart.chartEditorModule.SettingsPanel.prototype.createDom = function() {
   }
 
   if (this.canBeEnabled()) {
-    var enableContentCheckbox = new anychart.chartEditorModule.checkbox.Base();
-    var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+    var enableContentCheckbox = new chartEditor.checkbox.Base();
+    var model = /** @type {chartEditor.EditorModel} */(this.getModel());
     if (!this.enabledKey_) this.enabledKey(this.genKey('enabled()'));
     enableContentCheckbox.init(model, this.enabledKey_);
 
@@ -202,20 +202,20 @@ anychart.chartEditorModule.SettingsPanel.prototype.createDom = function() {
  * Returns the DOM element of tom bar.
  * @return {Element}
  */
-anychart.chartEditorModule.SettingsPanel.prototype.getTopElement = function() {
+chartEditor.SettingsPanel.prototype.getTopElement = function() {
   return this.topEl;
 };
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.SettingsPanel.prototype.getContentElement = function() {
+chartEditor.SettingsPanel.prototype.getContentElement = function() {
   return this.contentEl;
 };
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.SettingsPanel.prototype.enterDocument = function() {
-  anychart.chartEditorModule.SettingsPanel.base(this, 'enterDocument');
+chartEditor.SettingsPanel.prototype.enterDocument = function() {
+  chartEditor.SettingsPanel.base(this, 'enterDocument');
 
   if (this.isExcluded()) return;
 
@@ -228,10 +228,10 @@ anychart.chartEditorModule.SettingsPanel.prototype.enterDocument = function() {
 
 
 /** @override */
-anychart.chartEditorModule.SettingsPanel.prototype.exitDocument = function() {
+chartEditor.SettingsPanel.prototype.exitDocument = function() {
   if (this.removeButton)
     goog.events.unlisten(this.removeButton, goog.events.EventType.CLICK, this.onRemoveAction, false, this);
-  anychart.chartEditorModule.SettingsPanel.base(this, 'exitDocument');
+  chartEditor.SettingsPanel.base(this, 'exitDocument');
 };
 
 
@@ -239,24 +239,24 @@ anychart.chartEditorModule.SettingsPanel.prototype.exitDocument = function() {
  * @param {Object} evt
  * @protected
  */
-anychart.chartEditorModule.SettingsPanel.prototype.onRemoveAction = function(evt) {
+chartEditor.SettingsPanel.prototype.onRemoveAction = function(evt) {
   this.dispatchEvent({
-    type: anychart.chartEditorModule.events.EventType.PANEL_CLOSE
+    type: chartEditor.events.EventType.PANEL_CLOSE
   });
 };
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.SettingsPanel.prototype.onModelChange = function(evt) {
+chartEditor.SettingsPanel.prototype.onModelChange = function(evt) {
   if (!this.isExcluded()) {
-    anychart.chartEditorModule.SettingsPanel.base(this, 'onModelChange', evt);
+    chartEditor.SettingsPanel.base(this, 'onModelChange', evt);
   }
 };
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.SettingsPanel.prototype.onChartDraw = function(evt) {
-  anychart.chartEditorModule.SettingsPanel.base(this, 'onChartDraw', evt);
+chartEditor.SettingsPanel.prototype.onChartDraw = function(evt) {
+  chartEditor.SettingsPanel.base(this, 'onChartDraw', evt);
 
   if (!this.isExcluded()) {
     if (evt.rebuild && this.enableContentCheckbox && this.canBeEnabled()) {
@@ -278,7 +278,7 @@ anychart.chartEditorModule.SettingsPanel.prototype.onChartDraw = function(evt) {
  *
  * @return {boolean}
  */
-anychart.chartEditorModule.SettingsPanel.prototype.canBeEnabled = function() {
+chartEditor.SettingsPanel.prototype.canBeEnabled = function() {
   return this.allowEnabled_ && Boolean(this.key.length);
 };
 
@@ -289,7 +289,7 @@ anychart.chartEditorModule.SettingsPanel.prototype.canBeEnabled = function() {
  *     all group controls.
  * @protected
  */
-anychart.chartEditorModule.SettingsPanel.prototype.setEnabled = function(enabled) {
+chartEditor.SettingsPanel.prototype.setEnabled = function(enabled) {
   this.enabled = enabled;
   if (!this.canBeEnabled())
     this.enabledContent = this.enabled;
@@ -308,7 +308,7 @@ anychart.chartEditorModule.SettingsPanel.prototype.setEnabled = function(enabled
  *     group content controls.
  * @protected
  */
-anychart.chartEditorModule.SettingsPanel.prototype.setContentEnabled = function(enabled) {
+chartEditor.SettingsPanel.prototype.setContentEnabled = function(enabled) {
   this.enabledContent = this.enabled && enabled;
 
   // this should be to get child.setEnabled() working
@@ -339,12 +339,12 @@ anychart.chartEditorModule.SettingsPanel.prototype.setContentEnabled = function(
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.SettingsPanel.prototype.setKey = function(key) {
-  anychart.chartEditorModule.SettingsPanel.base(this, 'setKey', key);
+chartEditor.SettingsPanel.prototype.setKey = function(key) {
+  chartEditor.SettingsPanel.base(this, 'setKey', key);
 
   if (this.enableContentCheckbox) {
     if (!this.enabledKey_) this.enabledKey(this.genKey('enabled()'));
-    var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+    var model = /** @type {chartEditor.EditorModel} */(this.getModel());
     this.enableContentCheckbox.init(model, this.enabledKey_);
   }
 };
@@ -354,15 +354,15 @@ anychart.chartEditorModule.SettingsPanel.prototype.setKey = function(key) {
  * Update model keys.
  * todo: find out if this method is necessary
  */
-anychart.chartEditorModule.SettingsPanel.prototype.updateKeys = function() {
+chartEditor.SettingsPanel.prototype.updateKeys = function() {
   //if (this.isExcluded()) return;
 };
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.SettingsPanel.prototype.exclude = function(value) {
+chartEditor.SettingsPanel.prototype.exclude = function(value) {
   var dirty = this.excluded !== value;
-  anychart.chartEditorModule.SettingsPanel.base(this, 'exclude', value);
+  chartEditor.SettingsPanel.base(this, 'exclude', value);
   if (dirty) this.updateKeys();
 };
 
@@ -371,22 +371,22 @@ anychart.chartEditorModule.SettingsPanel.prototype.exclude = function(value) {
  * Registers label to disable and dispose
  * @param {?Element} labelElement
  */
-anychart.chartEditorModule.SettingsPanel.prototype.registerLabel = function(labelElement) {
+chartEditor.SettingsPanel.prototype.registerLabel = function(labelElement) {
   if (!labelElement) return;
   this.labels.push(labelElement);
 };
 
 
 /**
- * @param {anychart.chartEditorModule.SettingsPanel|anychart.chartEditorModule.controls.LabeledControl|anychart.chartEditorModule.checkbox.Base|anychart.chartEditorModule.controls.select.Base|anychart.chartEditorModule.comboBox.Base|anychart.chartEditorModule.colorPicker.Base|anychart.chartEditorModule.input.Base} control
+ * @param {chartEditor.SettingsPanel|chartEditor.controls.LabeledControl|chartEditor.checkbox.Base|chartEditor.controls.select.Base|chartEditor.comboBox.Base|chartEditor.colorPicker.Base|chartEditor.input.Base} control
  * @param {number=} opt_index
  * @return {boolean} true if control was added.
  */
-anychart.chartEditorModule.SettingsPanel.prototype.addChildControl = function(control, opt_index) {
+chartEditor.SettingsPanel.prototype.addChildControl = function(control, opt_index) {
   var addControl = !this.skippedSettings.length;
   
   if (this.skippedSettings.length) {
-    var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+    var model = /** @type {chartEditor.EditorModel} */(this.getModel());
     var controlKey = model.getStringKey(control.getKey(), true);
     addControl = goog.array.indexOf(this.skippedSettings, controlKey) === -1;
   }
@@ -402,7 +402,7 @@ anychart.chartEditorModule.SettingsPanel.prototype.addChildControl = function(co
 
 
 /** @protected */
-anychart.chartEditorModule.SettingsPanel.prototype.addContentSeparator = function() {
+chartEditor.SettingsPanel.prototype.addContentSeparator = function() {
   goog.dom.appendChild(this.getContentElement(), goog.dom.createDom(
       goog.dom.TagName.DIV,
       goog.getCssName('anychart-chart-editor-settings-item-separator-gaps')));
@@ -413,18 +413,18 @@ anychart.chartEditorModule.SettingsPanel.prototype.addContentSeparator = functio
  * Add control keys that should be skipped.
  * @param {string|Array.<string>} value Keys to skip.
  */
-anychart.chartEditorModule.SettingsPanel.prototype.skipSettings = function(value) {
+chartEditor.SettingsPanel.prototype.skipSettings = function(value) {
   value = goog.isArray(value) ? value : [value];
   this.skippedSettings = goog.array.concat(this.skippedSettings, value);
 };
 
 
 /** @override */
-anychart.chartEditorModule.SettingsPanel.prototype.disposeInternal = function() {
+chartEditor.SettingsPanel.prototype.disposeInternal = function() {
   goog.disposeAll(this.childControls_);
   this.childControls_.length = 0;
 
   this.labels.length = 0;
 
-  anychart.chartEditorModule.SettingsPanel.base(this, 'disposeInternal');
+  chartEditor.SettingsPanel.base(this, 'disposeInternal');
 };

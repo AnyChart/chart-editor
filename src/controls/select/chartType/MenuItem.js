@@ -1,5 +1,5 @@
-goog.provide('anychart.chartEditorModule.controls.select.MenuItem');
-goog.provide('anychart.chartEditorModule.controls.select.MenuItemRenderer');
+goog.provide('chartEditor.controls.select.MenuItem');
+goog.provide('chartEditor.controls.select.MenuItemRenderer');
 goog.require('goog.ui.MenuItem');
 goog.require('goog.ui.MenuItemRenderer');
 
@@ -11,28 +11,28 @@ goog.require('goog.ui.MenuItemRenderer');
  * @constructor
  * @extends {goog.ui.MenuItem}
  */
-anychart.chartEditorModule.controls.select.MenuItem = function(opt_model, opt_domHelper, opt_renderer) {
+chartEditor.controls.select.MenuItem = function(opt_model, opt_domHelper, opt_renderer) {
   goog.ui.MenuItem.call(
       this,
       opt_model ? opt_model.caption : '',
       opt_model,
       opt_domHelper,
-      opt_renderer || anychart.chartEditorModule.controls.select.MenuItemRenderer.getInstance()
+      opt_renderer || chartEditor.controls.select.MenuItemRenderer.getInstance()
   );
-  //this.addClassName(anychart.chartEditorModule.controls.select.MenuItem.CSS_CLASS);
+  //this.addClassName(chartEditor.controls.select.MenuItem.CSS_CLASS);
 };
-goog.inherits(anychart.chartEditorModule.controls.select.MenuItem, goog.ui.MenuItem);
+goog.inherits(chartEditor.controls.select.MenuItem, goog.ui.MenuItem);
 
 
 /**
  * @constructor
  * @extends {goog.ui.MenuItemRenderer}
  */
-anychart.chartEditorModule.controls.select.MenuItemRenderer = function() {
+chartEditor.controls.select.MenuItemRenderer = function() {
   goog.ui.MenuItemRenderer.call(this);
 };
-goog.inherits(anychart.chartEditorModule.controls.select.MenuItemRenderer, goog.ui.MenuItemRenderer);
-goog.addSingletonGetter(anychart.chartEditorModule.controls.select.MenuItemRenderer);
+goog.inherits(chartEditor.controls.select.MenuItemRenderer, goog.ui.MenuItemRenderer);
+goog.addSingletonGetter(chartEditor.controls.select.MenuItemRenderer);
 
 
 /**
@@ -42,8 +42,8 @@ goog.addSingletonGetter(anychart.chartEditorModule.controls.select.MenuItemRende
  * @return {Element} Root element for the item.
  * @override
  */
-anychart.chartEditorModule.controls.select.MenuItemRenderer.prototype.createDom = function(item) {
-  var element = anychart.chartEditorModule.controls.select.MenuItemRenderer.base(this, 'createDom', item);
+chartEditor.controls.select.MenuItemRenderer.prototype.createDom = function(item) {
+  var element = chartEditor.controls.select.MenuItemRenderer.base(this, 'createDom', item);
 
   //var content = this.getContentElement(element);
 
@@ -55,6 +55,6 @@ anychart.chartEditorModule.controls.select.MenuItemRenderer.prototype.createDom 
 
 
 // /** @inheritDoc */
-// anychart.chartEditorModule.controls.select.MenuItemRenderer.prototype.getCssClass = function() {
-//   return anychart.chartEditorModule.controls.select.MenuItem.CSS_CLASS;
+// chartEditor.controls.select.MenuItemRenderer.prototype.getCssClass = function() {
+//   return chartEditor.controls.select.MenuItem.CSS_CLASS;
 // };

@@ -1,7 +1,7 @@
-goog.provide('anychart.chartEditorModule.controls.select.FontFamily');
+goog.provide('chartEditor.controls.select.FontFamily');
 
-goog.require('anychart.chartEditorModule.controls.select.DataFieldSelect');
-goog.require('anychart.chartEditorModule.controls.select.DataFieldSelectMenuItem');
+goog.require('chartEditor.controls.select.DataFieldSelect');
+goog.require('chartEditor.controls.select.DataFieldSelectMenuItem');
 
 
 
@@ -13,11 +13,11 @@ goog.require('anychart.chartEditorModule.controls.select.DataFieldSelectMenuItem
  * @param {!goog.ui.MenuRenderer=} opt_menuRenderer
  * @param {string=} opt_menuAdditionalClass
  * @constructor
- * @extends {anychart.chartEditorModule.controls.select.DataFieldSelect}
+ * @extends {chartEditor.controls.select.DataFieldSelect}
  */
-anychart.chartEditorModule.controls.select.FontFamily = function(opt_model, opt_menu, opt_renderer, opt_domHelper, opt_menuRenderer, opt_menuAdditionalClass) {
+chartEditor.controls.select.FontFamily = function(opt_model, opt_menu, opt_renderer, opt_domHelper, opt_menuRenderer, opt_menuAdditionalClass) {
   opt_model = goog.isDef(opt_model) ? opt_model : 'font family';
-  anychart.chartEditorModule.controls.select.FontFamily.base(this, 'constructor', opt_model, opt_menu, opt_renderer, opt_domHelper, opt_menuRenderer, opt_menuAdditionalClass);
+  chartEditor.controls.select.FontFamily.base(this, 'constructor', opt_model, opt_menu, opt_renderer, opt_domHelper, opt_menuRenderer, opt_menuAdditionalClass);
 
   var fonts = {
     'Arial': 'Arial, Helvetica, sans-serif',
@@ -33,11 +33,11 @@ anychart.chartEditorModule.controls.select.FontFamily = function(opt_model, opt_
   };
 
   for (var key in fonts) {
-    this.addItem(new anychart.chartEditorModule.controls.select.DataFieldSelectMenuItem({
+    this.addItem(new chartEditor.controls.select.DataFieldSelectMenuItem({
       caption: key,
       value: fonts[key]
     }));
   }
 
 };
-goog.inherits(anychart.chartEditorModule.controls.select.FontFamily, anychart.chartEditorModule.controls.select.DataFieldSelect);
+goog.inherits(chartEditor.controls.select.FontFamily, chartEditor.controls.select.DataFieldSelect);

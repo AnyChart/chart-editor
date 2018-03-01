@@ -1,4 +1,4 @@
-goog.provide('anychart.chartEditorModule.colorPicker.Renderer');
+goog.provide('chartEditor.colorPicker.Renderer');
 
 goog.require('goog.asserts');
 goog.require('goog.color');
@@ -10,15 +10,15 @@ goog.require('goog.userAgent');
 
 
 /**
- * Renderer for {@link anychart.chartEditorModule.colorPicker.Base}s.
+ * Renderer for {@link chartEditor.colorPicker.Base}s.
  * @constructor
  * @extends {goog.ui.FlatMenuButtonRenderer}
  */
-anychart.chartEditorModule.colorPicker.Renderer = function() {
-  anychart.chartEditorModule.colorPicker.Renderer.base(this, 'constructor');
+chartEditor.colorPicker.Renderer = function() {
+  chartEditor.colorPicker.Renderer.base(this, 'constructor');
 };
-goog.inherits(anychart.chartEditorModule.colorPicker.Renderer, goog.ui.FlatMenuButtonRenderer);
-goog.addSingletonGetter(anychart.chartEditorModule.colorPicker.Renderer);
+goog.inherits(chartEditor.colorPicker.Renderer, goog.ui.FlatMenuButtonRenderer);
+goog.addSingletonGetter(chartEditor.colorPicker.Renderer);
 
 
 /**
@@ -26,7 +26,7 @@ goog.addSingletonGetter(anychart.chartEditorModule.colorPicker.Renderer);
  * by this renderer.
  * @type {string}
  */
-anychart.chartEditorModule.colorPicker.Renderer.CSS_CLASS =
+chartEditor.colorPicker.Renderer.CSS_CLASS =
     goog.getCssName('anychart-color-menu-button');
 
 
@@ -46,9 +46,9 @@ anychart.chartEditorModule.colorPicker.Renderer.CSS_CLASS =
  * @return {Element} Caption element.
  * @override
  */
-anychart.chartEditorModule.colorPicker.Renderer.prototype.createCaption = function(content, dom) {
-  return anychart.chartEditorModule.colorPicker.Renderer.superClass_.createCaption.call(this,
-      anychart.chartEditorModule.colorPicker.Renderer.wrapCaption(content, dom), dom);
+chartEditor.colorPicker.Renderer.prototype.createCaption = function(content, dom) {
+  return chartEditor.colorPicker.Renderer.superClass_.createCaption.call(this,
+      chartEditor.colorPicker.Renderer.wrapCaption(content, dom), dom);
 };
 
 
@@ -58,9 +58,9 @@ anychart.chartEditorModule.colorPicker.Renderer.prototype.createCaption = functi
  * @param {goog.dom.DomHelper} dom DOM helper, used for document interaction.
  * @return {!Element} Caption element.
  */
-anychart.chartEditorModule.colorPicker.Renderer.wrapCaption = function(content, dom) {
+chartEditor.colorPicker.Renderer.wrapCaption = function(content, dom) {
   return dom.createDom(goog.dom.TagName.DIV,
-      goog.getCssName(anychart.chartEditorModule.colorPicker.Renderer.CSS_CLASS, 'indicator'),
+      goog.getCssName(chartEditor.colorPicker.Renderer.CSS_CLASS, 'indicator'),
       content);
 };
 
@@ -73,9 +73,9 @@ anychart.chartEditorModule.colorPicker.Renderer.wrapCaption = function(content, 
  * @param {*} value New value; assumed to be a color spec string.
  * @override
  */
-anychart.chartEditorModule.colorPicker.Renderer.prototype.setValue = function(element, value) {
+chartEditor.colorPicker.Renderer.prototype.setValue = function(element, value) {
   if (element) {
-    anychart.chartEditorModule.colorPicker.Renderer.setCaptionValue(
+    chartEditor.colorPicker.Renderer.setCaptionValue(
         this.getContentElement(element), value);
   }
 };
@@ -87,7 +87,7 @@ anychart.chartEditorModule.colorPicker.Renderer.prototype.setValue = function(el
  * @param {Element} caption A content element of a control.
  * @param {*} value New value; assumed to be a color spec string.
  */
-anychart.chartEditorModule.colorPicker.Renderer.setCaptionValue = function(caption, value) {
+chartEditor.colorPicker.Renderer.setCaptionValue = function(caption, value) {
   // Assume that the caption's first child is the indicator.
   if (caption && caption.firstChild) {
     // Normalize the value to a hex color spec or null (otherwise setting
@@ -117,13 +117,13 @@ anychart.chartEditorModule.colorPicker.Renderer.setCaptionValue = function(capti
  *     initialized as it enters the document.
  * @override
  */
-anychart.chartEditorModule.colorPicker.Renderer.prototype.initializeDom = function(button) {
+chartEditor.colorPicker.Renderer.prototype.initializeDom = function(button) {
   var buttonElement = button.getElement();
   goog.asserts.assert(buttonElement);
   this.setValue(buttonElement, button.getValue());
   goog.dom.classlist.add(buttonElement,
-      anychart.chartEditorModule.colorPicker.Renderer.CSS_CLASS);
-  anychart.chartEditorModule.colorPicker.Renderer.superClass_.initializeDom.call(this,
+      chartEditor.colorPicker.Renderer.CSS_CLASS);
+  chartEditor.colorPicker.Renderer.superClass_.initializeDom.call(this,
       button);
 };
 

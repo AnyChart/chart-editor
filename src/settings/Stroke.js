@@ -1,20 +1,20 @@
-goog.provide('anychart.chartEditorModule.settings.Stroke');
+goog.provide('chartEditor.settings.Stroke');
 
-goog.require('anychart.chartEditorModule.SettingsPanel');
-goog.require('anychart.chartEditorModule.colorPicker.Base');
-goog.require('anychart.chartEditorModule.comboBox.Base');
-goog.require('anychart.chartEditorModule.controls.select.DataFieldSelect');
+goog.require('chartEditor.SettingsPanel');
+goog.require('chartEditor.colorPicker.Base');
+goog.require('chartEditor.comboBox.Base');
+goog.require('chartEditor.controls.select.DataFieldSelect');
 
 
 /**
- * @param {anychart.chartEditorModule.EditorModel} model
+ * @param {chartEditor.EditorModel} model
  * @param {?string=} opt_name
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  * @constructor
- * @extends {anychart.chartEditorModule.SettingsPanel}
+ * @extends {chartEditor.SettingsPanel}
  */
-anychart.chartEditorModule.settings.Stroke = function(model, opt_name, opt_domHelper) {
-  anychart.chartEditorModule.settings.Stroke.base(this, 'constructor', model, null, opt_domHelper);
+chartEditor.settings.Stroke = function(model, opt_name, opt_domHelper) {
+  chartEditor.settings.Stroke.base(this, 'constructor', model, null, opt_domHelper);
 
   this.name = goog.isDef(opt_name) ? opt_name : 'Stroke';
 
@@ -22,22 +22,22 @@ anychart.chartEditorModule.settings.Stroke = function(model, opt_name, opt_domHe
 
   this.addClassName(goog.getCssName('anychart-settings-stroke'));
 };
-goog.inherits(anychart.chartEditorModule.settings.Stroke, anychart.chartEditorModule.SettingsPanel);
+goog.inherits(chartEditor.settings.Stroke, chartEditor.SettingsPanel);
 
 
 /** @override */
-anychart.chartEditorModule.settings.Stroke.prototype.createDom = function() {
-  anychart.chartEditorModule.settings.Stroke.base(this, 'createDom');
+chartEditor.settings.Stroke.prototype.createDom = function() {
+  chartEditor.settings.Stroke.base(this, 'createDom');
 
   var element = this.getElement();
   var content = this.getContentElement();
 
-  var color = new anychart.chartEditorModule.colorPicker.Base();
+  var color = new chartEditor.colorPicker.Base();
   color.addClassName(goog.getCssName('anychart-stroke-color'));
   this.addChild(color, true);
   this.color_ = color;
 
-  var thickness = new anychart.chartEditorModule.comboBox.Base();
+  var thickness = new chartEditor.comboBox.Base();
   thickness.setOptions([0, 1, 2, 3, 4, 5]);
   thickness.setRange(0, 10);
 
@@ -45,7 +45,7 @@ anychart.chartEditorModule.settings.Stroke.prototype.createDom = function() {
   goog.dom.classlist.add(thickness.getElement(), goog.getCssName('anychart-stroke-thickness'));
   this.thickness_ = thickness;
 
-  var dash = new anychart.chartEditorModule.controls.select.DataFieldSelect('solid');
+  var dash = new chartEditor.controls.select.DataFieldSelect('solid');
   dash.setOptions([
     {value: '0', icon: 'ac ac-position-bottom'},
     {value: '5 5', icon: 'ac ac-position-top'},
@@ -65,8 +65,8 @@ anychart.chartEditorModule.settings.Stroke.prototype.createDom = function() {
 
 
 /** @override */
-anychart.chartEditorModule.settings.Stroke.prototype.enterDocument = function() {
-  anychart.chartEditorModule.settings.Stroke.base(this, 'enterDocument');
+chartEditor.settings.Stroke.prototype.enterDocument = function() {
+  chartEditor.settings.Stroke.base(this, 'enterDocument');
 
   var handler = this.getHandler();
   handler.listen(this.color_, goog.ui.Component.EventType.ACTION, this.onChange);
@@ -78,7 +78,7 @@ anychart.chartEditorModule.settings.Stroke.prototype.enterDocument = function() 
 /**
  * Common handler function for every control in component. Sets value for stroke() key as Object.
  */
-anychart.chartEditorModule.settings.Stroke.prototype.onChange = function() {
+chartEditor.settings.Stroke.prototype.onChange = function() {
   if (this.noDispatch) return;
 
   var value = {};
@@ -95,7 +95,7 @@ anychart.chartEditorModule.settings.Stroke.prototype.onChange = function() {
     value['dash'] = dashValue.value;
 
   if (colorValue || thicknessValue || dashValue) {
-    var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+    var model = /** @type {chartEditor.EditorModel} */(this.getModel());
     if (model) {
       model.setValue(this.key, value);
       this.dispatchEvent(goog.ui.Component.EventType.ACTION);
@@ -105,8 +105,8 @@ anychart.chartEditorModule.settings.Stroke.prototype.onChange = function() {
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.settings.Stroke.prototype.onChartDraw = function(evt) {
-  anychart.chartEditorModule.settings.Stroke.base(this, 'onChartDraw', evt);
+chartEditor.settings.Stroke.prototype.onChartDraw = function(evt) {
+  chartEditor.settings.Stroke.base(this, 'onChartDraw', evt);
   var target = evt.chart;
   this.setValueByTarget(target);
 };
@@ -116,11 +116,11 @@ anychart.chartEditorModule.settings.Stroke.prototype.onChartDraw = function(evt)
  * Sets values of child controls.
  * @param {?Object} target Object, who's property corresponds to control's key. Used to get value of this control.
  */
-anychart.chartEditorModule.settings.Stroke.prototype.setValueByTarget = function(target) {
+chartEditor.settings.Stroke.prototype.setValueByTarget = function(target) {
   this.target = target;
 
-  var stringKey = anychart.chartEditorModule.EditorModel.getStringKey(this.key);
-  var value = /** @type {string} */(anychart.bindingModule.exec(this.target, stringKey));
+  var stringKey = chartEditor.EditorModel.getStringKey(this.key);
+  var value = /** @type {string} */(chartEditor.binding.exec(this.target, stringKey));
 
   if (goog.isObject(value)) {
     this.colorValue_ = value['color'];
@@ -145,11 +145,11 @@ anychart.chartEditorModule.settings.Stroke.prototype.setValueByTarget = function
 
 
 /** @override */
-anychart.chartEditorModule.settings.Stroke.prototype.disposeInternal = function() {
+chartEditor.settings.Stroke.prototype.disposeInternal = function() {
   goog.disposeAll([this.color_, this.thickness_, this.dash_]);
   this.color_ = null;
   this.thickness_ = null;
   this.dash_ = null;
 
-  anychart.chartEditorModule.settings.Stroke.base(this, 'disposeInternal');
+  chartEditor.settings.Stroke.base(this, 'disposeInternal');
 };

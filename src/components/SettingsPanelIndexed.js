@@ -1,18 +1,18 @@
-goog.provide('anychart.chartEditorModule.SettingsPanelIndexed');
+goog.provide('chartEditor.SettingsPanelIndexed');
 
-goog.require('anychart.chartEditorModule.SettingsPanel');
+goog.require('chartEditor.SettingsPanel');
 
 
 /**
- * @param {anychart.chartEditorModule.EditorModel} model
+ * @param {chartEditor.EditorModel} model
  * @param {number} index
  * @param {?string=} opt_name
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  * @constructor
- * @extends {anychart.chartEditorModule.SettingsPanel}
+ * @extends {chartEditor.SettingsPanel}
  */
-anychart.chartEditorModule.SettingsPanelIndexed = function(model, index, opt_name, opt_domHelper) {
-  anychart.chartEditorModule.SettingsPanelIndexed.base(this, 'constructor', model, opt_name, opt_domHelper);
+chartEditor.SettingsPanelIndexed = function(model, index, opt_name, opt_domHelper) {
+  chartEditor.SettingsPanelIndexed.base(this, 'constructor', model, opt_name, opt_domHelper);
 
   /** @type {number|undefined} */
   this.plotIndex_ = void 0;
@@ -22,23 +22,23 @@ anychart.chartEditorModule.SettingsPanelIndexed = function(model, index, opt_nam
 
   this.addClassName(goog.getCssName('anychart-chart-editor-settings-panel-indexed'));
 };
-goog.inherits(anychart.chartEditorModule.SettingsPanelIndexed, anychart.chartEditorModule.SettingsPanel);
+goog.inherits(chartEditor.SettingsPanelIndexed, chartEditor.SettingsPanel);
 
 
 /** @return {number} */
-anychart.chartEditorModule.SettingsPanelIndexed.prototype.getIndex = function() {
+chartEditor.SettingsPanelIndexed.prototype.getIndex = function() {
   return this.index_;
 };
 
 
 /** @return {number} */
-anychart.chartEditorModule.SettingsPanelIndexed.prototype.getPlotIndex = function() {
+chartEditor.SettingsPanelIndexed.prototype.getPlotIndex = function() {
   return goog.isNumber(this.plotIndex_) ? this.plotIndex_ : 0;
 };
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.SettingsPanelIndexed.prototype.createDom = function() {
-  anychart.chartEditorModule.SettingsPanelIndexed.base(this, 'createDom');
+chartEditor.SettingsPanelIndexed.prototype.createDom = function() {
+  chartEditor.SettingsPanelIndexed.base(this, 'createDom');
   goog.dom.classlist.add(this.getElement(), this.index_ % 2 ? 'even' : 'odd');
 };

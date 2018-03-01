@@ -1,17 +1,17 @@
-goog.provide('anychart.chartEditorModule.CartesianAxesPanelBase');
+goog.provide('chartEditor.CartesianAxesPanelBase');
 
-goog.require('anychart.chartEditorModule.MultiplePanelsBase');
-goog.require('anychart.chartEditorModule.settings.axes.Cartesian');
+goog.require('chartEditor.MultiplePanelsBase');
+goog.require('chartEditor.settings.axes.Cartesian');
 
 
 /**
- * @param {anychart.chartEditorModule.EditorModel} model
+ * @param {chartEditor.EditorModel} model
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  * @constructor
- * @extends {anychart.chartEditorModule.MultiplePanelsBase}
+ * @extends {chartEditor.MultiplePanelsBase}
  */
-anychart.chartEditorModule.CartesianAxesPanelBase = function(model, opt_domHelper) {
-  anychart.chartEditorModule.CartesianAxesPanelBase.base(this, 'constructor', model, 'CartesianAxesPanelBase', opt_domHelper);
+chartEditor.CartesianAxesPanelBase = function(model, opt_domHelper) {
+  chartEditor.CartesianAxesPanelBase.base(this, 'constructor', model, 'CartesianAxesPanelBase', opt_domHelper);
 
   this.stringId = 'cartesianAxes';
 
@@ -26,39 +26,39 @@ anychart.chartEditorModule.CartesianAxesPanelBase = function(model, opt_domHelpe
 
   this.addClassName(goog.getCssName('anychart-settings-panel-axes'));
 };
-goog.inherits(anychart.chartEditorModule.CartesianAxesPanelBase, anychart.chartEditorModule.MultiplePanelsBase);
+goog.inherits(chartEditor.CartesianAxesPanelBase, chartEditor.MultiplePanelsBase);
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.CartesianAxesPanelBase.prototype.enterDocument = function() {
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+chartEditor.CartesianAxesPanelBase.prototype.enterDocument = function() {
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
   var chartType = model.getModel()['chart']['type'];
   this.allowAddPanels(chartType !== 'radar' && chartType !== 'polar');
 
-  anychart.chartEditorModule.CartesianAxesPanelBase.base(this, 'enterDocument');
+  chartEditor.CartesianAxesPanelBase.base(this, 'enterDocument');
 };
 
 
 /** @override */
-anychart.chartEditorModule.CartesianAxesPanelBase.prototype.createPanel = function() {
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+chartEditor.CartesianAxesPanelBase.prototype.createPanel = function() {
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
   var axisIndex = model.addAxis(this.xOrY);
 
-  return new anychart.chartEditorModule.settings.axes.Cartesian(model, axisIndex, this.xOrY);
+  return new chartEditor.settings.axes.Cartesian(model, axisIndex, this.xOrY);
 };
 
 
 /** @override */
-anychart.chartEditorModule.CartesianAxesPanelBase.prototype.removePanel = function(panelIndex) {
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+chartEditor.CartesianAxesPanelBase.prototype.removePanel = function(panelIndex) {
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
   model.dropAxis(panelIndex, this.xOrY);
 };
 
 
 /** @override */
-anychart.chartEditorModule.CartesianAxesPanelBase.prototype.createPanels = function() {
+chartEditor.CartesianAxesPanelBase.prototype.createPanels = function() {
   if (!this.isExcluded()) {
-    var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+    var model = /** @type {chartEditor.EditorModel} */(this.getModel());
     var settings = model.getModel()['chart']['settings'];
 
     var pattern = '^' + this.xOrY + 'Axis\\((\\d+)\\)\\.enabled\\(\\)$';
@@ -69,7 +69,7 @@ anychart.chartEditorModule.CartesianAxesPanelBase.prototype.createPanels = funct
       var match = key.match(regExp);
       if (match) {
         var axisIndex = Number(match[1]);
-        var panel = new anychart.chartEditorModule.settings.axes.Cartesian(model, axisIndex, this.xOrY);
+        var panel = new chartEditor.settings.axes.Cartesian(model, axisIndex, this.xOrY);
         this.addPanelInstance(panel);
         axisCount++;
       }
@@ -77,7 +77,7 @@ anychart.chartEditorModule.CartesianAxesPanelBase.prototype.createPanels = funct
 
     if (axisCount === 0) {
       // Always create 0 axis panel
-      this.addPanelInstance(/** @type {anychart.chartEditorModule.SettingsPanelIndexed} */(this.createPanel()));
+      this.addPanelInstance(/** @type {chartEditor.SettingsPanelIndexed} */(this.createPanel()));
     }
   }
 };

@@ -1,24 +1,24 @@
-goog.provide('anychart.chartEditorModule.Item');
-goog.require('anychart.ui.Component');
+goog.provide('chartEditor.Item');
+goog.require('chartEditor.Component');
 
 
 /**
  * @param {string} caption
  * @constructor
- * @extends {anychart.ui.Component}
+ * @extends {chartEditor.Component}
  */
-anychart.chartEditorModule.Item = function(caption) {
-    anychart.chartEditorModule.Item.base(this, 'constructor');
+chartEditor.Item = function(caption) {
+    chartEditor.Item.base(this, 'constructor');
     this.caption_ = caption;
 
     this.addClassName('anychart-breadcrumbs-item');
 };
-goog.inherits(anychart.chartEditorModule.Item, anychart.ui.Component);
+goog.inherits(chartEditor.Item, chartEditor.Component);
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.Item.prototype.createDom = function() {
-    anychart.chartEditorModule.Item.base(this, 'createDom');
+chartEditor.Item.prototype.createDom = function() {
+    chartEditor.Item.base(this, 'createDom');
     var element = this.getElement();
 
     var caption = goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-breadcrumbs-item-caption', this.caption_);

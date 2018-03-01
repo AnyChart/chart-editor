@@ -1,9 +1,9 @@
-goog.provide('anychart.chartEditorModule.Steps');
+goog.provide('chartEditor.Steps');
 
-goog.require('anychart.chartEditorModule.steps.Base');
-goog.require('anychart.chartEditorModule.steps.PrepareData');
-goog.require('anychart.chartEditorModule.steps.SetupChart');
-goog.require('anychart.chartEditorModule.steps.VisualAppearance');
+goog.require('chartEditor.steps.Base');
+goog.require('chartEditor.steps.PrepareData');
+goog.require('chartEditor.steps.SetupChart');
+goog.require('chartEditor.steps.VisualAppearance');
 goog.require('goog.events.EventTarget');
 goog.require('goog.fx.AnimationSerialQueue');
 goog.require('goog.fx.Transition.EventType');
@@ -15,8 +15,8 @@ goog.require('goog.fx.dom');
  * @constructor
  * @extends {goog.events.EventTarget}
  */
-anychart.chartEditorModule.Steps = function() {
-  anychart.chartEditorModule.Steps.base(this, 'constructor');
+chartEditor.Steps = function() {
+  chartEditor.Steps.base(this, 'constructor');
 
   /**
    * @type {Array.<Object>}
@@ -25,34 +25,34 @@ anychart.chartEditorModule.Steps = function() {
   this.descriptors_ = [{
       name: 'PrepareData',
       enabled: true,
-      classFunc: anychart.chartEditorModule.steps.PrepareData,
+      classFunc: chartEditor.steps.PrepareData,
       instance: null
     },
     {
       name: 'SetupChart',
       enabled: true,
-      classFunc: anychart.chartEditorModule.steps.SetupChart,
+      classFunc: chartEditor.steps.SetupChart,
       instance: null
     },
     {
       name: 'VisualAppearance',
       enabled: true,
-      classFunc: anychart.chartEditorModule.steps.VisualAppearance,
+      classFunc: chartEditor.steps.VisualAppearance,
       instance: null
     }];
 
   /**
    * Current step.
-   * @type {anychart.chartEditorModule.steps.Base}
+   * @type {chartEditor.steps.Base}
    * @private
    */
   this.currentStep_ = null;
 };
-goog.inherits(anychart.chartEditorModule.Steps, goog.events.EventTarget);
+goog.inherits(chartEditor.Steps, goog.events.EventTarget);
 
 
 /** @enum {string} */
-anychart.chartEditorModule.Steps.EventType = {
+chartEditor.Steps.EventType = {
   BEFORE_CHANGE_STEP: goog.events.getUniqueId('beforechangestep')
 };
 
@@ -61,9 +61,9 @@ anychart.chartEditorModule.Steps.EventType = {
  * Create step by string name.
  *
  * @param {string} name
- * @return {?anychart.chartEditorModule.steps.Base}
+ * @return {?chartEditor.steps.Base}
  */
-anychart.chartEditorModule.Steps.prototype.createStep = function(name) {
+chartEditor.Steps.prototype.createStep = function(name) {
   var stepDescriptor;
   var index;
   for (index = 0; index < this.descriptors_.length; index++) {
@@ -85,16 +85,16 @@ anychart.chartEditorModule.Steps.prototype.createStep = function(name) {
 /**
  * @return {number}
  */
-anychart.chartEditorModule.Steps.prototype.getCurrentStepIndex = function() {
+chartEditor.Steps.prototype.getCurrentStepIndex = function() {
   return this.currentStep_.getIndex();
 };
 
 
 /**
  * @param {number} index
- * @return {?anychart.chartEditorModule.steps.Base}
+ * @return {?chartEditor.steps.Base}
  */
-anychart.chartEditorModule.Steps.prototype.getStepByIndex = function(index) {
+chartEditor.Steps.prototype.getStepByIndex = function(index) {
   return this.descriptors_[index] && this.descriptors_[index].instance ? this.descriptors_[index].instance : null;
 };
 
@@ -103,7 +103,7 @@ anychart.chartEditorModule.Steps.prototype.getStepByIndex = function(index) {
  * @param {string} name
  * @return {?Object}
  */
-anychart.chartEditorModule.Steps.prototype.getStepDescriptorByName_ = function(name) {
+chartEditor.Steps.prototype.getStepDescriptorByName_ = function(name) {
   var stepDescriptor = null;
   for (var i = 0; i < this.descriptors_.length; i++) {
     if (this.descriptors_[i].name == name) {
@@ -118,9 +118,9 @@ anychart.chartEditorModule.Steps.prototype.getStepDescriptorByName_ = function(n
 /**
  * TODO: Refactor for better API
  * @param {boolean=} opt_enabled
- * @return {anychart.chartEditorModule.steps.Base}}
+ * @return {chartEditor.steps.Base}}
  */
-anychart.chartEditorModule.Steps.prototype.prepareData = function(opt_enabled) {
+chartEditor.Steps.prototype.prepareData = function(opt_enabled) {
   var descriptor = this.getStepDescriptorByName_('PrepareData');
 
   if (goog.isDef(opt_enabled) && descriptor.enabled != opt_enabled) {
@@ -134,9 +134,9 @@ anychart.chartEditorModule.Steps.prototype.prepareData = function(opt_enabled) {
 
 /**
  * @param {boolean=} opt_enabled
- * @return {anychart.chartEditorModule.steps.Base}}
+ * @return {chartEditor.steps.Base}}
  */
-anychart.chartEditorModule.Steps.prototype.visualAppearance = function(opt_enabled) {
+chartEditor.Steps.prototype.visualAppearance = function(opt_enabled) {
   var descriptor = this.getStepDescriptorByName_('VisualAppearance');
 
   if (goog.isDef(opt_enabled) && descriptor.enabled != opt_enabled) {
@@ -151,7 +151,7 @@ anychart.chartEditorModule.Steps.prototype.visualAppearance = function(opt_enabl
 /**
  * @return {number}
  */
-anychart.chartEditorModule.Steps.prototype.getFirstStepIndex = function() {
+chartEditor.Steps.prototype.getFirstStepIndex = function() {
   for (var i = 0; i < this.descriptors_.length; i++) {
     if (this.descriptors_[i].enabled)
       return i;
@@ -165,12 +165,12 @@ anychart.chartEditorModule.Steps.prototype.getFirstStepIndex = function() {
  * @param {number} index
  * @param {boolean} doAnimation
  */
-anychart.chartEditorModule.Steps.prototype.setStep = function(index, doAnimation) {
+chartEditor.Steps.prototype.setStep = function(index, doAnimation) {
   var step = this.getStepByIndex(index);
   if (!step || step.isInDocument()) return;
 
   this.dispatchEvent({
-    type: anychart.chartEditorModule.Steps.EventType.BEFORE_CHANGE_STEP,
+    type: chartEditor.Steps.EventType.BEFORE_CHANGE_STEP,
     index: index
   });
 
@@ -201,10 +201,10 @@ anychart.chartEditorModule.Steps.prototype.setStep = function(index, doAnimation
 
 /**
  * Remove step from DOM.
- * @param {anychart.chartEditorModule.steps.Base} step
+ * @param {chartEditor.steps.Base} step
  * @private
  */
-anychart.chartEditorModule.Steps.prototype.removeStep_ = function(step) {
+chartEditor.Steps.prototype.removeStep_ = function(step) {
   // Remove the child component's DOM from the document.  We have to call
   // exitDocument first (see documentation).
   step.exitDocument();
@@ -215,25 +215,25 @@ anychart.chartEditorModule.Steps.prototype.removeStep_ = function(step) {
 /**
  * @return {Array.<Object>}
  */
-anychart.chartEditorModule.Steps.prototype.getDescriptors = function() {
+chartEditor.Steps.prototype.getDescriptors = function() {
   return this.descriptors_;
 };
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.Steps.prototype.disposeInternal = function() {
+chartEditor.Steps.prototype.disposeInternal = function() {
   for (var i = 0; i < this.descriptors_.length; i++) {
     if (this.descriptors_[i].instance) {
       goog.dispose(this.descriptors_[i].instance);
       this.descriptors_[i].instance = null;
     }
   }
-  anychart.chartEditorModule.Steps.base(this, 'disposeInternal');
+  chartEditor.Steps.base(this, 'disposeInternal');
 };
 
 
 (function() {
-  var proto = anychart.chartEditorModule.Steps.prototype;
+  var proto = chartEditor.Steps.prototype;
   proto['prepareData'] = proto.prepareData;
   proto['visualAppearance'] = proto.visualAppearance;
 })();

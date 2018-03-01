@@ -1,18 +1,18 @@
-goog.provide('anychart.chartEditorModule.RadarPolarYAxisPanel');
+goog.provide('chartEditor.RadarPolarYAxisPanel');
 
-goog.require('anychart.chartEditorModule.RadarPolarAxesPanelBase');
+goog.require('chartEditor.RadarPolarAxesPanelBase');
 
 
 /**
- * @param {anychart.chartEditorModule.EditorModel} model
+ * @param {chartEditor.EditorModel} model
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  * @constructor
- * @extends {anychart.chartEditorModule.RadarPolarAxesPanelBase}
+ * @extends {chartEditor.RadarPolarAxesPanelBase}
  */
-anychart.chartEditorModule.RadarPolarYAxisPanel = function(model, opt_domHelper) {
-  anychart.chartEditorModule.RadarPolarYAxisPanel.base(this, 'constructor', model, opt_domHelper);
+chartEditor.RadarPolarYAxisPanel = function(model, opt_domHelper) {
+  chartEditor.RadarPolarYAxisPanel.base(this, 'constructor', model, opt_domHelper);
 
   this.name = 'Y Axis';
   this.xOrY = 'y';
 };
-goog.inherits(anychart.chartEditorModule.RadarPolarYAxisPanel, anychart.chartEditorModule.RadarPolarAxesPanelBase);
+goog.inherits(chartEditor.RadarPolarYAxisPanel, chartEditor.RadarPolarAxesPanelBase);

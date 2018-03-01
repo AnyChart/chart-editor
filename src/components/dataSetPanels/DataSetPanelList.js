@@ -1,39 +1,39 @@
-goog.provide('anychart.chartEditorModule.DataSetPanelList');
+goog.provide('chartEditor.DataSetPanelList');
 
-goog.require('anychart.chartEditorModule.Component');
-goog.require('anychart.chartEditorModule.DataSetPanel');
-goog.require('anychart.chartEditorModule.EditorModel');
-goog.require('anychart.chartEditorModule.dataSetPanelList.Intro');
-goog.require('anychart.ui.Component');
+goog.require('chartEditor.Component');
+goog.require('chartEditor.DataSetPanel');
+goog.require('chartEditor.EditorModel');
+goog.require('chartEditor.dataSetPanelList.Intro');
+goog.require('chartEditor.Component');
 
 
 /**
  * List of data set panels on SetupChart step.
  *
- * @param {anychart.chartEditorModule.EditorModel} model
+ * @param {chartEditor.EditorModel} model
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  * @constructor
- * @extends {anychart.chartEditorModule.Component}
+ * @extends {chartEditor.Component}
  */
-anychart.chartEditorModule.DataSetPanelList = function(model, opt_domHelper) {
-  anychart.chartEditorModule.DataSetPanelList.base(this, 'constructor', opt_domHelper);
+chartEditor.DataSetPanelList = function(model, opt_domHelper) {
+  chartEditor.DataSetPanelList.base(this, 'constructor', opt_domHelper);
 
   this.panels_ = [];
   this.setModel(model);
   this.addClassName('anychart-connected-data-sets');
 
 };
-goog.inherits(anychart.chartEditorModule.DataSetPanelList, anychart.chartEditorModule.Component);
+goog.inherits(chartEditor.DataSetPanelList, chartEditor.Component);
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.DataSetPanelList.prototype.enterDocument = function() {
-  anychart.chartEditorModule.DataSetPanelList.base(this, 'enterDocument');
+chartEditor.DataSetPanelList.prototype.enterDocument = function() {
+  chartEditor.DataSetPanelList.base(this, 'enterDocument');
 
   this.onModelChange(null);
 
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
-  this.getHandler().listen(model, anychart.chartEditorModule.events.EventType.EDITOR_MODEL_UPDATE, this.onModelChange);
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
+  this.getHandler().listen(model, chartEditor.events.EventType.EDITOR_MODEL_UPDATE, this.onModelChange);
 };
 
 
@@ -41,7 +41,7 @@ anychart.chartEditorModule.DataSetPanelList.prototype.enterDocument = function()
  * Updates component on model change.
  * @param {?Object} evt
  */
-anychart.chartEditorModule.DataSetPanelList.prototype.onModelChange = function(evt) {
+chartEditor.DataSetPanelList.prototype.onModelChange = function(evt) {
   var active = this.getModel().getActive();
   var activeGeo = this.getModel().getActiveGeo();
   var data = this.getModel().getPreparedData();
@@ -52,7 +52,7 @@ anychart.chartEditorModule.DataSetPanelList.prototype.onModelChange = function(e
   this.panels_ = [];
 
   // add caption
-  var caption = new anychart.ui.Component();
+  var caption = new chartEditor.Component();
   caption.addClassName('anychart-chart-editor-section-caption');
   caption.addClassName('anychart-connected-data-sets-caption');
   this.addChild(caption, true);
@@ -61,22 +61,22 @@ anychart.chartEditorModule.DataSetPanelList.prototype.onModelChange = function(e
   caption.getElement().innerHTML = 'Connected Data Sets';
 
   // add data sets or intro
-  var step = /** @type {anychart.chartEditorModule.steps.Base} */(this.getParent());
+  var step = /** @type {chartEditor.steps.Base} */(this.getParent());
   if (data.length) {
     for (var i = 0; i < data.length; i++) {
-      if (step.getIndex() === 1 || data[i].type !== anychart.chartEditorModule.EditorModel.DataType.GEO) {
-        var panel = new anychart.chartEditorModule.DataSetPanel(data[i]);
+      if (step.getIndex() === 1 || data[i].type !== chartEditor.EditorModel.DataType.GEO) {
+        var panel = new chartEditor.DataSetPanel(data[i]);
         this.panels_.push(panel);
         this.addChild(panel, true);
 
         panel.setDisabled(step.getIndex() === 0 || this.panels_[i].getSetFullId() !== active);
 
-        if (data[i].type === anychart.chartEditorModule.EditorModel.DataType.GEO)
+        if (data[i].type === chartEditor.EditorModel.DataType.GEO)
           this.panels_[i].setActiveGeo(this.panels_[i].getSetFullId() === activeGeo);
       }
     }
   } else {
-    var intro = new anychart.chartEditorModule.dataSetPanelList.Intro();
+    var intro = new chartEditor.dataSetPanelList.Intro();
     this.addChild(intro, true);
   }
 };

@@ -1,23 +1,23 @@
-goog.provide('anychart.chartEditorModule.Breadcrumbs');
+goog.provide('chartEditor.Breadcrumbs');
 
-goog.require('anychart.chartEditorModule.Item');
-goog.require('anychart.ui.Component');
+goog.require('chartEditor.Item');
+goog.require('chartEditor.Component');
 goog.require('goog.ui.Button');
 
 
 /**
  * @constructor
- * @extends {anychart.ui.Component}
+ * @extends {chartEditor.Component}
  */
-anychart.chartEditorModule.Breadcrumbs = function() {
-  anychart.chartEditorModule.Breadcrumbs.base(this, 'constructor');
+chartEditor.Breadcrumbs = function() {
+  chartEditor.Breadcrumbs.base(this, 'constructor');
   this.addClassName('anychart-breadcrumbs');
 };
-goog.inherits(anychart.chartEditorModule.Breadcrumbs, anychart.ui.Component);
+goog.inherits(chartEditor.Breadcrumbs, chartEditor.Component);
 
 
 /** @enum {string} */
-anychart.chartEditorModule.Breadcrumbs.EventType = {
+chartEditor.Breadcrumbs.EventType = {
   COMPLETE: goog.events.getUniqueId('complete'),
   NEXT: goog.events.getUniqueId('next'),
   PREV: goog.events.getUniqueId('prev'),
@@ -29,56 +29,56 @@ anychart.chartEditorModule.Breadcrumbs.EventType = {
  * @type {number}
  * @private
  */
-anychart.chartEditorModule.Breadcrumbs.prototype.step_ = 0;
+chartEditor.Breadcrumbs.prototype.step_ = 0;
 
 
 /**
- * @type {Array.<anychart.ui.Component>}
+ * @type {Array.<chartEditor.Component>}
  * @private
  */
-anychart.chartEditorModule.Breadcrumbs.prototype.steps_ = null;
-
-
-/**
- * @type {goog.ui.Button}
- * @private
- */
-anychart.chartEditorModule.Breadcrumbs.prototype.next_ = null;
+chartEditor.Breadcrumbs.prototype.steps_ = null;
 
 
 /**
  * @type {goog.ui.Button}
  * @private
  */
-anychart.chartEditorModule.Breadcrumbs.prototype.prev_ = null;
+chartEditor.Breadcrumbs.prototype.next_ = null;
 
 
 /**
  * @type {goog.ui.Button}
  * @private
  */
-anychart.chartEditorModule.Breadcrumbs.prototype.complete_ = null;
+chartEditor.Breadcrumbs.prototype.prev_ = null;
+
+
+/**
+ * @type {goog.ui.Button}
+ * @private
+ */
+chartEditor.Breadcrumbs.prototype.complete_ = null;
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.Breadcrumbs.prototype.createDom = function() {
-  anychart.chartEditorModule.Breadcrumbs.base(this, 'createDom');
+chartEditor.Breadcrumbs.prototype.createDom = function() {
+  chartEditor.Breadcrumbs.base(this, 'createDom');
 
-  var items = new anychart.ui.Component();
+  var items = new chartEditor.Component();
   items.addClassName('anychart-noselect');
   items.addClassName('anychart-breadcrumbs-items');
   this.addChild(items, true);
 
-  var prepareData = new anychart.chartEditorModule.Item('Prepare Data');
+  var prepareData = new chartEditor.Item('Prepare Data');
   items.addChild(prepareData, true);
 
-  var setupChart = new anychart.chartEditorModule.Item('Setup Chart');
+  var setupChart = new chartEditor.Item('Setup Chart');
   items.addChild(setupChart, true);
 
-  var visualAppearance = new anychart.chartEditorModule.Item('Visual Appearance');
+  var visualAppearance = new chartEditor.Item('Visual Appearance');
   items.addChild(visualAppearance, true);
 
-  var buttons = new anychart.ui.Component();
+  var buttons = new chartEditor.Component();
   buttons.addClassName('anychart-breadcrumbs-buttons');
   this.addChild(buttons, true);
 
@@ -98,7 +98,7 @@ anychart.chartEditorModule.Breadcrumbs.prototype.createDom = function() {
   prev.addClassName('anychart-breadcrumbs-left');
   buttons.addChild(prev, true);
 
-  var clear = new anychart.ui.Component();
+  var clear = new chartEditor.Component();
   clear.addClassName('anychart-clear');
   this.addChild(clear, true);
 
@@ -125,7 +125,7 @@ anychart.chartEditorModule.Breadcrumbs.prototype.createDom = function() {
  * @param {number} index
  * @param {Object} stepDescriptors
  */
-anychart.chartEditorModule.Breadcrumbs.prototype.setStep = function(index, stepDescriptors) {
+chartEditor.Breadcrumbs.prototype.setStep = function(index, stepDescriptors) {
   this.step_ = index;
   var firstStep = -1;
 
@@ -166,9 +166,9 @@ anychart.chartEditorModule.Breadcrumbs.prototype.setStep = function(index, stepD
  * @param {goog.events.Event} e
  * @private
  */
-anychart.chartEditorModule.Breadcrumbs.prototype.onItemAction_ = function(e) {
+chartEditor.Breadcrumbs.prototype.onItemAction_ = function(e) {
   this.dispatchEvent({
-    type: anychart.chartEditorModule.Breadcrumbs.EventType.CHANGE_STEP,
+    type: chartEditor.Breadcrumbs.EventType.CHANGE_STEP,
     step: goog.array.indexOf(this.steps_, e.target)
   });
 };
@@ -178,22 +178,22 @@ anychart.chartEditorModule.Breadcrumbs.prototype.onItemAction_ = function(e) {
  * @param {goog.events.Event} e
  * @private
  */
-anychart.chartEditorModule.Breadcrumbs.prototype.onButtonAction_ = function(e) {
+chartEditor.Breadcrumbs.prototype.onButtonAction_ = function(e) {
   if (e.currentTarget === this.next_) {
-    this.dispatchEvent(anychart.chartEditorModule.Breadcrumbs.EventType.NEXT);
+    this.dispatchEvent(chartEditor.Breadcrumbs.EventType.NEXT);
   } else if (e.currentTarget === this.prev_) {
-    this.dispatchEvent(anychart.chartEditorModule.Breadcrumbs.EventType.PREV);
+    this.dispatchEvent(chartEditor.Breadcrumbs.EventType.PREV);
   } else if (e.currentTarget === this.complete_) {
-    this.dispatchEvent(anychart.chartEditorModule.Breadcrumbs.EventType.COMPLETE);
+    this.dispatchEvent(chartEditor.Breadcrumbs.EventType.COMPLETE);
   }
 };
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.Breadcrumbs.prototype.disposeInternal = function() {
+chartEditor.Breadcrumbs.prototype.disposeInternal = function() {
   this.steps_ = null;
   this.next_ = null;
   this.prev_ = null;
   this.complete_ = null;
-  anychart.chartEditorModule.Breadcrumbs.base(this, 'disposeInternal');
+  chartEditor.Breadcrumbs.base(this, 'disposeInternal');
 };

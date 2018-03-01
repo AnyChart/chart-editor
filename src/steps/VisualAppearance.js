@@ -1,10 +1,10 @@
-goog.provide('anychart.chartEditorModule.steps.VisualAppearance');
+goog.provide('chartEditor.steps.VisualAppearance');
 
-goog.require('anychart.chartEditorModule.AppearanceSettings');
-goog.require('anychart.chartEditorModule.Chart');
-goog.require('anychart.chartEditorModule.events');
-goog.require('anychart.chartEditorModule.steps.Base');
-goog.require('anychart.ui.Component');
+goog.require('chartEditor.AppearanceSettings');
+goog.require('chartEditor.Chart');
+goog.require('chartEditor.events');
+goog.require('chartEditor.steps.Base');
+goog.require('chartEditor.Component');
 goog.require('goog.dom.classlist');
 
 
@@ -14,10 +14,10 @@ goog.require('goog.dom.classlist');
  * @constructor
  * @param {number} index Step index
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
- * @extends {anychart.chartEditorModule.steps.Base}
+ * @extends {chartEditor.steps.Base}
  */
-anychart.chartEditorModule.steps.VisualAppearance = function(index, opt_domHelper) {
-  anychart.chartEditorModule.steps.VisualAppearance.base(this, 'constructor', index, opt_domHelper);
+chartEditor.steps.VisualAppearance = function(index, opt_domHelper) {
+  chartEditor.steps.VisualAppearance.base(this, 'constructor', index, opt_domHelper);
 
   this.name('Visual Appearance');
   this.title('Visual Appearance');
@@ -25,31 +25,31 @@ anychart.chartEditorModule.steps.VisualAppearance = function(index, opt_domHelpe
 
   this.panelsSettings_ = {};
 };
-goog.inherits(anychart.chartEditorModule.steps.VisualAppearance, anychart.chartEditorModule.steps.Base);
+goog.inherits(chartEditor.steps.VisualAppearance, chartEditor.steps.Base);
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.steps.VisualAppearance.prototype.createDom = function() {
-  anychart.chartEditorModule.steps.VisualAppearance.base(this, 'createDom');
+chartEditor.steps.VisualAppearance.prototype.createDom = function() {
+  chartEditor.steps.VisualAppearance.base(this, 'createDom');
 
-  var editor = /** @type {anychart.chartEditorModule.Editor} */(this.getParent());
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(editor.getModel());
+  var editor = /** @type {chartEditor.Editor} */(this.getParent());
+  var model = /** @type {chartEditor.EditorModel} */(editor.getModel());
 
-  var tabs = new anychart.ui.Component();
+  var tabs = new chartEditor.Component();
   tabs.addClassName('anychart-border-box');
   tabs.addClassName('anychart-visual-appearance-step-tabs');
   this.addChild(tabs, true);
 
-  var wrapper = new anychart.ui.Component();
+  var wrapper = new chartEditor.Component();
   wrapper.addClassName('anychart-visual-appearance-right-wrapper');
   this.addChild(wrapper, true);
 
-  var tabContent = new anychart.ui.Component();
+  var tabContent = new chartEditor.Component();
   tabContent.addClassName('anychart-border-box');
   tabContent.addClassName('anychart-visual-appearance-settings-tab-content');
   wrapper.addChild(tabContent, true);
 
-  var chartWrapper = new anychart.ui.Component();
+  var chartWrapper = new chartEditor.Component();
   chartWrapper.addClassName('anychart-border-box');
   chartWrapper.addClassName('anychart-visual-appearance-settings-chart-wrapper');
   wrapper.addChild(chartWrapper, true);
@@ -59,43 +59,43 @@ anychart.chartEditorModule.steps.VisualAppearance.prototype.createDom = function
   goog.dom.appendChild(this.chartWrapper_.getElement(), caption);
 
   //todo: rework as separate components with fixed structure
-  this.appearanceSettings_ = new anychart.chartEditorModule.AppearanceSettings(model, tabs, tabContent);
+  this.appearanceSettings_ = new chartEditor.AppearanceSettings(model, tabs, tabContent);
   this.appearanceSettings_.updateDescriptors(this.panelsSettings_);
   this.addChild(this.appearanceSettings_, true);
 };
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.steps.VisualAppearance.prototype.enterDocument = function() {
+chartEditor.steps.VisualAppearance.prototype.enterDocument = function() {
   // Should be called before enterDocument()!
   this.appearanceSettings_.updateExclusions();
 
-  anychart.chartEditorModule.steps.VisualAppearance.base(this, 'enterDocument');
+  chartEditor.steps.VisualAppearance.base(this, 'enterDocument');
 
-  var editor = /** @type {anychart.chartEditorModule.Editor} */(this.getParent());
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(editor.getModel());
+  var editor = /** @type {chartEditor.Editor} */(this.getParent());
+  var model = /** @type {chartEditor.EditorModel} */(editor.getModel());
 
-  this.chart_ = new anychart.chartEditorModule.Chart(model);
+  this.chart_ = new chartEditor.Chart(model);
   this.chartWrapper_.addChild(this.chart_, true);
 };
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.steps.VisualAppearance.prototype.exitDocument = function() {
-  anychart.chartEditorModule.steps.VisualAppearance.base(this, 'exitDocument');
+chartEditor.steps.VisualAppearance.prototype.exitDocument = function() {
+  chartEditor.steps.VisualAppearance.base(this, 'exitDocument');
   goog.dispose(this.chart_);
   this.chart_ = null;
 };
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.steps.VisualAppearance.prototype.disposeInternal = function() {
+chartEditor.steps.VisualAppearance.prototype.disposeInternal = function() {
   goog.dispose(this.chart_);
   this.chart_ = null;
   goog.dispose(this.appearanceSettings_);
   this.appearanceSettings_ = null;
 
-  anychart.chartEditorModule.steps.VisualAppearance.base(this, 'disposeInternal');
+  chartEditor.steps.VisualAppearance.base(this, 'disposeInternal');
 };
 
 
@@ -103,7 +103,7 @@ anychart.chartEditorModule.steps.VisualAppearance.prototype.disposeInternal = fu
  * Enable/disable context menu panel.
  * @param {boolean} enabled
  */
-anychart.chartEditorModule.steps.VisualAppearance.prototype.contextMenu = function(enabled) {
+chartEditor.steps.VisualAppearance.prototype.contextMenu = function(enabled) {
   if (this.appearanceSettings_)
     this.appearanceSettings_.enablePanelByName('ContextMenu', enabled);
   else {
@@ -114,6 +114,6 @@ anychart.chartEditorModule.steps.VisualAppearance.prototype.contextMenu = functi
 
 
 (function() {
-  var proto = anychart.chartEditorModule.steps.VisualAppearance.prototype;
+  var proto = chartEditor.steps.VisualAppearance.prototype;
   proto['contextMenu'] = proto.contextMenu;
 })();

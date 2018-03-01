@@ -1,74 +1,74 @@
-goog.provide('anychart.chartEditorModule.SpecificPanel');
+goog.provide('chartEditor.SpecificPanel');
 
-goog.require('anychart.chartEditorModule.SettingsPanel');
-goog.require('anychart.chartEditorModule.settings.specific.Cartesian');
-goog.require('anychart.chartEditorModule.settings.specific.GaugeCircular');
-goog.require('anychart.chartEditorModule.settings.specific.GaugeLinear');
-goog.require('anychart.chartEditorModule.settings.specific.Mekko');
-goog.require('anychart.chartEditorModule.settings.specific.Pie');
-goog.require('anychart.chartEditorModule.settings.specific.Polar');
-goog.require('anychart.chartEditorModule.settings.specific.Radar');
-goog.require('anychart.chartEditorModule.settings.specific.TreeMap');
-goog.require('anychart.chartEditorModule.settings.specific.Waterfall');
+goog.require('chartEditor.SettingsPanel');
+goog.require('chartEditor.settings.specific.Cartesian');
+goog.require('chartEditor.settings.specific.GaugeCircular');
+goog.require('chartEditor.settings.specific.GaugeLinear');
+goog.require('chartEditor.settings.specific.Mekko');
+goog.require('chartEditor.settings.specific.Pie');
+goog.require('chartEditor.settings.specific.Polar');
+goog.require('chartEditor.settings.specific.Radar');
+goog.require('chartEditor.settings.specific.TreeMap');
+goog.require('chartEditor.settings.specific.Waterfall');
 
 
 /**
- * @param {anychart.chartEditorModule.EditorModel} model
+ * @param {chartEditor.EditorModel} model
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  * @constructor
- * @extends {anychart.chartEditorModule.SettingsPanel}
+ * @extends {chartEditor.SettingsPanel}
  */
-anychart.chartEditorModule.SpecificPanel = function(model, opt_domHelper) {
-  anychart.chartEditorModule.SpecificPanel.base(this, 'constructor', model, 'Specific Settings', opt_domHelper);
+chartEditor.SpecificPanel = function(model, opt_domHelper) {
+  chartEditor.SpecificPanel.base(this, 'constructor', model, 'Specific Settings', opt_domHelper);
 
   this.descriptors_ = [
     {
       chartType: 'waterfall',
-      classFunc: anychart.chartEditorModule.settings.specific.Waterfall
+      classFunc: chartEditor.settings.specific.Waterfall
     },
     {
       chartType: 'pie',
-      classFunc: anychart.chartEditorModule.settings.specific.Pie
+      classFunc: chartEditor.settings.specific.Pie
     },
     {
       chartType: 'radar',
-      classFunc: anychart.chartEditorModule.settings.specific.Radar
+      classFunc: chartEditor.settings.specific.Radar
     },
     {
       chartType: 'polar',
-      classFunc: anychart.chartEditorModule.settings.specific.Polar
+      classFunc: chartEditor.settings.specific.Polar
     },
     {
       chartType: 'treeMap',
-      classFunc: anychart.chartEditorModule.settings.specific.TreeMap
+      classFunc: chartEditor.settings.specific.TreeMap
     },
     {
       chartType: 'gauges.circular',
-      classFunc: anychart.chartEditorModule.settings.specific.GaugeCircular
+      classFunc: chartEditor.settings.specific.GaugeCircular
     },
     {
       chartType: ['gauges.linear', 'gauges.led', 'gauges.tank', 'gauges.thermometer'],
-      classFunc: anychart.chartEditorModule.settings.specific.GaugeLinear
+      classFunc: chartEditor.settings.specific.GaugeLinear
     },
     {
       chartType: ['mosaic', 'mekko'],
-      classFunc: anychart.chartEditorModule.settings.specific.Mekko
+      classFunc: chartEditor.settings.specific.Mekko
     },
     {
       chartType: ['line', 'area', 'bar', 'column', 'box'],
-      classFunc: anychart.chartEditorModule.settings.specific.Cartesian
+      classFunc: chartEditor.settings.specific.Cartesian
     }];
 };
-goog.inherits(anychart.chartEditorModule.SpecificPanel, anychart.chartEditorModule.SettingsPanel);
+goog.inherits(chartEditor.SpecificPanel, chartEditor.SettingsPanel);
 
 
 /**
  * Updates specific content and exclusion state of panel.
  * @public
  */
-anychart.chartEditorModule.SpecificPanel.prototype.updateSpecific = function() {
+chartEditor.SpecificPanel.prototype.updateSpecific = function() {
   var self = this;
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
   var currentChartType = model.getModel()['chart']['type'];
 
   if (currentChartType !== this.chartType_) {
@@ -88,7 +88,7 @@ anychart.chartEditorModule.SpecificPanel.prototype.updateSpecific = function() {
         goog.dispose(this.specificComponent_);
       }
 
-      this.specificComponent_ = /** @type {anychart.chartEditorModule.SettingsPanel} */(new descriptor.classFunc(model));
+      this.specificComponent_ = /** @type {chartEditor.SettingsPanel} */(new descriptor.classFunc(model));
       this.specificComponent_.allowEnabled(false);
 
       this.addChild(this.specificComponent_, true);
@@ -110,16 +110,16 @@ anychart.chartEditorModule.SpecificPanel.prototype.updateSpecific = function() {
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.SpecificPanel.prototype.enterDocument = function() {
+chartEditor.SpecificPanel.prototype.enterDocument = function() {
   this.updateSpecific();
-  anychart.chartEditorModule.SpecificPanel.base(this, 'enterDocument');
+  chartEditor.SpecificPanel.base(this, 'enterDocument');
 };
 
 
 /** @override */
-anychart.chartEditorModule.SpecificPanel.prototype.disposeInternal = function() {
+chartEditor.SpecificPanel.prototype.disposeInternal = function() {
   goog.dispose(this.specificComponent_);
   this.specificComponent_ = null;
 
-  anychart.chartEditorModule.SpecificPanel.base(this, 'disposeInternal');
+  chartEditor.SpecificPanel.base(this, 'disposeInternal');
 };

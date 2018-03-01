@@ -1,38 +1,38 @@
-goog.provide('anychart.chartEditorModule.PointersPanel');
+goog.provide('chartEditor.PointersPanel');
 
-goog.require('anychart.chartEditorModule.MultiplePanelsBase');
-goog.require('anychart.chartEditorModule.settings.pointers.Bar');
-goog.require('anychart.chartEditorModule.settings.pointers.CircularBase');
-goog.require('anychart.chartEditorModule.settings.pointers.Knob');
-goog.require('anychart.chartEditorModule.settings.pointers.Led');
-goog.require('anychart.chartEditorModule.settings.pointers.LinearBase');
-goog.require('anychart.chartEditorModule.settings.pointers.LinearMarker');
-goog.require('anychart.chartEditorModule.settings.pointers.Marker');
-goog.require('anychart.chartEditorModule.settings.pointers.Needle');
-goog.require('anychart.chartEditorModule.settings.pointers.RangeBar');
-goog.require('anychart.chartEditorModule.settings.pointers.Tank');
-goog.require('anychart.chartEditorModule.settings.pointers.Thermometer');
+goog.require('chartEditor.MultiplePanelsBase');
+goog.require('chartEditor.settings.pointers.Bar');
+goog.require('chartEditor.settings.pointers.CircularBase');
+goog.require('chartEditor.settings.pointers.Knob');
+goog.require('chartEditor.settings.pointers.Led');
+goog.require('chartEditor.settings.pointers.LinearBase');
+goog.require('chartEditor.settings.pointers.LinearMarker');
+goog.require('chartEditor.settings.pointers.Marker');
+goog.require('chartEditor.settings.pointers.Needle');
+goog.require('chartEditor.settings.pointers.RangeBar');
+goog.require('chartEditor.settings.pointers.Tank');
+goog.require('chartEditor.settings.pointers.Thermometer');
 
 
 /**
- * @param {anychart.chartEditorModule.EditorModel} model
+ * @param {chartEditor.EditorModel} model
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  * @constructor
- * @extends {anychart.chartEditorModule.MultiplePanelsBase}
+ * @extends {chartEditor.MultiplePanelsBase}
  */
-anychart.chartEditorModule.PointersPanel = function(model, opt_domHelper) {
-  anychart.chartEditorModule.PointersPanel.base(this, 'constructor', model, 'Pointers', opt_domHelper);
+chartEditor.PointersPanel = function(model, opt_domHelper) {
+  chartEditor.PointersPanel.base(this, 'constructor', model, 'Pointers', opt_domHelper);
 
   this.stringId = 'pointers';
 
   this.allowAddPanels(false);
 };
-goog.inherits(anychart.chartEditorModule.PointersPanel, anychart.chartEditorModule.MultiplePanelsBase);
+goog.inherits(chartEditor.PointersPanel, chartEditor.MultiplePanelsBase);
 
 
 /** @override */
-anychart.chartEditorModule.PointersPanel.prototype.createPanels = function() {
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+chartEditor.PointersPanel.prototype.createPanels = function() {
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
   var mappings = model.getValue([['dataSettings'], 'mappings']);
   var id;
   var type;
@@ -44,34 +44,34 @@ anychart.chartEditorModule.PointersPanel.prototype.createPanels = function() {
     var className;
     switch (type) {
       case 'gauges.bar':
-        className = anychart.chartEditorModule.settings.pointers.Bar;
+        className = chartEditor.settings.pointers.Bar;
         break;
       case 'gauges.marker':
-        className = anychart.chartEditorModule.settings.pointers.Marker;
+        className = chartEditor.settings.pointers.Marker;
         break;
       case 'needle':
-        className = anychart.chartEditorModule.settings.pointers.Needle;
+        className = chartEditor.settings.pointers.Needle;
         break;
       case 'knob':
-        className = anychart.chartEditorModule.settings.pointers.Knob;
+        className = chartEditor.settings.pointers.Knob;
         break;
       case 'linearGauge.led':
-        className = anychart.chartEditorModule.settings.pointers.Led;
+        className = chartEditor.settings.pointers.Led;
         break;
       case 'linearGauge.marker':
-        className = anychart.chartEditorModule.settings.pointers.LinearMarker;
+        className = chartEditor.settings.pointers.LinearMarker;
         break;
       case 'linearGauge.tank':
-        className = anychart.chartEditorModule.settings.pointers.Tank;
+        className = chartEditor.settings.pointers.Tank;
         break;
       case 'linearGauge.thermometer':
-        className = anychart.chartEditorModule.settings.pointers.Thermometer;
+        className = chartEditor.settings.pointers.Thermometer;
         break;
       case 'linearGauge.rangeBar':
-        className = anychart.chartEditorModule.settings.pointers.RangeBar;
+        className = chartEditor.settings.pointers.RangeBar;
         break;
       default:
-        className = anychart.chartEditorModule.settings.pointers.LinearBase;
+        className = chartEditor.settings.pointers.LinearBase;
         break;
     }
 

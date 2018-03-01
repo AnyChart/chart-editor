@@ -1,24 +1,24 @@
-goog.provide('anychart.chartEditorModule.SeriesPanel');
+goog.provide('chartEditor.SeriesPanel');
 
-goog.require('anychart.chartEditorModule.ComponentWithKey');
-goog.require('anychart.chartEditorModule.controls.SeriesName');
-goog.require('anychart.chartEditorModule.controls.select.DataField');
-goog.require('anychart.chartEditorModule.controls.select.DataFieldSelectMenuItem');
-goog.require('anychart.chartEditorModule.input.Base');
+goog.require('chartEditor.ComponentWithKey');
+goog.require('chartEditor.controls.SeriesName');
+goog.require('chartEditor.controls.select.DataField');
+goog.require('chartEditor.controls.select.DataFieldSelectMenuItem');
+goog.require('chartEditor.input.Base');
 goog.require('goog.ui.Component');
 
 
 /**
  * Series panel on a Plot panel on Setup chart step.
  *
- * @param {anychart.chartEditorModule.EditorModel} model
+ * @param {chartEditor.EditorModel} model
  * @param {number} index
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  * @constructor
- * @extends {anychart.chartEditorModule.ComponentWithKey}
+ * @extends {chartEditor.ComponentWithKey}
  */
-anychart.chartEditorModule.SeriesPanel = function(model, index, opt_domHelper) {
-  anychart.chartEditorModule.SeriesPanel.base(this, 'constructor', model, opt_domHelper);
+chartEditor.SeriesPanel = function(model, index, opt_domHelper) {
+  chartEditor.SeriesPanel.base(this, 'constructor', model, opt_domHelper);
 
   /**
    * @type {number}
@@ -27,19 +27,19 @@ anychart.chartEditorModule.SeriesPanel = function(model, index, opt_domHelper) {
   this.index_ = index;
 
   /**
-   * @type {Array.<anychart.chartEditorModule.controls.select.DataField>}
+   * @type {Array.<chartEditor.controls.select.DataField>}
    * @private
    */
   this.fields_ = [];
 
   this.addClassName('anychart-plot-panel-series');
 };
-goog.inherits(anychart.chartEditorModule.SeriesPanel, anychart.chartEditorModule.ComponentWithKey);
+goog.inherits(chartEditor.SeriesPanel, chartEditor.ComponentWithKey);
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.SeriesPanel.prototype.createDom = function() {
-  anychart.chartEditorModule.SeriesPanel.base(this, 'createDom');
+chartEditor.SeriesPanel.prototype.createDom = function() {
+  chartEditor.SeriesPanel.base(this, 'createDom');
 
   var dom = this.getDomHelper();
 
@@ -47,7 +47,7 @@ anychart.chartEditorModule.SeriesPanel.prototype.createDom = function() {
   goog.dom.appendChild(this.getElement(), this.removeBtn_);
 
   this.getKey();
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
 
   if (!model.chartTypeLike('gauges') && !model.isChartSingleSeries()) {
     var mappings = model.getValue([['dataSettings'], ['mappings', this.plotIndex_]]);
@@ -58,16 +58,16 @@ anychart.chartEditorModule.SeriesPanel.prototype.createDom = function() {
     keyStr += 'getSeries(\'' + id + '\').name()';
     var key = [['chart'], ['settings'], keyStr];
 
-    var name = new anychart.chartEditorModule.input.Base();
+    var name = new chartEditor.input.Base();
 
-    var isSingleValues = anychart.chartEditorModule.EditorModel.Series[mappings[this.index_]['ctor']]['fields'].length === 1;
-    var nameLC = new anychart.chartEditorModule.controls.SeriesName(name, 'Name', isSingleValues);
+    var isSingleValues = chartEditor.EditorModel.Series[mappings[this.index_]['ctor']]['fields'].length === 1;
+    var nameLC = new chartEditor.controls.SeriesName(name, 'Name', isSingleValues);
     nameLC.init(model, key, void 0, true, true);
     this.addChild(nameLC, true);
     this.name_ = nameLC;
   }
 
-  this.type_ = new anychart.chartEditorModule.controls.select.DataField({
+  this.type_ = new chartEditor.controls.select.DataField({
     label: 'Series Type',
     caption: 'Select Series Type',
     value: 'ctor'
@@ -80,10 +80,10 @@ anychart.chartEditorModule.SeriesPanel.prototype.createDom = function() {
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.SeriesPanel.prototype.onModelChange = function(evt) {
-  anychart.chartEditorModule.SeriesPanel.base(this, 'onModelChange', evt);
+chartEditor.SeriesPanel.prototype.onModelChange = function(evt) {
+  chartEditor.SeriesPanel.base(this, 'onModelChange', evt);
 
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
   var seriesTypes = model.getChartTypeSettings()['series'];
 
   if (model.isChartSingleSeries() || seriesTypes.length === 1) {
@@ -94,11 +94,11 @@ anychart.chartEditorModule.SeriesPanel.prototype.onModelChange = function(evt) {
 
     for (var i = 0; i < seriesTypes.length; i++) {
       var type = seriesTypes[i];
-      var caption = anychart.chartEditorModule.EditorModel.Series[type]['name'] ?
-          anychart.chartEditorModule.EditorModel.Series[type]['name'] :
+      var caption = chartEditor.EditorModel.Series[type]['name'] ?
+          chartEditor.EditorModel.Series[type]['name'] :
           goog.string.capitalize(type);
 
-      var item = new anychart.chartEditorModule.controls.select.DataFieldSelectMenuItem({
+      var item = new chartEditor.controls.select.DataFieldSelectMenuItem({
         caption: caption,
         value: type
       });
@@ -114,45 +114,45 @@ anychart.chartEditorModule.SeriesPanel.prototype.onModelChange = function(evt) {
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.SeriesPanel.prototype.onChartDraw = function(evt) {
-  anychart.chartEditorModule.SeriesPanel.base(this, 'onChartDraw', evt);
+chartEditor.SeriesPanel.prototype.onChartDraw = function(evt) {
+  chartEditor.SeriesPanel.base(this, 'onChartDraw', evt);
   if (this.name_) this.name_.setValueByTarget(evt.chart);
 };
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.SeriesPanel.prototype.enterDocument = function() {
+chartEditor.SeriesPanel.prototype.enterDocument = function() {
   if (this.removeBtn_)
     this.getHandler().listen(this.removeBtn_, goog.events.EventType.CLICK, function() {
-      var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+      var model = /** @type {chartEditor.EditorModel} */(this.getModel());
       var plotIndex = this.getParent().index();
       model.dropSeries(plotIndex, this.index_);
     });
 
-  anychart.chartEditorModule.SeriesPanel.base(this, 'enterDocument');
+  chartEditor.SeriesPanel.base(this, 'enterDocument');
 };
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.SeriesPanel.prototype.exitDocument = function() {
+chartEditor.SeriesPanel.prototype.exitDocument = function() {
   this.removeAllFields_();
-  anychart.chartEditorModule.SeriesPanel.base(this, 'exitDocument');
+  chartEditor.SeriesPanel.base(this, 'exitDocument');
 };
 
 
 /**
  * Creates fields without options.
  */
-anychart.chartEditorModule.SeriesPanel.prototype.createFields = function() {
+chartEditor.SeriesPanel.prototype.createFields = function() {
   this.removeAllFields_();
 
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
   var seriesType = model.getValue(this.getKey('ctor'));
 
-  var fieldsMap = anychart.chartEditorModule.EditorModel.Series[seriesType]['fields'];
+  var fieldsMap = chartEditor.EditorModel.Series[seriesType]['fields'];
   goog.object.forEach(fieldsMap, function(item) {
     var fieldLabel = item['name'] ? item['name'] : item['field'];
-    var fieldSelect = new anychart.chartEditorModule.controls.select.DataField({
+    var fieldSelect = new chartEditor.controls.select.DataField({
       label: fieldLabel,
       caption: 'Select ' + fieldLabel,
       value: item['field']
@@ -170,8 +170,8 @@ anychart.chartEditorModule.SeriesPanel.prototype.createFields = function() {
 /**
  * Creates options for all fields.
  */
-anychart.chartEditorModule.SeriesPanel.prototype.createFieldsOptions = function() {
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+chartEditor.SeriesPanel.prototype.createFieldsOptions = function() {
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
   var active = model.getActive();
   var preparedData = model.getPreparedData();
 
@@ -195,7 +195,7 @@ anychart.chartEditorModule.SeriesPanel.prototype.createFieldsOptions = function(
       var dataFields = data.fields;
       for (var j = 0; j < dataFields.length; j++) {
         var caption = dataFields[j].name;
-        var option = new anychart.chartEditorModule.controls.select.DataFieldSelectMenuItem({
+        var option = new chartEditor.controls.select.DataFieldSelectMenuItem({
           caption: caption,
           value: dataFields[j].key
         });
@@ -212,7 +212,7 @@ anychart.chartEditorModule.SeriesPanel.prototype.createFieldsOptions = function(
  * Removes all fields from panel.
  * @private
  */
-anychart.chartEditorModule.SeriesPanel.prototype.removeAllFields_ = function() {
+chartEditor.SeriesPanel.prototype.removeAllFields_ = function() {
   for (var a = this.fields_.length; a--;) {
     var field = this.fields_[a];
     this.removeChild(field, true);
@@ -226,9 +226,9 @@ anychart.chartEditorModule.SeriesPanel.prototype.removeAllFields_ = function() {
  * Getter/setter for index.
  *
  * @param {number=} opt_value
- * @return {number|anychart.chartEditorModule.SeriesPanel}
+ * @return {number|chartEditor.SeriesPanel}
  */
-anychart.chartEditorModule.SeriesPanel.prototype.index = function(opt_value) {
+chartEditor.SeriesPanel.prototype.index = function(opt_value) {
   if (goog.isDef(opt_value)) {
     if (goog.isNumber(opt_value)) {
       this.index_ = opt_value;
@@ -240,7 +240,7 @@ anychart.chartEditorModule.SeriesPanel.prototype.index = function(opt_value) {
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.SeriesPanel.prototype.getKey = function(opt_completion) {
+chartEditor.SeriesPanel.prototype.getKey = function(opt_completion) {
   if (!this.key || !this.key.length) {
     if (!this.plotIndex_ && this.getParent())
       this.plotIndex_ = this.getParent().index();
@@ -248,12 +248,12 @@ anychart.chartEditorModule.SeriesPanel.prototype.getKey = function(opt_completio
     this.key = [['dataSettings'], ['mappings', this.plotIndex_], [this.index_]];
   }
 
-  return anychart.chartEditorModule.SeriesPanel.base(this, 'getKey', opt_completion);
+  return chartEditor.SeriesPanel.base(this, 'getKey', opt_completion);
 };
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.SeriesPanel.prototype.dispose = function() {
+chartEditor.SeriesPanel.prototype.dispose = function() {
   this.removeAllFields_();
-  anychart.chartEditorModule.SeriesPanel.base(this, 'dispose');
+  chartEditor.SeriesPanel.base(this, 'dispose');
 };

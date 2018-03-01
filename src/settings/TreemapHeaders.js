@@ -1,42 +1,42 @@
-goog.provide('anychart.chartEditorModule.settings.TreemapHeaders');
+goog.provide('chartEditor.settings.TreemapHeaders');
 
-goog.require('anychart.chartEditorModule.SettingsPanel');
-goog.require('anychart.chartEditorModule.comboBox.Base');
-goog.require('anychart.chartEditorModule.controls.LabeledControl');
-goog.require('anychart.chartEditorModule.controls.select.DataField');
-goog.require('anychart.chartEditorModule.settings.Title');
+goog.require('chartEditor.SettingsPanel');
+goog.require('chartEditor.comboBox.Base');
+goog.require('chartEditor.controls.LabeledControl');
+goog.require('chartEditor.controls.select.DataField');
+goog.require('chartEditor.settings.Title');
 
 
 /**
- * @param {anychart.chartEditorModule.EditorModel} model
+ * @param {chartEditor.EditorModel} model
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  * @constructor
- * @extends {anychart.chartEditorModule.SettingsPanel}
+ * @extends {chartEditor.SettingsPanel}
  */
-anychart.chartEditorModule.settings.TreemapHeaders = function(model, opt_domHelper) {
-  anychart.chartEditorModule.settings.TreemapHeaders.base(this, 'constructor', model, 'Headers', opt_domHelper);
+chartEditor.settings.TreemapHeaders = function(model, opt_domHelper) {
+  chartEditor.settings.TreemapHeaders.base(this, 'constructor', model, 'Headers', opt_domHelper);
 
   this.key = [['chart'], ['settings'], 'headers()'];
 };
-goog.inherits(anychart.chartEditorModule.settings.TreemapHeaders, anychart.chartEditorModule.SettingsPanel);
+goog.inherits(chartEditor.settings.TreemapHeaders, chartEditor.SettingsPanel);
 
 
 /**
  * Default CSS class.
  * @type {string}
  */
-anychart.chartEditorModule.settings.TreemapHeaders.CSS_CLASS = goog.getCssName('anychart-settings-treemap-headers');
+chartEditor.settings.TreemapHeaders.CSS_CLASS = goog.getCssName('anychart-settings-treemap-headers');
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.settings.TreemapHeaders.prototype.createDom = function() {
-  anychart.chartEditorModule.settings.TreemapHeaders.base(this, 'createDom');
+chartEditor.settings.TreemapHeaders.prototype.createDom = function() {
+  chartEditor.settings.TreemapHeaders.base(this, 'createDom');
 
   var element = this.getElement();
-  goog.dom.classlist.add(element, anychart.chartEditorModule.settings.TreemapHeaders.CSS_CLASS);
+  goog.dom.classlist.add(element, chartEditor.settings.TreemapHeaders.CSS_CLASS);
 
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
-  var settings = new anychart.chartEditorModule.settings.Title(model, null);
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
+  var settings = new chartEditor.settings.Title(model, null);
   settings.allowEnabled(false);
   settings.allowEditPosition(false);
   settings.allowEditAlign(false);
@@ -46,13 +46,13 @@ anychart.chartEditorModule.settings.TreemapHeaders.prototype.createDom = functio
   this.addChild(settings, true);
   this.settings_ = settings;
 
-  var maxHeadersHeight = new anychart.chartEditorModule.comboBox.Base();
+  var maxHeadersHeight = new chartEditor.comboBox.Base();
   maxHeadersHeight.setOptions([0, 10, 20, 50, 100]);
   maxHeadersHeight.setRange(0, 100);
-  this.maxHeadersHeight_ = new anychart.chartEditorModule.controls.LabeledControl(maxHeadersHeight, 'Max Headers Height');
+  this.maxHeadersHeight_ = new chartEditor.controls.LabeledControl(maxHeadersHeight, 'Max Headers Height');
   this.addChild(this.maxHeadersHeight_, true);
 
-  var headersDisplayMode = new anychart.chartEditorModule.controls.select.DataField({label: 'Headers Display Mode'});
+  var headersDisplayMode = new chartEditor.controls.select.DataField({label: 'Headers Display Mode'});
   headersDisplayMode.getSelect().setOptions([
     {value: 'always-show', caption: 'Always Show'},
     {value: 'clip', caption: 'Clip'},
@@ -64,21 +64,21 @@ anychart.chartEditorModule.settings.TreemapHeaders.prototype.createDom = functio
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.settings.TreemapHeaders.prototype.updateKeys = function() {
+chartEditor.settings.TreemapHeaders.prototype.updateKeys = function() {
   if (!this.isExcluded()) {
-    var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+    var model = /** @type {chartEditor.EditorModel} */(this.getModel());
     if (this.settings_) this.settings_.setKey(this.getKey());
     if (this.maxHeadersHeight_) this.maxHeadersHeight_.init(model, [['chart'], ['settings'], 'maxHeadersHeight()']);
     if (this.headersDisplayMode_) this.headersDisplayMode_.init(model, [['chart'], ['settings'], 'headersDisplayMode()']);
   }
 
-  anychart.chartEditorModule.settings.TreemapHeaders.base(this, 'updateKeys');
+  chartEditor.settings.TreemapHeaders.base(this, 'updateKeys');
 };
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.settings.TreemapHeaders.prototype.onChartDraw = function(evt) {
-  anychart.chartEditorModule.settings.TreemapHeaders.base(this, 'onChartDraw', evt);
+chartEditor.settings.TreemapHeaders.prototype.onChartDraw = function(evt) {
+  chartEditor.settings.TreemapHeaders.base(this, 'onChartDraw', evt);
   if (!this.isExcluded()) {
     var target = evt.chart;
     if (this.maxHeadersHeight_) this.maxHeadersHeight_.setValueByTarget(target);
@@ -88,7 +88,7 @@ anychart.chartEditorModule.settings.TreemapHeaders.prototype.onChartDraw = funct
 
 
 /** @override */
-anychart.chartEditorModule.settings.TreemapHeaders.prototype.disposeInternal = function() {
+chartEditor.settings.TreemapHeaders.prototype.disposeInternal = function() {
   goog.dispose(this.settings_);
   this.settings_ = null;
 
@@ -98,5 +98,5 @@ anychart.chartEditorModule.settings.TreemapHeaders.prototype.disposeInternal = f
   goog.dispose(this.headersDisplayMode_);
   this.headersDisplayMode_ = null;
 
-  anychart.chartEditorModule.settings.TreemapHeaders.base(this, 'disposeInternal');
+  chartEditor.settings.TreemapHeaders.base(this, 'disposeInternal');
 };

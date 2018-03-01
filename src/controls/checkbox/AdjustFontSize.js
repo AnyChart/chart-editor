@@ -1,6 +1,6 @@
-goog.provide('anychart.chartEditorModule.checkbox.AdjustFontSize');
+goog.provide('chartEditor.checkbox.AdjustFontSize');
 
-goog.require('anychart.chartEditorModule.checkbox.Base');
+goog.require('chartEditor.checkbox.Base');
 
 
 
@@ -11,25 +11,25 @@ goog.require('anychart.chartEditorModule.checkbox.Base');
  * @param {goog.ui.CheckboxRenderer=} opt_renderer Renderer used to render or
  *     decorate the checkbox; defaults to {@link goog.ui.CheckboxRenderer}.
  * @constructor
- * @extends {anychart.chartEditorModule.checkbox.Base}
+ * @extends {chartEditor.checkbox.Base}
  */
-anychart.chartEditorModule.checkbox.AdjustFontSize = function(opt_checked, opt_domHelper, opt_renderer) {
-  anychart.chartEditorModule.checkbox.AdjustFontSize.base(this, 'constructor', opt_checked, opt_domHelper,
-      opt_renderer || anychart.chartEditorModule.checkbox.Renderer.getInstance());
+chartEditor.checkbox.AdjustFontSize = function(opt_checked, opt_domHelper, opt_renderer) {
+  chartEditor.checkbox.AdjustFontSize.base(this, 'constructor', opt_checked, opt_domHelper,
+      opt_renderer || chartEditor.checkbox.Renderer.getInstance());
 
 };
-goog.inherits(anychart.chartEditorModule.checkbox.AdjustFontSize, anychart.chartEditorModule.checkbox.Base);
+goog.inherits(chartEditor.checkbox.AdjustFontSize, chartEditor.checkbox.Base);
 
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.checkbox.AdjustFontSize.prototype.setValueByTarget = function(target) {
+chartEditor.checkbox.AdjustFontSize.prototype.setValueByTarget = function(target) {
   if (!this.key || this.excluded) return;
 
   this.target = target;
 
-  var stringKey = anychart.chartEditorModule.EditorModel.getStringKey(this.key);
-  var value = anychart.bindingModule.exec(this.target, stringKey);
+  var stringKey = chartEditor.EditorModel.getStringKey(this.key);
+  var value = chartEditor.binding.exec(this.target, stringKey);
   if (goog.isObject(value))
     value = value.width && value.height;
   else

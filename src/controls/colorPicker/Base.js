@@ -1,7 +1,7 @@
-goog.provide('anychart.chartEditorModule.colorPicker.Base');
+goog.provide('chartEditor.colorPicker.Base');
 
-goog.require('anychart.chartEditorModule.colorPicker.Renderer');
-goog.require('anychart.chartEditorModule.events');
+goog.require('chartEditor.colorPicker.Renderer');
+goog.require('chartEditor.events');
 
 goog.require('goog.dom.classlist');
 goog.require('goog.dom.selection');
@@ -26,13 +26,13 @@ goog.require('goog.ui.LabelInput');
  *     document interaction.
  * @constructor
  * @extends {goog.ui.ColorMenuButton}
- * @suppress {checkTypes} anychart.chartEditorModule.colorPicker.Renderer
+ * @suppress {checkTypes} chartEditor.colorPicker.Renderer
  */
-anychart.chartEditorModule.colorPicker.Base = function(opt_content, opt_menu, opt_renderer, opt_domHelper) {
-  anychart.chartEditorModule.colorPicker.Base.base(this, 'constructor',
+chartEditor.colorPicker.Base = function(opt_content, opt_menu, opt_renderer, opt_domHelper) {
+  chartEditor.colorPicker.Base.base(this, 'constructor',
       opt_content || '',
       opt_menu,
-      opt_renderer || anychart.chartEditorModule.colorPicker.Renderer.getInstance(),
+      opt_renderer || chartEditor.colorPicker.Renderer.getInstance(),
       opt_domHelper);
 
   this.addClassName('anychart-chart-editor-color');
@@ -41,7 +41,7 @@ anychart.chartEditorModule.colorPicker.Base = function(opt_content, opt_menu, op
   /**
    * Editor Model key.
    *
-   * @type {anychart.chartEditorModule.EditorModel.Key}
+   * @type {chartEditor.EditorModel.Key}
    * @protected
    */
   this.key = [];
@@ -54,7 +54,7 @@ anychart.chartEditorModule.colorPicker.Base = function(opt_content, opt_menu, op
 
   this.excluded = false;
 };
-goog.inherits(anychart.chartEditorModule.colorPicker.Base, goog.ui.ColorMenuButton);
+goog.inherits(chartEditor.colorPicker.Base, goog.ui.ColorMenuButton);
 
 
 /**
@@ -66,7 +66,7 @@ goog.inherits(anychart.chartEditorModule.colorPicker.Base, goog.ui.ColorMenuButt
  * @override
  * @suppress {visibility} this.keyHandler_
  */
-anychart.chartEditorModule.colorPicker.Base.prototype.setOpen = function(open, opt_e) {
+chartEditor.colorPicker.Base.prototype.setOpen = function(open, opt_e) {
   if (open && this.getItemCount() == 0) {
     var menu = goog.ui.ColorMenuButton.newColorMenu(null, this.getDomHelper());
     this.setMenu(menu);
@@ -93,7 +93,7 @@ anychart.chartEditorModule.colorPicker.Base.prototype.setOpen = function(open, o
     this.setSelectedColor(/** @type {?string} */ (this.getValue()));
   }
 
-  anychart.chartEditorModule.colorPicker.Base.base(this, 'setOpen', open, opt_e);
+  chartEditor.colorPicker.Base.base(this, 'setOpen', open, opt_e);
 };
 
 
@@ -102,7 +102,7 @@ anychart.chartEditorModule.colorPicker.Base.prototype.setOpen = function(open, o
  * @param {goog.events.KeyEvent} e Key event to handle.
  * @private
  */
-anychart.chartEditorModule.colorPicker.Base.prototype.handleColorInputKeyEvent_ = function(e) {
+chartEditor.colorPicker.Base.prototype.handleColorInputKeyEvent_ = function(e) {
   if (e.keyCode == goog.events.KeyCodes.ENTER) {
     var newRawValue = this.colorInput_.getValue();
     if (goog.color.isValidColor(newRawValue)) {
@@ -128,33 +128,33 @@ anychart.chartEditorModule.colorPicker.Base.prototype.handleColorInputKeyEvent_ 
  * @param {goog.events.BrowserEvent} e The browser event.
  * @private
  */
-anychart.chartEditorModule.colorPicker.Base.prototype.onColorInputBlur_ = function(e) {
+chartEditor.colorPicker.Base.prototype.onColorInputBlur_ = function(e) {
   this.colorInput_.setValue(this.getSelectedColor());
 };
 
 
 /** @override */
-anychart.chartEditorModule.colorPicker.Base.prototype.setSelectedColor = function(color) {
+chartEditor.colorPicker.Base.prototype.setSelectedColor = function(color) {
   this.setValue(color);
   if (this.colorInput_) this.colorInput_.setValue(color);
 };
 
 
-/** @return {anychart.chartEditorModule.EditorModel.Key} */
-anychart.chartEditorModule.colorPicker.Base.prototype.getKey = function() {
+/** @return {chartEditor.EditorModel.Key} */
+chartEditor.colorPicker.Base.prototype.getKey = function() {
   return this.key;
 };
 
 
-/** @param {anychart.chartEditorModule.EditorModel.Key} value */
-anychart.chartEditorModule.colorPicker.Base.prototype.setKey = function(value) {
+/** @param {chartEditor.EditorModel.Key} value */
+chartEditor.colorPicker.Base.prototype.setKey = function(value) {
   this.key = value;
 };
 
 
 /** @override */
-anychart.chartEditorModule.colorPicker.Base.prototype.enterDocument = function() {
-  anychart.chartEditorModule.colorPicker.Base.base(this, 'enterDocument');
+chartEditor.colorPicker.Base.prototype.enterDocument = function() {
+  chartEditor.colorPicker.Base.base(this, 'enterDocument');
   goog.dom.classlist.enable(this.getElement(), 'anychart-hidden', this.excluded);
   if (!this.excluded)
     this.getHandler().listen(this, goog.ui.Component.EventType.ACTION, this.onChange_, false);
@@ -162,9 +162,9 @@ anychart.chartEditorModule.colorPicker.Base.prototype.enterDocument = function()
 
 
 /** @override */
-anychart.chartEditorModule.colorPicker.Base.prototype.exitDocument = function() {
+chartEditor.colorPicker.Base.prototype.exitDocument = function() {
   this.getHandler().unlisten(this, goog.ui.Component.EventType.ACTION, this.onChange_, false);
-  anychart.chartEditorModule.colorPicker.Base.base(this, 'exitDocument');
+  chartEditor.colorPicker.Base.base(this, 'exitDocument');
 };
 
 
@@ -172,7 +172,7 @@ anychart.chartEditorModule.colorPicker.Base.prototype.exitDocument = function() 
  * @param {goog.events.Event} evt
  * @private
  */
-anychart.chartEditorModule.colorPicker.Base.prototype.onChange_ = function(evt) {
+chartEditor.colorPicker.Base.prototype.onChange_ = function(evt) {
   evt.stopPropagation();
   if (this.excluded) return;
 
@@ -190,15 +190,15 @@ anychart.chartEditorModule.colorPicker.Base.prototype.onChange_ = function(evt) 
 /**
  * Connects control with EditorMode.
  *
- * @param {anychart.chartEditorModule.EditorModel} model Editor model instance to connect with.
- * @param {anychart.chartEditorModule.EditorModel.Key} key Key of control's field in model's structure.
+ * @param {chartEditor.EditorModel} model Editor model instance to connect with.
+ * @param {chartEditor.EditorModel.Key} key Key of control's field in model's structure.
  * @param {string=} opt_callback Callback function that will be called on control's value change instead of simple change value in model.
  *  This function should be model's public method.
  * @param {boolean=} opt_noRebuild Should or not rebuild chart on change value of this control.
  */
-anychart.chartEditorModule.colorPicker.Base.prototype.init = function(model, key, opt_callback, opt_noRebuild) {
+chartEditor.colorPicker.Base.prototype.init = function(model, key, opt_callback, opt_noRebuild) {
   /**
-   * @type {anychart.chartEditorModule.EditorModel}
+   * @type {chartEditor.EditorModel}
    * @protected
    */
   this.editorModel = model;
@@ -218,13 +218,13 @@ anychart.chartEditorModule.colorPicker.Base.prototype.init = function(model, key
  * Updates model state.
  * @param {?Object} target Object, who's property corresponds to control's key. Used to get value of this control.
  */
-anychart.chartEditorModule.colorPicker.Base.prototype.setValueByTarget = function(target) {
+chartEditor.colorPicker.Base.prototype.setValueByTarget = function(target) {
   if (this.excluded) return;
 
   this.target = target;
 
-  var stringKey = anychart.chartEditorModule.EditorModel.getStringKey(this.key);
-  var value = /** @type {string} */(anychart.bindingModule.exec(this.target, stringKey));
+  var stringKey = chartEditor.EditorModel.getStringKey(this.key);
+  var value = /** @type {string} */(chartEditor.binding.exec(this.target, stringKey));
   if (goog.isObject(value))
     value = value['color'];
 
@@ -238,7 +238,7 @@ anychart.chartEditorModule.colorPicker.Base.prototype.setValueByTarget = functio
  * Hide or show control by assigning 'hidden' class
  * @param {boolean} value True if excluded.
  */
-anychart.chartEditorModule.colorPicker.Base.prototype.exclude = function(value) {
+chartEditor.colorPicker.Base.prototype.exclude = function(value) {
   var dirty = this.excluded != value;
   this.excluded = value;
 
@@ -253,7 +253,7 @@ anychart.chartEditorModule.colorPicker.Base.prototype.exclude = function(value) 
 /**
  * @return {boolean}
  */
-anychart.chartEditorModule.colorPicker.Base.prototype.isExcluded = function() {
+chartEditor.colorPicker.Base.prototype.isExcluded = function() {
   return this.excluded;
 };
 
@@ -261,7 +261,7 @@ anychart.chartEditorModule.colorPicker.Base.prototype.isExcluded = function() {
 /**
  * @public
  */
-anychart.chartEditorModule.colorPicker.Base.prototype.updateExclusion = function() {
+chartEditor.colorPicker.Base.prototype.updateExclusion = function() {
   if (!this.key || !this.key.length || !this.editorModel) return;
 
   var stringKey = this.editorModel.getStringKey(this.key);

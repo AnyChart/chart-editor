@@ -1,4 +1,4 @@
-goog.provide('anychart.chartEditorModule.checkbox.Renderer');
+goog.provide('chartEditor.checkbox.Renderer');
 
 goog.require('goog.ui.CheckboxRenderer');
 goog.require('goog.ui.INLINE_BLOCK_CLASSNAME');
@@ -9,15 +9,15 @@ goog.require('goog.ui.INLINE_BLOCK_CLASSNAME');
  * @constructor
  * @extends {goog.ui.CheckboxRenderer}
  */
-anychart.chartEditorModule.checkbox.Renderer = function() {
-  anychart.chartEditorModule.checkbox.Renderer.base(this, 'constructor');
+chartEditor.checkbox.Renderer = function() {
+  chartEditor.checkbox.Renderer.base(this, 'constructor');
 };
-goog.inherits(anychart.chartEditorModule.checkbox.Renderer, goog.ui.CheckboxRenderer);
-goog.addSingletonGetter(anychart.chartEditorModule.checkbox.Renderer);
+goog.inherits(chartEditor.checkbox.Renderer, goog.ui.CheckboxRenderer);
+goog.addSingletonGetter(chartEditor.checkbox.Renderer);
 
 
 /** @override */
-anychart.chartEditorModule.checkbox.Renderer.prototype.createDom = function(checkbox) {
+chartEditor.checkbox.Renderer.prototype.createDom = function(checkbox) {
   var dom = checkbox.getDomHelper();
   var element = dom.createDom(goog.dom.TagName.SPAN,
       this.getClassNames(checkbox).join(' '),
@@ -49,7 +49,7 @@ anychart.chartEditorModule.checkbox.Renderer.prototype.createDom = function(chec
  * @return {Element} The checkbox's content element.
  * @override
  */
-anychart.chartEditorModule.checkbox.Renderer.prototype.getContentElement = function(element) {
+chartEditor.checkbox.Renderer.prototype.getContentElement = function(element) {
   if (element) {
     var captionElem = goog.dom.getElementsByTagNameAndClass(
         '*', goog.getCssName(this.getCssClass(), 'caption'), element)[0];

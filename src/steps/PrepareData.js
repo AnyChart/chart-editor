@@ -1,13 +1,13 @@
-goog.provide('anychart.chartEditorModule.steps.PrepareData');
+goog.provide('chartEditor.steps.PrepareData');
 
-goog.require('anychart.chartEditorModule.DataDialog');
-goog.require('anychart.chartEditorModule.DataSetPanelList');
-goog.require('anychart.chartEditorModule.PredefinedDataSelector');
-goog.require('anychart.chartEditorModule.UserData');
-goog.require('anychart.chartEditorModule.events');
-goog.require('anychart.chartEditorModule.steps.Base');
+goog.require('chartEditor.DataDialog');
+goog.require('chartEditor.DataSetPanelList');
+goog.require('chartEditor.PredefinedDataSelector');
+goog.require('chartEditor.UserData');
+goog.require('chartEditor.events');
+goog.require('chartEditor.steps.Base');
 goog.require('anychart.dataAdapterModule.entry');
-goog.require('anychart.ui.Component');
+goog.require('chartEditor.Component');
 goog.require('goog.ui.Button');
 
 goog.forwardDeclare('anychart.data.Mapping');
@@ -19,9 +19,9 @@ goog.forwardDeclare('anychart.data.Mapping');
  * @constructor
  * @param {number} index Step index
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
- * @extends {anychart.chartEditorModule.steps.Base}
+ * @extends {chartEditor.steps.Base}
  */
-anychart.chartEditorModule.steps.PrepareData = function(index, opt_domHelper) {
+chartEditor.steps.PrepareData = function(index, opt_domHelper) {
   goog.base(this, index, opt_domHelper);
 
   this.name('Prepare Data');
@@ -29,32 +29,32 @@ anychart.chartEditorModule.steps.PrepareData = function(index, opt_domHelper) {
   this.addClassName('anychart-prepare-data-step');
 
   /**
-   * @type {?anychart.chartEditorModule.DataDialog}
+   * @type {?chartEditor.DataDialog}
    * @private
    */
   this.dataDialog_ = null;
 };
-goog.inherits(anychart.chartEditorModule.steps.PrepareData, anychart.chartEditorModule.steps.Base);
+goog.inherits(chartEditor.steps.PrepareData, chartEditor.steps.Base);
 
 
 /** @override */
-anychart.chartEditorModule.steps.PrepareData.prototype.createDom = function() {
-  anychart.chartEditorModule.steps.PrepareData.base(this, 'createDom');
+chartEditor.steps.PrepareData.prototype.createDom = function() {
+  chartEditor.steps.PrepareData.base(this, 'createDom');
 
-  var editor = /** @type {anychart.chartEditorModule.Editor} */(this.getParent());
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(editor.getModel());
+  var editor = /** @type {chartEditor.Editor} */(this.getParent());
+  var model = /** @type {chartEditor.EditorModel} */(editor.getModel());
 
   // connected data sets section
-  this.panelsList_ = new anychart.chartEditorModule.DataSetPanelList(model);
+  this.panelsList_ = new chartEditor.DataSetPanelList(model);
   this.addChild(this.panelsList_, true);
 
   // user data and predefined data sets sections wrapper
-  var wrapper = new anychart.ui.Component();
+  var wrapper = new chartEditor.Component();
   wrapper.addClassName('anychart-prepare-data-step-wrapper');
   this.addChild(wrapper, true);
 
   // user data section
-  this.userData_ = new anychart.chartEditorModule.UserData([
+  this.userData_ = new chartEditor.UserData([
     {
       id: 'google-spreadsheets',
       type: 'connect',
@@ -90,16 +90,16 @@ anychart.chartEditorModule.steps.PrepareData.prototype.createDom = function() {
 
 
   // predefined data set section
-  var predefinedDataSelector = new anychart.chartEditorModule.PredefinedDataSelector(model);
+  var predefinedDataSelector = new chartEditor.PredefinedDataSelector(model);
   wrapper.addChild(predefinedDataSelector, true);
 };
 
 
 /** @override */
-anychart.chartEditorModule.steps.PrepareData.prototype.enterDocument = function() {
-  anychart.chartEditorModule.steps.PrepareData.base(this, 'enterDocument');
+chartEditor.steps.PrepareData.prototype.enterDocument = function() {
+  chartEditor.steps.PrepareData.base(this, 'enterDocument');
 
-  this.getHandler().listen(this.userData_, anychart.chartEditorModule.UserData.EventType.ACTION, function(e) {
+  this.getHandler().listen(this.userData_, chartEditor.UserData.EventType.ACTION, function(e) {
     var tmp = e.value.split('-');
     this.openDataDialog(tmp[0], tmp[1]);
   });
@@ -111,12 +111,12 @@ anychart.chartEditorModule.steps.PrepareData.prototype.enterDocument = function(
  * @param {string} dialogType
  * @param {string=} opt_dataType
  */
-anychart.chartEditorModule.steps.PrepareData.prototype.openDataDialog = function(dialogType, opt_dataType) {
+chartEditor.steps.PrepareData.prototype.openDataDialog = function(dialogType, opt_dataType) {
   this.dialogType_ = dialogType;
   this.dialogDataType_ = opt_dataType;
 
   if (!this.dataDialog_) {
-    this.dataDialog_ = new anychart.chartEditorModule.DataDialog('data-dialog');
+    this.dataDialog_ = new chartEditor.DataDialog('data-dialog');
     this.dataDialog_.setButtonSet(goog.ui.Dialog.ButtonSet.createOkCancel());
     goog.events.listen(this.dataDialog_, goog.ui.Dialog.EventType.SELECT, this.onCloseDataDialog, void 0, this);
   }
@@ -130,8 +130,8 @@ anychart.chartEditorModule.steps.PrepareData.prototype.openDataDialog = function
  * Starts processing inputs from data dialog if pressed 'ok'.
  * @param {Object} evt
  */
-anychart.chartEditorModule.steps.PrepareData.prototype.onCloseDataDialog = function(evt) {
-  var dialog = /** @type {anychart.chartEditorModule.DataDialog} */(evt.target);
+chartEditor.steps.PrepareData.prototype.onCloseDataDialog = function(evt) {
+  var dialog = /** @type {chartEditor.DataDialog} */(evt.target);
   if (evt.key == 'ok') {
     var self = this;
     var dialogType = this.dialogType_;
@@ -146,7 +146,7 @@ anychart.chartEditorModule.steps.PrepareData.prototype.onCloseDataDialog = funct
       if (dialogType == 'file') {
         if (inputValue.match(urlRegex)) {
           this.dispatchEvent({
-            type: anychart.chartEditorModule.events.EventType.WAIT,
+            type: chartEditor.events.EventType.WAIT,
             wait: true
           });
 
@@ -192,7 +192,7 @@ anychart.chartEditorModule.steps.PrepareData.prototype.onCloseDataDialog = funct
           key['sheet'] = input2Value;
 
         this.dispatchEvent({
-          type: anychart.chartEditorModule.events.EventType.WAIT,
+          type: chartEditor.events.EventType.WAIT,
           wait: true
         });
         anychart.dataAdapterModule.loadGoogleSpreadsheet(key,
@@ -211,7 +211,7 @@ anychart.chartEditorModule.steps.PrepareData.prototype.onCloseDataDialog = funct
  * @param {*} data
  * @param {string} dataType
  */
-anychart.chartEditorModule.steps.PrepareData.prototype.addLoadedData = function(data, dataType) {
+chartEditor.steps.PrepareData.prototype.addLoadedData = function(data, dataType) {
   var result = null;
   var typeOf = goog.typeOf(data);
   if (dataType != 'spreadsheets' && (typeOf == 'object' || typeOf == 'array')) {
@@ -241,7 +241,7 @@ anychart.chartEditorModule.steps.PrepareData.prototype.addLoadedData = function(
 
       case 'xml':
         try {
-          result = anychart.chartEditorModule.steps.PrepareData.xmlStringToJson_(/** @type {string} */(data));
+          result = chartEditor.steps.PrepareData.xmlStringToJson_(/** @type {string} */(data));
         } catch (err) {
           // parsing error
           error = true;
@@ -254,7 +254,7 @@ anychart.chartEditorModule.steps.PrepareData.prototype.addLoadedData = function(
   }
 
   if (result) {
-    var type = anychart.chartEditorModule.EditorModel.DataType.CUSTOM;
+    var type = chartEditor.EditorModel.DataType.CUSTOM;
     this.uploadedSetId_ = this.uploadedSetId_ ? ++this.uploadedSetId_ : 1;
     var title = "Custom data " + this.uploadedSetId_ + " (" + dataType + ")";
     if (data.title) {
@@ -262,7 +262,7 @@ anychart.chartEditorModule.steps.PrepareData.prototype.addLoadedData = function(
     }
 
     this.dispatchEvent({
-      type: anychart.chartEditorModule.events.EventType.DATA_ADD,
+      type: chartEditor.events.EventType.DATA_ADD,
       data: result,
       dataType: type,
       setId: this.uploadedSetId_,
@@ -278,9 +278,9 @@ anychart.chartEditorModule.steps.PrepareData.prototype.addLoadedData = function(
  * @param {string} dataType
  * @return {*}
  */
-anychart.chartEditorModule.steps.PrepareData.prototype.onSuccessDataLoad = function(data, dataType) {
+chartEditor.steps.PrepareData.prototype.onSuccessDataLoad = function(data, dataType) {
   this.dispatchEvent({
-    type: anychart.chartEditorModule.events.EventType.WAIT,
+    type: chartEditor.events.EventType.WAIT,
     wait: false
   });
 
@@ -293,9 +293,9 @@ anychart.chartEditorModule.steps.PrepareData.prototype.onSuccessDataLoad = funct
  * Callback in case of error while data load.
  * @param {string} errorCode
  */
-anychart.chartEditorModule.steps.PrepareData.prototype.onErrorDataLoad = function(errorCode) {
+chartEditor.steps.PrepareData.prototype.onErrorDataLoad = function(errorCode) {
   this.dispatchEvent({
-    type: anychart.chartEditorModule.events.EventType.WAIT,
+    type: chartEditor.events.EventType.WAIT,
     wait: false
   });
 
@@ -309,7 +309,7 @@ anychart.chartEditorModule.steps.PrepareData.prototype.onErrorDataLoad = functio
  * @return {?(Object|string)} XML document
  * @private
  */
-anychart.chartEditorModule.steps.PrepareData.xmlStringToJson_ = function(xmlString) {
+chartEditor.steps.PrepareData.xmlStringToJson_ = function(xmlString) {
   var wnd = goog.dom.getWindow();
   var parseXml;
 
@@ -358,9 +358,9 @@ anychart.chartEditorModule.steps.PrepareData.xmlStringToJson_ = function(xmlStri
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.steps.PrepareData.prototype.disposeInternal = function () {
+chartEditor.steps.PrepareData.prototype.disposeInternal = function () {
   goog.dispose(this.userData_);
   this.userData_ = null;
 
-  anychart.chartEditorModule.steps.PrepareData.base(this, 'disposeInternal');
+  chartEditor.steps.PrepareData.base(this, 'disposeInternal');
 };

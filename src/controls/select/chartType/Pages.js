@@ -1,8 +1,8 @@
-goog.provide('anychart.chartEditorModule.controls.chartType.Page');
-goog.provide('anychart.chartEditorModule.controls.chartType.Pager');
-goog.provide('anychart.chartEditorModule.controls.chartType.Pages');
+goog.provide('chartEditor.controls.chartType.Page');
+goog.provide('chartEditor.controls.chartType.Pager');
+goog.provide('chartEditor.controls.chartType.Pages');
 
-goog.require('anychart.chartEditorModule.Component');
+goog.require('chartEditor.Component');
 goog.require('goog.fx.AnimationSerialQueue');
 goog.require('goog.fx.dom.Slide');
 
@@ -11,10 +11,10 @@ goog.require('goog.fx.dom.Slide');
 /**
  * @param {goog.dom.DomHelper=} opt_domHelper
  * @constructor
- * @extends {anychart.chartEditorModule.Component}
+ * @extends {chartEditor.Component}
  */
-anychart.chartEditorModule.controls.chartType.Pages = function(opt_domHelper) {
-  anychart.chartEditorModule.controls.chartType.Pages.base(this, 'constructor', opt_domHelper);
+chartEditor.controls.chartType.Pages = function(opt_domHelper) {
+  chartEditor.controls.chartType.Pages.base(this, 'constructor', opt_domHelper);
 
   this.currentPageIndex_ = 0;
 
@@ -24,29 +24,29 @@ anychart.chartEditorModule.controls.chartType.Pages = function(opt_domHelper) {
 
   this.items_ = [];
 };
-goog.inherits(anychart.chartEditorModule.controls.chartType.Pages, anychart.chartEditorModule.Component);
+goog.inherits(chartEditor.controls.chartType.Pages, chartEditor.Component);
 
 
 /** @type {string} */
-anychart.chartEditorModule.controls.chartType.Pages.CSS_CLASS = goog.getCssName('anychart-chart-editor-chart-type-pages');
+chartEditor.controls.chartType.Pages.CSS_CLASS = goog.getCssName('anychart-chart-editor-chart-type-pages');
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.controls.chartType.Pages.prototype.createDom = function() {
-  anychart.chartEditorModule.controls.chartType.Pages.base(this, 'createDom');
+chartEditor.controls.chartType.Pages.prototype.createDom = function() {
+  chartEditor.controls.chartType.Pages.base(this, 'createDom');
 
-  this.addClassName(anychart.chartEditorModule.controls.chartType.Pages.CSS_CLASS);
+  this.addClassName(chartEditor.controls.chartType.Pages.CSS_CLASS);
 
-  this.pager_ = new anychart.chartEditorModule.controls.chartType.Pager();
+  this.pager_ = new chartEditor.controls.chartType.Pager();
   this.addChild(this.pager_, true);
 };
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.controls.chartType.Pages.prototype.enterDocument = function() {
-  anychart.chartEditorModule.controls.chartType.Pages.base(this, 'enterDocument');
+chartEditor.controls.chartType.Pages.prototype.enterDocument = function() {
+  chartEditor.controls.chartType.Pages.base(this, 'enterDocument');
 
-  this.getHandler().listen(this.pager_, anychart.chartEditorModule.controls.chartType.Pager.EventType.CHANGE_PAGE, function(evt) {
+  this.getHandler().listen(this.pager_, chartEditor.controls.chartType.Pager.EventType.CHANGE_PAGE, function(evt) {
     this.setCurrentPage(evt.index);
   });
 };
@@ -55,7 +55,7 @@ anychart.chartEditorModule.controls.chartType.Pages.prototype.enterDocument = fu
 /**
  * @param {number} value
  */
-anychart.chartEditorModule.controls.chartType.Pages.prototype.setItemsPerPage = function(value) {
+chartEditor.controls.chartType.Pages.prototype.setItemsPerPage = function(value) {
   this.itemsPerPage_ = value;
   this.updatePages();
 };
@@ -66,7 +66,7 @@ anychart.chartEditorModule.controls.chartType.Pages.prototype.setItemsPerPage = 
  *
  * @param {boolean} nextOrPrevious If 'true' - switches forward
  */
-anychart.chartEditorModule.controls.chartType.Pages.prototype.switchPage = function(nextOrPrevious) {
+chartEditor.controls.chartType.Pages.prototype.switchPage = function(nextOrPrevious) {
   var nextIndex = this.currentPageIndex_ + (nextOrPrevious ? 1 : -1);
   if (nextIndex < 0 || nextIndex == this.pages_.length)
     return;
@@ -80,7 +80,7 @@ anychart.chartEditorModule.controls.chartType.Pages.prototype.switchPage = funct
  * Sets current page to page with 'index' index
  * @param {number} index
  */
-anychart.chartEditorModule.controls.chartType.Pages.prototype.setCurrentPage = function(index) {
+chartEditor.controls.chartType.Pages.prototype.setCurrentPage = function(index) {
   if (this.locked_) return;
 
   var self = this;
@@ -122,7 +122,7 @@ anychart.chartEditorModule.controls.chartType.Pages.prototype.setCurrentPage = f
 /**
  * @return {Element}
  */
-anychart.chartEditorModule.controls.chartType.Pages.prototype.getCurrentPageElement = function() {
+chartEditor.controls.chartType.Pages.prototype.getCurrentPageElement = function() {
   return this.pages_[this.currentPageIndex_].getElement();
 };
 
@@ -130,7 +130,7 @@ anychart.chartEditorModule.controls.chartType.Pages.prototype.getCurrentPageElem
 /**
  * Reset widget state to initial condition.
  */
-anychart.chartEditorModule.controls.chartType.Pages.prototype.resetPages = function() {
+chartEditor.controls.chartType.Pages.prototype.resetPages = function() {
   var dom = this.getDomHelper();
   var element = this.getElement();
 
@@ -150,7 +150,7 @@ anychart.chartEditorModule.controls.chartType.Pages.prototype.resetPages = funct
  * Create proper number of pages depend on items and fill in these pages with items.
  * Updates pager also.
  */
-anychart.chartEditorModule.controls.chartType.Pages.prototype.updatePages = function() {
+chartEditor.controls.chartType.Pages.prototype.updatePages = function() {
   this.currentPageIndex_ = 0;
   goog.disposeAll(this.pages_);
   this.pages_.length = 0;
@@ -162,7 +162,7 @@ anychart.chartEditorModule.controls.chartType.Pages.prototype.updatePages = func
 
   for (var i = 0; i < this.items_.length; i++) {
     if (count == 0) {
-      currentPage = new anychart.chartEditorModule.controls.chartType.Page(currentPageIndex);
+      currentPage = new chartEditor.controls.chartType.Page(currentPageIndex);
       this.addChild(currentPage, true);
       this.pages_.push(currentPage);
 
@@ -188,7 +188,7 @@ anychart.chartEditorModule.controls.chartType.Pages.prototype.updatePages = func
 /**
  * @param {Element} item
  */
-anychart.chartEditorModule.controls.chartType.Pages.prototype.registerItem = function(item) {
+chartEditor.controls.chartType.Pages.prototype.registerItem = function(item) {
   this.items_.push(item);
 };
 // endregion
@@ -198,24 +198,24 @@ anychart.chartEditorModule.controls.chartType.Pages.prototype.registerItem = fun
  * @param {number} index
  * @param {goog.dom.DomHelper=} opt_domHelper
  * @constructor
- * @extends {anychart.chartEditorModule.Component}
+ * @extends {chartEditor.Component}
  */
-anychart.chartEditorModule.controls.chartType.Page = function(index, opt_domHelper) {
-  anychart.chartEditorModule.controls.chartType.Page.base(this, 'constructor', opt_domHelper);
+chartEditor.controls.chartType.Page = function(index, opt_domHelper) {
+  chartEditor.controls.chartType.Page.base(this, 'constructor', opt_domHelper);
 
   this.index_ = index;
 };
-goog.inherits(anychart.chartEditorModule.controls.chartType.Page, anychart.chartEditorModule.Component);
+goog.inherits(chartEditor.controls.chartType.Page, chartEditor.Component);
 
 /** @type {string} */
-anychart.chartEditorModule.controls.chartType.Page.CSS_CLASS = goog.getCssName('anychart-chart-editor-chart-type-page-single');
+chartEditor.controls.chartType.Page.CSS_CLASS = goog.getCssName('anychart-chart-editor-chart-type-page-single');
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.controls.chartType.Page.prototype.createDom = function() {
-  anychart.chartEditorModule.controls.chartType.Page.base(this, 'createDom');
+chartEditor.controls.chartType.Page.prototype.createDom = function() {
+  chartEditor.controls.chartType.Page.base(this, 'createDom');
 
-  this.addClassName(anychart.chartEditorModule.controls.chartType.Page.CSS_CLASS);
+  this.addClassName(chartEditor.controls.chartType.Page.CSS_CLASS);
 };
 // endregion
 
@@ -224,36 +224,36 @@ anychart.chartEditorModule.controls.chartType.Page.prototype.createDom = functio
 /**
  * @param {goog.dom.DomHelper=} opt_domHelper
  * @constructor
- * @extends {anychart.chartEditorModule.Component}
+ * @extends {chartEditor.Component}
  */
-anychart.chartEditorModule.controls.chartType.Pager = function(opt_domHelper) {
-  anychart.chartEditorModule.controls.chartType.Pager.base(this, 'constructor', opt_domHelper);
+chartEditor.controls.chartType.Pager = function(opt_domHelper) {
+  chartEditor.controls.chartType.Pager.base(this, 'constructor', opt_domHelper);
 
   this.numPages_ = 0;
   this.currentPageIndex_ = 0;
 };
-goog.inherits(anychart.chartEditorModule.controls.chartType.Pager, anychart.chartEditorModule.Component);
+goog.inherits(chartEditor.controls.chartType.Pager, chartEditor.Component);
 
 
 /** @enum {string} */
-anychart.chartEditorModule.controls.chartType.Pager.EventType = {
+chartEditor.controls.chartType.Pager.EventType = {
   CHANGE_PAGE: goog.events.getUniqueId('change_page')
 };
 
 /** @type {string} */
-anychart.chartEditorModule.controls.chartType.Pager.CSS_CLASS = goog.getCssName('anychart-chart-editor-pager');
+chartEditor.controls.chartType.Pager.CSS_CLASS = goog.getCssName('anychart-chart-editor-pager');
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.controls.chartType.Pager.prototype.createDom = function() {
-  anychart.chartEditorModule.controls.chartType.Pager.base(this, 'createDom');
+chartEditor.controls.chartType.Pager.prototype.createDom = function() {
+  chartEditor.controls.chartType.Pager.base(this, 'createDom');
 
-  this.addClassName(anychart.chartEditorModule.controls.chartType.Pager.CSS_CLASS);
+  this.addClassName(chartEditor.controls.chartType.Pager.CSS_CLASS);
 };
 
 /** @inheritDoc */
-anychart.chartEditorModule.controls.chartType.Pager.prototype.enterDocument = function() {
-  anychart.chartEditorModule.controls.chartType.Pager.base(this, 'enterDocument');
+chartEditor.controls.chartType.Pager.prototype.enterDocument = function() {
+  chartEditor.controls.chartType.Pager.base(this, 'enterDocument');
 
   this.getHandler().listen(this.getElement(), goog.events.EventType.CLICK, this.onDotClick);
 };
@@ -265,7 +265,7 @@ anychart.chartEditorModule.controls.chartType.Pager.prototype.enterDocument = fu
  * @param {number} numPages
  * @param {number} currentPage
  */
-anychart.chartEditorModule.controls.chartType.Pager.prototype.update = function(numPages, currentPage) {
+chartEditor.controls.chartType.Pager.prototype.update = function(numPages, currentPage) {
   this.numPages_ = numPages;
   this.currentPageIndex_ = currentPage;
 
@@ -290,12 +290,12 @@ anychart.chartEditorModule.controls.chartType.Pager.prototype.update = function(
  *
  * @param {Object} evt
  */
-anychart.chartEditorModule.controls.chartType.Pager.prototype.onDotClick = function(evt) {
+chartEditor.controls.chartType.Pager.prototype.onDotClick = function(evt) {
   var index = /** @type {Element} */(evt.target).getAttribute('data-index');
 
   if (!goog.isNull(index) && Number(index) != this.currentPageIndex_) {
     this.dispatchEvent({
-      type: anychart.chartEditorModule.controls.chartType.Pager.EventType.CHANGE_PAGE,
+      type: chartEditor.controls.chartType.Pager.EventType.CHANGE_PAGE,
       index: Number(index)
     });
 

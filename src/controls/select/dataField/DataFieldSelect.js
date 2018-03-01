@@ -1,8 +1,8 @@
-goog.provide('anychart.chartEditorModule.controls.select.DataFieldSelect');
-goog.provide('anychart.chartEditorModule.controls.select.DataFieldSelectRenderer');
+goog.provide('chartEditor.controls.select.DataFieldSelect');
+goog.provide('chartEditor.controls.select.DataFieldSelectRenderer');
 
-goog.require('anychart.chartEditorModule.controls.Menu');
-goog.require('anychart.chartEditorModule.controls.select.Base');
+goog.require('chartEditor.controls.Menu');
+goog.require('chartEditor.controls.select.Base');
 goog.require('goog.ui.ButtonRenderer');
 
 
@@ -14,15 +14,15 @@ goog.require('goog.ui.ButtonRenderer');
  * @param {!goog.ui.MenuRenderer=} opt_menuRenderer
  * @param {string=} opt_menuAdditionalClass
  * @constructor
- * @extends {anychart.chartEditorModule.controls.select.Base}
+ * @extends {chartEditor.controls.select.Base}
  */
-anychart.chartEditorModule.controls.select.DataFieldSelect = function(opt_model, opt_menu, opt_renderer, opt_domHelper, opt_menuRenderer, opt_menuAdditionalClass) {
+chartEditor.controls.select.DataFieldSelect = function(opt_model, opt_menu, opt_renderer, opt_domHelper, opt_menuRenderer, opt_menuAdditionalClass) {
 
   /**
    * @type {goog.ui.MenuRenderer}
    * @private
    */
-  this.cMenuRenderer_ = opt_menuRenderer || anychart.chartEditorModule.controls.MenuRenderer.getInstance();
+  this.cMenuRenderer_ = opt_menuRenderer || chartEditor.controls.MenuRenderer.getInstance();
 
   /**
    * @type {?goog.ui.Menu}
@@ -35,7 +35,7 @@ anychart.chartEditorModule.controls.select.DataFieldSelect = function(opt_model,
    */
   this.menuAdditionalClass = opt_menuAdditionalClass || '';
 
-  anychart.chartEditorModule.controls.select.DataFieldSelect.base(
+  chartEditor.controls.select.DataFieldSelect.base(
       this,
       'constructor',
       goog.isDef(opt_model) ?
@@ -45,32 +45,32 @@ anychart.chartEditorModule.controls.select.DataFieldSelect = function(opt_model,
           ''
       ,
       opt_menu,
-      opt_renderer || anychart.chartEditorModule.controls.select.DataFieldSelectRenderer.getInstance(),
+      opt_renderer || chartEditor.controls.select.DataFieldSelectRenderer.getInstance(),
       opt_domHelper,
       this.cMenuRenderer_
   );
 
   this.setModel(opt_model);
 };
-goog.inherits(anychart.chartEditorModule.controls.select.DataFieldSelect, anychart.chartEditorModule.controls.select.Base);
+goog.inherits(chartEditor.controls.select.DataFieldSelect, chartEditor.controls.select.Base);
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.controls.select.DataFieldSelect.prototype.handleMenuAction = function(e) {
+chartEditor.controls.select.DataFieldSelect.prototype.handleMenuAction = function(e) {
   var item = /** @type {goog.ui.MenuItem} */ (e.target);
-  if (item instanceof anychart.chartEditorModule.controls.select.DataFieldSelectMenuCaption) {
+  if (item instanceof chartEditor.controls.select.DataFieldSelectMenuCaption) {
     e.preventDefault();
     e.stopPropagation();
   } else {
-    anychart.chartEditorModule.controls.select.DataFieldSelect.base(this, 'handleMenuAction', e);
+    chartEditor.controls.select.DataFieldSelect.base(this, 'handleMenuAction', e);
   }
 };
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.controls.select.DataFieldSelect.prototype.getMenu = function() {
+chartEditor.controls.select.DataFieldSelect.prototype.getMenu = function() {
   if (!this.cMenu_) {
-    this.cMenu_ = new anychart.chartEditorModule.controls.Menu(
+    this.cMenu_ = new chartEditor.controls.Menu(
         this.menuAdditionalClass,
         this.getDomHelper(),
         this.cMenuRenderer_
@@ -86,15 +86,15 @@ anychart.chartEditorModule.controls.select.DataFieldSelect.prototype.getMenu = f
  * @constructor
  * @extends {goog.ui.ButtonRenderer}
  */
-anychart.chartEditorModule.controls.select.DataFieldSelectRenderer = function() {
+chartEditor.controls.select.DataFieldSelectRenderer = function() {
   goog.ui.ButtonRenderer.call(this);
 };
-goog.inherits(anychart.chartEditorModule.controls.select.DataFieldSelectRenderer, goog.ui.ButtonRenderer);
-goog.addSingletonGetter(anychart.chartEditorModule.controls.select.DataFieldSelectRenderer);
+goog.inherits(chartEditor.controls.select.DataFieldSelectRenderer, goog.ui.ButtonRenderer);
+goog.addSingletonGetter(chartEditor.controls.select.DataFieldSelectRenderer);
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.controls.select.DataFieldSelectRenderer.prototype.createDom = function(control) {
+chartEditor.controls.select.DataFieldSelectRenderer.prototype.createDom = function(control) {
   return control.getDomHelper().createDom(goog.dom.TagName.DIV, this.getClassNames(control).join(' '), [
     control.getDomHelper().createDom(goog.dom.TagName.DIV, 'anychart-select-data-field-select-content', control.getContent()),
     control.getDomHelper().createDom(goog.dom.TagName.DIV, 'anychart-ui-select-indicator')
@@ -103,7 +103,7 @@ anychart.chartEditorModule.controls.select.DataFieldSelectRenderer.prototype.cre
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.controls.select.DataFieldSelectRenderer.prototype.getContentElement = function(element) {
+chartEditor.controls.select.DataFieldSelectRenderer.prototype.getContentElement = function(element) {
   if (element) {
     return goog.dom.getElementByClass('anychart-select-data-field-select-content', element);
   }
@@ -112,7 +112,7 @@ anychart.chartEditorModule.controls.select.DataFieldSelectRenderer.prototype.get
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.controls.select.DataFieldSelectRenderer.prototype.getCssClass = function() {
+chartEditor.controls.select.DataFieldSelectRenderer.prototype.getCssClass = function() {
   return 'anychart-select-data-field-select';
 };
 // endregion

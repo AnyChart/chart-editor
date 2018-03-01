@@ -1,18 +1,18 @@
-goog.provide('anychart.chartEditorModule.ContextMenuPanel');
+goog.provide('chartEditor.ContextMenuPanel');
 
-goog.require('anychart.chartEditorModule.SettingsPanel');
-goog.require('anychart.chartEditorModule.checkbox.Base');
+goog.require('chartEditor.SettingsPanel');
+goog.require('chartEditor.checkbox.Base');
 
 
 
 /**
- * @param {anychart.chartEditorModule.EditorModel} model
+ * @param {chartEditor.EditorModel} model
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  * @constructor
- * @extends {anychart.chartEditorModule.SettingsPanel}
+ * @extends {chartEditor.SettingsPanel}
  */
-anychart.chartEditorModule.ContextMenuPanel = function(model, opt_domHelper) {
-  anychart.chartEditorModule.ContextMenuPanel.base(this, 'constructor', model, 'Context menu', opt_domHelper);
+chartEditor.ContextMenuPanel = function(model, opt_domHelper) {
+  chartEditor.ContextMenuPanel.base(this, 'constructor', model, 'Context menu', opt_domHelper);
 
   this.key = [['chart'], ['settings'], 'contextMenu()'];
 
@@ -27,18 +27,18 @@ anychart.chartEditorModule.ContextMenuPanel = function(model, opt_domHelper) {
     'about': {caption: 'About', checkbox: void 0}
   };
 };
-goog.inherits(anychart.chartEditorModule.ContextMenuPanel, anychart.chartEditorModule.SettingsPanel);
+goog.inherits(chartEditor.ContextMenuPanel, chartEditor.SettingsPanel);
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.ContextMenuPanel.prototype.createDom = function() {
-  anychart.chartEditorModule.ContextMenuPanel.base(this, 'createDom');
+chartEditor.ContextMenuPanel.prototype.createDom = function() {
+  chartEditor.ContextMenuPanel.base(this, 'createDom');
 
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
 
   for (var key in this.map_) {
     var row = this.map_[key];
-    var checkbox = new anychart.chartEditorModule.checkbox.Base();
+    var checkbox = new chartEditor.checkbox.Base();
     checkbox.setCaption(row.caption);
     checkbox.setModel(key);
     checkbox.init(model, [], 'setContextMenuItemEnable');
@@ -49,10 +49,10 @@ anychart.chartEditorModule.ContextMenuPanel.prototype.createDom = function() {
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.ContextMenuPanel.prototype.onChartDraw = function(evt) {
-  anychart.chartEditorModule.ContextMenuPanel.base(this, 'onChartDraw', evt);
+chartEditor.ContextMenuPanel.prototype.onChartDraw = function(evt) {
+  chartEditor.ContextMenuPanel.base(this, 'onChartDraw', evt);
 
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
   var menuItems = model.contextMenuItems();
   var key;
   var item;
@@ -71,7 +71,7 @@ anychart.chartEditorModule.ContextMenuPanel.prototype.onChartDraw = function(evt
 
 
 /** @override */
-anychart.chartEditorModule.ContextMenuPanel.prototype.disposeInternal = function() {
+chartEditor.ContextMenuPanel.prototype.disposeInternal = function() {
   for (var key in this.map_) {
     if (this.map_[key].checkbox) {
       this.map_[key].checkbox.dispose();
@@ -79,5 +79,5 @@ anychart.chartEditorModule.ContextMenuPanel.prototype.disposeInternal = function
     }
   }
 
-  anychart.chartEditorModule.ContextMenuPanel.base(this, 'disposeInternal');
+  chartEditor.ContextMenuPanel.base(this, 'disposeInternal');
 };

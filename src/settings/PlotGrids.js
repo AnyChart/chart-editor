@@ -1,18 +1,18 @@
-goog.provide('anychart.chartEditorModule.settings.PlotGrids');
+goog.provide('chartEditor.settings.PlotGrids');
 
-goog.require('anychart.chartEditorModule.SettingsPanelIndexed');
-goog.require('anychart.chartEditorModule.settings.Grid');
+goog.require('chartEditor.SettingsPanelIndexed');
+goog.require('chartEditor.settings.Grid');
 
 
 /**
- * @param {anychart.chartEditorModule.EditorModel} model
+ * @param {chartEditor.EditorModel} model
  * @param {number=} opt_plotIndex
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  * @constructor
- * @extends {anychart.chartEditorModule.SettingsPanelIndexed}
+ * @extends {chartEditor.SettingsPanelIndexed}
  */
-anychart.chartEditorModule.settings.PlotGrids = function(model, opt_plotIndex, opt_domHelper) {
-  anychart.chartEditorModule.settings.PlotGrids.base(
+chartEditor.settings.PlotGrids = function(model, opt_plotIndex, opt_domHelper) {
+  chartEditor.settings.PlotGrids.base(
       this,
       'constructor',
       model,
@@ -33,25 +33,25 @@ anychart.chartEditorModule.settings.PlotGrids = function(model, opt_plotIndex, o
 
   this.allowEnabled(false);
 };
-goog.inherits(anychart.chartEditorModule.settings.PlotGrids, anychart.chartEditorModule.SettingsPanelIndexed);
+goog.inherits(chartEditor.settings.PlotGrids, chartEditor.SettingsPanelIndexed);
 
 
 /**
  * Default CSS class.
  * @type {string}
  */
-anychart.chartEditorModule.settings.PlotGrids.CSS_CLASS = goog.getCssName('anychart-settings-panel-plot-grids');
+chartEditor.settings.PlotGrids.CSS_CLASS = goog.getCssName('anychart-settings-panel-plot-grids');
 
 
 /** @override */
-anychart.chartEditorModule.settings.PlotGrids.prototype.createDom = function() {
-  anychart.chartEditorModule.settings.PlotGrids.base(this, 'createDom');
+chartEditor.settings.PlotGrids.prototype.createDom = function() {
+  chartEditor.settings.PlotGrids.base(this, 'createDom');
 
   var element = this.getElement();
-  goog.dom.classlist.add(element, anychart.chartEditorModule.settings.PlotGrids.CSS_CLASS);
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+  goog.dom.classlist.add(element, chartEditor.settings.PlotGrids.CSS_CLASS);
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
 
-  var xGrid = new anychart.chartEditorModule.settings.Grid(model, 'X Grid');
+  var xGrid = new chartEditor.settings.Grid(model, 'X Grid');
   xGrid.allowEnabled(true);
   xGrid.setKey(this.genKey('xGrid()'));
   this.addChild(xGrid, true);
@@ -61,7 +61,7 @@ anychart.chartEditorModule.settings.PlotGrids.prototype.createDom = function() {
       goog.dom.TagName.DIV,
       goog.getCssName('anychart-chart-editor-settings-item-separator')));
 
-  var yGrid = new anychart.chartEditorModule.settings.Grid(model, 'Y Grid');
+  var yGrid = new chartEditor.settings.Grid(model, 'Y Grid');
   yGrid.allowEnabled(true);
   yGrid.setKey(this.genKey('yGrid()'));
   this.addChild(yGrid, true);
@@ -70,7 +70,7 @@ anychart.chartEditorModule.settings.PlotGrids.prototype.createDom = function() {
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.settings.PlotGrids.prototype.updateKeys = function() {
+chartEditor.settings.PlotGrids.prototype.updateKeys = function() {
   if (!this.isExcluded()) {
     this.key = [['chart'], ['settings']];
     if (goog.isDef(this.plotIndex_))
@@ -82,17 +82,17 @@ anychart.chartEditorModule.settings.PlotGrids.prototype.updateKeys = function() 
   }
 
   // Update key of enabled checkbox
-  anychart.chartEditorModule.settings.PlotGrids.base(this, 'updateKeys');
+  chartEditor.settings.PlotGrids.base(this, 'updateKeys');
 };
 
 
 /** @override */
-anychart.chartEditorModule.settings.PlotGrids.prototype.disposeInternal = function() {
+chartEditor.settings.PlotGrids.prototype.disposeInternal = function() {
   this.xGrid_.dispose();
   this.xGrid_ = null;
 
   this.yGrid_.dispose();
   this.yGrid_ = null;
 
-  anychart.chartEditorModule.settings.PlotGrids.base(this, 'disposeInternal');
+  chartEditor.settings.PlotGrids.base(this, 'disposeInternal');
 };

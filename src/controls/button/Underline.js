@@ -1,19 +1,19 @@
-goog.provide('anychart.chartEditorModule.button.Underline');
+goog.provide('chartEditor.button.Underline');
 
-goog.require('anychart.chartEditorModule.button.Toggle');
+goog.require('chartEditor.button.Toggle');
 
 
 
 /**
  * Underline button for text appearance.
  * @constructor
- * @extends {anychart.chartEditorModule.button.Toggle}
+ * @extends {chartEditor.button.Toggle}
  */
-anychart.chartEditorModule.button.Underline = function() {
-  anychart.chartEditorModule.button.Underline.base(this, 'constructor');
+chartEditor.button.Underline = function() {
+  chartEditor.button.Underline.base(this, 'constructor');
 
   this.setIcon('ac ac-underline');
   this.setNormalValue('normal');
   this.setCheckedValue('underline');
 };
-goog.inherits(anychart.chartEditorModule.button.Underline, anychart.chartEditorModule.button.Toggle);
+goog.inherits(chartEditor.button.Underline, chartEditor.button.Toggle);

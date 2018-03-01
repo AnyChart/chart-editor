@@ -1,41 +1,41 @@
-goog.provide('anychart.chartEditorModule.AppearanceSettings');
+goog.provide('chartEditor.AppearanceSettings');
 
-goog.require('anychart.chartEditorModule.ChartTitlePanel');
-goog.require('anychart.chartEditorModule.CircularRangesPanel');
-goog.require('anychart.chartEditorModule.ColorRangePanel');
-goog.require('anychart.chartEditorModule.ColorScalePanel');
-goog.require('anychart.chartEditorModule.Component');
-goog.require('anychart.chartEditorModule.ContextMenuPanel');
-goog.require('anychart.chartEditorModule.CreditsPanel');
-goog.require('anychart.chartEditorModule.DataLabelsPanel');
-goog.require('anychart.chartEditorModule.EditorModel');
-goog.require('anychart.chartEditorModule.GaugeAxesPanel');
-goog.require('anychart.chartEditorModule.GeneralTheming');
-goog.require('anychart.chartEditorModule.GridsPanel');
-goog.require('anychart.chartEditorModule.LegendPanel');
-goog.require('anychart.chartEditorModule.PointersPanel');
-goog.require('anychart.chartEditorModule.RadarPolarXAxisPanel');
-goog.require('anychart.chartEditorModule.RadarPolarYAxisPanel');
-goog.require('anychart.chartEditorModule.ScaleBarsPanel');
-goog.require('anychart.chartEditorModule.SeriesSettingsPanel');
-goog.require('anychart.chartEditorModule.SpecificPanel');
-goog.require('anychart.chartEditorModule.TooltipPanel');
-goog.require('anychart.chartEditorModule.XAxesPanel');
-goog.require('anychart.chartEditorModule.YAxesPanel');
+goog.require('chartEditor.ChartTitlePanel');
+goog.require('chartEditor.CircularRangesPanel');
+goog.require('chartEditor.ColorRangePanel');
+goog.require('chartEditor.ColorScalePanel');
+goog.require('chartEditor.Component');
+goog.require('chartEditor.ContextMenuPanel');
+goog.require('chartEditor.CreditsPanel');
+goog.require('chartEditor.DataLabelsPanel');
+goog.require('chartEditor.EditorModel');
+goog.require('chartEditor.GaugeAxesPanel');
+goog.require('chartEditor.GeneralTheming');
+goog.require('chartEditor.GridsPanel');
+goog.require('chartEditor.LegendPanel');
+goog.require('chartEditor.PointersPanel');
+goog.require('chartEditor.RadarPolarXAxisPanel');
+goog.require('chartEditor.RadarPolarYAxisPanel');
+goog.require('chartEditor.ScaleBarsPanel');
+goog.require('chartEditor.SeriesSettingsPanel');
+goog.require('chartEditor.SpecificPanel');
+goog.require('chartEditor.TooltipPanel');
+goog.require('chartEditor.XAxesPanel');
+goog.require('chartEditor.YAxesPanel');
 
 
 /**
  * Appearance settings widget.
  *
- * @param {anychart.chartEditorModule.EditorModel} model
- * @param {anychart.ui.Component} tabs
- * @param {anychart.ui.Component} tabContent
+ * @param {chartEditor.EditorModel} model
+ * @param {chartEditor.Component} tabs
+ * @param {chartEditor.Component} tabContent
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  * @constructor
- * @extends {anychart.chartEditorModule.Component}
+ * @extends {chartEditor.Component}
  */
-anychart.chartEditorModule.AppearanceSettings = function(model, tabs, tabContent, opt_domHelper) {
-  anychart.chartEditorModule.AppearanceSettings.base(this, 'constructor', opt_domHelper);
+chartEditor.AppearanceSettings = function(model, tabs, tabContent, opt_domHelper) {
+  chartEditor.AppearanceSettings.base(this, 'constructor', opt_domHelper);
 
   this.setModel(model);
 
@@ -43,121 +43,121 @@ anychart.chartEditorModule.AppearanceSettings = function(model, tabs, tabContent
     {
       name: 'GeneralTheming',
       enabled: true,
-      classFunc: anychart.chartEditorModule.GeneralTheming,
+      classFunc: chartEditor.GeneralTheming,
       instance: null
     },
     {
       name: 'Specific',
       enabled: true,
-      classFunc: anychart.chartEditorModule.SpecificPanel,
+      classFunc: chartEditor.SpecificPanel,
       instance: null
     },
     {
       name: 'ChartTitle',
       enabled: true,
-      classFunc: anychart.chartEditorModule.ChartTitlePanel,
+      classFunc: chartEditor.ChartTitlePanel,
       instance: null
     },
     {
       name: 'Legend',
       enabled: true,
-      classFunc: anychart.chartEditorModule.LegendPanel,
+      classFunc: chartEditor.LegendPanel,
       instance: null
     },
     {
       name: 'DataLabels',
       enabled: true,
-      classFunc: anychart.chartEditorModule.DataLabelsPanel,
+      classFunc: chartEditor.DataLabelsPanel,
       instance: null
     },
     {
       name: 'SeriesSettings',
       enabled: true,
-      classFunc: anychart.chartEditorModule.SeriesSettingsPanel,
+      classFunc: chartEditor.SeriesSettingsPanel,
       instance: null
     },
     {
       name: 'Pointers',
       enabled: true,
-      classFunc: anychart.chartEditorModule.PointersPanel,
+      classFunc: chartEditor.PointersPanel,
       instance: null
     },
     {
       name: 'Ranges',
       enabled: true,
-      classFunc: anychart.chartEditorModule.CircularRangesPanel,
+      classFunc: chartEditor.CircularRangesPanel,
       instance: null
     },
     {
       name: 'ScaleBars',
       enabled: true,
-      classFunc: anychart.chartEditorModule.ScaleBarsPanel,
+      classFunc: chartEditor.ScaleBarsPanel,
       instance: null
     },
     {
       name: 'CartesianXAxes',
       enabled: true,
-      classFunc: anychart.chartEditorModule.XAxesPanel,
+      classFunc: chartEditor.XAxesPanel,
       instance: null
     },
     {
       name: 'CartesianYAxes',
       enabled: true,
-      classFunc: anychart.chartEditorModule.YAxesPanel,
+      classFunc: chartEditor.YAxesPanel,
       instance: null
     },
     {
       name: 'RadarXAxes',
       enabled: true,
-      classFunc: anychart.chartEditorModule.RadarPolarXAxisPanel,
+      classFunc: chartEditor.RadarPolarXAxisPanel,
       instance: null
     },
     {
       name: 'RadarYAxes',
       enabled: true,
-      classFunc: anychart.chartEditorModule.RadarPolarYAxisPanel,
+      classFunc: chartEditor.RadarPolarYAxisPanel,
       instance: null
     },
     {
       name: 'gaugeAxes',
       enabled: true,
-      classFunc: anychart.chartEditorModule.GaugeAxesPanel,
+      classFunc: chartEditor.GaugeAxesPanel,
       instance: null
     },
     {
       name: 'Tooltip',
       enabled: true,
-      classFunc: anychart.chartEditorModule.TooltipPanel,
+      classFunc: chartEditor.TooltipPanel,
       instance: null
     },
     {
       name: 'Grids',
       enabled: true,
-      classFunc: anychart.chartEditorModule.GridsPanel,
+      classFunc: chartEditor.GridsPanel,
       instance: null
     },
     {
       name: 'ColorScale',
       enabled: true,
-      classFunc: anychart.chartEditorModule.ColorScalePanel,
+      classFunc: chartEditor.ColorScalePanel,
       instance: null
     },
     {
       name: 'ColorRange',
       enabled: true,
-      classFunc: anychart.chartEditorModule.ColorRangePanel,
+      classFunc: chartEditor.ColorRangePanel,
       instance: null
     },
     {
       name: 'ContextMenu',
       enabled: true,
-      classFunc: anychart.chartEditorModule.ContextMenuPanel,
+      classFunc: chartEditor.ContextMenuPanel,
       instance: null
     },
     {
       name: 'Credits',
       enabled: true,
-      classFunc: anychart.chartEditorModule.CreditsPanel,
+      classFunc: chartEditor.CreditsPanel,
       instance: null
     }];
 
@@ -166,34 +166,34 @@ anychart.chartEditorModule.AppearanceSettings = function(model, tabs, tabContent
   this.buttons_ = [];
 
   /**
-   * @type {anychart.ui.Component}
+   * @type {chartEditor.Component}
    * @private
    */
   this.tabs_ = tabs;
 
   /**
-   * @type {anychart.ui.Component}
+   * @type {chartEditor.Component}
    * @private
    */
   this.tabContent_ = tabContent;
 
   this.addClassName('anychart-appearance-settings');
 };
-goog.inherits(anychart.chartEditorModule.AppearanceSettings, anychart.chartEditorModule.Component);
+goog.inherits(chartEditor.AppearanceSettings, chartEditor.Component);
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.AppearanceSettings.prototype.createDom = function() {
-  anychart.chartEditorModule.AppearanceSettings.base(this, 'createDom');
+chartEditor.AppearanceSettings.prototype.createDom = function() {
+  chartEditor.AppearanceSettings.base(this, 'createDom');
 
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
   var dom = this.getDomHelper();
 
   this.buttonsWrapper_ = goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-buttons-wrapper');
   goog.dom.appendChild(this.tabs_.getElement(), this.buttonsWrapper_);
 
   for (var i = 0; i < this.descriptors_.length; i++) {
-    var panel = /** @type {?anychart.chartEditorModule.SettingsPanel} */(this.descriptors_[i].instance);
+    var panel = /** @type {?chartEditor.SettingsPanel} */(this.descriptors_[i].instance);
     var classFunc = this.descriptors_[i].classFunc;
     panel = this.descriptors_[i].instance = new classFunc(model);
 
@@ -210,8 +210,8 @@ anychart.chartEditorModule.AppearanceSettings.prototype.createDom = function() {
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.AppearanceSettings.prototype.enterDocument = function() {
-  anychart.chartEditorModule.AppearanceSettings.base(this, 'enterDocument');
+chartEditor.AppearanceSettings.prototype.enterDocument = function() {
+  chartEditor.AppearanceSettings.base(this, 'enterDocument');
 
   for (var j = 0; j < this.buttons_.length; j++) {
     var panel = this.descriptors_[j].instance;
@@ -230,12 +230,12 @@ anychart.chartEditorModule.AppearanceSettings.prototype.enterDocument = function
 /**
  * Updates exclusion state of panels.
  */
-anychart.chartEditorModule.AppearanceSettings.prototype.updateExclusions = function() {
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+chartEditor.AppearanceSettings.prototype.updateExclusions = function() {
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
   var panelsExcludes = model.getChartTypeSettings()['panelsExcludes'];
 
   for (var i = 0; i < this.descriptors_.length; i++) {
-    var panel = /** @type {?anychart.chartEditorModule.SettingsPanel} */(this.descriptors_[i].instance);
+    var panel = /** @type {?chartEditor.SettingsPanel} */(this.descriptors_[i].instance);
     var excluded;
 
     if (this.descriptors_[i].name === 'Specific') {
@@ -260,7 +260,7 @@ anychart.chartEditorModule.AppearanceSettings.prototype.updateExclusions = funct
  * @param {Object} evt
  * @private
  */
-anychart.chartEditorModule.AppearanceSettings.prototype.onClickCategoryButton_ = function(evt) {
+chartEditor.AppearanceSettings.prototype.onClickCategoryButton_ = function(evt) {
   var index = Number(evt.currentTarget.getAttribute('data-index'));
   if (this.currentPanel_ !== index) {
     this.currentPanel_ = index;
@@ -278,7 +278,7 @@ anychart.chartEditorModule.AppearanceSettings.prototype.onClickCategoryButton_ =
  * Update descriptors structure. For enablind/disabling panels from api.
  * @param {Object} values
  */
-anychart.chartEditorModule.AppearanceSettings.prototype.updateDescriptors = function(values) {
+chartEditor.AppearanceSettings.prototype.updateDescriptors = function(values) {
   for (var i = 0; i < this.descriptors_.length; i++) {
     if (values[this.descriptors_[i].name]) {
       this.descriptors_[i].enabled = values[this.descriptors_[i].name].enabled;
@@ -291,7 +291,7 @@ anychart.chartEditorModule.AppearanceSettings.prototype.updateDescriptors = func
  * @param {string} name
  * @return {?Object}
  */
-anychart.chartEditorModule.AppearanceSettings.prototype.getDescriptorByName_ = function(name) {
+chartEditor.AppearanceSettings.prototype.getDescriptorByName_ = function(name) {
   var descriptor = null;
   for (var i = 0; i < this.descriptors_.length; i++) {
     if (this.descriptors_[i].name === name) {
@@ -307,7 +307,7 @@ anychart.chartEditorModule.AppearanceSettings.prototype.getDescriptorByName_ = f
  * @param {string} name
  * @param {boolean} enabled
  */
-anychart.chartEditorModule.AppearanceSettings.prototype.enablePanelByName = function(name, enabled) {
+chartEditor.AppearanceSettings.prototype.enablePanelByName = function(name, enabled) {
   var descriptor = this.getDescriptorByName_(name);
   if (descriptor && descriptor.enabled !== enabled) {
     descriptor.enabled = enabled;
@@ -317,12 +317,12 @@ anychart.chartEditorModule.AppearanceSettings.prototype.enablePanelByName = func
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.AppearanceSettings.prototype.disposeInternal = function() {
+chartEditor.AppearanceSettings.prototype.disposeInternal = function() {
   this.descriptors_.length = 0;
   this.buttons_.length = 0;
   this.tabs_ = null;
   this.tabContent_ = null;
   this.buttonsWrapper_ = null;
 
-  anychart.chartEditorModule.AppearanceSettings.base(this, 'disposeInternal');
+  chartEditor.AppearanceSettings.base(this, 'disposeInternal');
 };

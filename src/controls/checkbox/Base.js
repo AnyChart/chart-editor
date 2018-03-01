@@ -1,7 +1,7 @@
-goog.provide('anychart.chartEditorModule.checkbox.Base');
+goog.provide('chartEditor.checkbox.Base');
 
-goog.require('anychart.chartEditorModule.checkbox.Renderer');
-goog.require('anychart.chartEditorModule.events');
+goog.require('chartEditor.checkbox.Renderer');
+goog.require('chartEditor.events');
 goog.require('goog.ui.Checkbox');
 goog.require('goog.ui.Checkbox.State');
 
@@ -17,14 +17,14 @@ goog.require('goog.ui.Checkbox.State');
  * @constructor
  * @extends {goog.ui.Checkbox}
  */
-anychart.chartEditorModule.checkbox.Base = function(opt_checked, opt_domHelper, opt_renderer) {
-  anychart.chartEditorModule.checkbox.Base.base(this, 'constructor', opt_checked, opt_domHelper,
-      opt_renderer || anychart.chartEditorModule.checkbox.Renderer.getInstance());
+chartEditor.checkbox.Base = function(opt_checked, opt_domHelper, opt_renderer) {
+  chartEditor.checkbox.Base.base(this, 'constructor', opt_checked, opt_domHelper,
+      opt_renderer || chartEditor.checkbox.Renderer.getInstance());
 
   /**
    * Editor Model key.
    *
-   * @type {anychart.chartEditorModule.EditorModel.Key}
+   * @type {chartEditor.EditorModel.Key}
    * @protected
    */
   this.key = [];
@@ -37,18 +37,18 @@ anychart.chartEditorModule.checkbox.Base = function(opt_checked, opt_domHelper, 
 
   this.excluded = false;
 };
-goog.inherits(anychart.chartEditorModule.checkbox.Base, goog.ui.Checkbox);
+goog.inherits(chartEditor.checkbox.Base, goog.ui.Checkbox);
 
 
 /**
  * @type {*}
  * @private
  */
-anychart.chartEditorModule.checkbox.Base.prototype.normalValue_ = '';
+chartEditor.checkbox.Base.prototype.normalValue_ = '';
 
 
 /** @param {*} value */
-anychart.chartEditorModule.checkbox.Base.prototype.setNormalValue = function(value) {
+chartEditor.checkbox.Base.prototype.setNormalValue = function(value) {
   this.normalValue_ = value;
 };
 
@@ -57,30 +57,30 @@ anychart.chartEditorModule.checkbox.Base.prototype.setNormalValue = function(val
  * @type {*}
  * @private
  */
-anychart.chartEditorModule.checkbox.Base.prototype.checkedValue_ = '';
+chartEditor.checkbox.Base.prototype.checkedValue_ = '';
 
 
 /** @param {*} value */
-anychart.chartEditorModule.checkbox.Base.prototype.setCheckedValue = function(value) {
+chartEditor.checkbox.Base.prototype.setCheckedValue = function(value) {
   this.checkedValue_ = value;
 };
 
 
-/** @return {anychart.chartEditorModule.EditorModel.Key} */
-anychart.chartEditorModule.checkbox.Base.prototype.getKey = function() {
+/** @return {chartEditor.EditorModel.Key} */
+chartEditor.checkbox.Base.prototype.getKey = function() {
   return this.key;
 };
 
 
-/** @param {anychart.chartEditorModule.EditorModel.Key} value */
-anychart.chartEditorModule.checkbox.Base.prototype.setKey = function(value) {
+/** @param {chartEditor.EditorModel.Key} value */
+chartEditor.checkbox.Base.prototype.setKey = function(value) {
   this.key = value;
 };
 
 
 /** @override */
-anychart.chartEditorModule.checkbox.Base.prototype.enterDocument = function() {
-  anychart.chartEditorModule.checkbox.Base.base(this, 'enterDocument');
+chartEditor.checkbox.Base.prototype.enterDocument = function() {
+  chartEditor.checkbox.Base.base(this, 'enterDocument');
   goog.dom.classlist.enable(this.getElement(), 'anychart-hidden', this.excluded);
   if (!this.excluded)
     goog.events.listen(this, goog.ui.Component.EventType.CHANGE, this.onChange, false, this);
@@ -88,29 +88,29 @@ anychart.chartEditorModule.checkbox.Base.prototype.enterDocument = function() {
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.checkbox.Base.prototype.exitDocument = function() {
+chartEditor.checkbox.Base.prototype.exitDocument = function() {
   goog.events.unlisten(this, goog.ui.Component.EventType.CHANGE, this.onChange, false, this);
-  anychart.chartEditorModule.checkbox.Base.base(this, 'exitDocument');
+  chartEditor.checkbox.Base.base(this, 'exitDocument');
 };
 
 
 /**
  * Connects control with EditorMode.
  *
- * @param {anychart.chartEditorModule.EditorModel} model Editor model instance to connect with.
- * @param {anychart.chartEditorModule.EditorModel.Key} key Key of control's field in model's structure.
+ * @param {chartEditor.EditorModel} model Editor model instance to connect with.
+ * @param {chartEditor.EditorModel.Key} key Key of control's field in model's structure.
  * @param {string=} opt_callback Callback function that will be called on control's value change instead of simple change value in model.
  *  This function should be model's public method.
  * @param {boolean=} opt_noRebuild Should or not rebuild target (chart) on change value of this control.
  */
-anychart.chartEditorModule.checkbox.Base.prototype.init = function(model, key, opt_callback, opt_noRebuild) {
+chartEditor.checkbox.Base.prototype.init = function(model, key, opt_callback, opt_noRebuild) {
   /**
-   * @type {anychart.chartEditorModule.EditorModel}
+   * @type {chartEditor.EditorModel}
    * @protected
    */
   this.editorModel = model;
   if (!this.editorModel)
-    console.warn('anychart.chartEditorModule.checkbox.Base: Model could not be undefined!');
+    console.warn('chartEditor.checkbox.Base: Model could not be undefined!');
 
   this.key = key;
 
@@ -126,7 +126,7 @@ anychart.chartEditorModule.checkbox.Base.prototype.init = function(model, key, o
  * @param {goog.events.Event} evt
  * @private
  */
-anychart.chartEditorModule.checkbox.Base.prototype.onChange = function(evt) {
+chartEditor.checkbox.Base.prototype.onChange = function(evt) {
   evt.stopPropagation();
   if (this.excluded) return;
 
@@ -146,13 +146,13 @@ anychart.chartEditorModule.checkbox.Base.prototype.onChange = function(evt) {
  * Updates model state.
  * @param {?Object} target Object, who's property corresponds to control's key. Used to get value of this control.
  */
-anychart.chartEditorModule.checkbox.Base.prototype.setValueByTarget = function(target) {
+chartEditor.checkbox.Base.prototype.setValueByTarget = function(target) {
   if (!this.key || this.excluded) return;
 
   this.target = target;
 
-  var stringKey = anychart.chartEditorModule.EditorModel.getStringKey(this.key);
-  var value = anychart.bindingModule.exec(this.target, stringKey);
+  var stringKey = chartEditor.EditorModel.getStringKey(this.key);
+  var value = chartEditor.binding.exec(this.target, stringKey);
   value = goog.typeOf(value) === 'boolean' ? /** @type {boolean} */(value) : false;
 
   this.noDispatch = true;
@@ -165,7 +165,7 @@ anychart.chartEditorModule.checkbox.Base.prototype.setValueByTarget = function(t
  * Hide or show control by assigning 'hidden' class
  * @param {boolean} value True if excluded.
  */
-anychart.chartEditorModule.checkbox.Base.prototype.exclude = function(value) {
+chartEditor.checkbox.Base.prototype.exclude = function(value) {
   var dirty = this.excluded != value;
   this.excluded = value;
 
@@ -179,7 +179,7 @@ anychart.chartEditorModule.checkbox.Base.prototype.exclude = function(value) {
 /**
  * @return {boolean}
  */
-anychart.chartEditorModule.checkbox.Base.prototype.isExcluded = function() {
+chartEditor.checkbox.Base.prototype.isExcluded = function() {
   return this.excluded;
 };
 
@@ -187,7 +187,7 @@ anychart.chartEditorModule.checkbox.Base.prototype.isExcluded = function() {
 /**
  * @public
  */
-anychart.chartEditorModule.checkbox.Base.prototype.updateExclusion = function() {
+chartEditor.checkbox.Base.prototype.updateExclusion = function() {
   if (!this.key || !this.key.length || !this.editorModel) return;
 
   var stringKey = this.editorModel.getStringKey(this.key);

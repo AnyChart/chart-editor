@@ -1,35 +1,35 @@
-goog.provide('anychart.chartEditorModule.settings.axes.Polar');
+goog.provide('chartEditor.settings.axes.Polar');
 
-goog.require('anychart.chartEditorModule.SettingsPanelZippy');
-goog.require('anychart.chartEditorModule.controls.select.DataField');
-goog.require('anychart.chartEditorModule.settings.Labels');
-goog.require('anychart.chartEditorModule.settings.Ticks');
+goog.require('chartEditor.SettingsPanelZippy');
+goog.require('chartEditor.controls.select.DataField');
+goog.require('chartEditor.settings.Labels');
+goog.require('chartEditor.settings.Ticks');
 
 
 /**
- * @param {anychart.chartEditorModule.EditorModel} model
+ * @param {chartEditor.EditorModel} model
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  * @constructor
- * @extends {anychart.chartEditorModule.SettingsPanelZippy}
+ * @extends {chartEditor.SettingsPanelZippy}
  */
-anychart.chartEditorModule.settings.axes.Polar = function(model, opt_domHelper) {
-  anychart.chartEditorModule.settings.axes.Polar.base(this, 'constructor', model, 0, 'Enabled', opt_domHelper);
+chartEditor.settings.axes.Polar = function(model, opt_domHelper) {
+  chartEditor.settings.axes.Polar.base(this, 'constructor', model, 0, 'Enabled', opt_domHelper);
 
   this.key = [['chart'], ['settings'], 'xAxis()'];
 
   this.addClassName(goog.getCssName('anychart-settings-panel-axis-polar'));
 };
-goog.inherits(anychart.chartEditorModule.settings.axes.Polar, anychart.chartEditorModule.SettingsPanelZippy);
+goog.inherits(chartEditor.settings.axes.Polar, chartEditor.SettingsPanelZippy);
 
 
 /** @override */
-anychart.chartEditorModule.settings.axes.Polar.prototype.createDom = function() {
-  anychart.chartEditorModule.settings.axes.Polar.base(this, 'createDom');
+chartEditor.settings.axes.Polar.prototype.createDom = function() {
+  chartEditor.settings.axes.Polar.base(this, 'createDom');
 
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
 
   // Overlap mode
-  var overlapMode = new anychart.chartEditorModule.controls.select.DataField({label: 'Labels Overlap'});
+  var overlapMode = new chartEditor.controls.select.DataField({label: 'Labels Overlap'});
   overlapMode.getControl().setOptions([
     {value: 'allow-overlap', caption: 'Overlap'},
     {value: 'no-overlap', caption: 'No overlap'}
@@ -40,7 +40,7 @@ anychart.chartEditorModule.settings.axes.Polar.prototype.createDom = function() 
   this.addContentSeparator();
 
   //region Labels
-  var labels = new anychart.chartEditorModule.settings.Labels(model);
+  var labels = new chartEditor.settings.Labels(model);
   labels.allowEnabled(true);
   labels.allowEditPosition(false);
   labels.allowEditAnchor(false);
@@ -50,7 +50,7 @@ anychart.chartEditorModule.settings.axes.Polar.prototype.createDom = function() 
   this.addContentSeparator();
 
   // Ticks
-  var ticks = new anychart.chartEditorModule.settings.Ticks(model);
+  var ticks = new chartEditor.settings.Ticks(model);
   ticks.allowEnabled(true);
   ticks.allowEditPosition(false);
   ticks.setKey(this.genKey('ticks()'));
@@ -60,7 +60,7 @@ anychart.chartEditorModule.settings.axes.Polar.prototype.createDom = function() 
   this.addContentSeparator();
 
   //region Minor Labels
-  var minorLabels = new anychart.chartEditorModule.settings.Labels(model);
+  var minorLabels = new chartEditor.settings.Labels(model);
   minorLabels.setName('Minor Labels');
   minorLabels.allowEnabled(true);
   minorLabels.allowEditPosition(false);
@@ -71,7 +71,7 @@ anychart.chartEditorModule.settings.axes.Polar.prototype.createDom = function() 
   this.addContentSeparator();
 
   // Minor Ticks
-  var minorTicks = new anychart.chartEditorModule.settings.Ticks(model);
+  var minorTicks = new chartEditor.settings.Ticks(model);
   minorTicks.setName('Minor Ticks');
   minorTicks.allowEnabled(true);
   minorTicks.allowEditPosition(false);

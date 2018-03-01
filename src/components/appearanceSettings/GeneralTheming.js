@@ -1,38 +1,38 @@
-goog.provide('anychart.chartEditorModule.GeneralTheming');
+goog.provide('chartEditor.GeneralTheming');
 
-goog.require('anychart.chartEditorModule.SettingsPanel');
-goog.require('anychart.chartEditorModule.controls.select.DataField');
-goog.require('anychart.chartEditorModule.controls.select.DataFieldSelectMenuItem');
-goog.require('anychart.chartEditorModule.controls.select.Palettes');
-goog.require('anychart.chartEditorModule.settings.Title');
+goog.require('chartEditor.SettingsPanel');
+goog.require('chartEditor.controls.select.DataField');
+goog.require('chartEditor.controls.select.DataFieldSelectMenuItem');
+goog.require('chartEditor.controls.select.Palettes');
+goog.require('chartEditor.settings.Title');
 
 
 
 /**
- * @param {anychart.chartEditorModule.EditorModel} model
+ * @param {chartEditor.EditorModel} model
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  * @constructor
- * @extends {anychart.chartEditorModule.SettingsPanel}
+ * @extends {chartEditor.SettingsPanel}
  */
-anychart.chartEditorModule.GeneralTheming = function(model, opt_domHelper) {
-  anychart.chartEditorModule.GeneralTheming.base(this, 'constructor', model, 'General Theming', opt_domHelper);
+chartEditor.GeneralTheming = function(model, opt_domHelper) {
+  chartEditor.GeneralTheming.base(this, 'constructor', model, 'General Theming', opt_domHelper);
 };
-goog.inherits(anychart.chartEditorModule.GeneralTheming, anychart.chartEditorModule.SettingsPanel);
+goog.inherits(chartEditor.GeneralTheming, chartEditor.SettingsPanel);
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.GeneralTheming.prototype.createDom = function() {
-  anychart.chartEditorModule.GeneralTheming.base(this, 'createDom');
+chartEditor.GeneralTheming.prototype.createDom = function() {
+  chartEditor.GeneralTheming.base(this, 'createDom');
 
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
   var themes = goog.object.filter(goog.dom.getWindow()['anychart']['themes'], function(item) {
     return item['palette'];
   });
-  this.themeSelect = new anychart.chartEditorModule.controls.select.DataField({caption: 'Select theme', label: 'Theme'});
+  this.themeSelect = new chartEditor.controls.select.DataField({caption: 'Select theme', label: 'Theme'});
   var themeNames = goog.object.getKeys(themes);
 
   for (var i = 0; i < themeNames.length; i++) {
-    this.themeSelect.getSelect().addItem(new anychart.chartEditorModule.controls.select.DataFieldSelectMenuItem({
+    this.themeSelect.getSelect().addItem(new chartEditor.controls.select.DataFieldSelectMenuItem({
       caption: themeNames[i],
       value: themeNames[i]
     }));
@@ -41,10 +41,10 @@ anychart.chartEditorModule.GeneralTheming.prototype.createDom = function() {
   this.addChild(this.themeSelect, true);
 
   var realPalettes = goog.dom.getWindow()['anychart']['palettes'];
-  this.paletteSelect = new anychart.chartEditorModule.controls.select.Palettes({caption: 'Select palette', label: 'Palette'});
+  this.paletteSelect = new chartEditor.controls.select.Palettes({caption: 'Select palette', label: 'Palette'});
   for (var paletteName in realPalettes) {
     if (realPalettes.hasOwnProperty(paletteName) && goog.isArray(realPalettes[paletteName])) {
-      this.paletteSelect.getSelect().addItem(new anychart.chartEditorModule.controls.select.DataFieldSelectMenuItem({
+      this.paletteSelect.getSelect().addItem(new chartEditor.controls.select.DataFieldSelectMenuItem({
         caption: paletteName,
         value: paletteName
       }));
@@ -56,15 +56,15 @@ anychart.chartEditorModule.GeneralTheming.prototype.createDom = function() {
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.GeneralTheming.prototype.onModelChange = function(evt) {
+chartEditor.GeneralTheming.prototype.onModelChange = function(evt) {
   if (this.paletteSelect) this.paletteSelect.updateExclusion();
-  anychart.chartEditorModule.GeneralTheming.base(this, 'onModelChange', evt);
+  chartEditor.GeneralTheming.base(this, 'onModelChange', evt);
 };
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.GeneralTheming.prototype.onChartDraw = function(evt) {
-  anychart.chartEditorModule.GeneralTheming.base(this, 'onChartDraw', evt);
+chartEditor.GeneralTheming.prototype.onChartDraw = function(evt) {
+  chartEditor.GeneralTheming.base(this, 'onChartDraw', evt);
   if (evt.rebuild) {
     if (this.themeSelect) this.themeSelect.getSelect().setValueByTarget(goog.dom.getWindow()['anychart']);
     if (this.paletteSelect) this.paletteSelect.getSelect().setValueByTarget(evt.chart);
@@ -73,11 +73,11 @@ anychart.chartEditorModule.GeneralTheming.prototype.onChartDraw = function(evt) 
 
 
 /** @override */
-anychart.chartEditorModule.GeneralTheming.prototype.disposeInternal = function() {
+chartEditor.GeneralTheming.prototype.disposeInternal = function() {
   goog.disposeAll([this.themeSelect, this.paletteSelect]);
 
   this.themeSelect = null;
   this.paletteSelect = null;
 
-  anychart.chartEditorModule.GeneralTheming.base(this, 'disposeInternal');
+  chartEditor.GeneralTheming.base(this, 'disposeInternal');
 };

@@ -1,29 +1,29 @@
-goog.provide('anychart.chartEditorModule.CreditsPanel');
+goog.provide('chartEditor.CreditsPanel');
 
-goog.require('anychart.chartEditorModule.SettingsPanel');
-goog.require('anychart.chartEditorModule.input.Base');
+goog.require('chartEditor.SettingsPanel');
+goog.require('chartEditor.input.Base');
 
 
 
 /**
- * @param {anychart.chartEditorModule.EditorModel} model
+ * @param {chartEditor.EditorModel} model
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  * @constructor
- * @extends {anychart.chartEditorModule.SettingsPanel}
+ * @extends {chartEditor.SettingsPanel}
  */
-anychart.chartEditorModule.CreditsPanel = function(model, opt_domHelper) {
-  anychart.chartEditorModule.CreditsPanel.base(this, 'constructor', model, 'License & Credits', opt_domHelper);
+chartEditor.CreditsPanel = function(model, opt_domHelper) {
+  chartEditor.CreditsPanel.base(this, 'constructor', model, 'License & Credits', opt_domHelper);
 
   this.key = [['chart'], ['settings'], 'credits()'];
 
   this.isValidKey_ = false;
 };
-goog.inherits(anychart.chartEditorModule.CreditsPanel, anychart.chartEditorModule.SettingsPanel);
+goog.inherits(chartEditor.CreditsPanel, chartEditor.SettingsPanel);
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.CreditsPanel.prototype.createDom = function() {
-  anychart.chartEditorModule.CreditsPanel.base(this, 'createDom');
+chartEditor.CreditsPanel.prototype.createDom = function() {
+  chartEditor.CreditsPanel.base(this, 'createDom');
 
   var content = this.getContentElement();
   var licenseKeyLabel = goog.dom.createDom(
@@ -36,7 +36,7 @@ anychart.chartEditorModule.CreditsPanel.prototype.createDom = function() {
       'License key');
   goog.dom.appendChild(content, licenseKeyLabel);
 
-  var licenseKey = new anychart.chartEditorModule.input.Base();
+  var licenseKey = new chartEditor.input.Base();
   this.addChild(licenseKey, true);
   this.licenseKey_ = licenseKey;
 
@@ -55,7 +55,7 @@ anychart.chartEditorModule.CreditsPanel.prototype.createDom = function() {
   goog.dom.appendChild(content, textLabel);
   this.registerLabel(textLabel);
 
-  var text = new anychart.chartEditorModule.input.Base('Text');
+  var text = new chartEditor.input.Base('Text');
   this.addChild(text, true);
   this.text_ = text;
 
@@ -74,7 +74,7 @@ anychart.chartEditorModule.CreditsPanel.prototype.createDom = function() {
   goog.dom.appendChild(content, urlLabel);
   this.registerLabel(urlLabel);
 
-  var url = new anychart.chartEditorModule.input.Base('Url');
+  var url = new chartEditor.input.Base('Url');
   this.addChild(url, true);
   this.url_ = url;
 
@@ -93,7 +93,7 @@ anychart.chartEditorModule.CreditsPanel.prototype.createDom = function() {
   goog.dom.appendChild(content, logoLabel);
   this.registerLabel(logoLabel);
 
-  var logoSrc = new anychart.chartEditorModule.input.Base('Logo');
+  var logoSrc = new chartEditor.input.Base('Logo');
   this.addChild(logoSrc, true);
   this.logoSrc_ = logoSrc;
 };
@@ -101,8 +101,8 @@ anychart.chartEditorModule.CreditsPanel.prototype.createDom = function() {
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.CreditsPanel.prototype.onChartDraw = function(evt) {
-  anychart.chartEditorModule.CreditsPanel.base(this, 'onChartDraw', evt);
+chartEditor.CreditsPanel.prototype.onChartDraw = function(evt) {
+  chartEditor.CreditsPanel.base(this, 'onChartDraw', evt);
 
   var ac = goog.dom.getWindow()['anychart'];
   this.isValidKey_ = ac['isValidKey']();
@@ -119,11 +119,11 @@ anychart.chartEditorModule.CreditsPanel.prototype.onChartDraw = function(evt) {
 };
 
 /** @inheritDoc */
-anychart.chartEditorModule.CreditsPanel.prototype.updateKeys = function() {
-  anychart.chartEditorModule.CreditsPanel.base(this, 'updateKeys');
+chartEditor.CreditsPanel.prototype.updateKeys = function() {
+  chartEditor.CreditsPanel.base(this, 'updateKeys');
   if (this.isExcluded()) return;
 
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
   if (this.licenseKey_) this.licenseKey_.init(model, [['anychart'], 'licenseKey()']);
   if (this.text_) this.text_.init(model, this.genKey('text()'));
   if (this.url_) this.url_.init(model, this.genKey('url()'));
@@ -132,9 +132,9 @@ anychart.chartEditorModule.CreditsPanel.prototype.updateKeys = function() {
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.CreditsPanel.prototype.setContentEnabled = function(enabled) {
+chartEditor.CreditsPanel.prototype.setContentEnabled = function(enabled) {
   var contentEnabled = this.isValidKey_ && enabled;
-  anychart.chartEditorModule.CreditsPanel.base(this, 'setContentEnabled', contentEnabled);
+  chartEditor.CreditsPanel.base(this, 'setContentEnabled', contentEnabled);
 
   if (this.enableContentCheckbox)
     this.enableContentCheckbox.setEnabled(this.isValidKey_);
@@ -145,11 +145,11 @@ anychart.chartEditorModule.CreditsPanel.prototype.setContentEnabled = function(e
 
 
 /** @override */
-anychart.chartEditorModule.CreditsPanel.prototype.disposeInternal = function() {
+chartEditor.CreditsPanel.prototype.disposeInternal = function() {
   this.licenseKey_ = null;
   this.text_ = null;
   this.url_ = null;
   this.logoSrc_ = null;
 
-  anychart.chartEditorModule.CreditsPanel.base(this, 'disposeInternal');
+  chartEditor.CreditsPanel.base(this, 'disposeInternal');
 };

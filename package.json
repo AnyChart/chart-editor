@@ -4,7 +4,10 @@
   "description": "Anychart Chart Editor utility",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "compile": "sh compile.sh",
+    "deps":  "sh deps.sh",
+    "css":  "echo 'Style me!'",
+    "build-help": "java -jar node_modules/google-closure-compiler/compiler.jar --help"
   },
   "repository": {
     "type": "git",

@@ -1,4 +1,4 @@
-goog.provide('anychart.chartEditorModule.DataDialog');
+goog.provide('chartEditor.DataDialog');
 
 goog.require('goog.ui.Dialog');
 
@@ -12,10 +12,10 @@ goog.require('goog.ui.Dialog');
  * @constructor
  * @extends {goog.ui.Dialog}
  */
-anychart.chartEditorModule.DataDialog = function(opt_class, opt_useIframeMask, opt_domHelper) {
-  anychart.chartEditorModule.DataDialog.base(this, 'constructor', opt_class, opt_useIframeMask, opt_domHelper);
+chartEditor.DataDialog = function(opt_class, opt_useIframeMask, opt_domHelper) {
+  chartEditor.DataDialog.base(this, 'constructor', opt_class, opt_useIframeMask, opt_domHelper);
 };
-goog.inherits(anychart.chartEditorModule.DataDialog, goog.ui.Dialog);
+goog.inherits(chartEditor.DataDialog, goog.ui.Dialog);
 
 
 /**
@@ -24,7 +24,7 @@ goog.inherits(anychart.chartEditorModule.DataDialog, goog.ui.Dialog);
  * @param {string} dialogType
  * @param {string=} opt_dataType
  */
-anychart.chartEditorModule.DataDialog.prototype.updateContent = function(dialogType, opt_dataType){
+chartEditor.DataDialog.prototype.updateContent = function(dialogType, opt_dataType){
   this.type_ = dialogType;
   this.dataType_ = opt_dataType;
 
@@ -90,7 +90,7 @@ anychart.chartEditorModule.DataDialog.prototype.updateContent = function(dialogT
 
 
 /** @return {string} */
-anychart.chartEditorModule.DataDialog.prototype.getType = function(){
+chartEditor.DataDialog.prototype.getType = function(){
   return this.type_;
 };
 
@@ -99,7 +99,7 @@ anychart.chartEditorModule.DataDialog.prototype.getType = function(){
  * Returns value of input field.
  * @return {?string}
  */
-anychart.chartEditorModule.DataDialog.prototype.getInputValue = function(){
+chartEditor.DataDialog.prototype.getInputValue = function(){
   return this.input_ && this.input_.value;
 };
 
@@ -108,7 +108,7 @@ anychart.chartEditorModule.DataDialog.prototype.getInputValue = function(){
  * Returns value of input2 field.
  * @return {?string}
  */
-anychart.chartEditorModule.DataDialog.prototype.getInput2Value = function(){
+chartEditor.DataDialog.prototype.getInput2Value = function(){
   return this.input2_ && this.input2_.value;
 };
 
@@ -118,7 +118,7 @@ anychart.chartEditorModule.DataDialog.prototype.getInput2Value = function(){
  *
  * @return {{rowsSeparator: string, columnsSeparator: string, ignoreFirstRow: boolean, ignoreTrailingSpaces: boolean}}
  */
-anychart.chartEditorModule.DataDialog.prototype.getCSVSettings = function() {
+chartEditor.DataDialog.prototype.getCSVSettings = function() {
   var rowsSeparator = this.processSpecialChars_(this.csvRSeparator_.value);
   var columnsSeparator = this.processSpecialChars_(this.csvCSeparator_.value);
 
@@ -138,7 +138,7 @@ anychart.chartEditorModule.DataDialog.prototype.getCSVSettings = function() {
  * @return {string}
  * @private
  */
-anychart.chartEditorModule.DataDialog.prototype.processSpecialChars_ = function(string) {
+chartEditor.DataDialog.prototype.processSpecialChars_ = function(string) {
   return string.replace(/\\(r|n|t)/g, function(part, g1) {
     switch (g1) {
       case 'r':

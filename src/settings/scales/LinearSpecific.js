@@ -1,48 +1,48 @@
-goog.provide('anychart.chartEditorModule.settings.scales.LinearSpecific');
+goog.provide('chartEditor.settings.scales.LinearSpecific');
 
-goog.require('anychart.chartEditorModule.checkbox.Base');
-goog.require('anychart.chartEditorModule.comboBox.Base');
-goog.require('anychart.chartEditorModule.controls.LabeledControl');
-goog.require('anychart.chartEditorModule.controls.LabeledControlTwins');
-goog.require('anychart.chartEditorModule.controls.select.DataField');
-goog.require('anychart.chartEditorModule.input.Numbers');
-goog.require('anychart.chartEditorModule.settings.scales.ScatterTicks');
-goog.require('anychart.chartEditorModule.settings.scales.SpecificBase');
+goog.require('chartEditor.checkbox.Base');
+goog.require('chartEditor.comboBox.Base');
+goog.require('chartEditor.controls.LabeledControl');
+goog.require('chartEditor.controls.LabeledControlTwins');
+goog.require('chartEditor.controls.select.DataField');
+goog.require('chartEditor.input.Numbers');
+goog.require('chartEditor.settings.scales.ScatterTicks');
+goog.require('chartEditor.settings.scales.SpecificBase');
 
 
 /**
- * @param {anychart.chartEditorModule.EditorModel} model
+ * @param {chartEditor.EditorModel} model
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  * @constructor
- * @extends {anychart.chartEditorModule.settings.scales.SpecificBase}
+ * @extends {chartEditor.settings.scales.SpecificBase}
  */
-anychart.chartEditorModule.settings.scales.LinearSpecific = function(model, opt_domHelper) {
-  anychart.chartEditorModule.settings.scales.LinearSpecific.base(this, 'constructor', model, opt_domHelper);
+chartEditor.settings.scales.LinearSpecific = function(model, opt_domHelper) {
+  chartEditor.settings.scales.LinearSpecific.base(this, 'constructor', model, opt_domHelper);
 };
-goog.inherits(anychart.chartEditorModule.settings.scales.LinearSpecific, anychart.chartEditorModule.settings.scales.SpecificBase);
+goog.inherits(chartEditor.settings.scales.LinearSpecific, chartEditor.settings.scales.SpecificBase);
 
 
 /**
  * Default CSS class.
  * @type {string}
  */
-anychart.chartEditorModule.settings.scales.LinearSpecific.CSS_CLASS = goog.getCssName('anychart-settings-panel-scale-linear');
+chartEditor.settings.scales.LinearSpecific.CSS_CLASS = goog.getCssName('anychart-settings-panel-scale-linear');
 
 
 /** @override */
-anychart.chartEditorModule.settings.scales.LinearSpecific.prototype.createDom = function() {
-  anychart.chartEditorModule.settings.scales.LinearSpecific.base(this, 'createDom');
+chartEditor.settings.scales.LinearSpecific.prototype.createDom = function() {
+  chartEditor.settings.scales.LinearSpecific.base(this, 'createDom');
 
-  goog.dom.classlist.add(this.getElement(), anychart.chartEditorModule.settings.scales.LinearSpecific.CSS_CLASS);
+  goog.dom.classlist.add(this.getElement(), chartEditor.settings.scales.LinearSpecific.CSS_CLASS);
 
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
 
-  var inverted = new anychart.chartEditorModule.checkbox.Base();
+  var inverted = new chartEditor.checkbox.Base();
   inverted.setCaption('Inverted');
   inverted.init(model, this.genKey('inverted()'));
   this.addChildControl(inverted);
 
-  var stackMode = new anychart.chartEditorModule.controls.select.DataField({label: 'Stack Mode'});
+  var stackMode = new chartEditor.controls.select.DataField({label: 'Stack Mode'});
   stackMode.getSelect().setOptions([
     {value: 'none'},
     {value: 'percent'},
@@ -51,7 +51,7 @@ anychart.chartEditorModule.settings.scales.LinearSpecific.prototype.createDom = 
   stackMode.init(model, this.genKey('stackMode()'));
   this.addChildControl(stackMode);
 
-  var stackDirection = new anychart.chartEditorModule.controls.select.DataField({label: 'Stack Direction'});
+  var stackDirection = new chartEditor.controls.select.DataField({label: 'Stack Direction'});
   stackDirection.getSelect().setOptions([
     {value: 'direct'},
     {value: 'reverse'}
@@ -60,34 +60,34 @@ anychart.chartEditorModule.settings.scales.LinearSpecific.prototype.createDom = 
   this.addChildControl(stackDirection);
 
 
-  var stickToZero = new anychart.chartEditorModule.checkbox.Base();
+  var stickToZero = new chartEditor.checkbox.Base();
   stickToZero.setCaption('Stick To Zero');
   stickToZero.init(model, this.genKey('stickToZero()'));
   this.addChildControl(stickToZero);
 
-  var minimum = new anychart.chartEditorModule.input.Numbers();
-  var minimumLC = new anychart.chartEditorModule.controls.LabeledControlTwins(minimum, 'Minimum');
+  var minimum = new chartEditor.input.Numbers();
+  var minimumLC = new chartEditor.controls.LabeledControlTwins(minimum, 'Minimum');
   minimumLC.init(model, this.genKey('minimum()'));
   minimumLC.setKey2(this.genKey('softMinimum()'));
   this.addChildControl(minimumLC);
 
-  var maximum = new anychart.chartEditorModule.input.Numbers();
-  var maximumLC = new anychart.chartEditorModule.controls.LabeledControlTwins(maximum, 'Maximum');
+  var maximum = new chartEditor.input.Numbers();
+  var maximumLC = new chartEditor.controls.LabeledControlTwins(maximum, 'Maximum');
   maximumLC.init(model, this.genKey('maximum()'));
   maximumLC.setKey2(this.genKey('softMaximum()'));
   this.addChildControl(maximumLC);
 
-  var minimumGap = new anychart.chartEditorModule.comboBox.Base();
+  var minimumGap = new chartEditor.comboBox.Base();
   minimumGap.setOptions([0, .1, .3, .5, .7, .9]);
   minimumGap.setRange(0, 1);
-  var minimumGapLC = new anychart.chartEditorModule.controls.LabeledControl(minimumGap, 'Minimum Gap');
+  var minimumGapLC = new chartEditor.controls.LabeledControl(minimumGap, 'Minimum Gap');
   minimumGapLC.init(model, this.genKey('minimumGap()'));
   this.addChildControl(minimumGapLC);
 
-  var maximumGap = new anychart.chartEditorModule.comboBox.Base();
+  var maximumGap = new chartEditor.comboBox.Base();
   maximumGap.setOptions([0, .1, .3, .5, .7, .9]);
   maximumGap.setRange(0, 1);
-  var maximumGapLC = new anychart.chartEditorModule.controls.LabeledControl(maximumGap, 'Maximum Gap');
+  var maximumGapLC = new chartEditor.controls.LabeledControl(maximumGap, 'Maximum Gap');
   maximumGapLC.init(model, this.genKey('maximumGap()'));
   this.addChildControl(maximumGapLC);
 
@@ -95,7 +95,7 @@ anychart.chartEditorModule.settings.scales.LinearSpecific.prototype.createDom = 
       goog.dom.TagName.DIV,
       goog.getCssName('anychart-chart-editor-settings-item-separator-gaps')));
 
-  var ticks = new anychart.chartEditorModule.settings.scales.ScatterTicks(model, 'Scale Ticks');
+  var ticks = new chartEditor.settings.scales.ScatterTicks(model, 'Scale Ticks');
   ticks.allowEnabled(false);
   ticks.setKey(this.genKey('ticks()'));
   this.addChild(ticks, true);
@@ -104,7 +104,7 @@ anychart.chartEditorModule.settings.scales.LinearSpecific.prototype.createDom = 
       goog.dom.TagName.DIV,
       goog.getCssName('anychart-chart-editor-settings-item-separator-gaps')));
 
-  var minorTicks = new anychart.chartEditorModule.settings.scales.ScatterTicks(model, 'Scale Minor Ticks');
+  var minorTicks = new chartEditor.settings.scales.ScatterTicks(model, 'Scale Minor Ticks');
   minorTicks.allowEnabled(false);
   minorTicks.setKey(this.genKey('minorTicks()'));
   this.addChild(minorTicks, true);

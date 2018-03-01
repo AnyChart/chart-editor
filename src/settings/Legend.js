@@ -1,19 +1,19 @@
-goog.provide('anychart.chartEditorModule.settings.Legend');
+goog.provide('chartEditor.settings.Legend');
 
-goog.require('anychart.chartEditorModule.SettingsPanelIndexed');
-goog.require('anychart.chartEditorModule.settings.LegendAppearance');
-goog.require('anychart.chartEditorModule.settings.Title');
+goog.require('chartEditor.SettingsPanelIndexed');
+goog.require('chartEditor.settings.LegendAppearance');
+goog.require('chartEditor.settings.Title');
 
 
 /**
- * @param {anychart.chartEditorModule.EditorModel} model
+ * @param {chartEditor.EditorModel} model
  * @param {number=} opt_plotIndex
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  * @constructor
- * @extends {anychart.chartEditorModule.SettingsPanelIndexed}
+ * @extends {chartEditor.SettingsPanelIndexed}
  */
-anychart.chartEditorModule.settings.Legend = function(model, opt_plotIndex, opt_domHelper) {
-  anychart.chartEditorModule.settings.Legend.base(
+chartEditor.settings.Legend = function(model, opt_plotIndex, opt_domHelper) {
+  chartEditor.settings.Legend.base(
       this,
       'constructor',
       model,
@@ -37,17 +37,17 @@ anychart.chartEditorModule.settings.Legend = function(model, opt_plotIndex, opt_
   this.allowEnabled(true);
   this.addClassName(goog.getCssName('anychart-settings-panel-legend-single'));
 };
-goog.inherits(anychart.chartEditorModule.settings.Legend,anychart.chartEditorModule.SettingsPanelIndexed);
+goog.inherits(chartEditor.settings.Legend,chartEditor.SettingsPanelIndexed);
 
 
 /** @override */
-anychart.chartEditorModule.settings.Legend.prototype.createDom = function() {
-  anychart.chartEditorModule.settings.Legend.base(this, 'createDom');
+chartEditor.settings.Legend.prototype.createDom = function() {
+  chartEditor.settings.Legend.base(this, 'createDom');
 
   var content = this.getContentElement();
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
 
-  var appearance = new anychart.chartEditorModule.settings.LegendAppearance(model);
+  var appearance = new chartEditor.settings.LegendAppearance(model);
   appearance.setKey(this.key);
   appearance.allowEnabled(false);
   this.addChild(appearance, true);
@@ -56,7 +56,7 @@ anychart.chartEditorModule.settings.Legend.prototype.createDom = function() {
       goog.dom.TagName.DIV,
       goog.getCssName('anychart-chart-editor-settings-item-separator')));
 
-  var title = new anychart.chartEditorModule.settings.Title(model, 'Title');
+  var title = new chartEditor.settings.Title(model, 'Title');
   title.setPositionKey('orientation()');
   title.setKey(this.genKey('title()'));
   this.addChild(title, true);
@@ -67,7 +67,7 @@ anychart.chartEditorModule.settings.Legend.prototype.createDom = function() {
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.settings.Legend.prototype.updateKeys = function() {
+chartEditor.settings.Legend.prototype.updateKeys = function() {
   if (!this.isExcluded()) {
     var stringKey = 'legend()';
     if (goog.isDef(this.plotIndex_))
@@ -80,14 +80,14 @@ anychart.chartEditorModule.settings.Legend.prototype.updateKeys = function() {
   }
 
   // Update key of enabled checkbox
-  anychart.chartEditorModule.settings.Legend.base(this, 'updateKeys');
+  chartEditor.settings.Legend.base(this, 'updateKeys');
 };
 
 
 /** @override */
-anychart.chartEditorModule.settings.Legend.prototype.disposeInternal = function() {
+chartEditor.settings.Legend.prototype.disposeInternal = function() {
   this.appearance_.dispose();
   this.appearance_ = null;
   this.title_ = null;
-  anychart.chartEditorModule.settings.Legend.base(this, 'disposeInternal');
+  chartEditor.settings.Legend.base(this, 'disposeInternal');
 };

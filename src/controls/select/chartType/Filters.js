@@ -1,26 +1,26 @@
-goog.provide('anychart.chartEditorModule.controls.chartType.Filters');
+goog.provide('chartEditor.controls.chartType.Filters');
 
-goog.require('anychart.chartEditorModule.Component');
-goog.require('anychart.chartEditorModule.checkbox.Base');
+goog.require('chartEditor.Component');
+goog.require('chartEditor.checkbox.Base');
 
 
 /**
  * @param {goog.dom.DomHelper=} opt_domHelper
  * @constructor
- * @extends {anychart.chartEditorModule.Component}
+ * @extends {chartEditor.Component}
  */
-anychart.chartEditorModule.controls.chartType.Filters = function(opt_domHelper) {
-  anychart.chartEditorModule.controls.chartType.Filters.base(this, 'constructor', opt_domHelper);
+chartEditor.controls.chartType.Filters = function(opt_domHelper) {
+  chartEditor.controls.chartType.Filters.base(this, 'constructor', opt_domHelper);
 
 };
-goog.inherits(anychart.chartEditorModule.controls.chartType.Filters, anychart.chartEditorModule.Component);
+goog.inherits(chartEditor.controls.chartType.Filters, chartEditor.Component);
 
 
 /** @type {string} */
-anychart.chartEditorModule.controls.chartType.Filters.CSS_CLASS = goog.getCssName('anychart-chart-editor-chart-type-filters');
+chartEditor.controls.chartType.Filters.CSS_CLASS = goog.getCssName('anychart-chart-editor-chart-type-filters');
 
 
-anychart.chartEditorModule.controls.chartType.Filters.Map = {
+chartEditor.controls.chartType.Filters.Map = {
   'common': 'Common',
   'stacked-value': 'Stacked',
   'stacked-percent': 'Percent stacked',
@@ -29,14 +29,14 @@ anychart.chartEditorModule.controls.chartType.Filters.Map = {
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.controls.chartType.Filters.prototype.createDom = function() {
-  anychart.chartEditorModule.controls.chartType.Filters.base(this, 'createDom');
+chartEditor.controls.chartType.Filters.prototype.createDom = function() {
+  chartEditor.controls.chartType.Filters.base(this, 'createDom');
 
-  this.addClassName(anychart.chartEditorModule.controls.chartType.Filters.CSS_CLASS);
+  this.addClassName(chartEditor.controls.chartType.Filters.CSS_CLASS);
 
-  var map = anychart.chartEditorModule.controls.chartType.Filters.Map;
+  var map = chartEditor.controls.chartType.Filters.Map;
   for (var key in map) {
-    var checkbox = new anychart.chartEditorModule.checkbox.Base();
+    var checkbox = new chartEditor.checkbox.Base();
     checkbox.setModel(key);
     checkbox.setCaption(map[key]);
     if (key === 'common') checkbox.setChecked(true);
@@ -49,7 +49,7 @@ anychart.chartEditorModule.controls.chartType.Filters.prototype.createDom = func
 /**
  * @return {Array} All checked checkboxes values.
  */
-anychart.chartEditorModule.controls.chartType.Filters.prototype.getValue = function() {
+chartEditor.controls.chartType.Filters.prototype.getValue = function() {
   var result = [];
   for (var i = 0; i < this.getChildCount(); i++) {
     var checkbox = this.getChildAt(i);

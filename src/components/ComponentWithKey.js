@@ -1,53 +1,53 @@
-goog.provide('anychart.chartEditorModule.ComponentWithKey');
+goog.provide('chartEditor.ComponentWithKey');
 
-goog.require('anychart.chartEditorModule.Component');
+goog.require('chartEditor.Component');
 
 
 /**
  * Component, that can be connected to model and chart settings.
  *
- * @param {anychart.chartEditorModule.EditorModel} model
+ * @param {chartEditor.EditorModel} model
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  * @constructor
- * @extends {anychart.chartEditorModule.Component}
+ * @extends {chartEditor.Component}
  */
-anychart.chartEditorModule.ComponentWithKey = function(model, opt_domHelper) {
-  anychart.chartEditorModule.ComponentWithKey.base(this, 'constructor', opt_domHelper);
+chartEditor.ComponentWithKey = function(model, opt_domHelper) {
+  chartEditor.ComponentWithKey.base(this, 'constructor', opt_domHelper);
 
   if (model)
     this.setModel(model);
   else
-    console.warn('anychart.chartEditorModule.ComponentWithKey: Model could not be undefined!');
+    console.warn('chartEditor.ComponentWithKey: Model could not be undefined!');
 
   /**
    * Editor Model key.
    *
-   * @type {anychart.chartEditorModule.EditorModel.Key}
+   * @type {chartEditor.EditorModel.Key}
    * @protected
    */
   this.key = [];
 };
-goog.inherits(anychart.chartEditorModule.ComponentWithKey, anychart.chartEditorModule.Component);
+goog.inherits(chartEditor.ComponentWithKey, chartEditor.Component);
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.ComponentWithKey.prototype.enterDocument = function() {
+chartEditor.ComponentWithKey.prototype.enterDocument = function() {
   this.onModelChange(null);
 
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
   if (model)
-    this.getHandler().listen(model, anychart.chartEditorModule.events.EventType.EDITOR_MODEL_UPDATE, this.onModelChange);
+    this.getHandler().listen(model, chartEditor.events.EventType.EDITOR_MODEL_UPDATE, this.onModelChange);
 
-  anychart.chartEditorModule.ComponentWithKey.base(this, 'enterDocument');
+  chartEditor.ComponentWithKey.base(this, 'enterDocument');
 };
 
 
 /**
  * Setter for model key.
  *
- * @param {anychart.chartEditorModule.EditorModel.Key} key
+ * @param {chartEditor.EditorModel.Key} key
  */
-anychart.chartEditorModule.ComponentWithKey.prototype.setKey = function(key) {
+chartEditor.ComponentWithKey.prototype.setKey = function(key) {
   this.key = key;
 };
 
@@ -56,9 +56,9 @@ anychart.chartEditorModule.ComponentWithKey.prototype.setKey = function(key) {
  * Getter for model key.
  *
  * @param {(string|Array)=} opt_completion New key's level
- * @return {anychart.chartEditorModule.EditorModel.Key}
+ * @return {chartEditor.EditorModel.Key}
  */
-anychart.chartEditorModule.ComponentWithKey.prototype.getKey = function(opt_completion) {
+chartEditor.ComponentWithKey.prototype.getKey = function(opt_completion) {
   return goog.isDef(opt_completion) ? goog.array.concat(this.key, opt_completion) : this.key;
 };
 
@@ -68,9 +68,9 @@ anychart.chartEditorModule.ComponentWithKey.prototype.getKey = function(opt_comp
  *
  * @param {string=} opt_completion
  * @param {boolean=} opt_asObjectKey
- * @return {anychart.chartEditorModule.EditorModel.Key}
+ * @return {chartEditor.EditorModel.Key}
  */
-anychart.chartEditorModule.ComponentWithKey.prototype.genKey = function(opt_completion, opt_asObjectKey) {
+chartEditor.ComponentWithKey.prototype.genKey = function(opt_completion, opt_asObjectKey) {
   var result = [];
 
   for (var i = 0, count = this.key.length; i < count; i++) {
@@ -97,10 +97,10 @@ anychart.chartEditorModule.ComponentWithKey.prototype.genKey = function(opt_comp
  * Updates component on model change.
  * @param {?Object} evt
  */
-anychart.chartEditorModule.ComponentWithKey.prototype.onModelChange = function(evt) {
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+chartEditor.ComponentWithKey.prototype.onModelChange = function(evt) {
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
   if (model)
-    this.getHandler().listenOnce(model, anychart.chartEditorModule.events.EventType.CHART_DRAW, this.onChartDraw);
+    this.getHandler().listenOnce(model, chartEditor.events.EventType.CHART_DRAW, this.onChartDraw);
 };
 
 
@@ -108,7 +108,7 @@ anychart.chartEditorModule.ComponentWithKey.prototype.onModelChange = function(e
  * Callback on chart draw.
  * @param {Object} evt
  */
-anychart.chartEditorModule.ComponentWithKey.prototype.onChartDraw = function(evt) {
+chartEditor.ComponentWithKey.prototype.onChartDraw = function(evt) {
   // evt.chart
   // evt.rebuild
 };

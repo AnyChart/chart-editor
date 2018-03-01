@@ -1,11 +1,11 @@
-goog.provide('anychart.chartEditorModule.steps.SetupChart');
+goog.provide('chartEditor.steps.SetupChart');
 
-goog.require('anychart.chartEditorModule.Chart');
-goog.require('anychart.chartEditorModule.ChartTypeSelector');
-goog.require('anychart.chartEditorModule.DataSetPanelList');
-goog.require('anychart.chartEditorModule.events');
-goog.require('anychart.chartEditorModule.steps.Base');
-goog.require('anychart.ui.Component');
+goog.require('chartEditor.Chart');
+goog.require('chartEditor.ChartTypeSelector');
+goog.require('chartEditor.DataSetPanelList');
+goog.require('chartEditor.events');
+goog.require('chartEditor.steps.Base');
+goog.require('chartEditor.Component');
 goog.require('goog.dom.classlist');
 goog.require('goog.format.JsonPrettyPrinter');
 
@@ -17,37 +17,37 @@ goog.forwardDeclare('anychart.data.Mapping');
  * @constructor
  * @param {number} index Step index
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
- * @extends {anychart.chartEditorModule.steps.Base}
+ * @extends {chartEditor.steps.Base}
  */
-anychart.chartEditorModule.steps.SetupChart = function (index, opt_domHelper) {
-    anychart.chartEditorModule.steps.SetupChart.base(this, 'constructor', index, opt_domHelper);
+chartEditor.steps.SetupChart = function (index, opt_domHelper) {
+    chartEditor.steps.SetupChart.base(this, 'constructor', index, opt_domHelper);
 
     this.name('Setup Chart');
     this.title('Setup Chart');
     this.addClassName('anychart-setup-chart-step');
 };
-goog.inherits(anychart.chartEditorModule.steps.SetupChart, anychart.chartEditorModule.steps.Base);
+goog.inherits(chartEditor.steps.SetupChart, chartEditor.steps.Base);
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.steps.SetupChart.prototype.createDom = function () {
-    anychart.chartEditorModule.steps.SetupChart.base(this, 'createDom');
-    var editor = /** @type {anychart.chartEditorModule.Editor} */(this.getParent());
-    var model = /** @type {anychart.chartEditorModule.EditorModel} */(editor.getModel());
+chartEditor.steps.SetupChart.prototype.createDom = function () {
+    chartEditor.steps.SetupChart.base(this, 'createDom');
+    var editor = /** @type {chartEditor.Editor} */(this.getParent());
+    var model = /** @type {chartEditor.EditorModel} */(editor.getModel());
 
     // connected data sets section
-    var connectedDataSets = new anychart.chartEditorModule.DataSetPanelList(model);
+    var connectedDataSets = new chartEditor.DataSetPanelList(model);
     this.addChild(connectedDataSets, true);
 
     // user data and predefined data sets sections wrapper
-    var wrapper = new anychart.ui.Component();
+    var wrapper = new chartEditor.Component();
     wrapper.addClassName('anychart-prepare-data-step-wrapper');
     this.addChild(wrapper, true);
 
-    var chartDataSettings = new anychart.chartEditorModule.ChartTypeSelector(model);
+    var chartDataSettings = new chartEditor.ChartTypeSelector(model);
     wrapper.addChild(chartDataSettings, true);
 
-    var chartPreview = new anychart.ui.Component();
+    var chartPreview = new chartEditor.Component();
     chartPreview.addClassName('anychart-chart-preview');
     wrapper.addChild(chartPreview, true);
 
@@ -58,19 +58,19 @@ anychart.chartEditorModule.steps.SetupChart.prototype.createDom = function () {
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.steps.SetupChart.prototype.enterDocument = function () {
-    anychart.chartEditorModule.steps.SetupChart.base(this, 'enterDocument');
+chartEditor.steps.SetupChart.prototype.enterDocument = function () {
+    chartEditor.steps.SetupChart.base(this, 'enterDocument');
 
-    var model = /** @type {anychart.chartEditorModule.EditorModel} */(/** @type {anychart.chartEditorModule.Editor} */(this.getParent()).getModel());
-    this.chart_ = new anychart.chartEditorModule.Chart(model);
+    var model = /** @type {chartEditor.EditorModel} */(/** @type {chartEditor.Editor} */(this.getParent()).getModel());
+    this.chart_ = new chartEditor.Chart(model);
     this.addChild(this.chart_, true);
     this.getDomHelper().appendChild(this.chartWrapper_, this.chart_.getElement());
 };
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.steps.SetupChart.prototype.exitDocument = function () {
-    anychart.chartEditorModule.steps.SetupChart.base(this, 'exitDocument');
+chartEditor.steps.SetupChart.prototype.exitDocument = function () {
+    chartEditor.steps.SetupChart.base(this, 'exitDocument');
 
     if (this.chart_) {
         this.removeChild(this.chart_, true);

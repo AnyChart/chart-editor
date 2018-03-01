@@ -1,9 +1,9 @@
-goog.provide('anychart.chartEditorModule.events');
+goog.provide('chartEditor.events');
 goog.require('goog.events');
 
 
 /** @enum {string} */
-anychart.chartEditorModule.events.EventType = {
+chartEditor.events.EventType = {
   WAIT: goog.events.getUniqueId('wait'),
 
   // working with data model

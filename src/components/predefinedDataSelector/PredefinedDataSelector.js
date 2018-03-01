@@ -1,7 +1,7 @@
-goog.provide('anychart.chartEditorModule.PredefinedDataSelector');
+goog.provide('chartEditor.PredefinedDataSelector');
 
-goog.require('anychart.chartEditorModule.Component');
-goog.require('anychart.chartEditorModule.PredefinedDataSet');
+goog.require('chartEditor.Component');
+goog.require('chartEditor.PredefinedDataSet');
 goog.require('goog.dom');
 goog.require('goog.dom.forms');
 goog.require('goog.net.XhrIo');
@@ -10,19 +10,19 @@ goog.require('goog.net.XhrIo');
 /**
  * Predefined data sets selector widget.
  *
- * @param {anychart.chartEditorModule.EditorModel} model
+ * @param {chartEditor.EditorModel} model
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  * @constructor
- * @extends {anychart.chartEditorModule.Component}
+ * @extends {chartEditor.Component}
  */
-anychart.chartEditorModule.PredefinedDataSelector = function(model, opt_domHelper) {
-  anychart.chartEditorModule.PredefinedDataSelector.base(this, 'constructor', opt_domHelper);
+chartEditor.PredefinedDataSelector = function(model, opt_domHelper) {
+  chartEditor.PredefinedDataSelector.base(this, 'constructor', opt_domHelper);
 
   this.title = 'Use one of our data sets';
 
   this.jsonUrl = 'https://cdn.anychart.com/anydata/common/';
 
-  this.dataType = anychart.chartEditorModule.EditorModel.DataType.PREDEFINED;
+  this.dataType = chartEditor.EditorModel.DataType.PREDEFINED;
 
   /**
    * @type {Array}
@@ -35,13 +35,13 @@ anychart.chartEditorModule.PredefinedDataSelector = function(model, opt_domHelpe
   this.setModel(model);
   this.addClassName('anychart-predefined-datasets');
 };
-goog.inherits(anychart.chartEditorModule.PredefinedDataSelector, anychart.chartEditorModule.Component);
+goog.inherits(chartEditor.PredefinedDataSelector, chartEditor.Component);
 
 
 /**
  * @enum {number}
  */
-anychart.chartEditorModule.PredefinedDataSelector.DatasetState = {
+chartEditor.PredefinedDataSelector.DatasetState = {
   NOT_LOADED: 0,
   PROCESSING: 1,
   LOADED: 2
@@ -49,8 +49,8 @@ anychart.chartEditorModule.PredefinedDataSelector.DatasetState = {
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.PredefinedDataSelector.prototype.createDom = function() {
-  anychart.chartEditorModule.PredefinedDataSelector.base(this, 'createDom');
+chartEditor.PredefinedDataSelector.prototype.createDom = function() {
+  chartEditor.PredefinedDataSelector.base(this, 'createDom');
 
   var element = this.getElement();
   var caption = goog.dom.createDom(
@@ -86,7 +86,7 @@ anychart.chartEditorModule.PredefinedDataSelector.prototype.createDom = function
  *
  * @private
  */
-anychart.chartEditorModule.PredefinedDataSelector.prototype.loadDataIndex_ = function() {
+chartEditor.PredefinedDataSelector.prototype.loadDataIndex_ = function() {
   if (!this.dataIndex.length) {
     var self = this;
     goog.net.XhrIo.send(this.jsonUrl + 'index.json',
@@ -105,18 +105,18 @@ anychart.chartEditorModule.PredefinedDataSelector.prototype.loadDataIndex_ = fun
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.PredefinedDataSelector.prototype.enterDocument = function() {
-  anychart.chartEditorModule.PredefinedDataSelector.base(this, 'enterDocument');
+chartEditor.PredefinedDataSelector.prototype.enterDocument = function() {
+  chartEditor.PredefinedDataSelector.base(this, 'enterDocument');
 
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
-  this.getHandler().listen(model, anychart.chartEditorModule.events.EventType.EDITOR_MODEL_UPDATE, this.onModelUpdate);
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
+  this.getHandler().listen(model, chartEditor.events.EventType.EDITOR_MODEL_UPDATE, this.onModelUpdate);
   this.getHandler().listen(this.filterInput_, goog.events.EventType.INPUT, this.onFilterChange_);
   this.onFilterChange_(null);
 };
 
 
 /** @private */
-anychart.chartEditorModule.PredefinedDataSelector.prototype.onModelUpdate = function() {
+chartEditor.PredefinedDataSelector.prototype.onModelUpdate = function() {
   this.onFilterChange_(null);
 };
 
@@ -125,15 +125,15 @@ anychart.chartEditorModule.PredefinedDataSelector.prototype.onModelUpdate = func
  * @param {Array=} opt_ids
  * @private
  */
-anychart.chartEditorModule.PredefinedDataSelector.prototype.showDataSets_ = function(opt_ids) {
+chartEditor.PredefinedDataSelector.prototype.showDataSets_ = function(opt_ids) {
   var createItems = !this.setsContainer_.hasChildNodes() && this.dataIndex.length;
   for (var i = 0; i < this.dataIndex.length; i++) {
     var dataSetJson = this.dataIndex[i];
     var item;
     if (createItems) {
-      dataSetJson['state'] = anychart.chartEditorModule.PredefinedDataSelector.DatasetState.NOT_LOADED;
-      var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
-      item = new anychart.chartEditorModule.PredefinedDataSet(model);
+      dataSetJson['state'] = chartEditor.PredefinedDataSelector.DatasetState.NOT_LOADED;
+      var model = /** @type {chartEditor.EditorModel} */(this.getModel());
+      item = new chartEditor.PredefinedDataSet(model);
       item.init(dataSetJson, dataSetJson['state']);
       this.addChild(item, true);
       this.setsContainer_.appendChild(item.getElement());
@@ -165,11 +165,11 @@ anychart.chartEditorModule.PredefinedDataSelector.prototype.showDataSets_ = func
  * @param {?Object} evt
  * @private
  */
-anychart.chartEditorModule.PredefinedDataSelector.prototype.onFilterChange_ = function(evt) {
+chartEditor.PredefinedDataSelector.prototype.onFilterChange_ = function(evt) {
   var searchValue = evt && goog.isDef(evt.currentTarget.value) ? evt.currentTarget.value : this.filterInput_.value;
   searchValue = searchValue.toLowerCase();
 
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
   var loadedDataIds = model.getDataKeys();
   var ids = [];
   if (searchValue && this.dataIndex.length) {

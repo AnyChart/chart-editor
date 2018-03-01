@@ -1,30 +1,30 @@
-goog.provide('anychart.chartEditorModule.GridsPanel');
+goog.provide('chartEditor.GridsPanel');
 
-goog.require('anychart.chartEditorModule.MultiplePanelsBase');
-goog.require('anychart.chartEditorModule.settings.PlotGrids');
+goog.require('chartEditor.MultiplePanelsBase');
+goog.require('chartEditor.settings.PlotGrids');
 
 
 /**
- * @param {anychart.chartEditorModule.EditorModel} model
+ * @param {chartEditor.EditorModel} model
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  * @constructor
- * @extends {anychart.chartEditorModule.MultiplePanelsBase}
+ * @extends {chartEditor.MultiplePanelsBase}
  */
-anychart.chartEditorModule.GridsPanel = function(model, opt_domHelper) {
-  anychart.chartEditorModule.GridsPanel.base(this, 'constructor', model, 'Grids', opt_domHelper);
+chartEditor.GridsPanel = function(model, opt_domHelper) {
+  chartEditor.GridsPanel.base(this, 'constructor', model, 'Grids', opt_domHelper);
 
   this.stringId = 'grids';
 
   this.allowAddPanels(false);
 };
-goog.inherits(anychart.chartEditorModule.GridsPanel, anychart.chartEditorModule.MultiplePanelsBase);
+goog.inherits(chartEditor.GridsPanel, chartEditor.MultiplePanelsBase);
 
 
 /**
  * Create plotGrids settings panels.
  */
-anychart.chartEditorModule.GridsPanel.prototype.createPanels = function() {
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+chartEditor.GridsPanel.prototype.createPanels = function() {
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
   var chartType = model.getValue([['chart'], 'type']);
   var mappings = model.getValue([['dataSettings'], 'mappings']);
 
@@ -32,7 +32,7 @@ anychart.chartEditorModule.GridsPanel.prototype.createPanels = function() {
   var plotGrids;
   for (var i = 0; i < mappings.length; i++) {
     plotIndex = chartType === 'stock' ? i : void 0;
-    plotGrids = new anychart.chartEditorModule.settings.PlotGrids(model, plotIndex);
+    plotGrids = new chartEditor.settings.PlotGrids(model, plotIndex);
 
     this.addPanelInstance(plotGrids);
   }

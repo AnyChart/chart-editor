@@ -1,23 +1,23 @@
-goog.provide('anychart.chartEditorModule.settings.CircularRange');
+goog.provide('chartEditor.settings.CircularRange');
 
-goog.require('anychart.chartEditorModule.SettingsPanel');
-goog.require('anychart.chartEditorModule.SettingsPanelZippy');
-goog.require('anychart.chartEditorModule.colorPicker.Base');
-goog.require('anychart.chartEditorModule.comboBox.Percent');
-goog.require('anychart.chartEditorModule.controls.LabeledControl');
-goog.require('anychart.chartEditorModule.controls.select.DataField');
-goog.require('anychart.chartEditorModule.input.Numbers');
+goog.require('chartEditor.SettingsPanel');
+goog.require('chartEditor.SettingsPanelZippy');
+goog.require('chartEditor.colorPicker.Base');
+goog.require('chartEditor.comboBox.Percent');
+goog.require('chartEditor.controls.LabeledControl');
+goog.require('chartEditor.controls.select.DataField');
+goog.require('chartEditor.input.Numbers');
 
 
 /**
- * @param {anychart.chartEditorModule.EditorModel} model
+ * @param {chartEditor.EditorModel} model
  * @param {number} index
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  * @constructor
- * @extends {anychart.chartEditorModule.SettingsPanelZippy}
+ * @extends {chartEditor.SettingsPanelZippy}
  */
-anychart.chartEditorModule.settings.CircularRange = function(model, index, opt_domHelper) {
-  anychart.chartEditorModule.settings.CircularRange.base(this, 'constructor', model, index, null, opt_domHelper);
+chartEditor.settings.CircularRange = function(model, index, opt_domHelper) {
+  chartEditor.settings.CircularRange.base(this, 'constructor', model, index, null, opt_domHelper);
   
   this.name = 'Range(' + this.index_ + ')';
   this.key = [['chart'], ['settings'], 'range(' + this.index_ + ')'];
@@ -27,70 +27,70 @@ anychart.chartEditorModule.settings.CircularRange = function(model, index, opt_d
 
   this.addClassName(goog.getCssName('anychart-settings-panel-range-single'));
 };
-goog.inherits(anychart.chartEditorModule.settings.CircularRange, anychart.chartEditorModule.SettingsPanelZippy);
+goog.inherits(chartEditor.settings.CircularRange, chartEditor.SettingsPanelZippy);
 
 
 /** @override */
-anychart.chartEditorModule.settings.CircularRange.prototype.createDom = function() {
-  anychart.chartEditorModule.settings.CircularRange.base(this, 'createDom');
+chartEditor.settings.CircularRange.prototype.createDom = function() {
+  chartEditor.settings.CircularRange.base(this, 'createDom');
 
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
 
-  var axisIndex = new anychart.chartEditorModule.controls.select.DataField({label: 'Axis Index'});
+  var axisIndex = new chartEditor.controls.select.DataField({label: 'Axis Index'});
   axisIndex.getSelect().setOptions([{value: '0'}]);
   axisIndex.init(model, this.genKey('axisIndex', true));
   this.zippyContent.addChild(axisIndex, true);
   this.axisIndex_ = axisIndex;
 
-  var position = new anychart.chartEditorModule.controls.select.DataField({label: 'Position'});
-  position.getSelect().setOptions(goog.object.getValues(anychart.enums.GaugeSidePosition));
+  var position = new chartEditor.controls.select.DataField({label: 'Position'});
+  position.getSelect().setOptions(goog.object.getValues(chartEditor.enums.GaugeSidePosition));
   position.init(model, this.genKey('position', true));
   this.addChildControl(position);
 
-  var from = new anychart.chartEditorModule.input.Numbers('From value');
-  var fromlLC = new anychart.chartEditorModule.controls.LabeledControl(from, 'From');
+  var from = new chartEditor.input.Numbers('From value');
+  var fromlLC = new chartEditor.controls.LabeledControl(from, 'From');
   fromlLC.init(model, this.genKey('from', true));
   this.addChildControl(fromlLC);
 
-  var to = new anychart.chartEditorModule.input.Numbers('To value');
-  var tolLC = new anychart.chartEditorModule.controls.LabeledControl(to, 'To');
+  var to = new chartEditor.input.Numbers('To value');
+  var tolLC = new chartEditor.controls.LabeledControl(to, 'To');
   tolLC.init(model, this.genKey('to', true));
   this.addChildControl(tolLC);
 
-  var startSize = new anychart.chartEditorModule.comboBox.Percent();
+  var startSize = new chartEditor.comboBox.Percent();
   startSize.setOptions([0, 2, 5, 10, 15, 20, 25]);
-  var startSizeLC = new anychart.chartEditorModule.controls.LabeledControl(startSize, 'Start Size');
+  var startSizeLC = new chartEditor.controls.LabeledControl(startSize, 'Start Size');
   startSizeLC.init(model, this.genKey('startSize', true));
   this.addChildControl(startSizeLC);
 
-  var endSize = new anychart.chartEditorModule.comboBox.Percent();
+  var endSize = new chartEditor.comboBox.Percent();
   endSize.setOptions([0, 2, 5, 10, 15, 20, 25]);
-  var endSizeLC = new anychart.chartEditorModule.controls.LabeledControl(endSize, 'End Size');
+  var endSizeLC = new chartEditor.controls.LabeledControl(endSize, 'End Size');
   endSizeLC.init(model, this.genKey('endSize', true));
   this.addChildControl(endSizeLC);
 
-  var cornersRounding = new anychart.chartEditorModule.comboBox.Percent();
+  var cornersRounding = new chartEditor.comboBox.Percent();
   cornersRounding.setOptions([0, 10, 20, 30, 50]);
-  var cornersRoundingLC = new anychart.chartEditorModule.controls.LabeledControl(cornersRounding, 'Corners Rounding');
+  var cornersRoundingLC = new chartEditor.controls.LabeledControl(cornersRounding, 'Corners Rounding');
   cornersRoundingLC.init(model, this.genKey('cornersRounding', true));
   this.addChildControl(cornersRoundingLC);
 
-  var radius = new anychart.chartEditorModule.comboBox.Percent();
+  var radius = new chartEditor.comboBox.Percent();
   radius.setOptions([10, 30, 50, 70, 90, 100]);
-  var radiusLC = new anychart.chartEditorModule.controls.LabeledControl(radius, 'Radius');
+  var radiusLC = new chartEditor.controls.LabeledControl(radius, 'Radius');
   radiusLC.init(model, this.genKey('radius', true));
   this.addChildControl(radiusLC);
 
-  var fill = new anychart.chartEditorModule.colorPicker.Base();
-  var fillLC = new anychart.chartEditorModule.controls.LabeledControl(fill, 'Range Fill');
+  var fill = new chartEditor.colorPicker.Base();
+  var fillLC = new chartEditor.controls.LabeledControl(fill, 'Range Fill');
   fillLC.init(model, this.genKey('fill', true));
   this.addChildControl(fillLC);
 };
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.settings.CircularRange.prototype.onChartDraw = function(evt) {
-  anychart.chartEditorModule.settings.CircularRange.base(this, 'onChartDraw', evt);
+chartEditor.settings.CircularRange.prototype.onChartDraw = function(evt) {
+  chartEditor.settings.CircularRange.base(this, 'onChartDraw', evt);
   if (!this.isExcluded()) {
     var target = evt.chart;
 
@@ -106,11 +106,11 @@ anychart.chartEditorModule.settings.CircularRange.prototype.onChartDraw = functi
 
 
 /** @override */
-anychart.chartEditorModule.settings.CircularRange.prototype.disposeInternal = function() {
+chartEditor.settings.CircularRange.prototype.disposeInternal = function() {
   goog.disposeAll([
     this.axisIndex_
   ]);
   this.axisIndex_ = null;
 
-  anychart.chartEditorModule.settings.CircularRange.base(this, 'disposeInternal');
+  chartEditor.settings.CircularRange.base(this, 'disposeInternal');
 };

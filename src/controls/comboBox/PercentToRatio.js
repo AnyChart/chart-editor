@@ -1,7 +1,7 @@
-goog.provide('anychart.chartEditorModule.comboBox.PercentToRatio');
-goog.provide('anychart.chartEditorModule.comboBox.PercentToRatioInput');
+goog.provide('chartEditor.comboBox.PercentToRatio');
+goog.provide('chartEditor.comboBox.PercentToRatioInput');
 
-goog.require('anychart.chartEditorModule.comboBox.Percent');
+goog.require('chartEditor.comboBox.Percent');
 
 
 /**
@@ -12,13 +12,13 @@ goog.require('anychart.chartEditorModule.comboBox.Percent');
  * @param {goog.ui.LabelInput=} opt_labelInput Optional label input.
  *     This label input is disposed of by this control.
  * @constructor
- * @extends {anychart.chartEditorModule.comboBox.Percent}
+ * @extends {chartEditor.comboBox.Percent}
  * @suppress {visibility}
  */
-anychart.chartEditorModule.comboBox.PercentToRatio = function(opt_domHelper, opt_menu, opt_labelInput) {
-  opt_labelInput = opt_labelInput || new anychart.chartEditorModule.comboBox.PercentToRatioInput;
+chartEditor.comboBox.PercentToRatio = function(opt_domHelper, opt_menu, opt_labelInput) {
+  opt_labelInput = opt_labelInput || new chartEditor.comboBox.PercentToRatioInput;
 
-  anychart.chartEditorModule.comboBox.PercentToRatio.base(this, 'constructor', opt_domHelper, opt_menu, opt_labelInput);
+  chartEditor.comboBox.PercentToRatio.base(this, 'constructor', opt_domHelper, opt_menu, opt_labelInput);
 
   this.setValidateFunction(function(value) {
     debugger
@@ -30,11 +30,11 @@ anychart.chartEditorModule.comboBox.PercentToRatio = function(opt_domHelper, opt
     return String(goog.math.clamp(Number(value), 0, 1));
   });
 };
-goog.inherits(anychart.chartEditorModule.comboBox.PercentToRatio, anychart.chartEditorModule.comboBox.Percent);
+goog.inherits(chartEditor.comboBox.PercentToRatio, chartEditor.comboBox.Percent);
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.comboBox.PercentToRatio.prototype.setValue = function(value) {
+chartEditor.comboBox.PercentToRatio.prototype.setValue = function(value) {
   if (this.lastToken_ !== value && this.validateFunction_(value)) {
     value = this.formatterFunction_(value);
     this.lastToken_ = value;
@@ -46,8 +46,8 @@ anychart.chartEditorModule.comboBox.PercentToRatio.prototype.setValue = function
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.comboBox.PercentToRatio.prototype.onInputBlur_ = function(e) {
-  anychart.chartEditorModule.comboBox.PercentToRatio.base(this, 'onInputBlur_', e);
+chartEditor.comboBox.PercentToRatio.prototype.onInputBlur_ = function(e) {
+  chartEditor.comboBox.PercentToRatio.base(this, 'onInputBlur_', e);
 
   this.labelInput_.setValueConvert(/** @type {string} */(this.lastToken_));
 };
@@ -60,19 +60,19 @@ anychart.chartEditorModule.comboBox.PercentToRatio.prototype.onInputBlur_ = func
  * @constructor
  * @extends {goog.ui.LabelInput}
  */
-anychart.chartEditorModule.comboBox.PercentToRatioInput = function(opt_label, opt_domHelper) {
-  anychart.chartEditorModule.input.Base.base(this, 'constructor', opt_label, opt_domHelper);
+chartEditor.comboBox.PercentToRatioInput = function(opt_label, opt_domHelper) {
+  chartEditor.input.Base.base(this, 'constructor', opt_label, opt_domHelper);
 };
-goog.inherits(anychart.chartEditorModule.comboBox.PercentToRatioInput, goog.ui.LabelInput);
+goog.inherits(chartEditor.comboBox.PercentToRatioInput, goog.ui.LabelInput);
 
 
-anychart.chartEditorModule.comboBox.PercentToRatioInput.prototype.setValueConvert = function(s) {
+chartEditor.comboBox.PercentToRatioInput.prototype.setValueConvert = function(s) {
   s = (Number(s) * 100) + '%';
   this.setValue(s);
 };
 
-anychart.chartEditorModule.comboBox.PercentToRatioInput.prototype.getValue = function() {
-  var s =anychart.chartEditorModule.comboBox.PercentToRatioInput.base(this, 'getValue');
+chartEditor.comboBox.PercentToRatioInput.prototype.getValue = function() {
+  var s =chartEditor.comboBox.PercentToRatioInput.base(this, 'getValue');
   console.log(s);
   return s;
 };

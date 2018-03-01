@@ -1,18 +1,18 @@
-goog.provide('anychart.chartEditorModule.GaugeAxesPanel');
+goog.provide('chartEditor.GaugeAxesPanel');
 
-goog.require('anychart.chartEditorModule.MultiplePanelsBase');
-goog.require('anychart.chartEditorModule.settings.axes.Circular');
-goog.require('anychart.chartEditorModule.settings.axes.LinearGauge');
+goog.require('chartEditor.MultiplePanelsBase');
+goog.require('chartEditor.settings.axes.Circular');
+goog.require('chartEditor.settings.axes.LinearGauge');
 
 
 /**
- * @param {anychart.chartEditorModule.EditorModel} model
+ * @param {chartEditor.EditorModel} model
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  * @constructor
- * @extends {anychart.chartEditorModule.MultiplePanelsBase}
+ * @extends {chartEditor.MultiplePanelsBase}
  */
-anychart.chartEditorModule.GaugeAxesPanel = function(model, opt_domHelper) {
-  anychart.chartEditorModule.GaugeAxesPanel.base(this, 'constructor', model, 'Axes', opt_domHelper);
+chartEditor.GaugeAxesPanel = function(model, opt_domHelper) {
+  chartEditor.GaugeAxesPanel.base(this, 'constructor', model, 'Axes', opt_domHelper);
 
   this.stringId = 'gaugeAxes';
 
@@ -20,40 +20,40 @@ anychart.chartEditorModule.GaugeAxesPanel = function(model, opt_domHelper) {
 
   this.setButtonLabel('+ Add axis');
 };
-goog.inherits(anychart.chartEditorModule.GaugeAxesPanel, anychart.chartEditorModule.MultiplePanelsBase);
+goog.inherits(chartEditor.GaugeAxesPanel, chartEditor.MultiplePanelsBase);
 
 
 
 /** @override */
-anychart.chartEditorModule.GaugeAxesPanel.prototype.enterDocument = function() {
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+chartEditor.GaugeAxesPanel.prototype.enterDocument = function() {
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
   this.isLinear = String(model.getModel()['chart']['typeKey']).indexOf('gauges.linear') === 0;
-  anychart.chartEditorModule.GaugeAxesPanel.base(this, 'enterDocument');
+  chartEditor.GaugeAxesPanel.base(this, 'enterDocument');
 };
 
 
 /** @override */
-anychart.chartEditorModule.GaugeAxesPanel.prototype.createPanel = function() {
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+chartEditor.GaugeAxesPanel.prototype.createPanel = function() {
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
   var axisIndex = model.addAxis();
 
   return this.isLinear ?
-      new anychart.chartEditorModule.settings.axes.LinearGauge(model, axisIndex) :
-      new anychart.chartEditorModule.settings.axes.Circular(model, axisIndex);
+      new chartEditor.settings.axes.LinearGauge(model, axisIndex) :
+      new chartEditor.settings.axes.Circular(model, axisIndex);
 };
 
 
 /** @override */
-anychart.chartEditorModule.GaugeAxesPanel.prototype.removePanel = function(panelIndex) {
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+chartEditor.GaugeAxesPanel.prototype.removePanel = function(panelIndex) {
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
   model.dropAxis(panelIndex);
 };
 
 
 /** @override */
-anychart.chartEditorModule.GaugeAxesPanel.prototype.createPanels = function() {
+chartEditor.GaugeAxesPanel.prototype.createPanels = function() {
   if (!this.isExcluded()) {
-    var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+    var model = /** @type {chartEditor.EditorModel} */(this.getModel());
     var settings = model.getModel()['chart']['settings'];
 
     var pattern = '^axis\\((\\d+)\\)\\.enabled\\(\\)$';
@@ -65,8 +65,8 @@ anychart.chartEditorModule.GaugeAxesPanel.prototype.createPanels = function() {
       if (match) {
         var axisIndex = Number(match[1]);
         var panel = this.isLinear ?
-            new anychart.chartEditorModule.settings.axes.LinearGauge(model, axisIndex) :
-            new anychart.chartEditorModule.settings.axes.Circular(model, axisIndex);
+            new chartEditor.settings.axes.LinearGauge(model, axisIndex) :
+            new chartEditor.settings.axes.Circular(model, axisIndex);
         this.addPanelInstance(panel);
         axisCount++;
       }
@@ -74,7 +74,7 @@ anychart.chartEditorModule.GaugeAxesPanel.prototype.createPanels = function() {
 
     if (axisCount === 0 && !this.isLinear) {
       // Always create 0 axis panel
-      this.addPanelInstance(/** @type {anychart.chartEditorModule.SettingsPanelIndexed} */(this.createPanel()));
+      this.addPanelInstance(/** @type {chartEditor.SettingsPanelIndexed} */(this.createPanel()));
     }
   }
 };

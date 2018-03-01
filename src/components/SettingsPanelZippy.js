@@ -1,40 +1,40 @@
-goog.provide('anychart.chartEditorModule.SettingsPanelZippy');
+goog.provide('chartEditor.SettingsPanelZippy');
 
-goog.require('anychart.chartEditorModule.Component');
-goog.require('anychart.chartEditorModule.SettingsPanelIndexed');
+goog.require('chartEditor.Component');
+goog.require('chartEditor.SettingsPanelIndexed');
 goog.require('goog.ui.AnimatedZippy');
 
 
 /**
- * @param {anychart.chartEditorModule.EditorModel} model
+ * @param {chartEditor.EditorModel} model
  * @param {number} index
  * @param {?string=} opt_name
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  * @constructor
- * @extends {anychart.chartEditorModule.SettingsPanelIndexed}
+ * @extends {chartEditor.SettingsPanelIndexed}
  */
-anychart.chartEditorModule.SettingsPanelZippy = function(model, index, opt_name, opt_domHelper) {
-  anychart.chartEditorModule.SettingsPanelZippy.base(this, 'constructor', model, index, opt_name, opt_domHelper);
+chartEditor.SettingsPanelZippy = function(model, index, opt_name, opt_domHelper) {
+  chartEditor.SettingsPanelZippy.base(this, 'constructor', model, index, opt_name, opt_domHelper);
 
   this.addClassName(goog.getCssName('anychart-chart-editor-settings-panel-zippy'));
 };
-goog.inherits(anychart.chartEditorModule.SettingsPanelZippy, anychart.chartEditorModule.SettingsPanelIndexed);
+goog.inherits(chartEditor.SettingsPanelZippy, chartEditor.SettingsPanelIndexed);
 
 
 /**
  * Expands panel.
  */
-anychart.chartEditorModule.SettingsPanelZippy.prototype.expand = function() {
+chartEditor.SettingsPanelZippy.prototype.expand = function() {
   if (this.zippy_) this.zippy_.expand();
 };
 
 
 /** @override */
-anychart.chartEditorModule.SettingsPanelZippy.prototype.createDom = function() {
-  anychart.chartEditorModule.SettingsPanelZippy.base(this, 'createDom');
+chartEditor.SettingsPanelZippy.prototype.createDom = function() {
+  chartEditor.SettingsPanelZippy.base(this, 'createDom');
 
   // region == zippyHeader element ==
-  var zippyHeader = new anychart.chartEditorModule.Component();
+  var zippyHeader = new chartEditor.Component();
   zippyHeader.addClassName('zippy-header');
   this.addChild(zippyHeader, true);
   this.zippyHeader = zippyHeader;
@@ -50,10 +50,10 @@ anychart.chartEditorModule.SettingsPanelZippy.prototype.createDom = function() {
   // endregion
 
   // region == zippyContent element ==
-  var zippyContent = new anychart.chartEditorModule.Component();
+  var zippyContent = new chartEditor.Component();
   this.addChild(zippyContent, true);
 
-  var innerContent = new anychart.chartEditorModule.Component();
+  var innerContent = new chartEditor.Component();
   zippyContent.addClassName('zippy-content');
   zippyContent.addChild(innerContent, true);
   this.zippyContent = innerContent;
@@ -71,8 +71,8 @@ anychart.chartEditorModule.SettingsPanelZippy.prototype.createDom = function() {
 
 
 /** @override */
-anychart.chartEditorModule.SettingsPanelZippy.prototype.addChildControl = function(control, opt_index) {
-  var added = anychart.chartEditorModule.SettingsPanelZippy.base(this, 'addChildControl', control);
+chartEditor.SettingsPanelZippy.prototype.addChildControl = function(control, opt_index) {
+  var added = chartEditor.SettingsPanelZippy.base(this, 'addChildControl', control);
 
   if (added && this.zippyContent) {
     this.removeChild(control, true);
@@ -86,11 +86,11 @@ anychart.chartEditorModule.SettingsPanelZippy.prototype.addChildControl = functi
 
 /**
  * Adds control to header.
- * @param {anychart.chartEditorModule.SettingsPanel|anychart.chartEditorModule.controls.LabeledControl|anychart.chartEditorModule.checkbox.Base|anychart.chartEditorModule.controls.select.Base|anychart.chartEditorModule.comboBox.Base|anychart.chartEditorModule.colorPicker.Base|anychart.chartEditorModule.input.Base} control
+ * @param {chartEditor.SettingsPanel|chartEditor.controls.LabeledControl|chartEditor.checkbox.Base|chartEditor.controls.select.Base|chartEditor.comboBox.Base|chartEditor.colorPicker.Base|chartEditor.input.Base} control
  * @return {boolean}
  */
-anychart.chartEditorModule.SettingsPanelZippy.prototype.addHeaderChildControl = function(control) {
-  var added = anychart.chartEditorModule.SettingsPanelZippy.superClass_.addChildControl.call(this, control);
+chartEditor.SettingsPanelZippy.prototype.addHeaderChildControl = function(control) {
+  var added = chartEditor.SettingsPanelZippy.superClass_.addChildControl.call(this, control);
 
   if (added) {
     this.removeChild(control, true);
@@ -102,7 +102,7 @@ anychart.chartEditorModule.SettingsPanelZippy.prototype.addHeaderChildControl = 
 
 
 /** @override */
-anychart.chartEditorModule.SettingsPanelZippy.prototype.addContentSeparator = function() {
+chartEditor.SettingsPanelZippy.prototype.addContentSeparator = function() {
   goog.dom.appendChild(this.zippyContent.getElement(), goog.dom.createDom(
       goog.dom.TagName.DIV,
       goog.getCssName('anychart-chart-editor-settings-item-separator-gaps')));

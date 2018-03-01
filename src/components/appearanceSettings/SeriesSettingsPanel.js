@@ -1,31 +1,31 @@
-goog.provide('anychart.chartEditorModule.SeriesSettingsPanel');
+goog.provide('chartEditor.SeriesSettingsPanel');
 
-goog.require('anychart.chartEditorModule.MultiplePanelsBase');
-goog.require('anychart.chartEditorModule.settings.Series');
+goog.require('chartEditor.MultiplePanelsBase');
+goog.require('chartEditor.settings.Series');
 
 
 
 /**
- * @param {anychart.chartEditorModule.EditorModel} model
+ * @param {chartEditor.EditorModel} model
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  * @constructor
- * @extends {anychart.chartEditorModule.MultiplePanelsBase}
+ * @extends {chartEditor.MultiplePanelsBase}
  */
-anychart.chartEditorModule.SeriesSettingsPanel = function(model, opt_domHelper) {
-  anychart.chartEditorModule.SeriesSettingsPanel.base(this, 'constructor', model, 'Series', opt_domHelper);
+chartEditor.SeriesSettingsPanel = function(model, opt_domHelper) {
+  chartEditor.SeriesSettingsPanel.base(this, 'constructor', model, 'Series', opt_domHelper);
 
   this.stringId = 'series';
 
   this.allowAddPanels(false);
 };
-goog.inherits(anychart.chartEditorModule.SeriesSettingsPanel, anychart.chartEditorModule.MultiplePanelsBase);
+goog.inherits(chartEditor.SeriesSettingsPanel, chartEditor.MultiplePanelsBase);
 
 
 /**
  * Create series settings panels.
  */
-anychart.chartEditorModule.SeriesSettingsPanel.prototype.createPanels = function() {
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+chartEditor.SeriesSettingsPanel.prototype.createPanels = function() {
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
   var singleSeries = model.isChartSingleSeries();
   if (!singleSeries) {
     var chartType = model.getValue([['chart'], 'type']);
@@ -39,7 +39,7 @@ anychart.chartEditorModule.SeriesSettingsPanel.prototype.createPanels = function
       for (var j = 0; j < mappings[i].length; j++) {
         seriesId = mappings[i][j]['id'] ? mappings[i][j]['id'] : j;
         plotIndex = chartType === 'stock' ? i : void 0;
-        series = new anychart.chartEditorModule.settings.Series(model, seriesId, j, plotIndex);
+        series = new chartEditor.settings.Series(model, seriesId, j, plotIndex);
         this.addPanelInstance(series);
       }
     }

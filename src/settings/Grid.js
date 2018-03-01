@@ -1,53 +1,53 @@
-goog.provide('anychart.chartEditorModule.settings.Grid');
+goog.provide('chartEditor.settings.Grid');
 
-goog.require('anychart.chartEditorModule.SettingsPanel');
-goog.require('anychart.chartEditorModule.checkbox.Base');
-goog.require('anychart.chartEditorModule.input.Palette');
-goog.require('anychart.chartEditorModule.settings.Stroke');
+goog.require('chartEditor.SettingsPanel');
+goog.require('chartEditor.checkbox.Base');
+goog.require('chartEditor.input.Palette');
+goog.require('chartEditor.settings.Stroke');
 
 
 /**
- * @param {anychart.chartEditorModule.EditorModel} model
+ * @param {chartEditor.EditorModel} model
  * @param {string} name
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  * @constructor
- * @extends {anychart.chartEditorModule.SettingsPanel}
+ * @extends {chartEditor.SettingsPanel}
  */
-anychart.chartEditorModule.settings.Grid = function(model, name, opt_domHelper) {
-  anychart.chartEditorModule.settings.Grid.base(this, 'constructor', model, name, opt_domHelper);
+chartEditor.settings.Grid = function(model, name, opt_domHelper) {
+  chartEditor.settings.Grid.base(this, 'constructor', model, name, opt_domHelper);
 
   this.gridExists = false;
 
   var chartType = model.getModel()['chart']['type'];
   this.isRadarGrid = chartType === 'radar' || chartType === 'polar';
 };
-goog.inherits(anychart.chartEditorModule.settings.Grid, anychart.chartEditorModule.SettingsPanel);
+goog.inherits(chartEditor.settings.Grid, chartEditor.SettingsPanel);
 
 
 /**
  * Default CSS class.
  * @type {string}
  */
-anychart.chartEditorModule.settings.Grid.CSS_CLASS = goog.getCssName('anychart-settings-panel-grid-single');
+chartEditor.settings.Grid.CSS_CLASS = goog.getCssName('anychart-settings-panel-grid-single');
 
 
 /** @override */
-anychart.chartEditorModule.settings.Grid.prototype.createDom = function() {
-  anychart.chartEditorModule.settings.Grid.base(this, 'createDom');
+chartEditor.settings.Grid.prototype.createDom = function() {
+  chartEditor.settings.Grid.base(this, 'createDom');
 
   var element = this.getElement();
-  goog.dom.classlist.add(element, anychart.chartEditorModule.settings.Grid.CSS_CLASS);
+  goog.dom.classlist.add(element, chartEditor.settings.Grid.CSS_CLASS);
 
   var content = this.getContentElement();
-  //var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+  //var model = /** @type {chartEditor.EditorModel} */(this.getModel());
 
   if (!this.isRadarGrid) {
-    this.firstLine_ = new anychart.chartEditorModule.checkbox.Base();
+    this.firstLine_ = new chartEditor.checkbox.Base();
     this.firstLine_.setCaption('Draw first line');
     this.addChild(this.firstLine_, true);
   }
 
-  this.lastLine_ = new anychart.chartEditorModule.checkbox.Base();
+  this.lastLine_ = new chartEditor.checkbox.Base();
   this.lastLine_.setCaption('Draw last line');
   this.addChild(this.lastLine_, true);
 
@@ -61,7 +61,7 @@ anychart.chartEditorModule.settings.Grid.prototype.createDom = function() {
   goog.dom.appendChild(content, paletteLabel);
   this.registerLabel(paletteLabel);
 
-  var paletteInput = new anychart.chartEditorModule.input.Palette('Comma separated colors');
+  var paletteInput = new chartEditor.input.Palette('Comma separated colors');
   this.addChild(paletteInput, true);
   goog.dom.classlist.add(paletteInput.getElement(), 'input-palette');
   goog.dom.classlist.add(paletteInput.getElement(), 'anychart-chart-editor-settings-control-right');
@@ -71,8 +71,8 @@ anychart.chartEditorModule.settings.Grid.prototype.createDom = function() {
       goog.dom.TagName.DIV,
       goog.getCssName('anychart-chart-editor-settings-item-gap')));
 
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
-  var stroke = new anychart.chartEditorModule.settings.Stroke(model, 'Stroke');
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
+  var stroke = new chartEditor.settings.Stroke(model, 'Stroke');
   stroke.exclude(true);
   this.addChild(stroke, true);
   this.stroke_ = stroke;
@@ -82,11 +82,11 @@ anychart.chartEditorModule.settings.Grid.prototype.createDom = function() {
 /**
  * Update model keys.
  */
-anychart.chartEditorModule.settings.Grid.prototype.updateKeys = function() {
-  anychart.chartEditorModule.settings.Grid.base(this, 'updateKeys');
+chartEditor.settings.Grid.prototype.updateKeys = function() {
+  chartEditor.settings.Grid.base(this, 'updateKeys');
   if (this.isExcluded()) return;
 
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
   if (this.firstLine_) this.firstLine_.init(model, this.genKey('drawFirstLine()'));
   if (this.lastLine_) this.lastLine_.init(model, this.genKey('drawLastLine()'));
   if (this.palette_) this.palette_.init(model, this.genKey('palette()'));
@@ -96,15 +96,15 @@ anychart.chartEditorModule.settings.Grid.prototype.updateKeys = function() {
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.settings.Grid.prototype.onChartDraw = function(evt) {
-  var model = /** @type {anychart.chartEditorModule.EditorModel} */(this.getModel());
-  this.getHandler().listenOnce(model, anychart.chartEditorModule.events.EventType.CHART_DRAW, this.onChartDraw);
+chartEditor.settings.Grid.prototype.onChartDraw = function(evt) {
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
+  this.getHandler().listenOnce(model, chartEditor.events.EventType.CHART_DRAW, this.onChartDraw);
   if (this.isExcluded()) return;
 
   var chart = evt.chart;
 
   if (!this.gridExists) {
-    var stringKey = anychart.chartEditorModule.EditorModel.getStringKey(this.key);
+    var stringKey = chartEditor.EditorModel.getStringKey(this.key);
     var splittedKey = stringKey.split('.');
 
     if (splittedKey.length === 1)
@@ -113,7 +113,7 @@ anychart.chartEditorModule.settings.Grid.prototype.onChartDraw = function(evt) {
       // stock
       var plotKey = splittedKey[0];
       stringKey = splittedKey[1];
-      var plot = anychart.bindingModule.exec(chart, plotKey);
+      var plot = chartEditor.binding.exec(chart, plotKey);
       this.gridExists = stringKey === 'xGrid()' ? !!plot.getXGridsCount() : !!plot.getYGridsCount();
     }
     this.stroke_.exclude(!this.gridExists);
@@ -133,7 +133,7 @@ anychart.chartEditorModule.settings.Grid.prototype.onChartDraw = function(evt) {
 
 
 /** @override */
-anychart.chartEditorModule.settings.Grid.prototype.disposeInternal = function() {
+chartEditor.settings.Grid.prototype.disposeInternal = function() {
   goog.dispose(this.firstLine_);
   this.firstLine_ = null;
 
@@ -146,5 +146,5 @@ anychart.chartEditorModule.settings.Grid.prototype.disposeInternal = function() 
   goog.dispose(this.stroke_);
   this.stroke_ = null;
 
-  anychart.chartEditorModule.settings.Grid.base(this, 'disposeInternal');
+  chartEditor.settings.Grid.base(this, 'disposeInternal');
 };

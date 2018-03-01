@@ -1,6 +1,6 @@
-goog.provide('anychart.chartEditorModule.DataSetPanel');
+goog.provide('chartEditor.DataSetPanel');
 
-goog.require('anychart.chartEditorModule.Component');
+goog.require('chartEditor.Component');
 goog.require('goog.ui.Menu');
 goog.require('goog.ui.MenuButton');
 goog.require('goog.ui.MenuItem');
@@ -14,10 +14,10 @@ goog.require('goog.ui.MenuSeparator');
  * @param {Object} dataSet Data set object
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  * @constructor
- * @extends {anychart.chartEditorModule.Component}
+ * @extends {chartEditor.Component}
  */
-anychart.chartEditorModule.DataSetPanel = function(dataSet, opt_domHelper) {
-  anychart.chartEditorModule.DataSetPanel.base(this, 'constructor', opt_domHelper);
+chartEditor.DataSetPanel = function(dataSet, opt_domHelper) {
+  chartEditor.DataSetPanel.base(this, 'constructor', opt_domHelper);
 
   this.disabled = false;
   this.dataSet_ = dataSet;
@@ -25,12 +25,12 @@ anychart.chartEditorModule.DataSetPanel = function(dataSet, opt_domHelper) {
   this.addClassName('anychart-border-box');
   this.addClassName('anychart-connected-data-sets-item');
 };
-goog.inherits(anychart.chartEditorModule.DataSetPanel, anychart.chartEditorModule.Component);
+goog.inherits(chartEditor.DataSetPanel, chartEditor.Component);
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.DataSetPanel.prototype.createDom = function() {
-  anychart.chartEditorModule.DataSetPanel.base(this, 'createDom');
+chartEditor.DataSetPanel.prototype.createDom = function() {
+  chartEditor.DataSetPanel.base(this, 'createDom');
 
   var element = /** @type {Element} */(this.getElement());
 
@@ -89,9 +89,9 @@ anychart.chartEditorModule.DataSetPanel.prototype.createDom = function() {
 /**
  * Dispatches event to remove data set from model.
  */
-anychart.chartEditorModule.DataSetPanel.prototype.removeDataSet = function() {
+chartEditor.DataSetPanel.prototype.removeDataSet = function() {
   this.dispatchEvent({
-    type: anychart.chartEditorModule.events.EventType.DATA_REMOVE,
+    type: chartEditor.events.EventType.DATA_REMOVE,
     setId: this.dataSet_.setId,
     dataType: this.dataSet_.type,
     setFullId: this.dataSet_.setFullId
@@ -103,7 +103,7 @@ anychart.chartEditorModule.DataSetPanel.prototype.removeDataSet = function() {
  * Getter for data set's full Id.
  * @return {string}
  */
-anychart.chartEditorModule.DataSetPanel.prototype.getSetFullId = function() {
+chartEditor.DataSetPanel.prototype.getSetFullId = function() {
   return this.dataSet_.setFullId;
 };
 
@@ -111,7 +111,7 @@ anychart.chartEditorModule.DataSetPanel.prototype.getSetFullId = function() {
 /**
  * @param {boolean} value
  */
-anychart.chartEditorModule.DataSetPanel.prototype.setDisabled = function(value) {
+chartEditor.DataSetPanel.prototype.setDisabled = function(value) {
   if (this.disabled !== value) {
     this.disabled = value;
     goog.dom.classlist.enable(this.getElement(), 'anychart-connected-data-sets-item-disabled', this.disabled);
@@ -119,7 +119,7 @@ anychart.chartEditorModule.DataSetPanel.prototype.setDisabled = function(value) 
   for(var i = 0; i < this.menu_.getChildCount(); i++) {
     var menuItem = this.menu_.getChildAt(i);
     if (menuItem.getCaption() === 'Remove') {
-      menuItem.setEnabled(this.disabled && this.dataSet_.type != anychart.chartEditorModule.EditorModel.DataType.GEO);
+      menuItem.setEnabled(this.disabled && this.dataSet_.type != chartEditor.EditorModel.DataType.GEO);
     }
   }
   // this.menuBtn_.setEnabled(this.disabled);
@@ -129,18 +129,18 @@ anychart.chartEditorModule.DataSetPanel.prototype.setDisabled = function(value) 
 /**
  * @param {boolean} isActiveGeo
  */
-anychart.chartEditorModule.DataSetPanel.prototype.setActiveGeo = function(isActiveGeo) {
+chartEditor.DataSetPanel.prototype.setActiveGeo = function(isActiveGeo) {
   goog.dom.classlist.enable(this.getElement(), 'active-geo', isActiveGeo);
 };
 
 
 /** @inheritDoc */
-anychart.chartEditorModule.DataSetPanel.prototype.disposeInternal = function() {
+chartEditor.DataSetPanel.prototype.disposeInternal = function() {
   this.menu_.dispose();
   this.menu_ = null;
 
   this.menuBtn_.dispose();
   this.menuBtn_ = null;
 
-  anychart.chartEditorModule.DataSetPanel.base(this, 'disposeInternal');
+  chartEditor.DataSetPanel.base(this, 'disposeInternal');
 };
