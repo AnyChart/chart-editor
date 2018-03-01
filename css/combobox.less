@@ -1,0 +1,104 @@
+@import "variables.less";
+
+.anychart-combobox {
+  .border-radius(4px);
+  .box-sizing(content-box);
+
+  height: 32px;
+
+  background: @color-background;
+  border: 1px solid @color-background;
+  color: @color-text;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+
+  line-height: 24px;
+  list-style: none;
+  font-size: 11px;
+  font-weight: bold;
+  text-decoration: none;
+  vertical-align: middle;
+  cursor: pointer;
+
+  input {
+    .border-radius(4px);
+    .box-sizing(content-box);
+    width: 40px;
+
+    font-size: 15px;
+    color: @color-text;
+    padding: 3px 5px;
+    margin: 3px;
+
+    border: 1px solid transparent;
+    overflow: hidden;
+    position: relative;
+
+    &:focus {
+      background: #ffffff;
+      -webkit-user-select: text;
+      -moz-user-select: text;
+
+      border: 1px solid #4d90fe;
+      height: 20px;
+      outline: none;
+    }
+  }
+}
+
+.anychart-combobox-disabled {
+  //border-color: @color-border-disabled !important;
+  cursor: default;
+
+  input {
+    color: @color-text-disabled;
+    background-color: inherit;
+  }
+
+  .anychart-combobox-button {
+    border-color: @color-border-disabled transparent;
+  }
+}
+
+.anychart-combobox-active {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border: 1px solid @color-border;
+  border-bottom: none;
+
+  .anychart-combobox-button {
+    .rotate(180deg);
+  }
+}
+
+.anychart-combobox-button {
+  @thickness: 3px;
+  @unitSize: 6px;
+  width: 0;
+  height: 0;
+  position: relative;
+  display: inline-block;
+
+  float: right;
+  margin: 12px 5px @unitSize 10px;
+
+  border-right: @unitSize solid transparent;
+  border-left: @unitSize solid transparent;
+  border-top: (@unitSize * 1) solid @color-arrow;
+  //margin-bottom: @unitSize;
+
+  &:before {
+    content: "";
+    position: absolute;
+
+    border-right: @unitSize solid transparent;
+    border-left: @unitSize solid transparent;
+    border-top: (@unitSize * 1) solid @color-background;
+    margin-bottom: @unitSize;
+
+    left: -@unitSize;
+    top: -(@unitSize + @thickness);
+  }
+}

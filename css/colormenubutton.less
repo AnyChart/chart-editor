@@ -1,0 +1,41 @@
+@import "variables.less";
+
+/* ------- COLOR MENU BUTTON ------- */
+
+.anychart-chart-editor-color {
+  .border-radius(4px);
+
+  background: @color-background;
+  border: 1px solid @color-background;
+  color: @color-text;
+  padding: 5px 6px !important;
+  height: 22px !important;
+
+  &:focus {
+    border-color: @color-shadow;
+  }
+
+  .anychart-color-menu-button-indicator {
+    width: 20px;
+    height: 20px;
+    outline: none;
+    border: 1px solid #c4d5df;
+    margin: 0;
+  }
+
+  &.anychart-flat-menu-button-disabled {
+    .anychart-color-menu-button-indicator {
+      .opacity(0.5);
+    }
+    .anychart-flat-menu-button-dropdown {
+      color: @color-text-disabled;
+    }
+  }
+}
+
+/* Thinner padding for color picker buttons, to leave room for the indicator. */
+//.anychart-color-menu-button .anychart-menu-button-inner-box,
+//.anychart-toolbar-color-menu-button .anychart-toolbar-menu-button-inner-box {
+//  padding-top: 2px !important;
+//  padding-bottom: 2px !important;
+//}
