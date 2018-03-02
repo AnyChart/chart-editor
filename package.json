@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "compile": "sh compile.sh",
-    "deps":  "sh deps.sh",
-    "css":  "echo 'Style me!'",
+    "deps": "sh deps.sh",
+    "css": "sh css.sh",
     "build-help": "java -jar node_modules/google-closure-compiler/compiler.jar --help"
   },
   "repository": {
@@ -24,6 +24,8 @@
   "homepage": "https://github.com/AnyChart/chart-editor#readme",
   "devDependencies": {
     "google-closure-compiler": "^20180204.0.0",
-    "google-closure-library": "^20180204.0.0"
+    "google-closure-library": "^20180204.0.0",
+    "less": "^3.0.1",
+    "less-plugin-clean-css": "^1.5.1"
   }
 }
