@@ -205,7 +205,7 @@ chartEditor.controls.select.Base.prototype.setValueByModel = function(opt_additi
     this.setValue(modelValue, opt_additionalValues);
 
   if (!this.getSelectedItem())
-    anychart.core.reporting.warning(chartEditor.enums.WarningCode.EDITOR_MODEL_VALUE_NOT_FOUND, null, this.key);
+    chartEditor.reporting.warning(chartEditor.enums.WarningCode.EDITOR_MODEL_VALUE_NOT_FOUND, null, this.key);
 
   this.noDispatch = false;
 };

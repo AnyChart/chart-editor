@@ -2055,7 +2055,7 @@ chartEditor.EditorModel.prototype.getChartWithJsCode_ = function(opt_options) {
   var addMarkers = !!outputSettings['addMarkers'];
   var eq = minify ? '=' : ' = ';
 
-  var anychartGlobal = anychart.window['anychart'];
+  var anychartGlobal = /** @type {Object} */(goog.dom.getWindow()['anychart']);
   var printerSettings = new goog.format.JsonPrettyPrinter.TextDelimiters();
   if (minify) {
     printerSettings.lineBreak = '';

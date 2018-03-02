@@ -6,11 +6,10 @@ goog.require('chartEditor.PredefinedDataSelector');
 goog.require('chartEditor.UserData');
 goog.require('chartEditor.events');
 goog.require('chartEditor.steps.Base');
-goog.require('anychart.dataAdapterModule.entry');
 goog.require('chartEditor.Component');
 goog.require('goog.ui.Button');
 
-goog.forwardDeclare('anychart.data.Mapping');
+//goog.forwardDeclare('anychart.data.Mapping');
 
 
 /**
@@ -132,7 +131,9 @@ chartEditor.steps.PrepareData.prototype.openDataDialog = function(dialogType, op
  */
 chartEditor.steps.PrepareData.prototype.onCloseDataDialog = function(evt) {
   var dialog = /** @type {chartEditor.DataDialog} */(evt.target);
-  if (evt.key == 'ok') {
+  var anychart = /** @type {Object} */(goog.dom.getWindow()['anychart']);
+
+  if (evt.key === 'ok') {
     var self = this;
     var dialogType = this.dialogType_;
     var dataType = this.dialogDataType_;
@@ -143,7 +144,7 @@ chartEditor.steps.PrepareData.prototype.onCloseDataDialog = function(evt) {
       var urlRegex = new RegExp(urlExpression);
       var errorCallback = goog.bind(this.onErrorDataLoad, this);
 
-      if (dialogType == 'file') {
+      if (dialogType === 'file') {
         if (inputValue.match(urlRegex)) {
           this.dispatchEvent({
             type: chartEditor.events.EventType.WAIT,
@@ -152,7 +153,7 @@ chartEditor.steps.PrepareData.prototype.onCloseDataDialog = function(evt) {
 
           switch (dataType) {
             case 'json':
-              anychart.dataAdapterModule.loadJsonFile(inputValue,
+              anychart['dataAdapterModule']['loadJsonFile'](inputValue,
                   function(data) {
                     self.onSuccessDataLoad(data, dataType);
                   }, errorCallback);
@@ -160,14 +161,14 @@ chartEditor.steps.PrepareData.prototype.onCloseDataDialog = function(evt) {
               break;
 
             case 'csv':
-              anychart.dataAdapterModule.loadCsvFile(inputValue,
+              anychart['dataAdapterModule']['loadCsvFile'](inputValue,
                   function(data) {
                     self.onSuccessDataLoad(data, dataType);
                   }, errorCallback);
               break;
 
             case 'xml':
-              anychart.dataAdapterModule.loadXmlFile(inputValue,
+              anychart['dataAdapterModule']['loadXmlFile'](inputValue,
                   function(data) {
                     self.onSuccessDataLoad(data, dataType);
                   }, errorCallback);
@@ -177,10 +178,10 @@ chartEditor.steps.PrepareData.prototype.onCloseDataDialog = function(evt) {
           console.warn("Invalid url!");
         }
 
-      } else if (dialogType == 'string') {
+      } else if (dialogType === 'string') {
         this.addLoadedData(inputValue, dataType);
 
-      } else if (dialogType == 'google') {
+      } else if (dialogType === 'google') {
         var key = {'key': inputValue};
         var keyRegex = new RegExp(/spreadsheets\/d\/([\w|-]+)\//);
         var parseResult = inputValue.match(keyRegex);
@@ -195,7 +196,7 @@ chartEditor.steps.PrepareData.prototype.onCloseDataDialog = function(evt) {
           type: chartEditor.events.EventType.WAIT,
           wait: true
         });
-        anychart.dataAdapterModule.loadGoogleSpreadsheet(key,
+        anychart['dataAdapterModule']['loadGoogleSpreadsheet'](key,
             function(data) {
               self.onSuccessDataLoad(data, dataType);
             },
@@ -212,9 +213,10 @@ chartEditor.steps.PrepareData.prototype.onCloseDataDialog = function(evt) {
  * @param {string} dataType
  */
 chartEditor.steps.PrepareData.prototype.addLoadedData = function(data, dataType) {
+  var anychart = /** @type {Object} */(goog.dom.getWindow()['anychart']);
   var result = null;
   var typeOf = goog.typeOf(data);
-  if (dataType != 'spreadsheets' && (typeOf == 'object' || typeOf == 'array')) {
+  if (dataType !== 'spreadsheets' && (typeOf === 'object' || typeOf === 'array')) {
     result = data;
 
   } else {
@@ -224,7 +226,7 @@ chartEditor.steps.PrepareData.prototype.addLoadedData = function(data, dataType)
         result = data['rows'];
         break;
       case 'json':
-        if (typeOf == 'string') {
+        if (typeOf === 'string') {
           try {
             result = goog.json.hybrid.parse(/** @type {string} */(data));
           } catch (err) {
@@ -236,7 +238,7 @@ chartEditor.steps.PrepareData.prototype.addLoadedData = function(data, dataType)
 
       case 'csv':
         var csvSettings = this.dataDialog_.getCSVSettings();
-        result = anychart.data.parseText(/** @type {string} */(data), csvSettings);
+        result = anychart['data']['parseText'](/** @type {string} */(data), csvSettings);
         break;
 
       case 'xml':
@@ -311,6 +313,7 @@ chartEditor.steps.PrepareData.prototype.onErrorDataLoad = function(errorCode) {
  */
 chartEditor.steps.PrepareData.xmlStringToJson_ = function(xmlString) {
   var wnd = goog.dom.getWindow();
+  var anychart = /** @type {Object} */(wnd['anychart']);
   var parseXml;
 
   if (wnd.DOMParser) {
@@ -335,7 +338,7 @@ chartEditor.steps.PrepareData.xmlStringToJson_ = function(xmlString) {
       }
       return dom;
     };
-  } else if (typeof wnd.ActiveXObject != "undefined" && new wnd.ActiveXObject("Microsoft.XMLDOM")) {
+  } else if (typeof wnd.ActiveXObject !== "undefined" && new wnd.ActiveXObject("Microsoft.XMLDOM")) {
     parseXml = function(xmlStr) {
       var xmlDoc = new wnd.ActiveXObject("Microsoft.XMLDOM");
       xmlDoc.async = "false";
@@ -350,7 +353,7 @@ chartEditor.steps.PrepareData.xmlStringToJson_ = function(xmlString) {
 
   var xmlDoc = parseXml(xmlString);
   if (xmlDoc) {
-    return anychart.utils.xml2json(xmlDoc);
+    return anychart['utils']['xml2json'](xmlDoc);
   }
 
   return null;

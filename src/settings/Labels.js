@@ -102,7 +102,7 @@ chartEditor.settings.Labels.prototype.enterDocument = function() {
 
     var positionValues = goog.object.getValues(positionValuesEnum);
     positionValues = goog.array.filter(positionValues, function(i) {
-      return goog.typeOf(i) == 'string';
+      return goog.typeOf(i) === 'string';
     });
     if (addValueOption) positionValues.push('value');
 

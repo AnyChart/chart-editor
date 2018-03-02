@@ -212,7 +212,7 @@ chartEditor.Editor.prototype.waitForImages_ = function() {
  * @private
  */
 chartEditor.Editor.prototype.onComplete_ = function(evt) {
-  this.dispatchEvent(chartEditor.enums.EventType.COMPLETE);
+  this.dispatchEvent('complete');
   if (this.dialog_)
     this.dialog_.setVisible(false);
 };
@@ -223,8 +223,8 @@ chartEditor.Editor.prototype.onComplete_ = function(evt) {
  * @private
  */
 chartEditor.Editor.prototype.onCloseDialog_ = function(evt) {
-  if (evt.target == this.dialog_) {
-    this.dispatchEvent(chartEditor.enums.EventType.CLOSE);
+  if (evt.target === this.dialog_) {
+    this.dispatchEvent('close');
   }
 };
 
