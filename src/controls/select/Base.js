@@ -2,6 +2,7 @@ goog.provide('chartEditor.controls.select.Base');
 
 goog.require('chartEditor.controls.select.DataFieldSelectMenuItem');
 goog.require('chartEditor.events');
+goog.require('chartEditor.reporting');
 goog.require('goog.ui.Option');
 goog.require('goog.ui.Select');
 

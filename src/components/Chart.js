@@ -76,7 +76,7 @@ chartEditor.Chart.prototype.onModelChange = function(evt) {
   if (rebuild) {
     goog.dispose(this.chart_);
 
-    this.chart_ = /** @type {anychart.core.Chart} */(chartEditor.binding.exec(this.anychart, chartType + '()'));
+    this.chart_ = /** @type {Object} */(chartEditor.binding.exec(this.anychart, chartType + '()'));
 
     if (chartType === 'map') {
       var geoData = model.getRawData(true);

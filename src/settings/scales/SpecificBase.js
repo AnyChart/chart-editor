@@ -26,7 +26,7 @@ chartEditor.settings.scales.SpecificBase.prototype.onChartDraw = function(evt) {
 
   if (!this.isExcluded()) {
     var stringKey = chartEditor.EditorModel.getStringKey(this.key);
-    this.scale_ = /** @type {anychart.colorScalesModule.Ordinal|anychart.colorScalesModule.Linear} */(chartEditor.binding.exec(evt.chart, stringKey));
+    this.scale_ = /** @type {Object} */(chartEditor.binding.exec(evt.chart, stringKey));
   }
 };
 

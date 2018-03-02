@@ -113,8 +113,8 @@ chartEditor.settings.Grid.prototype.onChartDraw = function(evt) {
       // stock
       var plotKey = splittedKey[0];
       stringKey = splittedKey[1];
-      var plot = chartEditor.binding.exec(chart, plotKey);
-      this.gridExists = stringKey === 'xGrid()' ? !!plot.getXGridsCount() : !!plot.getYGridsCount();
+      var plot = /** @type {Object} */(chartEditor.binding.exec(chart, plotKey));
+      this.gridExists = stringKey === 'xGrid()' ? !!plot['getXGridsCount']() : !!plot['getYGridsCount']();
     }
     this.stroke_.exclude(!this.gridExists);
   }

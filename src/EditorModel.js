@@ -2078,7 +2078,7 @@ chartEditor.EditorModel.prototype.getChartWithJsCode_ = function(opt_options) {
     result.push('');
   }
 
-  var chart = /** @type {anychart.core.Chart} */(chartEditor.binding.exec(anychartGlobal, chartType + '()'));
+  var chart = /** @type {Object} */(chartEditor.binding.exec(anychartGlobal, chartType + '()'));
   result.push('// Creating chart', 'var chart' + eq + 'anychart.' + chartType + '();', '');
 
   if (chartType === 'map') {

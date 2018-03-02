@@ -16,8 +16,8 @@ goog.provide('chartEditor.binding');
  * @return {*}
  */
 chartEditor.binding.exec = function(targetOrPath, pathOrValue, opt_valueOrPathArgs, var_args) {
-  var wnd = goog.dom.getWindow();
   if (goog.isString(targetOrPath)) {
+    var wnd = goog.dom.getWindow();
     var args = [wnd];
     for (var i = 0; i < arguments.length; i++) {
       args.push(arguments[i]);
@@ -82,11 +82,12 @@ chartEditor.binding.parsePath_ = function(path) {
  * @param {Object} target
  * @param {Array.<Array>} path
  * @param {Array.<(string|number)>} pathArguments
- * @param {(string|number|boolean)=} opt_lastArgument
+ * @param {(string|number|boolean|Function)=} opt_lastArgument
+ * @param {boolean=} opt_test - If set, the method returns true if operation succeeded and false otherwise.
  * @return {*}
  * @private
  */
-chartEditor.binding.applyPath_ = function(target, path, pathArguments, opt_lastArgument) {
+chartEditor.binding.applyPath_ = function(target, path, pathArguments, opt_lastArgument, opt_test) {
   var part;
   var name;
   var call;
@@ -117,6 +118,10 @@ chartEditor.binding.applyPath_ = function(target, path, pathArguments, opt_lastA
       }
 
       if (opt_lastArgument !== void 0 && i === path.length - 1) {
+        if (typeof opt_lastArgument === 'string' && (new RegExp(/^function\s?\(.+\)\s?\{(.|\n)+\};?$/)).test(opt_lastArgument)) {
+          opt_lastArgument = /** @type {Function} */(eval('(function(){return ' + opt_lastArgument + '})()'));
+        }
+
         args = args ? args : [];
         args.push(opt_lastArgument);
       }
@@ -124,23 +129,43 @@ chartEditor.binding.applyPath_ = function(target, path, pathArguments, opt_lastA
       target = call ? target[name].apply(target, args) : target[name];
     }
   } catch (e) {
-    var message = 'Could not apply key \'' + name;
-    if (call) message += '()';
-    message += '\'';
-    if (args) message += ' with arguments [' + args + ']';
+    if (opt_test) {
+      return false;
+    } else {
+      var message = 'Could not apply key \'' + name;
+      if (call) message += '()';
+      message += '\'';
+      if (args) message += ' with arguments [' + args + ']';
 
-    var wnd = goog.dom.getWindow();
-    var console = wnd['console'];
-    if (console) {
-      var log = console['warn'] || console['log'];
-      if (typeof log !== 'object') {
-        log.call(console, message);
+      var wnd = goog.dom.getWindow();
+      var console = wnd['console'];
+      if (console) {
+        var log = console['warn'] || console['log'];
+        if (typeof log !== 'object') {
+          log.call(console, message);
+        }
       }
+      return null;
     }
-    return null;
   }
 
-  return target;
+  return opt_test ? true : target;
+};
+
+
+/**
+ * Executes the path and returns true if the execution succeeded and false otherwise.
+ * @param {Object} target
+ * @param {string} path
+ * @param {(string|number|boolean)=} opt_value
+ * @return {boolean}
+ */
+chartEditor.binding.testExec = function(target, path, opt_value) {
+  var pathParsed = chartEditor.binding.parsePath_(path);
+  if (pathParsed) {
+    return !!chartEditor.binding.applyPath_(target, /** @type {Array} */(pathParsed), [], opt_value, true);
+  }
+  return false;
 };
 
 

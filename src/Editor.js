@@ -6,7 +6,7 @@ goog.require('chartEditor.Component');
 goog.require('chartEditor.EditorModel');
 goog.require('chartEditor.Steps');
 goog.require('chartEditor.events');
-goog.require('chartEditor.ui.Preloader');
+goog.require('chartEditor.Preloader');
 goog.require('goog.net.ImageLoader');
 goog.require('goog.ui.Dialog');
 
@@ -30,7 +30,7 @@ chartEditor.Editor = function(opt_domHelper) {
   this.setModel(new chartEditor.EditorModel());
 
   this.imagesLoaded_ = true;
-  this.preloader_ = new chartEditor.ui.Preloader();
+  this.preloader_ = new chartEditor.Preloader();
 
   /**
    * @type {chartEditor.Steps}
@@ -513,7 +513,7 @@ chartEditor.editor = function() {
 
 //exports
 (function() {
-  goog.exportSymbol('chartEditor.ui.editor', chartEditor.ui.editor);
+  goog.exportSymbol('chartEditor.editor', chartEditor.editor);
   var proto = chartEditor.Editor.prototype;
   proto['render'] = proto.render;
   proto['decorate'] = proto.decorate;

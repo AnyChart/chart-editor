@@ -51,7 +51,7 @@ chartEditor.settings.scales.Base = function(model, types, opt_domHelper) {
 
   /**
    * Scale instance.
-   * @type {?(anychart.scales.Linear|anychart.scales.Logarithmic|anychart.colorScalesModule.Ordinal|anychart.colorScalesModule.Linear)}
+   * @type {?(Object)}
    * @private
    */
   this.scale_ = null;
@@ -128,7 +128,7 @@ chartEditor.settings.scales.Base.prototype.onChartDraw = function(evt) {
   if (!this.isExcluded()) {
     var target = evt.chart;
     var stringKey = chartEditor.EditorModel.getStringKey(this.key);
-    this.scale_ = /** @type {anychart.colorScalesModule.Ordinal|anychart.colorScalesModule.Linear} */(chartEditor.binding.exec(target, stringKey));
+    this.scale_ = /** @type {Object} */(chartEditor.binding.exec(target, stringKey));
 
     if (this.scale_ && this.scaleTypeField_) {
       var type = this.scale_.getType();
