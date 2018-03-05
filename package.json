@@ -7,6 +7,7 @@
     "compile": "sh compile.sh",
     "deps": "sh deps.sh",
     "css": "sh css.sh",
+    "build": "sh build.sh",
     "build-help": "java -jar node_modules/google-closure-compiler/compiler.jar --help"
   },
   "repository": {
