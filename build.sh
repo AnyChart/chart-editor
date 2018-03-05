@@ -4,7 +4,6 @@ echo 'Start build'
 
 if [ -z $1 ] || [ $1 = "compile" ]
 then
-    echo "Just compile"
     sh compile.sh
 else
     if [ $1 = "all" ]
