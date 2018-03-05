@@ -74,7 +74,8 @@ chartEditor.Chart.prototype.onModelChange = function(evt) {
 
   // Chart creation
   if (rebuild) {
-    goog.dispose(this.chart_);
+    if (this.chart_)
+      this.chart_['dispose']();
 
     this.chart_ = /** @type {Object} */(chartEditor.binding.exec(this.anychart, chartType + '()'));
 
@@ -195,7 +196,7 @@ chartEditor.Chart.prototype.onModelChange = function(evt) {
     chartEditor.binding.exec(self.chart_, key, value);
   });
 
-  this.getHandler().listenOnce(this.chart_, 'chartdraw', function() {
+  this.chart_['listenOnce']('chartdraw', function() {
     model.onChartDraw(self.chart_, rebuild);
   });
 

@@ -130,12 +130,12 @@ chartEditor.AppearanceSettings = function(model, tabs, tabContent, opt_domHelper
       classFunc: chartEditor.TooltipPanel,
       instance: null
     },
-    {
-      name: 'Grids',
-      enabled: true,
-      classFunc: chartEditor.GridsPanel,
-      instance: null
-    },
+    // {
+    //   name: 'Grids',
+    //   enabled: true,
+    //   classFunc: chartEditor.GridsPanel,
+    //   instance: null
+    // },
     {
       name: 'ColorScale',
       enabled: true,
@@ -153,13 +153,14 @@ chartEditor.AppearanceSettings = function(model, tabs, tabContent, opt_domHelper
       enabled: true,
       classFunc: chartEditor.ContextMenuPanel,
       instance: null
-    },
-    {
-      name: 'Credits',
-      enabled: true,
-      classFunc: chartEditor.CreditsPanel,
-      instance: null
-    }];
+    }//,
+    // {
+    //   name: 'Credits',
+    //   enabled: true,
+    //   classFunc: chartEditor.CreditsPanel,
+    //   instance: null
+    // }
+    ];
 
   this.currentPanel_ = 0;
 
