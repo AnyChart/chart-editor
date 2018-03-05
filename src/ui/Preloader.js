@@ -6,11 +6,14 @@ goog.require('goog.ui.Component');
 
 /**
  * Preloader.
+ *
+ * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
+ *
  * @constructor
  * @extends {goog.ui.Component}
  */
-chartEditor.Preloader = function() {
-  chartEditor.Preloader.base(this, 'constructor');
+chartEditor.Preloader = function(opt_domHelper) {
+  chartEditor.Preloader.base(this, 'constructor', opt_domHelper);
 };
 goog.inherits(chartEditor.Preloader, goog.ui.Component);
 
@@ -35,7 +38,7 @@ chartEditor.Preloader.prototype.visible_ = false;
  */
 chartEditor.Preloader.prototype.visible = function(opt_value) {
   if (goog.isDef(opt_value)) {
-    if (opt_value == this.visible_) {
+    if (opt_value === this.visible_) {
       return this;
     }
 
