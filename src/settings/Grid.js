@@ -28,7 +28,7 @@ goog.inherits(chartEditor.settings.Grid, chartEditor.SettingsPanel);
  * Default CSS class.
  * @type {string}
  */
-chartEditor.settings.Grid.CSS_CLASS = goog.getCssName('anychart-settings-panel-grid-single');
+chartEditor.settings.Grid.CSS_CLASS = goog.getCssName('anychart-ce-settings-panel-grid-single');
 
 
 /** @override */
@@ -55,7 +55,7 @@ chartEditor.settings.Grid.prototype.createDom = function() {
       goog.dom.TagName.LABEL,
       [
         goog.ui.INLINE_BLOCK_CLASSNAME,
-        goog.getCssName('anychart-settings-label')
+        goog.getCssName('anychart-ce-settings-label')
       ],
       'Palette');
   goog.dom.appendChild(content, paletteLabel);
@@ -64,12 +64,12 @@ chartEditor.settings.Grid.prototype.createDom = function() {
   var paletteInput = new chartEditor.input.Palette('Comma separated colors');
   this.addChild(paletteInput, true);
   goog.dom.classlist.add(paletteInput.getElement(), 'input-palette');
-  goog.dom.classlist.add(paletteInput.getElement(), 'anychart-chart-editor-settings-control-right');
+  goog.dom.classlist.add(paletteInput.getElement(), 'anychart-ce-settings-control-right');
   this.palette_ = paletteInput;
 
   goog.dom.appendChild(content, goog.dom.createDom(
       goog.dom.TagName.DIV,
-      goog.getCssName('anychart-chart-editor-settings-item-gap')));
+      goog.getCssName('anychart-ce-settings-item-gap')));
 
   var model = /** @type {chartEditor.EditorModel} */(this.getModel());
   var stroke = new chartEditor.settings.Stroke(model, 'Stroke');

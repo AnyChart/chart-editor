@@ -26,7 +26,7 @@ goog.inherits(chartEditor.settings.scales.LinearSpecific, chartEditor.settings.s
  * Default CSS class.
  * @type {string}
  */
-chartEditor.settings.scales.LinearSpecific.CSS_CLASS = goog.getCssName('anychart-settings-panel-scale-linear');
+chartEditor.settings.scales.LinearSpecific.CSS_CLASS = goog.getCssName('anychart-ce-settings-panel-scale-linear');
 
 
 /** @override */
@@ -93,7 +93,7 @@ chartEditor.settings.scales.LinearSpecific.prototype.createDom = function() {
 
   goog.dom.appendChild(this.getContentElement(), goog.dom.createDom(
       goog.dom.TagName.DIV,
-      goog.getCssName('anychart-chart-editor-settings-item-separator-gaps')));
+      goog.getCssName('anychart-ce-settings-item-separator-gaps')));
 
   var ticks = new chartEditor.settings.scales.ScatterTicks(model, 'Scale Ticks');
   ticks.allowEnabled(false);
@@ -102,7 +102,7 @@ chartEditor.settings.scales.LinearSpecific.prototype.createDom = function() {
 
   goog.dom.appendChild(this.getContentElement(), goog.dom.createDom(
       goog.dom.TagName.DIV,
-      goog.getCssName('anychart-chart-editor-settings-item-separator-gaps')));
+      goog.getCssName('anychart-ce-settings-item-separator-gaps')));
 
   var minorTicks = new chartEditor.settings.scales.ScatterTicks(model, 'Scale Minor Ticks');
   minorTicks.allowEnabled(false);

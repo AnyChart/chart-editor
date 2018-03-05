@@ -19,7 +19,7 @@ chartEditor.settings.axes.Cartesian = function(model, index, xOrY, opt_domHelper
   this.name = this.xOrY + 'Axis(' + this.index_ + ')';
   this.key = [['chart'], ['settings'], this.xOrY + 'Axis(' + this.index_ + ')'];
 
-  this.addClassName(goog.getCssName('anychart-settings-panel-axis-cartesian'));
+  this.addClassName(goog.getCssName('anychart-ce-settings-panel-axis-cartesian'));
 };
 goog.inherits(chartEditor.settings.axes.Cartesian, chartEditor.settings.axes.Linear);
 

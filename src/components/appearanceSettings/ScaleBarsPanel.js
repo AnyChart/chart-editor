@@ -19,7 +19,7 @@ chartEditor.ScaleBarsPanel = function(model, opt_domHelper) {
 
   this.setRemoveFromIndex(0);
 
-  this.addClassName(goog.getCssName('anychart-settings-panel-gauge-scale-bars'));
+  this.addClassName(goog.getCssName('anychart-ce-settings-panel-gauge-scale-bars'));
 };
 goog.inherits(chartEditor.ScaleBarsPanel, chartEditor.MultiplePanelsBase);
 

@@ -30,7 +30,7 @@ goog.inherits(chartEditor.settings.Title, chartEditor.SettingsPanel);
  * Default CSS class.
  * @type {string}
  */
-chartEditor.settings.Title.CSS_CLASS = goog.getCssName('anychart-settings-title');
+chartEditor.settings.Title.CSS_CLASS = goog.getCssName('anychart-ce-settings-title');
 
 
 /**
@@ -193,7 +193,7 @@ chartEditor.settings.Title.prototype.createDom = function() {
           goog.dom.TagName.LABEL,
           [
             goog.ui.INLINE_BLOCK_CLASSNAME,
-            goog.getCssName('anychart-settings-label')
+            goog.getCssName('anychart-ce-settings-label')
           ],
           'Font color');
       goog.dom.appendChild(content, colorLabel);
@@ -205,7 +205,7 @@ chartEditor.settings.Title.prototype.createDom = function() {
 
     goog.dom.appendChild(content, goog.dom.createDom(
         goog.dom.TagName.DIV,
-        goog.getCssName('anychart-chart-editor-settings-item-gap')));
+        goog.getCssName('anychart-ce-settings-item-gap')));
   }
 
   var fontFamily = new chartEditor.controls.select.FontFamily();
@@ -223,7 +223,7 @@ chartEditor.settings.Title.prototype.createDom = function() {
   goog.dom.appendChild(content, buttonsWrapper);
 
   var boldBtn = new chartEditor.button.Bold();
-  boldBtn.addClassName(goog.getCssName('anychart-chart-editor-settings-bold'));
+  boldBtn.addClassName(goog.getCssName('anychart-ce-settings-bold'));
   this.addChild(boldBtn, true);
   goog.dom.appendChild(buttonsWrapper, boldBtn.getElement());
 
@@ -243,7 +243,7 @@ chartEditor.settings.Title.prototype.createDom = function() {
 
   goog.dom.appendChild(content, goog.dom.createDom(
       goog.dom.TagName.DIV,
-      goog.getCssName('anychart-chart-editor-settings-item-gap')));
+      goog.getCssName('anychart-ce-settings-item-gap')));
 
   if (this.allowEditPosition_) {
     var positionField = new chartEditor.controls.select.DataField({label: this.positionLabel_});
@@ -270,7 +270,7 @@ chartEditor.settings.Title.prototype.createDom = function() {
     this.addChild(alignField, true);
   }
 
-  goog.dom.appendChild(content, goog.dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-clearboth')));
+  goog.dom.appendChild(content, goog.dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-ce-clearboth')));
 
   this.textInput_ = textInput;
   this.colorPicker_ = colorPicker;

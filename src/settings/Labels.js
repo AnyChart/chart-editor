@@ -20,7 +20,7 @@ goog.inherits(chartEditor.settings.Labels, chartEditor.SettingsPanel);
  * Default CSS class.
  * @type {string}
  */
-chartEditor.settings.Labels.CSS_CLASS = goog.getCssName('anychart-chart-editor-settings-labels');
+chartEditor.settings.Labels.CSS_CLASS = goog.getCssName('anychart-ce-settings-labels');
 
 
 /**

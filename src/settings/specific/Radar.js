@@ -23,7 +23,7 @@ goog.inherits(chartEditor.settings.specific.Radar, chartEditor.SettingsPanel);
  * Default CSS class.
  * @type {string}
  */
-chartEditor.settings.specific.Radar.CSS_CLASS = goog.getCssName('anychart-chart-editor-settings-panel-radar');
+chartEditor.settings.specific.Radar.CSS_CLASS = goog.getCssName('anychart-ce-settings-panel-radar');
 
 
 /** @override */

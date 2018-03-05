@@ -18,7 +18,7 @@ chartEditor.settings.axes.Radial = function(model, opt_domHelper) {
 
   this.key = [['chart'], ['settings'], 'yAxis()'];
 
-  this.addClassName(goog.getCssName('anychart-settings-panel-axis-radial'));
+  this.addClassName(goog.getCssName('anychart-ce-settings-panel-axis-radial'));
 };
 goog.inherits(chartEditor.settings.axes.Radial, chartEditor.SettingsPanelZippy);
 

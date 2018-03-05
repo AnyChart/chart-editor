@@ -28,7 +28,7 @@ goog.inherits(chartEditor.controls.chartType.Pages, chartEditor.Component);
 
 
 /** @type {string} */
-chartEditor.controls.chartType.Pages.CSS_CLASS = goog.getCssName('anychart-chart-editor-chart-type-pages');
+chartEditor.controls.chartType.Pages.CSS_CLASS = goog.getCssName('anychart-ce-chart-type-pages');
 
 
 /** @inheritDoc */
@@ -208,7 +208,7 @@ chartEditor.controls.chartType.Page = function(index, opt_domHelper) {
 goog.inherits(chartEditor.controls.chartType.Page, chartEditor.Component);
 
 /** @type {string} */
-chartEditor.controls.chartType.Page.CSS_CLASS = goog.getCssName('anychart-chart-editor-chart-type-page-single');
+chartEditor.controls.chartType.Page.CSS_CLASS = goog.getCssName('anychart-ce-chart-type-page-single');
 
 
 /** @inheritDoc */
@@ -241,7 +241,7 @@ chartEditor.controls.chartType.Pager.EventType = {
 };
 
 /** @type {string} */
-chartEditor.controls.chartType.Pager.CSS_CLASS = goog.getCssName('anychart-chart-editor-pager');
+chartEditor.controls.chartType.Pager.CSS_CLASS = goog.getCssName('anychart-ce-pager');
 
 
 /** @inheritDoc */

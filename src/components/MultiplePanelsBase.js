@@ -20,7 +20,7 @@ chartEditor.MultiplePanelsBase = function(model, opt_name, opt_domHelper) {
 
   this.panels_ = [];
 
-  this.addClassName(goog.getCssName('anychart-chart-editor-settings-panel-multiple'));
+  this.addClassName(goog.getCssName('anychart-ce-settings-panel-multiple'));
 };
 goog.inherits(chartEditor.MultiplePanelsBase, chartEditor.SettingsPanel);
 

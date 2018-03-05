@@ -16,7 +16,7 @@ goog.inherits(chartEditor.Preloader, goog.ui.Component);
 
 
 /** @type {string} */
-chartEditor.Preloader.CSS_CLASS = goog.getCssName('anychart-loader');
+chartEditor.Preloader.CSS_CLASS = goog.getCssName('anychart-ce-loader');
 
 
 /**

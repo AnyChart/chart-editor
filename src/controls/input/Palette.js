@@ -21,7 +21,7 @@ goog.inherits(chartEditor.input.Palette, chartEditor.input.Base);
  * Default CSS class.
  * @type {string}
  */
-chartEditor.input.Palette.CSS_CLASS = goog.getCssName('anychart-chart-editor-input-palette');
+chartEditor.input.Palette.CSS_CLASS = goog.getCssName('anychart-ce-input-palette');
 
 
 /** @override */

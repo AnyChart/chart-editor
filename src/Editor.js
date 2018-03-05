@@ -82,7 +82,8 @@ goog.inherits(chartEditor.Editor, chartEditor.Component);
  * CSS class name.
  * @type {string}
  */
-chartEditor.Editor.CSS_CLASS = goog.getCssName('anychart-chart-editor');
+chartEditor.Editor.CSS_CLASS = goog.getCssName('anychart-ce');
+
 
 
 /** @inheritDoc */
@@ -412,7 +413,7 @@ chartEditor.Editor.prototype.setDefaults = function(values) {
  * @extends {goog.ui.Dialog}
  */
 chartEditor.Editor.Dialog = function(opt_class, opt_useIframeMask, opt_domHelper) {
-  chartEditor.Editor.Dialog.base(this, 'constructor', opt_class || goog.getCssName('anychart-chart-editor-dialog'), opt_useIframeMask, opt_domHelper);
+  chartEditor.Editor.Dialog.base(this, 'constructor', opt_class || goog.getCssName('anychart-ce-dialog'), opt_useIframeMask, opt_domHelper);
 
   /**
    * Element for the logo of the title bar.
@@ -446,7 +447,7 @@ chartEditor.Editor.Dialog.prototype.createDom = function() {
   chartEditor.Editor.Dialog.base(this, 'createDom');
 
   if (this.theme_)
-    goog.dom.classlist.add(this.getElement(), 'anychart-chart-editor-dialog-' + this.theme_ + '-theme');
+    goog.dom.classlist.add(this.getElement(), 'anychart-ce-dialog-' + this.theme_ + '-theme');
 
   this.initTitleElements_();
 };

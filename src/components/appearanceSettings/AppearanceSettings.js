@@ -190,7 +190,7 @@ chartEditor.AppearanceSettings.prototype.createDom = function() {
   var model = /** @type {chartEditor.EditorModel} */(this.getModel());
   var dom = this.getDomHelper();
 
-  this.buttonsWrapper_ = goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-buttons-wrapper');
+  this.buttonsWrapper_ = goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-ce-buttons-wrapper');
   goog.dom.appendChild(this.tabs_.getElement(), this.buttonsWrapper_);
 
   for (var i = 0; i < this.descriptors_.length; i++) {
@@ -199,8 +199,8 @@ chartEditor.AppearanceSettings.prototype.createDom = function() {
     panel = this.descriptors_[i].instance = new classFunc(model);
 
     this.tabContent_.addChild(panel, true);
-    goog.dom.classlist.add(panel.getElement(), 'anychart-settings-panel-' + this.descriptors_[i].name.toLowerCase());
-    goog.dom.classlist.add(panel.getTopElement(), 'anychart-chart-editor-section-caption');
+    goog.dom.classlist.add(panel.getElement(), 'anychart-ce-settings-panel-' + this.descriptors_[i].name.toLowerCase());
+    goog.dom.classlist.add(panel.getTopElement(), 'anychart-ce-section-caption');
 
     var button = dom.createDom(goog.dom.TagName.DIV, 'button', panel.getName());
     button.setAttribute('data-index', i);
@@ -219,8 +219,8 @@ chartEditor.AppearanceSettings.prototype.enterDocument = function() {
     var button = this.buttons_[j];
 
     goog.dom.classlist.enable(button, 'active', this.currentPanel_ === j);
-    goog.dom.classlist.enable(button, 'anychart-hidden', panel.isExcluded());
-    goog.dom.classlist.enable(panel.getElement(), 'anychart-hidden', this.currentPanel_ !== j || panel.isExcluded());
+    goog.dom.classlist.enable(button, 'anychart-ce-hidden', panel.isExcluded());
+    goog.dom.classlist.enable(panel.getElement(), 'anychart-ce-hidden', this.currentPanel_ !== j || panel.isExcluded());
 
     if (!goog.events.hasListener(button, goog.events.EventType.CLICK))
       this.getHandler().listen(button, goog.events.EventType.CLICK, this.onClickCategoryButton_);
@@ -268,7 +268,7 @@ chartEditor.AppearanceSettings.prototype.onClickCategoryButton_ = function(evt) 
 
     for (var i = 0; i < this.descriptors_.length; i++) {
       var panel = this.descriptors_[i].instance;
-      goog.dom.classlist.enable(panel.getElement(), 'anychart-hidden', this.currentPanel_ !== i);
+      goog.dom.classlist.enable(panel.getElement(), 'anychart-ce-hidden', this.currentPanel_ !== i);
       goog.dom.classlist.enable(this.buttons_[i], 'active', this.currentPanel_ === i);
     }
   }

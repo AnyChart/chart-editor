@@ -30,8 +30,8 @@ chartEditor.CreditsPanel.prototype.createDom = function() {
       goog.dom.TagName.LABEL,
       [
         goog.ui.INLINE_BLOCK_CLASSNAME,
-        goog.getCssName('anychart-settings-label'),
-        goog.getCssName('anychart-settings-label-block')
+        goog.getCssName('anychart-ce-settings-label'),
+        goog.getCssName('anychart-ce-settings-label-block')
       ],
       'License key');
   goog.dom.appendChild(content, licenseKeyLabel);
@@ -42,14 +42,14 @@ chartEditor.CreditsPanel.prototype.createDom = function() {
 
   goog.dom.appendChild(content, goog.dom.createDom(
       goog.dom.TagName.DIV,
-      goog.getCssName('anychart-chart-editor-settings-item-gap')));
+      goog.getCssName('anychart-ce-settings-item-gap')));
 
   var textLabel = goog.dom.createDom(
       goog.dom.TagName.LABEL,
       [
         goog.ui.INLINE_BLOCK_CLASSNAME,
-        goog.getCssName('anychart-settings-label'),
-        goog.getCssName('anychart-settings-label-block')
+        goog.getCssName('anychart-ce-settings-label'),
+        goog.getCssName('anychart-ce-settings-label-block')
       ],
       'Text');
   goog.dom.appendChild(content, textLabel);
@@ -61,14 +61,14 @@ chartEditor.CreditsPanel.prototype.createDom = function() {
 
   goog.dom.appendChild(content, goog.dom.createDom(
       goog.dom.TagName.DIV,
-      goog.getCssName('anychart-chart-editor-settings-item-gap')));
+      goog.getCssName('anychart-ce-settings-item-gap')));
 
   var urlLabel = goog.dom.createDom(
       goog.dom.TagName.LABEL,
       [
         goog.ui.INLINE_BLOCK_CLASSNAME,
-        goog.getCssName('anychart-settings-label'),
-        goog.getCssName('anychart-settings-label-block')
+        goog.getCssName('anychart-ce-settings-label'),
+        goog.getCssName('anychart-ce-settings-label-block')
       ],
       'URL');
   goog.dom.appendChild(content, urlLabel);
@@ -80,14 +80,14 @@ chartEditor.CreditsPanel.prototype.createDom = function() {
 
   goog.dom.appendChild(content, goog.dom.createDom(
       goog.dom.TagName.DIV,
-      goog.getCssName('anychart-chart-editor-settings-item-gap')));
+      goog.getCssName('anychart-ce-settings-item-gap')));
 
   var logoLabel = goog.dom.createDom(
       goog.dom.TagName.LABEL,
       [
         goog.ui.INLINE_BLOCK_CLASSNAME,
-        goog.getCssName('anychart-settings-label'),
-        goog.getCssName('anychart-settings-label-block')
+        goog.getCssName('anychart-ce-settings-label'),
+        goog.getCssName('anychart-ce-settings-label-block')
       ],
       'Logo URL');
   goog.dom.appendChild(content, logoLabel);

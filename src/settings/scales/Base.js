@@ -58,7 +58,7 @@ chartEditor.settings.scales.Base = function(model, types, opt_domHelper) {
 
   this.allowEnabled(false);
 
-  this.addClassName(goog.getCssName('anychart-settings-panel-scale-single'));
+  this.addClassName(goog.getCssName('anychart-ce-settings-panel-scale-single'));
 };
 goog.inherits(chartEditor.settings.scales.Base, chartEditor.SettingsPanel);
 
@@ -81,7 +81,7 @@ chartEditor.settings.scales.Base.prototype.createDom = function() {
   this.addChild(specificWrapper, true);
   this.specificWrapper_ = specificWrapper;
 
-  goog.dom.appendChild(this.getContentElement(), goog.dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-clearboth')));
+  goog.dom.appendChild(this.getContentElement(), goog.dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-ce-clearboth')));
 };
 
 

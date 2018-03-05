@@ -36,5 +36,5 @@ goog.addSingletonGetter(chartEditor.controls.select.DataFieldSelectMenuItemRende
 
 /** @inheritDoc */
 chartEditor.controls.select.DataFieldSelectMenuItemRenderer.prototype.getCssClass = function() {
-    return 'anychart-control-menu-item';
+    return 'anychart-ce-control-menu-item';
 };

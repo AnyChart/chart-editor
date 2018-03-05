@@ -40,7 +40,7 @@ goog.inherits(chartEditor.settings.PlotGrids, chartEditor.SettingsPanelIndexed);
  * Default CSS class.
  * @type {string}
  */
-chartEditor.settings.PlotGrids.CSS_CLASS = goog.getCssName('anychart-settings-panel-plot-grids');
+chartEditor.settings.PlotGrids.CSS_CLASS = goog.getCssName('anychart-ce-settings-panel-plot-grids');
 
 
 /** @override */
@@ -59,7 +59,7 @@ chartEditor.settings.PlotGrids.prototype.createDom = function() {
 
   goog.dom.appendChild(this.getContentElement(), goog.dom.createDom(
       goog.dom.TagName.DIV,
-      goog.getCssName('anychart-chart-editor-settings-item-separator')));
+      goog.getCssName('anychart-ce-settings-item-separator')));
 
   var yGrid = new chartEditor.settings.Grid(model, 'Y Grid');
   yGrid.allowEnabled(true);

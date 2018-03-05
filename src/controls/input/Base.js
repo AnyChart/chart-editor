@@ -64,7 +64,7 @@ goog.inherits(chartEditor.input.Base, goog.ui.LabelInput);
  * value.
  */
 chartEditor.input.Base.prototype.labelCssClassName =
-    goog.getCssName('anychart-chart-editor-input-label');
+    goog.getCssName('anychart-ce-input-label');
 
 
 /**
@@ -98,7 +98,7 @@ chartEditor.input.Base.prototype.createDom = function() {
   this.setElementInternal(this.getDomHelper().createDom(
       goog.dom.TagName.INPUT, {
         'type': goog.dom.InputType.TEXT,
-        'className': goog.getCssName('anychart-chart-editor-input')
+        'className': goog.getCssName('anychart-ce-input')
       }));
 };
 

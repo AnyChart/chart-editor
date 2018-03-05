@@ -24,7 +24,7 @@ goog.inherits(chartEditor.settings.specific.Cartesian, chartEditor.SettingsPanel
  * Default CSS class.
  * @type {string}
  */
-chartEditor.settings.specific.Cartesian.CSS_CLASS = goog.getCssName('anychart-chart-editor-settings-panel-cartesian');
+chartEditor.settings.specific.Cartesian.CSS_CLASS = goog.getCssName('anychart-ce-settings-panel-cartesian');
 
 
 /** @override */

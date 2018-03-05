@@ -25,7 +25,7 @@ chartEditor.settings.ScaleBar = function(model, index, opt_domHelper) {
   this.enabledKey(this.genKey('enabled', true));
 
   this.allowEnabled(true);
-  this.addClassName(goog.getCssName('anychart-settings-panel-scale-bar'));
+  this.addClassName(goog.getCssName('anychart-ce-settings-panel-scale-bar'));
 };
 goog.inherits(chartEditor.settings.ScaleBar, chartEditor.SettingsPanelZippy);
 
@@ -38,7 +38,7 @@ chartEditor.settings.ScaleBar.prototype.createDom = function() {
 
   // region ==== Header
   var fill = new chartEditor.colorPicker.Base();
-  fill.addClassName(goog.getCssName('anychart-chart-editor-settings-control-right'));
+  fill.addClassName(goog.getCssName('anychart-ce-settings-control-right'));
   fill.init(model, this.genKey('fill', true));
   this.addHeaderChildControl(fill);
   // endregion

@@ -25,7 +25,7 @@ goog.inherits(chartEditor.settings.Cap, chartEditor.SettingsPanel);
  * Default CSS class.
  * @type {string}
  */
-chartEditor.settings.Cap.CSS_CLASS = goog.getCssName('anychart-chart-editor-settings-cap');
+chartEditor.settings.Cap.CSS_CLASS = goog.getCssName('anychart-ce-settings-cap');
 
 
 /** @override */

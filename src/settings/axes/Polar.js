@@ -17,7 +17,7 @@ chartEditor.settings.axes.Polar = function(model, opt_domHelper) {
 
   this.key = [['chart'], ['settings'], 'xAxis()'];
 
-  this.addClassName(goog.getCssName('anychart-settings-panel-axis-polar'));
+  this.addClassName(goog.getCssName('anychart-ce-settings-panel-axis-polar'));
 };
 goog.inherits(chartEditor.settings.axes.Polar, chartEditor.SettingsPanelZippy);
 

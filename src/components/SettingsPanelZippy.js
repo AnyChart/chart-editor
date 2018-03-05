@@ -16,7 +16,7 @@ goog.require('goog.ui.AnimatedZippy');
 chartEditor.SettingsPanelZippy = function(model, index, opt_name, opt_domHelper) {
   chartEditor.SettingsPanelZippy.base(this, 'constructor', model, index, opt_name, opt_domHelper);
 
-  this.addClassName(goog.getCssName('anychart-chart-editor-settings-panel-zippy'));
+  this.addClassName(goog.getCssName('anychart-ce-settings-panel-zippy'));
 };
 goog.inherits(chartEditor.SettingsPanelZippy, chartEditor.SettingsPanelIndexed);
 
@@ -58,7 +58,7 @@ chartEditor.SettingsPanelZippy.prototype.createDom = function() {
   zippyContent.addChild(innerContent, true);
   this.zippyContent = innerContent;
 
-  goog.dom.appendChild(this.zippyContent.getElement(), goog.dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-clearboth')));
+  goog.dom.appendChild(this.zippyContent.getElement(), goog.dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-ce-clearboth')));
 
   this.zippy_ = new goog.ui.AnimatedZippy(zippyHeader.getElement(), zippyContent.getElement());
   this.zippy_.setHandleKeyboardEvents(false);
@@ -105,5 +105,5 @@ chartEditor.SettingsPanelZippy.prototype.addHeaderChildControl = function(contro
 chartEditor.SettingsPanelZippy.prototype.addContentSeparator = function() {
   goog.dom.appendChild(this.zippyContent.getElement(), goog.dom.createDom(
       goog.dom.TagName.DIV,
-      goog.getCssName('anychart-chart-editor-settings-item-separator-gaps')));
+      goog.getCssName('anychart-ce-settings-item-separator-gaps')));
 };

@@ -1,6 +1,6 @@
 /* ------- MENU ------- */
 
-.anychart-menu {
+.anychart-ce-menu {
   .border-radius(0);
   .box-shadow(0 2px 4px rgba(0,0,0,0.2));
   .transition(opacity 0.218s);
@@ -27,13 +27,13 @@
  * with or without the use of the CSS compiler.  In order for them not
  * to conflict with each other, the "rtl" CSS classes need to have the @noflip
  * annotation.  The non-rtl counterparts should ideally have them as well, but,
- * since .anychart-menuitem existed without .anychart-menuitem-rtl for so long before
+ * since .anychart-ce-menuitem existed without .anychart-ce-menuitem-rtl for so long before
  * being added, there is a risk of people having templates where they are not
- * rendering the .anychart-menuitem-rtl class when in RTL and instead rely solely
+ * rendering the .anychart-ce-menuitem-rtl class when in RTL and instead rely solely
  * on the BiDi flipping by the CSS compiler.  That's why we're not adding the
- * @noflip to .anychart-menuitem.
+ * @noflip to .anychart-ce-menuitem.
  */
-.anychart-menuitem {
+.anychart-ce-menuitem {
   position: relative;
   color: #333;
   cursor: pointer;
@@ -47,15 +47,15 @@
 
 /* BiDi override for the resting state. */
 /* @noflip */
-.anychart-menuitem.anychart-menuitem-rtl {
+.anychart-ce-menuitem.anychart-ce-menuitem-rtl {
   /* Flip left/right padding for BiDi. */
   padding-left: 7em;
   padding-right: 28px;
 }
 
 /* If a menu doesn't have checkable items or items with icons, remove padding. */
-.anychart-menu-nocheckbox .anychart-menuitem,
-.anychart-menu-noicon .anychart-menuitem {
+.anychart-ce-menu-nocheckbox .anychart-ce-menuitem,
+.anychart-ce-menu-noicon .anychart-ce-menuitem {
   padding-left: 12px;
 }
 
@@ -63,28 +63,28 @@
  * If a menu doesn't have items with shortcuts, leave just enough room for
  * submenu arrows, if they are rendered.
  */
-.anychart-menu-noaccel .anychart-menuitem {
+.anychart-ce-menu-noaccel .anychart-ce-menuitem {
   padding-right: 20px;
 }
 
 /* State: disabled. */
-.anychart-menuitem-disabled {
+.anychart-ce-menuitem-disabled {
   cursor: default;
 }
 
-.anychart-menuitem-disabled .anychart-menuitem-accel,
-.anychart-menuitem-disabled .anychart-menuitem-content {
+.anychart-ce-menuitem-disabled .anychart-ce-menuitem-accel,
+.anychart-ce-menuitem-disabled .anychart-ce-menuitem-content {
   color: #ccc !important;
 }
 
-.anychart-menuitem-disabled .anychart-menuitem-icon {
+.anychart-ce-menuitem-disabled .anychart-ce-menuitem-icon {
   .opacity(0.3);
   filter: alpha(opacity=30);
 }
 
 /* State: hover. */
-.anychart-menuitem-highlight,
-.anychart-menuitem-hover {
+.anychart-ce-menuitem-highlight,
+.anychart-ce-menuitem-hover {
   background-color: #eee;
   /* Use an explicit top and bottom border so that the selection is visible
  * in high contrast mode. */
@@ -96,8 +96,8 @@
 }
 
 /* State: selected/checked. */
-.anychart-menuitem-checkbox,
-.anychart-menuitem-icon {
+.anychart-ce-menuitem-checkbox,
+.anychart-ce-menuitem-icon {
   background-repeat: no-repeat;
   height: 21px;
   left: 3px;
@@ -108,12 +108,12 @@
   width: 21px;
 }
 
-.anychart-menuitem i {
+.anychart-ce-menuitem i {
   position: absolute;
   left: 9px;
 }
 
-.anychart-menuitem-link {
+.anychart-ce-menuitem-link {
   padding: 0;
 
   a {
@@ -131,7 +131,7 @@
     pointer-events: none;
   }
 
-  &.anychart-menuitem-highlight {
+  &.anychart-ce-menuitem-highlight {
     a {
       padding-bottom: 5px;
       padding-top: 5px;
@@ -144,15 +144,15 @@
 
 /* BiDi override for the selected/checked state. */
 /* @noflip */
-.anychart-menuitem-rtl .anychart-menuitem-checkbox,
-.anychart-menuitem-rtl .anychart-menuitem-icon {
+.anychart-ce-menuitem-rtl .anychart-ce-menuitem-checkbox,
+.anychart-ce-menuitem-rtl .anychart-ce-menuitem-icon {
   /* Flip left/right positioning. */
   left: auto;
   right: 6px;
 }
 
 /* Keyboard shortcut ("accelerator") style. */
-.anychart-menuitem-accel {
+.anychart-ce-menuitem-accel {
   color: #777;
   /* Keyboard shortcuts are untranslated; always left-to-right. */
   /* @noflip */
@@ -167,7 +167,7 @@
 
 /* BiDi override for shortcut style. */
 /* @noflip */
-.anychart-menuitem-rtl .anychart-menuitem-accel {
+.anychart-ce-menuitem-rtl .anychart-ce-menuitem-accel {
   /* Flip left/right positioning and text alignment. */
   left: 0;
   right: auto;
@@ -175,11 +175,11 @@
 }
 
 /* Mnemonic styles. */
-.anychart-menuitem-mnemonic-hint {
+.anychart-ce-menuitem-mnemonic-hint {
   text-decoration: underline;
 }
 
-.anychart-menuitem-mnemonic-separator {
+.anychart-ce-menuitem-mnemonic-separator {
   color: #999;
   font-size: 12px;
   padding-left: 4px;
@@ -187,7 +187,7 @@
 
 /* ------- MENU SEPARATOR ------- */
 
-.anychart-menuseparator {
+.anychart-ce-menuseparator {
   border-top: 1px solid #ebebeb;
   margin-top: 6px;
   margin-bottom: 6px;
@@ -222,12 +222,12 @@
   font-size: 0;
 }
 
-.anychart-menuitem-content {
+.anychart-ce-menuitem-content {
   position: relative;
 }
 
-.anychart-menuitem-highlight .anychart-submenu-arrow,
-.anychart-menuitem-hover .anychart-submenu-arrow {
+.anychart-ce-menuitem-highlight .anychart-submenu-arrow,
+.anychart-ce-menuitem-hover .anychart-submenu-arrow {
   .transition(none);
   .opacity(1);
 
@@ -236,7 +236,7 @@
 
 /* BiDi override. */
 /* @noflip */
-.anychart-menuitem-rtl .anychart-submenu-arrow {
+.anychart-ce-menuitem-rtl .anychart-submenu-arrow {
   text-align: left;
   left: 0;
   right: auto;
@@ -244,28 +244,28 @@
 }
 
 /* State: disabled. */
-.anychart-menuitem-disabled .anychart-submenu-arrow {
+.anychart-ce-menuitem-disabled .anychart-submenu-arrow {
   border-left-color: #ccc;
   .opacity(1);
 }
 
 /* ------- MENU SCROLLABLE ------- */
 
-.anychart-menu-scrollable {
+.anychart-ce-menu-scrollable {
   overflow-y: auto;
 }
 
 /* ------- ORIENTATION ------- */
-.anychart-menu.anychart-menu-horizontal {
+.anychart-ce-menu.anychart-ce-menu-horizontal {
   padding-left: 4px;
   padding-right: 4px;
 
-  .anychart-menuitem {
+  .anychart-ce-menuitem {
     display: inline-block;
     padding: 2px 3px;
 
-    &.anychart-menuitem-highlight,
-    .anychart-menuitem-hover {
+    &.anychart-ce-menuitem-highlight,
+    .anychart-ce-menuitem-hover {
       padding-top: 1px;
       padding-bottom: 1px;
     }
@@ -273,7 +273,7 @@
 }
 
 /* ------- ICON SELECT ------- */
-.anychart-menuitem.anychart-option i {
+.anychart-ce-menuitem.anychart-option i {
   position: relative;
   left: 1px;
   height: 23px;

@@ -29,13 +29,13 @@ chartEditor.UserData.prototype.createDom = function() {
   var element = this.getElement();
   var model = /** @type {Array.<{id: string, caption: string, icon:string}>} */(this.getModel());
 
-  var connectCaption = goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-chart-editor-section-caption anychart-user-data-caption', 'Connect External Data');
+  var connectCaption = goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-ce-section-caption anychart-user-data-caption', 'Connect External Data');
   goog.dom.appendChild(element, connectCaption);
 
   var connectContainer = goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-user-data-container');
   goog.dom.appendChild(element, connectContainer);
 
-  var uploadCaption = goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-chart-editor-section-caption anychart-user-data-caption', 'Upload Your Data');
+  var uploadCaption = goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-ce-section-caption anychart-user-data-caption', 'Upload Your Data');
   goog.dom.appendChild(element, uploadCaption);
 
   var uploadContainer = goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-user-data-container');
@@ -59,8 +59,8 @@ chartEditor.UserData.prototype.createDom = function() {
     }
   }
 
-  goog.dom.appendChild(connectContainer, goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-clear'));
-  goog.dom.appendChild(uploadContainer, goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-clear'));
+  goog.dom.appendChild(connectContainer, goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-ce-clear'));
+  goog.dom.appendChild(uploadContainer, goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-ce-clear'));
 };
 
 

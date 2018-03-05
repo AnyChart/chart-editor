@@ -25,7 +25,7 @@ chartEditor.settings.CircularRange = function(model, index, opt_domHelper) {
 
   this.allowEnabled(true);
 
-  this.addClassName(goog.getCssName('anychart-settings-panel-range-single'));
+  this.addClassName(goog.getCssName('anychart-ce-settings-panel-range-single'));
 };
 goog.inherits(chartEditor.settings.CircularRange, chartEditor.SettingsPanelZippy);
 

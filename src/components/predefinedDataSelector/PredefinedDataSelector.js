@@ -55,7 +55,7 @@ chartEditor.PredefinedDataSelector.prototype.createDom = function() {
   var element = this.getElement();
   var caption = goog.dom.createDom(
       goog.dom.TagName.DIV,
-      'anychart-chart-editor-section-caption anychart-predefined-datasets-caption',
+      'anychart-ce-section-caption anychart-predefined-datasets-caption',
       'Ready to Use Data Sets'
   );
   var filter = goog.dom.createDom(
@@ -154,7 +154,7 @@ chartEditor.PredefinedDataSelector.prototype.showDataSets_ = function(opt_ids) {
   }
 
   if (createItems) {
-    this.setsContainer_.appendChild(this.dom_.createDom(goog.dom.TagName.DIV, 'anychart-clearboth'));
+    this.setsContainer_.appendChild(this.dom_.createDom(goog.dom.TagName.DIV, 'anychart-ce-clearboth'));
   }
 };
 

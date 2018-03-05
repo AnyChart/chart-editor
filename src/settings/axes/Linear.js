@@ -22,7 +22,7 @@ chartEditor.settings.axes.Linear = function(model, index, opt_domHelper) {
   this.key = [['chart'], ['settings'], 'axis(' + this.index_ + ')'];
 
   this.allowEnabled(true);
-  this.addClassName(goog.getCssName('anychart-settings-panel-axis-linear'));
+  this.addClassName(goog.getCssName('anychart-ce-settings-panel-axis-linear'));
 };
 goog.inherits(chartEditor.settings.axes.Linear, chartEditor.SettingsPanelZippy);
 

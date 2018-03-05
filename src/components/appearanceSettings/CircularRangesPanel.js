@@ -19,7 +19,7 @@ chartEditor.CircularRangesPanel = function(model, opt_domHelper) {
 
   this.setRemoveFromIndex(0);
 
-  this.addClassName(goog.getCssName('anychart-settings-panel-gauge-ranges'));
+  this.addClassName(goog.getCssName('anychart-ce-settings-panel-gauge-ranges'));
 };
 goog.inherits(chartEditor.CircularRangesPanel, chartEditor.MultiplePanelsBase);
 

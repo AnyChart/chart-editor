@@ -34,7 +34,7 @@ chartEditor.settings.Series = function(model, seriesId, seriesIndex, opt_plotInd
   this.key = [['chart'], ['settings'], stringKey];
 
   this.allowEnabled(false);
-  this.addClassName(goog.getCssName('anychart-settings-panel-series-single'));
+  this.addClassName(goog.getCssName('anychart-ce-settings-panel-series-single'));
 };
 goog.inherits(chartEditor.settings.Series, chartEditor.SettingsPanelZippy);
 
@@ -53,12 +53,12 @@ chartEditor.settings.Series.prototype.createDom = function() {
   var lockSeriesNames = model.getValue([['editorSettings'], ['lockSeriesName'], name.getKey()[2]]);
   name.setEnabled(!lockSeriesNames);
 
-  goog.dom.classlist.add(name.getElement(), goog.getCssName('anychart-chart-editor-series-name-input'));
+  goog.dom.classlist.add(name.getElement(), goog.getCssName('anychart-ce-series-name-input'));
 
   var color = new chartEditor.colorPicker.Base();
   color.init(model, this.genKey('color()'));
   this.addHeaderChildControl(color);
-  color.addClassName(goog.getCssName('anychart-chart-editor-settings-control-right'));
+  color.addClassName(goog.getCssName('anychart-ce-settings-control-right'));
   // endregion
 
   // region ==== Content

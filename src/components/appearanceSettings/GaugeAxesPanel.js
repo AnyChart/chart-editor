@@ -16,7 +16,7 @@ chartEditor.GaugeAxesPanel = function(model, opt_domHelper) {
 
   this.stringId = 'gaugeAxes';
 
-  this.addClassName(goog.getCssName('anychart-settings-panel-gauge-axes'));
+  this.addClassName(goog.getCssName('anychart-ce-settings-panel-gauge-axes'));
 
   this.setButtonLabel('+ Add axis');
 };

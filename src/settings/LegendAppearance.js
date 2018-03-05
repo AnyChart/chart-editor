@@ -21,7 +21,7 @@ goog.inherits(chartEditor.settings.LegendAppearance, chartEditor.SettingsPanel);
  * Default CSS class.
  * @type {string}
  */
-chartEditor.settings.LegendAppearance.CSS_CLASS = goog.getCssName('anychart-settings-legend-appearance');
+chartEditor.settings.LegendAppearance.CSS_CLASS = goog.getCssName('anychart-ce-settings-legend-appearance');
 
 
 /** @override */

@@ -3,51 +3,51 @@
 /* ------- COMMON ------- */
 
 /* Check for css file attached. */
-.anychart-ui-support {
-  border-style: hidden;
-}
-
-*[class^="anychart"] {
-  outline: none;
-}
+//.anychart-ui-support {
+//  border-style: hidden;
+//}
+//
+//*[class^="anychart"] {
+//  outline: none;
+//}
 
 /*
  * Default rule; only Safari, Webkit, and Opera handle it without hacks.
  */
-.anychart-inline-block {
-  position: relative;
-  display: -moz-inline-box; /* Ignored by FF3 and later. */
-  display: inline-block;
-}
+//.anychart-inline-block {
+//  position: relative;
+//  display: -moz-inline-box; /* Ignored by FF3 and later. */
+//  display: inline-block;
+//}
+//
+///*
+// * Pre-IE7 IE hack.  On IE, "display: inline-block" only gives the element
+// * layout, but doesn't give it inline behavior.  Subsequently setting display
+// * to inline does the trick.
+// */
+//* html .anychart-inline-block {
+//  display: inline;
+//}
+//
+///*
+// * IE7-only hack.  On IE, "display: inline-block" only gives the element
+// * layout, but doesn't give it inline behavior.  Subsequently setting display
+// * to inline does the trick.
+// */
+//*:first-child + html .anychart-inline-block {
+//  display: inline;
+//}
 
-/*
- * Pre-IE7 IE hack.  On IE, "display: inline-block" only gives the element
- * layout, but doesn't give it inline behavior.  Subsequently setting display
- * to inline does the trick.
- */
-* html .anychart-inline-block {
-  display: inline;
-}
-
-/*
- * IE7-only hack.  On IE, "display: inline-block" only gives the element
- * layout, but doesn't give it inline behavior.  Subsequently setting display
- * to inline does the trick.
- */
-*:first-child + html .anychart-inline-block {
-  display: inline;
-}
-
-.anychart-clearboth,
-.anychart-clear {
+.anychart-ce-clearboth,
+.anychart-ce-clear {
   clear: both;
 }
 
-.anychart-hidden {
+.anychart-ce-hidden {
   display: none;
 }
 
-.anychart-noselect {
+.anychart-ce-noselect {
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none; /* Safari */
   -khtml-user-select: none; /* Konqueror HTML */
@@ -57,21 +57,16 @@
   /* Non-prefixed version, currently supported by Chrome and Opera */
 }
 
-.anychart-border-box {
+.anychart-ce-border-box {
   .box-sizing(border-box);
 }
 
-// todo: should be replaced by .anychart-hidden
-.hidden {
-  display: none !important;
-}
 
-
-.anychart-control-disabled {
+.anychart-ce-control-disabled {
   color: @color-text-disabled !important;
 }
 
-.anychart-label-input {
+.anychart-ce-label-input {
   .border-radius(1px);
   .box-sizing(content-box);
 
@@ -86,12 +81,12 @@
     border-color: #4d90fe;
   }
 
-  &.anychart-label-input-label-disabled {
+  &.anychart-ce-label-input-label-disabled {
     color: #ccc;
   }
 }
 
-.anychart-loader {
+.anychart-ce-loader {
   background-color: rgba(255, 255, 255, .5);
   position: absolute;
   top: 0;
@@ -100,7 +95,7 @@
   height: 100%;
   z-index: 1000;
 
-  .anychart-loader-rotating-cover {
+  .anychart-ce-loader-rotating-cover {
     width: 70px;
     height: 70px;
     position: absolute;
@@ -110,9 +105,9 @@
     margin-left: -35px;
   }
 
-  .anychart-loader-rotating-plane {
+  .anychart-ce-loader-rotating-plane {
     .border-radius(20%);
-    .animation(anychart-loader-rotate-plane, 3s, infinite);
+    .animation(anychart-ce-loader-rotate-plane, 3s, infinite);
 
     display: block;
     width: 100%;
@@ -122,7 +117,7 @@
     position: relative;
   }
 
-  .anychart-loader-chart-row {
+  .anychart-ce-loader-chart-row {
     position: absolute;
     top: 10px;
     bottom: 0;
@@ -133,7 +128,7 @@
     font-size: 0;
     white-space: nowrap;
 
-    .anychart-loader-chart-col {
+    .anychart-ce-loader-chart-col {
       display: inline-block;
       width: 25%;
       height: 90%;
@@ -141,34 +136,34 @@
       margin: 0 12.5% 0 0;
       vertical-align: bottom;
 
-      &.anychart-loader-green {
+      &.anychart-ce-loader-green {
         background: #26a957;
         height: 50%;
-        .animation(anychart-loader-blink-plane, 1.5s, infinite);
-        //-webkit-animation: anychart-loader-blink-plane 1.5s infinite;
-        //animation: anychart-loader-blink-plane 1.5s infinite;
+        .animation(anychart-ce-loader-blink-plane, 1.5s, infinite);
+        //-webkit-animation: anychart-ce-loader-blink-plane 1.5s infinite;
+        //animation: anychart-ce-loader-blink-plane 1.5s infinite;
       }
 
-      &.anychart-loader-orange {
+      &.anychart-ce-loader-orange {
         background: #ff8207;
         height: 70%;
-        .animation(anychart-loader-blink-plane, 1.5s, infinite, .25s);
-        //-webkit-animation: anychart-loader-blink-plane 1.5s infinite .15s;
-        //animation: anychart-loader-blink-plane 1.5s infinite .25s
+        .animation(anychart-ce-loader-blink-plane, 1.5s, infinite, .25s);
+        //-webkit-animation: anychart-ce-loader-blink-plane 1.5s infinite .15s;
+        //animation: anychart-ce-loader-blink-plane 1.5s infinite .25s
       }
 
-      &.anychart-loader-red {
+      &.anychart-ce-loader-red {
         background: #f0402e;
         height: 90%;
-        .animation(anychart-loader-blink-plane, 1.5s, infinite, .5s);
-        //-webkit-animation: anychart-loader-blink-plane 1.5s infinite .3s;
-        //animation: anychart-loader-blink-plane 1.5s infinite .5s
+        .animation(anychart-ce-loader-blink-plane, 1.5s, infinite, .5s);
+        //-webkit-animation: anychart-ce-loader-blink-plane 1.5s infinite .3s;
+        //animation: anychart-ce-loader-blink-plane 1.5s infinite .5s
       }
     }
   }
 }
 
-@keyframes anychart-loader-rotate-plane {
+@keyframes anychart-ce-loader-rotate-plane {
   0% {
     .transform(perspective(120px) rotateX(0deg) rotateY(0deg));
     .opacity(1);
@@ -191,7 +186,7 @@
   }
 }
 
-@keyframes anychart-loader-blink-plane {
+@keyframes anychart-ce-loader-blink-plane {
   0% {
     .opacity(1);
   }

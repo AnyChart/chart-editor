@@ -48,7 +48,7 @@ goog.inherits(chartEditor.select.ChartType, chartEditor.controls.select.Base);
 
 
 /** @type {string} */
-chartEditor.select.ChartType.CSS_CLASS = goog.getCssName('anychart-chart-editor-select-chart-type');
+chartEditor.select.ChartType.CSS_CLASS = goog.getCssName('anychart-ce-select-chart-type');
 
 /** @inheritDoc */
 chartEditor.select.ChartType.prototype.createDom = function() {

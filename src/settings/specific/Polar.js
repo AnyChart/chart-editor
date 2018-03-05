@@ -25,7 +25,7 @@ goog.inherits(chartEditor.settings.specific.Polar, chartEditor.SettingsPanel);
  * Default CSS class.
  * @type {string}
  */
-chartEditor.settings.specific.Polar.CSS_CLASS = goog.getCssName('anychart-chart-editor-settings-panel-polar');
+chartEditor.settings.specific.Polar.CSS_CLASS = goog.getCssName('anychart-ce-settings-panel-polar');
 
 
 /** @override */

@@ -20,7 +20,7 @@ chartEditor.SettingsPanelIndexed = function(model, index, opt_name, opt_domHelpe
   /** @type {number} */
   this.index_ = index;
 
-  this.addClassName(goog.getCssName('anychart-chart-editor-settings-panel-indexed'));
+  this.addClassName(goog.getCssName('anychart-ce-settings-panel-indexed'));
 };
 goog.inherits(chartEditor.SettingsPanelIndexed, chartEditor.SettingsPanel);
 

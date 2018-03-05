@@ -36,7 +36,7 @@ chartEditor.steps.VisualAppearance.prototype.createDom = function() {
   var model = /** @type {chartEditor.EditorModel} */(editor.getModel());
 
   var tabs = new chartEditor.Component();
-  tabs.addClassName('anychart-border-box');
+  tabs.addClassName('anychart-ce-border-box');
   tabs.addClassName('anychart-visual-appearance-step-tabs');
   this.addChild(tabs, true);
 
@@ -45,17 +45,17 @@ chartEditor.steps.VisualAppearance.prototype.createDom = function() {
   this.addChild(wrapper, true);
 
   var tabContent = new chartEditor.Component();
-  tabContent.addClassName('anychart-border-box');
+  tabContent.addClassName('anychart-ce-border-box');
   tabContent.addClassName('anychart-visual-appearance-settings-tab-content');
   wrapper.addChild(tabContent, true);
 
   var chartWrapper = new chartEditor.Component();
-  chartWrapper.addClassName('anychart-border-box');
+  chartWrapper.addClassName('anychart-ce-border-box');
   chartWrapper.addClassName('anychart-visual-appearance-settings-chart-wrapper');
   wrapper.addChild(chartWrapper, true);
 
   this.chartWrapper_ = chartWrapper;
-  var caption = goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-chart-editor-section-caption anychart-chart-preview-caption', 'Chart Preview');
+  var caption = goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-ce-section-caption anychart-chart-preview-caption', 'Chart Preview');
   goog.dom.appendChild(this.chartWrapper_.getElement(), caption);
 
   //todo: rework as separate components with fixed structure

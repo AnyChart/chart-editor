@@ -32,7 +32,7 @@ chartEditor.SeriesPanel = function(model, index, opt_domHelper) {
    */
   this.fields_ = [];
 
-  this.addClassName('anychart-plot-panel-series');
+  this.addClassName('anychart-ce-plot-panel-series');
 };
 goog.inherits(chartEditor.SeriesPanel, chartEditor.ComponentWithKey);
 
@@ -43,7 +43,7 @@ chartEditor.SeriesPanel.prototype.createDom = function() {
 
   var dom = this.getDomHelper();
 
-  this.removeBtn_ = dom.createDom(goog.dom.TagName.DIV, 'anychart-plot-panel-series-remove-btn', '');
+  this.removeBtn_ = dom.createDom(goog.dom.TagName.DIV, 'anychart-ce-plot-panel-series-remove-btn', '');
   goog.dom.appendChild(this.getElement(), this.removeBtn_);
 
   this.getKey();
@@ -87,10 +87,10 @@ chartEditor.SeriesPanel.prototype.onModelChange = function(evt) {
   var seriesTypes = model.getChartTypeSettings()['series'];
 
   if (model.isChartSingleSeries() || seriesTypes.length === 1) {
-    goog.dom.classlist.enable(this.type_.getElement(), 'anychart-hidden', true);
+    goog.dom.classlist.enable(this.type_.getElement(), 'anychart-ce-hidden', true);
 
   } else {
-    goog.dom.classlist.enable(this.type_.getElement(), 'anychart-hidden', false);
+    goog.dom.classlist.enable(this.type_.getElement(), 'anychart-ce-hidden', false);
 
     for (var i = 0; i < seriesTypes.length; i++) {
       var type = seriesTypes[i];

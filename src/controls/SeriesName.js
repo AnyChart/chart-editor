@@ -16,7 +16,7 @@ goog.require('chartEditor.controls.LabeledControl');
 chartEditor.controls.SeriesName = function(control, opt_label, opt_isSingeValues, opt_domHelper) {
   chartEditor.controls.SeriesName.base(this, 'constructor', control, opt_label, opt_domHelper);
 
-  this.addClassName(goog.getCssName('anychart-chart-editor-control-series-name'));
+  this.addClassName(goog.getCssName('anychart-ce-control-series-name'));
 
   /**
    * Lock button

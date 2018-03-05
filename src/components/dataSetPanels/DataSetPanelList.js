@@ -53,7 +53,7 @@ chartEditor.DataSetPanelList.prototype.onModelChange = function(evt) {
 
   // add caption
   var caption = new chartEditor.Component();
-  caption.addClassName('anychart-chart-editor-section-caption');
+  caption.addClassName('anychart-ce-section-caption');
   caption.addClassName('anychart-connected-data-sets-caption');
   this.addChild(caption, true);
 

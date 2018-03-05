@@ -35,7 +35,7 @@ chartEditor.settings.Legend = function(model, opt_plotIndex, opt_domHelper) {
   this.key = [['chart'], ['settings'], stringKey];
 
   this.allowEnabled(true);
-  this.addClassName(goog.getCssName('anychart-settings-panel-legend-single'));
+  this.addClassName(goog.getCssName('anychart-ce-settings-panel-legend-single'));
 };
 goog.inherits(chartEditor.settings.Legend,chartEditor.SettingsPanelIndexed);
 
@@ -54,7 +54,7 @@ chartEditor.settings.Legend.prototype.createDom = function() {
 
   goog.dom.appendChild(content, goog.dom.createDom(
       goog.dom.TagName.DIV,
-      goog.getCssName('anychart-chart-editor-settings-item-separator')));
+      goog.getCssName('anychart-ce-settings-item-separator')));
 
   var title = new chartEditor.settings.Title(model, 'Title');
   title.setPositionKey('orientation()');

@@ -20,7 +20,7 @@ chartEditor.settings.Stroke = function(model, opt_name, opt_domHelper) {
 
   this.allowEnabled(false);
 
-  this.addClassName(goog.getCssName('anychart-settings-stroke'));
+  this.addClassName(goog.getCssName('anychart-ce-settings-stroke'));
 };
 goog.inherits(chartEditor.settings.Stroke, chartEditor.SettingsPanel);
 
@@ -59,8 +59,8 @@ chartEditor.settings.Stroke.prototype.createDom = function() {
   goog.dom.classlist.add(dash.getElement(), goog.getCssName('anychart-stroke-dash'));
   this.dash_ = dash;
 
-  goog.dom.appendChild(content, goog.dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-clearboth')));
-  goog.dom.appendChild(element, goog.dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-clearboth')));
+  goog.dom.appendChild(content, goog.dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-ce-clearboth')));
+  goog.dom.appendChild(element, goog.dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-ce-clearboth')));
 };
 
 

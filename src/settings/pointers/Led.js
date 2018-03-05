@@ -24,7 +24,7 @@ chartEditor.settings.pointers.Led = function(model, type, pointerId, pointerInde
 
   this.skipSettings(['fill()', 'stroke()']);
 
-  this.addClassName(goog.getCssName('anychart-settings-panel-pointer-led'));
+  this.addClassName(goog.getCssName('anychart-ce-settings-panel-pointer-led'));
 };
 goog.inherits(chartEditor.settings.pointers.Led, chartEditor.settings.pointers.LinearBase);
 

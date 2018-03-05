@@ -16,7 +16,7 @@ chartEditor.controls.LabeledControl = function(control, opt_label, opt_domHelper
   this.control_ = control;
   this.labelString_ = opt_label ? opt_label : '';
 
-  this.addClassName('anychart-chart-editor-labeled-control');
+  this.addClassName('anychart-ce-labeled-control');
 };
 goog.inherits(chartEditor.controls.LabeledControl, chartEditor.Component);
 
@@ -27,17 +27,17 @@ chartEditor.controls.LabeledControl.prototype.createDom = function() {
 
   var element = this.getElement();
 
-  this.label_ = goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-chart-editor-labeled-control-label', this.labelString_);
+  this.label_ = goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-ce-labeled-control-label', this.labelString_);
   goog.dom.appendChild(element, this.label_);
 
   this.addChild(this.control_, true);
-  goog.dom.classlist.add(this.control_.getElement(), 'anychart-chart-editor-settings-control');
-  goog.dom.classlist.add(this.control_.getElement(), 'anychart-chart-editor-settings-control-right');
+  goog.dom.classlist.add(this.control_.getElement(), 'anychart-ce-settings-control');
+  goog.dom.classlist.add(this.control_.getElement(), 'anychart-ce-settings-control-right');
 
   // var clearBoth = new chartEditor.Component();
-  // clearBoth.addClassName('anychart-clearboth');
+  // clearBoth.addClassName('anychart-ce-clearboth');
   // this.addChild(clearBoth, true);
-  goog.dom.appendChild(this.getElement(), goog.dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-clearboth')));
+  goog.dom.appendChild(this.getElement(), goog.dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-ce-clearboth')));
 };
 
 
@@ -115,7 +115,7 @@ chartEditor.controls.LabeledControl.prototype.getKey = function() {
  */
 chartEditor.controls.LabeledControl.prototype.setEnabled = function(enabled) {
   if (this.label_)
-    goog.dom.classlist.enable(this.label_, goog.getCssName('anychart-control-disabled'), !enabled);
+    goog.dom.classlist.enable(this.label_, goog.getCssName('anychart-ce-control-disabled'), !enabled);
 
   if (this.control_)
     this.control_.setEnabled(enabled);

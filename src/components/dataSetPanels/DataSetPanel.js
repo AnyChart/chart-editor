@@ -22,7 +22,7 @@ chartEditor.DataSetPanel = function(dataSet, opt_domHelper) {
   this.disabled = false;
   this.dataSet_ = dataSet;
 
-  this.addClassName('anychart-border-box');
+  this.addClassName('anychart-ce-border-box');
   this.addClassName('anychart-connected-data-sets-item');
 };
 goog.inherits(chartEditor.DataSetPanel, chartEditor.Component);

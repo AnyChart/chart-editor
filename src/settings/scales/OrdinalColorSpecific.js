@@ -23,7 +23,7 @@ chartEditor.settings.scales.OrdinalColorSpecific = function(model, opt_domHelper
    */
   this.ranges_ = [];
 
-  this.addClassName(goog.getCssName('anychart-settings-panel-scale-ordinal-color'));
+  this.addClassName(goog.getCssName('anychart-ce-settings-panel-scale-ordinal-color'));
 };
 goog.inherits(chartEditor.settings.scales.OrdinalColorSpecific, chartEditor.settings.scales.SpecificBase);
 
@@ -41,7 +41,7 @@ chartEditor.settings.scales.OrdinalColorSpecific.prototype.createDom = function(
 
   var addRangeBtnRenderer = /** @type {goog.ui.ButtonRenderer} */(goog.ui.ControlRenderer.getCustomRenderer(
       goog.ui.ButtonRenderer,
-      'anychart-settings-panel-add-range-btn'));
+      'anychart-ce-settings-panel-add-range-btn'));
   this.addRangeBtn_ = new goog.ui.Button('+ Add range', addRangeBtnRenderer);
   this.addChild(this.addRangeBtn_, true);
 };
@@ -193,7 +193,7 @@ chartEditor.settings.ColorScaleSingleRange = function(model, index, opt_domHelpe
 
   this.name = 'Range ' + this.index_;
 
-  this.addClassName(goog.getCssName('anychart-settings-color-scale-range-single'));
+  this.addClassName(goog.getCssName('anychart-ce-settings-color-scale-range-single'));
 };
 goog.inherits(chartEditor.settings.ColorScaleSingleRange, chartEditor.SettingsPanel);
 

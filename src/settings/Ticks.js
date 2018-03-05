@@ -24,7 +24,7 @@ goog.inherits(chartEditor.settings.Ticks, chartEditor.SettingsPanel);
  * Default CSS class.
  * @type {string}
  */
-chartEditor.settings.Ticks.CSS_CLASS = goog.getCssName('anychart-chart-editor-settings-ticks');
+chartEditor.settings.Ticks.CSS_CLASS = goog.getCssName('anychart-ce-settings-ticks');
 
 
 /**

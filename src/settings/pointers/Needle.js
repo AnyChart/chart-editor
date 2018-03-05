@@ -19,7 +19,7 @@ chartEditor.settings.pointers.Needle = function(model, type, pointerId, pointerI
 
   this.pointerType_ = 'needle';
 
-  this.addClassName(goog.getCssName('anychart-settings-panel-pointer-needle'));
+  this.addClassName(goog.getCssName('anychart-ce-settings-panel-pointer-needle'));
 };
 goog.inherits(chartEditor.settings.pointers.Needle, chartEditor.settings.pointers.CircularBase);
 

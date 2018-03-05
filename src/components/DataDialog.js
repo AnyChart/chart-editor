@@ -84,7 +84,7 @@ chartEditor.DataDialog.prototype.updateContent = function(dialogType, opt_dataTy
     this.csvTrailingSpaces_ = dom.createDom(goog.dom.TagName.INPUT, {'class': 'checkbox', 'type': 'checkbox'});
     contentEl.appendChild(dom.createDom(goog.dom.TagName.LABEL, null, ['Ignore Trailing Spaces', this.csvTrailingSpaces_]));
 
-    contentEl.appendChild(this.dom_.createDom(goog.dom.TagName.DIV, 'anychart-clearboth'));
+    contentEl.appendChild(this.dom_.createDom(goog.dom.TagName.DIV, 'anychart-ce-clearboth'));
   }
 };
 

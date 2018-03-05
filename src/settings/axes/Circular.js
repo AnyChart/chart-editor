@@ -29,7 +29,7 @@ chartEditor.settings.axes.Circular = function(model, index, opt_domHelper) {
   this.key = [['chart'], ['settings'], 'axis(' + this.index_ + ')'];
 
   this.allowEnabled(true);
-  this.addClassName(goog.getCssName('anychart-settings-panel-gauge-axis-single'));
+  this.addClassName(goog.getCssName('anychart-ce-settings-panel-gauge-axis-single'));
 };
 goog.inherits(chartEditor.settings.axes.Circular, chartEditor.SettingsPanelZippy);
 

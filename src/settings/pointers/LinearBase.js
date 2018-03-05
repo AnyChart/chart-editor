@@ -29,7 +29,7 @@ chartEditor.settings.pointers.LinearBase = function(model, type, pointerId, poin
   this.key = [['chart'], ['settings'], stringKey];
 
   this.allowEnabled(false);
-  this.addClassName(goog.getCssName('anychart-settings-panel-pointer-single'));
+  this.addClassName(goog.getCssName('anychart-ce-settings-panel-pointer-single'));
 };
 goog.inherits(chartEditor.settings.pointers.LinearBase, chartEditor.SettingsPanelZippy);
 
@@ -44,10 +44,10 @@ chartEditor.settings.pointers.LinearBase.prototype.createDom = function() {
   var name = new chartEditor.input.Base('Pointer name');
   name.init(model, this.genKey('name()'));
   this.addHeaderChildControl(name);
-  goog.dom.classlist.add(name.getElement(), goog.getCssName('anychart-chart-editor-series-name-input'));
+  goog.dom.classlist.add(name.getElement(), goog.getCssName('anychart-ce-series-name-input'));
 
   var fill = new chartEditor.colorPicker.Base();
-  fill.addClassName(goog.getCssName('anychart-chart-editor-settings-control-right'));
+  fill.addClassName(goog.getCssName('anychart-ce-settings-control-right'));
   fill.init(model, this.genKey('fill()'));
   this.addHeaderChildControl(fill);
   // endregion

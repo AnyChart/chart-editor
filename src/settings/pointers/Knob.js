@@ -20,7 +20,7 @@ chartEditor.settings.pointers.Knob = function(model, type, pointerId, pointerInd
 
   this.pointerType_ = 'knob';
 
-  this.addClassName(goog.getCssName('anychart-settings-panel-pointer-knob'));
+  this.addClassName(goog.getCssName('anychart-ce-settings-panel-pointer-knob'));
 };
 goog.inherits(chartEditor.settings.pointers.Knob, chartEditor.settings.pointers.CircularBase);
 

@@ -22,7 +22,7 @@ goog.inherits(chartEditor.settings.scales.ScatterTicks, chartEditor.SettingsPane
  * Default CSS class.
  * @type {string}
  */
-chartEditor.settings.scales.ScatterTicks.CSS_CLASS = goog.getCssName('anychart-settings-panel-scatter-ticks');
+chartEditor.settings.scales.ScatterTicks.CSS_CLASS = goog.getCssName('anychart-ce-settings-panel-scatter-ticks');
 
 
 /** @override */

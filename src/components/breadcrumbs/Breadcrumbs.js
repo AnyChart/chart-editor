@@ -65,7 +65,7 @@ chartEditor.Breadcrumbs.prototype.createDom = function() {
   chartEditor.Breadcrumbs.base(this, 'createDom');
 
   var items = new chartEditor.Component();
-  items.addClassName('anychart-noselect');
+  items.addClassName('anychart-ce-noselect');
   items.addClassName('anychart-breadcrumbs-items');
   this.addChild(items, true);
 
@@ -99,7 +99,7 @@ chartEditor.Breadcrumbs.prototype.createDom = function() {
   buttons.addChild(prev, true);
 
   var clear = new chartEditor.Component();
-  clear.addClassName('anychart-clear');
+  clear.addClassName('anychart-ce-clear');
   this.addChild(clear, true);
 
   this.next_ = next;

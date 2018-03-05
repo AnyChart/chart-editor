@@ -18,7 +18,7 @@ chartEditor.settings.specific.GaugeLinear = function(model, opt_domHelper) {
 
   this.key = [['chart'], ['settings']];
 
-  this.addClassName(goog.getCssName('anychart-settings-panel-gauge-linear'));
+  this.addClassName(goog.getCssName('anychart-ce-settings-panel-gauge-linear'));
 };
 goog.inherits(chartEditor.settings.specific.GaugeLinear, chartEditor.SettingsPanel);
 

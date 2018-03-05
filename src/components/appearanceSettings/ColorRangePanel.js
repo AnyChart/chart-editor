@@ -34,7 +34,7 @@ goog.inherits(chartEditor.ColorRangePanel, chartEditor.SettingsPanel);
  * Default CSS class.
  * @type {string}
  */
-chartEditor.ColorRangePanel.CSS_CLASS = goog.getCssName('anychart-settings-panel-color-range');
+chartEditor.ColorRangePanel.CSS_CLASS = goog.getCssName('anychart-ce-settings-panel-color-range');
 
 
 /** @inheritDoc */
@@ -102,7 +102,7 @@ chartEditor.ColorRangePanel.prototype.createDom = function() {
 
   goog.dom.appendChild(this.getContentElement(), goog.dom.createDom(
       goog.dom.TagName.DIV,
-      goog.getCssName('anychart-chart-editor-settings-item-separator-gaps')));
+      goog.getCssName('anychart-ce-settings-item-separator-gaps')));
 
   // Marker
   var marker = new chartEditor.settings.Markers(model);
@@ -113,7 +113,7 @@ chartEditor.ColorRangePanel.prototype.createDom = function() {
 
   goog.dom.appendChild(this.getContentElement(), goog.dom.createDom(
       goog.dom.TagName.DIV,
-      goog.getCssName('anychart-chart-editor-settings-item-separator-gaps')));
+      goog.getCssName('anychart-ce-settings-item-separator-gaps')));
 
   // Labels
   var labels = new chartEditor.settings.Labels(model);
@@ -135,7 +135,7 @@ chartEditor.ColorRangePanel.prototype.createDom = function() {
 
   goog.dom.appendChild(this.getContentElement(), goog.dom.createDom(
       goog.dom.TagName.DIV,
-      goog.getCssName('anychart-chart-editor-settings-item-separator-gaps')));
+      goog.getCssName('anychart-ce-settings-item-separator-gaps')));
 
   // Ticks
   var ticks = new chartEditor.settings.Ticks(model);
@@ -145,7 +145,7 @@ chartEditor.ColorRangePanel.prototype.createDom = function() {
 
   goog.dom.appendChild(this.getContentElement(), goog.dom.createDom(
       goog.dom.TagName.DIV,
-      goog.getCssName('anychart-chart-editor-settings-item-separator-gaps')));
+      goog.getCssName('anychart-ce-settings-item-separator-gaps')));
 
   // Minor Labels
   var minorLabels = new chartEditor.settings.Labels(model);
@@ -158,7 +158,7 @@ chartEditor.ColorRangePanel.prototype.createDom = function() {
 
   goog.dom.appendChild(this.getContentElement(), goog.dom.createDom(
       goog.dom.TagName.DIV,
-      goog.getCssName('anychart-chart-editor-settings-item-separator-gaps')));
+      goog.getCssName('anychart-ce-settings-item-separator-gaps')));
 
   // Minor Ticks
   var minorTicks = new chartEditor.settings.Ticks(model);
@@ -169,7 +169,7 @@ chartEditor.ColorRangePanel.prototype.createDom = function() {
 
   goog.dom.appendChild(this.getContentElement(), goog.dom.createDom(
       goog.dom.TagName.DIV,
-      goog.getCssName('anychart-chart-editor-settings-item-separator-gaps')));
+      goog.getCssName('anychart-ce-settings-item-separator-gaps')));
 
   // Title
   var title = new chartEditor.settings.Title(model, 'Title');

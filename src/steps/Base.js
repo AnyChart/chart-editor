@@ -56,7 +56,7 @@ goog.inherits(chartEditor.steps.Base, chartEditor.Component);
  * CSS class name.
  * @type {string}
  */
-chartEditor.steps.Base.CSS_CLASS = goog.getCssName('anychart-chart-editor-step');
+chartEditor.steps.Base.CSS_CLASS = goog.getCssName('anychart-ce-step');
 
 
 /**

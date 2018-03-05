@@ -35,7 +35,7 @@ chartEditor.colorPicker.Base = function(opt_content, opt_menu, opt_renderer, opt
       opt_renderer || chartEditor.colorPicker.Renderer.getInstance(),
       opt_domHelper);
 
-  this.addClassName('anychart-chart-editor-color');
+  this.addClassName('anychart-ce-color');
   this.setFocusablePopupMenu(true);
 
   /**
@@ -76,14 +76,14 @@ chartEditor.colorPicker.Base.prototype.setOpen = function(open, opt_e) {
 
     goog.dom.classlist.add(menu.getElement(), goog.getCssName('anychart-colormenu'));
     // Hack for set check icon (below to don't create inherited class from goog.ui.ColorPalette)
-    var colorswatches = menu.getElementsByClass(goog.getCssName('anychart-palette-colorswatch'));
+    var colorswatches = menu.getElementsByClass(goog.getCssName('anychart-ce-palette-colorswatch'));
     for (var i = 0; i < colorswatches.length; i++) {
       goog.dom.classlist.addAll(colorswatches[i], ['ac', 'ac-check']);
     }
 
     var input = new goog.ui.LabelInput('Colorvalue');
     input.render(menu.getElement());
-    goog.dom.classlist.add(input.getElement(), goog.getCssName('anychart-label-input'));
+    goog.dom.classlist.add(input.getElement(), goog.getCssName('anychart-ce-label-input'));
     this.colorInput_ = input;
     this.keyHandler_ = new goog.events.KeyHandler(input.getElement());
     this.getHandler().listen(this.keyHandler_,
@@ -155,7 +155,7 @@ chartEditor.colorPicker.Base.prototype.setKey = function(value) {
 /** @override */
 chartEditor.colorPicker.Base.prototype.enterDocument = function() {
   chartEditor.colorPicker.Base.base(this, 'enterDocument');
-  goog.dom.classlist.enable(this.getElement(), 'anychart-hidden', this.excluded);
+  goog.dom.classlist.enable(this.getElement(), 'anychart-ce-hidden', this.excluded);
   if (!this.excluded)
     this.getHandler().listen(this, goog.ui.Component.EventType.ACTION, this.onChange_, false);
 };
@@ -243,7 +243,7 @@ chartEditor.colorPicker.Base.prototype.exclude = function(value) {
   this.excluded = value;
 
   if (this.isInDocument())
-    goog.dom.classlist.enable(this.getElement(), 'anychart-hidden', this.excluded);
+    goog.dom.classlist.enable(this.getElement(), 'anychart-ce-hidden', this.excluded);
 
   if (dirty && this.excluded && this.editorModel)
     this.editorModel.removeByKey(this.key, true);

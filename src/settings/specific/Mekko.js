@@ -23,7 +23,7 @@ goog.inherits(chartEditor.settings.specific.Mekko, chartEditor.SettingsPanel);
  * Default CSS class.
  * @type {string}
  */
-chartEditor.settings.specific.Mekko.CSS_CLASS = goog.getCssName('anychart-settings-panel-mosaic');
+chartEditor.settings.specific.Mekko.CSS_CLASS = goog.getCssName('anychart-ce-settings-panel-mosaic');
 
 
 /** @override */

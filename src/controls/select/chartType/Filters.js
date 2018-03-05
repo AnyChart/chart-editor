@@ -17,7 +17,7 @@ goog.inherits(chartEditor.controls.chartType.Filters, chartEditor.Component);
 
 
 /** @type {string} */
-chartEditor.controls.chartType.Filters.CSS_CLASS = goog.getCssName('anychart-chart-editor-chart-type-filters');
+chartEditor.controls.chartType.Filters.CSS_CLASS = goog.getCssName('anychart-ce-chart-type-filters');
 
 
 chartEditor.controls.chartType.Filters.Map = {

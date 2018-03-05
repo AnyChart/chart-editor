@@ -19,7 +19,7 @@ chartEditor.settings.pointers.Thermometer = function(model, type, pointerId, poi
 
   this.pointerType_ = 'thermometer';
 
-  this.addClassName(goog.getCssName('anychart-settings-panel-pointer-thermometer'));
+  this.addClassName(goog.getCssName('anychart-ce-settings-panel-pointer-thermometer'));
 };
 goog.inherits(chartEditor.settings.pointers.Thermometer, chartEditor.settings.pointers.LinearBase);
 

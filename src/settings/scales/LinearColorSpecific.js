@@ -21,7 +21,7 @@ goog.inherits(chartEditor.settings.scales.LinearColorSpecific, chartEditor.setti
  * Default CSS class.
  * @type {string}
  */
-chartEditor.settings.scales.LinearColorSpecific.CSS_CLASS = goog.getCssName('anychart-settings-panel-scale-linear-color');
+chartEditor.settings.scales.LinearColorSpecific.CSS_CLASS = goog.getCssName('anychart-ce-settings-panel-scale-linear-color');
 
 
 /** @override */

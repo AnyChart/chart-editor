@@ -24,7 +24,7 @@ chartEditor.CartesianAxesPanelBase = function(model, opt_domHelper) {
 
   this.setButtonLabel('+ Add axis');
 
-  this.addClassName(goog.getCssName('anychart-settings-panel-axes'));
+  this.addClassName(goog.getCssName('anychart-ce-settings-panel-axes'));
 };
 goog.inherits(chartEditor.CartesianAxesPanelBase, chartEditor.MultiplePanelsBase);
 

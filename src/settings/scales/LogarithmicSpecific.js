@@ -20,7 +20,7 @@ goog.inherits(chartEditor.settings.scales.LogarithmicSpecific, chartEditor.setti
  * Default CSS class.
  * @type {string}
  */
-chartEditor.settings.scales.LogarithmicSpecific.CSS_CLASS = goog.getCssName('anychart-settings-panel-scale-logarithmic');
+chartEditor.settings.scales.LogarithmicSpecific.CSS_CLASS = goog.getCssName('anychart-ce-settings-panel-scale-logarithmic');
 
 
 /** @override */
