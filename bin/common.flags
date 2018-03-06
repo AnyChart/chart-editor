@@ -2,6 +2,8 @@
 
 --process_closure_primitives
 
+--compilation_level=ADVANCED_OPTIMIZATIONS
+
 --dependency_mode STRICT
 
 --language_in ECMASCRIPT3
@@ -13,3 +15,8 @@
 --extra_annotation_name "ignoreDoc"
 --extra_annotation_name "propertyDoc"
 --extra_annotation_name "shortDescription"
+
+--isolation_mode IIFE
+
+--hide_warnings_for "node_modules/google-closure-library"
+--use_types_for_optimization true

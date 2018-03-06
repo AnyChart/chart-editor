@@ -77,7 +77,7 @@ chartEditor.settings.axes.Linear.prototype.createDom = function() {
 
   var ticks = new chartEditor.settings.Ticks(model);
   ticks.allowEnabled(true);
-  ticks.allowEditPosition(true/*!this.isRadarPolarAxis*/);
+  ticks.allowEditPosition(true);
   ticks.setKey(this.genKey('ticks()'));
   this.addChildControl(ticks);
 
@@ -96,7 +96,7 @@ chartEditor.settings.axes.Linear.prototype.createDom = function() {
   var minorTicks = new chartEditor.settings.Ticks(model);
   minorTicks.setName('Minor Ticks');
   minorTicks.allowEnabled(true);
-  minorTicks.allowEditPosition(true/*!this.isRadarPolarAxis*/);
+  minorTicks.allowEditPosition(true);
   minorTicks.setKey(this.genKey('minorTicks()'));
   this.addChildControl(minorTicks);
 };
