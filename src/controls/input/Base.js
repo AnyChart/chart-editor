@@ -257,12 +257,10 @@ chartEditor.input.Base.prototype.validateFunction_ = function(value) {
  * @private
  */
 chartEditor.input.Base.prototype.formatterFunction_ = function(value) {
-  if (!goog.isDef(value))
+  if (!goog.isDef(value) || goog.isFunction(value))
     value = '';
-  else if (goog.isFunction(value))
-    value = '-- value is a function --';
 
-  return String(value);
+  return value ? String(value) : '';
 };
 
 

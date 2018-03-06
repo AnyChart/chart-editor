@@ -153,13 +153,13 @@ chartEditor.AppearanceSettings = function(model, tabs, tabContent, opt_domHelper
       enabled: true,
       classFunc: chartEditor.ContextMenuPanel,
       instance: null
-    }//,
-    // {
-    //   name: 'Credits',
-    //   enabled: true,
-    //   classFunc: chartEditor.CreditsPanel,
-    //   instance: null
-    // }
+    },
+    {
+      name: 'Credits',
+      enabled: true,
+      classFunc: chartEditor.CreditsPanel,
+      instance: null
+    }
     ];
 
   this.currentPanel_ = 0;
