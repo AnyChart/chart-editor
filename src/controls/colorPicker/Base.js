@@ -67,7 +67,7 @@ goog.inherits(chartEditor.colorPicker.Base, goog.ui.ColorMenuButton);
  * @suppress {visibility} this.keyHandler_
  */
 chartEditor.colorPicker.Base.prototype.setOpen = function(open, opt_e) {
-  if (open && this.getItemCount() == 0) {
+  if (open && this.getItemCount() === 0) {
     var menu = goog.ui.ColorMenuButton.newColorMenu(null, this.getDomHelper());
     this.setMenu(menu);
     // For ESC key support for blur handler (close menu).
@@ -103,19 +103,19 @@ chartEditor.colorPicker.Base.prototype.setOpen = function(open, opt_e) {
  * @private
  */
 chartEditor.colorPicker.Base.prototype.handleColorInputKeyEvent_ = function(e) {
-  if (e.keyCode == goog.events.KeyCodes.ENTER) {
+  if (e.keyCode === goog.events.KeyCodes.ENTER) {
     var newRawValue = this.colorInput_.getValue();
     if (goog.color.isValidColor(newRawValue)) {
       var oldValue = this.getValue();
       var newValue = goog.color.parse(newRawValue).hex;
-      if (oldValue != newValue) {
+      if (oldValue !== newValue) {
         var caretPosition = goog.dom.selection.getStart(this.colorInput_.getElement());
         this.setSelectedColor(newValue);
         this.onChange_(e);
         goog.dom.selection.setCursorPosition(this.colorInput_.getElement(), caretPosition);
       }
     }
-  } else if (e.keyCode == goog.events.KeyCodes.ESC) {
+  } else if (e.keyCode === goog.events.KeyCodes.ESC) {
     // Dismiss the menu.
     this.setOpen(false);
     this.getElement().focus();
@@ -239,7 +239,7 @@ chartEditor.colorPicker.Base.prototype.setValueByTarget = function(target) {
  * @param {boolean} value True if excluded.
  */
 chartEditor.colorPicker.Base.prototype.exclude = function(value) {
-  var dirty = this.excluded != value;
+  var dirty = this.excluded !== value;
   this.excluded = value;
 
   if (this.isInDocument())
