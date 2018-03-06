@@ -4,11 +4,10 @@
   "description": "Anychart Chart Editor utility",
   "main": "index.js",
   "scripts": {
-    "compile": "sh compile.sh",
-    "deps": "sh deps.sh",
-    "css": "sh css.sh",
-    "build": "sh build.sh",
-    "build-help": "java -jar node_modules/google-closure-compiler/compiler.jar --help"
+    "compile": "sh ./bin/compile.sh",
+    "deps": "sh ./bin/deps.sh",
+    "css": "sh ./bin/css.sh",
+    "build": "sh ./bin/build.sh"
   },
   "repository": {
     "type": "git",
