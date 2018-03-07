@@ -155,7 +155,7 @@ chartEditor.settings.axes.Circular.prototype.onChartDraw = function(evt) {
 
   if (!this.isExcluded()) {
     var chart = evt.chart;
-    this.axisExists = chart.getAxesCount() > this.index_;
+    this.axisExists = chart['getAxesCount']() > this.index_;
 
     if (this.axisExists) {
       this.getHandler().unlisten(model, chartEditor.events.EventType.CHART_DRAW, this.onChartDraw);

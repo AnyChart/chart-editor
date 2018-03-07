@@ -7,7 +7,6 @@ goog.require('chartEditor.controls.select.DataField');
 goog.require('chartEditor.controls.select.DataFieldSelectMenuCaption');
 goog.require('chartEditor.controls.select.DataFieldSelectMenuItem');
 goog.require('chartEditor.select.ChartType');
-goog.require('chartEditor.Component');
 goog.require('goog.ui.Button');
 goog.require('goog.ui.MenuItem');
 

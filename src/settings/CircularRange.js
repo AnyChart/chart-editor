@@ -94,7 +94,7 @@ chartEditor.settings.CircularRange.prototype.onChartDraw = function(evt) {
   if (!this.isExcluded()) {
     var target = evt.chart;
 
-    var count = target.getAxesCount();
+    var count = target['getAxesCount']();
     var options = [];
     for (var i = 0; i < count; i++) {
       options.push({'value': String(i)});

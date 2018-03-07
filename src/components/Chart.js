@@ -1,8 +1,8 @@
 goog.provide('chartEditor.Chart');
 
-goog.require('chartEditor.binding');
-goog.require('chartEditor.Component');
-goog.require('chartEditor.EditorModel');
+goog.require("chartEditor.Component");
+goog.require("chartEditor.EditorModel");
+goog.require("chartEditor.binding");
 
 
 /**

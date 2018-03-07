@@ -43,7 +43,7 @@ chartEditor.settings.scales.LinearColorSpecific.prototype.onChartDraw = function
   chartEditor.settings.scales.LinearColorSpecific.base(this, 'onChartDraw', evt);
 
   if (!this.isExcluded() && this.scale_ && this.colors_) {
-    var colors = this.scale_.colors();
+    var colors = this.scale_['colors']();
     this.colors_.getControl().setValueByColors(colors);
   }
 };

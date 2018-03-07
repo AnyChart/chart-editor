@@ -8,3 +8,5 @@ goog.require('chartEditor.Editor');
 goog.setCssNameMapping({
   'goog': 'anychart-ce'
 });
+
+chartEditor.DEVELOP = true;

@@ -4,7 +4,6 @@ goog.require('chartEditor.Component');
 goog.require('chartEditor.DataSetPanel');
 goog.require('chartEditor.EditorModel');
 goog.require('chartEditor.dataSetPanelList.Intro');
-goog.require('chartEditor.Component');
 
 
 /**

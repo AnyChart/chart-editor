@@ -1,15 +1,14 @@
 goog.provide('chartEditor.steps.PrepareData');
 
-goog.require('chartEditor.DataDialog');
-goog.require('chartEditor.DataSetPanelList');
-goog.require('chartEditor.PredefinedDataSelector');
-goog.require('chartEditor.UserData');
-goog.require('chartEditor.events');
-goog.require('chartEditor.steps.Base');
-goog.require('chartEditor.Component');
-goog.require('goog.ui.Button');
+goog.require("chartEditor.Component");
+goog.require("chartEditor.DataDialog");
+goog.require("chartEditor.DataSetPanelList");
+goog.require("chartEditor.PredefinedDataSelector");
+goog.require("chartEditor.UserData");
+goog.require("chartEditor.events");
+goog.require("chartEditor.steps.Base");
+goog.require("goog.ui.Button");
 
-//goog.forwardDeclare('anychart.data.Mapping');
 
 
 /**

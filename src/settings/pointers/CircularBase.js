@@ -69,7 +69,7 @@ chartEditor.settings.pointers.CircularBase.prototype.onChartDraw = function(evt)
     var target = evt.chart;
 
     if (this.axisIndex_) {
-      var count = target.getAxesCount();
+      var count = target['getAxesCount']();
       if (count > 1) {
         this.axisIndex_.show();
         var options = [];

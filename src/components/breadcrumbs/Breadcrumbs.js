@@ -1,8 +1,8 @@
 goog.provide('chartEditor.Breadcrumbs');
 
-goog.require('chartEditor.Item');
-goog.require('chartEditor.Component');
-goog.require('goog.ui.Button');
+goog.require("chartEditor.Component");
+goog.require("chartEditor.Item");
+goog.require("goog.ui.Button");
 
 
 /**

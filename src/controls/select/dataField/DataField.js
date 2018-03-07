@@ -1,8 +1,8 @@
 goog.provide('chartEditor.controls.select.DataField');
 
-goog.require('chartEditor.controls.LabeledControl');
-goog.require('chartEditor.controls.select.DataFieldSelect');
-goog.require('chartEditor.Component');
+goog.require("chartEditor.Component");
+goog.require("chartEditor.controls.LabeledControl");
+goog.require("chartEditor.controls.select.DataFieldSelect");
 
 
 /**

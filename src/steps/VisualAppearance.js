@@ -1,11 +1,11 @@
 goog.provide('chartEditor.steps.VisualAppearance');
 
-goog.require('chartEditor.AppearanceSettings');
-goog.require('chartEditor.Chart');
-goog.require('chartEditor.events');
-goog.require('chartEditor.steps.Base');
-goog.require('chartEditor.Component');
-goog.require('goog.dom.classlist');
+goog.require("chartEditor.AppearanceSettings");
+goog.require("chartEditor.Chart");
+goog.require("chartEditor.Component");
+goog.require("chartEditor.events");
+goog.require("chartEditor.steps.Base");
+goog.require("goog.dom.classlist");
 
 
 

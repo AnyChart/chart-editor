@@ -1,13 +1,12 @@
 goog.provide('chartEditor.settings.scales.Base');
 
-goog.require('chartEditor.SettingsPanel');
-goog.require('chartEditor.controls.select.ScaleType');
-goog.require('chartEditor.settings.scales.LinearColorSpecific');
-goog.require('chartEditor.settings.scales.LinearSpecific');
-goog.require('chartEditor.settings.scales.LogarithmicSpecific');
-goog.require('chartEditor.settings.scales.OrdinalColorSpecific');
-goog.require('chartEditor.Component');
-
+goog.require("chartEditor.Component");
+goog.require("chartEditor.SettingsPanel");
+goog.require("chartEditor.controls.select.ScaleType");
+goog.require("chartEditor.settings.scales.LinearColorSpecific");
+goog.require("chartEditor.settings.scales.LinearSpecific");
+goog.require("chartEditor.settings.scales.LogarithmicSpecific");
+goog.require("chartEditor.settings.scales.OrdinalColorSpecific");
 
 /**
  * @param {chartEditor.EditorModel} model

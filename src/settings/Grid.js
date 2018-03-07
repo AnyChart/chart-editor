@@ -108,7 +108,7 @@ chartEditor.settings.Grid.prototype.onChartDraw = function(evt) {
     var splittedKey = stringKey.split('.');
 
     if (splittedKey.length === 1)
-      this.gridExists = stringKey === 'xGrid()' ? !!chart.getXGridsCount() : !!chart.getYGridsCount();
+      this.gridExists = stringKey === 'xGrid()' ? !!chart['getXGridsCount']() : !!chart['getYGridsCount']();
     else {
       // stock
       var plotKey = splittedKey[0];

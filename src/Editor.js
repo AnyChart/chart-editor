@@ -1,15 +1,14 @@
 goog.provide('chartEditor.Editor');
 goog.provide('chartEditor.Editor.Dialog');
 
-goog.require('chartEditor.Breadcrumbs');
-goog.require('chartEditor.Component');
-goog.require('chartEditor.EditorModel');
-goog.require('chartEditor.Steps');
-goog.require('chartEditor.events');
-goog.require('chartEditor.Preloader');
-goog.require('goog.net.ImageLoader');
-goog.require('goog.ui.Dialog');
-
+goog.require("chartEditor.Breadcrumbs");
+goog.require("chartEditor.Component");
+goog.require("chartEditor.EditorModel");
+goog.require("chartEditor.Preloader");
+goog.require("chartEditor.Steps");
+goog.require("chartEditor.events");
+goog.require("goog.net.ImageLoader");
+goog.require("goog.ui.Dialog");
 
 
 /**

@@ -1,12 +1,11 @@
 goog.provide('chartEditor.settings.Markers');
 
-goog.require('chartEditor.SettingsPanel');
-goog.require('chartEditor.colorPicker.Base');
-goog.require('chartEditor.comboBox.Base');
-goog.require('chartEditor.controls.select.DataFieldSelect');
-goog.require('chartEditor.settings.Stroke');
-goog.require('chartEditor.enums');
-
+goog.require("chartEditor.SettingsPanel");
+goog.require("chartEditor.colorPicker.Base");
+goog.require("chartEditor.comboBox.Base");
+goog.require("chartEditor.controls.select.DataFieldSelect");
+goog.require("chartEditor.enums");
+goog.require("chartEditor.settings.Stroke");
 
 
 /**
