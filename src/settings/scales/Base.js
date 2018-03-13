@@ -130,7 +130,7 @@ chartEditor.settings.scales.Base.prototype.onChartDraw = function(evt) {
     this.scale_ = /** @type {Object} */(chartEditor.binding.exec(target, stringKey));
 
     if (this.scale_ && this.scaleTypeField_) {
-      var type = this.scale_.getType();
+      var type = this.scale_['getType']();
       this.scaleTypeField_.setValue(type, true);
       if (this.updateSpecific())
         this.specificComponent_.onChartDraw(evt);
