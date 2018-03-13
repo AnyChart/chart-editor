@@ -69,7 +69,8 @@ chartEditor.settings.pointers.CircularBase.prototype.onChartDraw = function(evt)
     var target = evt.chart;
 
     if (this.axisIndex_) {
-      var count = target['getAxesCount']();
+      var elementsStat = target['getStat']('chartElements');
+      var count = elementsStat['axes'];
       if (count > 1) {
         this.axisIndex_.show();
         var options = [];

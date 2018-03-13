@@ -117,6 +117,8 @@ chartEditor.settings.Stroke.prototype.onChartDraw = function(evt) {
  * @param {?Object} target Object, who's property corresponds to control's key. Used to get value of this control.
  */
 chartEditor.settings.Stroke.prototype.setValueByTarget = function(target) {
+  if (this.excluded) return;
+
   this.target = target;
 
   var stringKey = chartEditor.EditorModel.getStringKey(this.key);

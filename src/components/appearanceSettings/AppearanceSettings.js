@@ -130,12 +130,12 @@ chartEditor.AppearanceSettings = function(model, tabs, tabContent, opt_domHelper
       classFunc: chartEditor.TooltipPanel,
       instance: null
     },
-    // {
-    //   name: 'Grids',
-    //   enabled: true,
-    //   classFunc: chartEditor.GridsPanel,
-    //   instance: null
-    // },
+    {
+      name: 'Grids',
+      enabled: true,
+      classFunc: chartEditor.GridsPanel,
+      instance: null
+    },
     {
       name: 'ColorScale',
       enabled: true,
