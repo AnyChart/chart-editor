@@ -1,7 +1,7 @@
 {
   "name": "chart-editor",
   "version": "1.0.0",
-  "description": "Anychart Chart Editor utility",
+  "description": "AnyChart Chart Editor utility",
   "main": "index.js",
   "scripts": {
     "compile": "sh ./bin/compile.sh",
@@ -14,14 +14,28 @@
     "url": "git+https://github.com/AnyChart/chart-editor.git"
   },
   "keywords": [
-    "anychart"
+    "anychart",
+    "anystock",
+    "anymap",
+    "charts",
+    "plots",
+    "line charts",
+    "bar charts",
+    "pie charts",
+    "choropleth map",
+    "javascript charts",
+    "javascript plots",
+    "javascript",
+    "SVG",
+    "HTML5",
+    "VML"
   ],
-  "author": "anychart",
-  "license": "ISC",
+  "author": "AnyChart",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/AnyChart/chart-editor/issues"
   },
-  "homepage": "https://github.com/AnyChart/chart-editor#readme",
+  "homepage": "https://github.com/AnyChart/chart-editor",
   "devDependencies": {
     "google-closure-compiler": "^20180204.0.0",
     "google-closure-library": "^20180204.0.0",
