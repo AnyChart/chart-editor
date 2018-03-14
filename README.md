@@ -8,8 +8,9 @@ Intuitive and easy to use web application that allows you to create and work wit
 ## Table of Contents
 
 * [Download and Install](#download-and-install)
-* [Build](#build)
-* [Examples](#examples)
+* [Getting started](#getting-started)
+* [Using](#using)
+* [Building](#building)
 * [Contacts](#contacts)
 * [Links](#links)
 * [License](#license)
@@ -76,6 +77,7 @@ anychart.onDocumentReady(function() {
   });
 });
 ```
+
 The full working example you can find in [examples](https://github.com/AnyChart/chart-editor/tree/develop/examples) folder.
 
 ## Using
@@ -127,7 +129,7 @@ Method | Description | Arguments
 *getChartAsXml()* | Returns configured chart in XML representation. | -
  
 
-## Build
+## Building
 If you want to build your own binaries from project's source code first you should install remaining dependencies using following command
 ```
 npm install
@@ -165,11 +167,6 @@ Build only dependencies
 #! or using npm 
 npm run build deps
 ```
-
-
-## Examples
-
-The source code for example of using of AnyChart Chart Editor you can find in the [`examples/`](https://github.com/AnyChart/chart-editor/tree/develop/examples) folder.
 
 ## Contacts
 
