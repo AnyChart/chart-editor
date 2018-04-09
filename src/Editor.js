@@ -319,6 +319,17 @@ chartEditor.Editor.prototype.steps = function() {
 
 
 /**
+ * Sets anychart locale settings
+ * @param {Object} values
+ * @return {chartEditor.Editor} self for chaining
+ */
+chartEditor.Editor.prototype.localization = function(values) {
+  this.getModel().localization(values);
+  return this;
+};
+
+
+/**
  * Add data to editor while initialization.
  * @param {Object} data
  */
@@ -523,6 +534,7 @@ chartEditor.editor = function() {
   proto['getChartAsJson'] = proto.getChartAsJson;
   proto['getChartAsXml'] = proto.getChartAsXml;
   proto['steps'] = proto.steps;
+  proto['localization'] = proto.localization;
   proto['data'] = proto.data;
   proto['setDefaults'] = proto.setDefaults;
   proto['listen'] = proto.listen;

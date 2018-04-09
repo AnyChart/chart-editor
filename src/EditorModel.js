@@ -1615,6 +1615,60 @@ chartEditor.EditorModel.prototype.setModel = function(value) {
   this.afterSetModel_ = true;
   this.dispatchUpdate();
 };
+
+
+/**
+ * Sets anychart locale settings
+ * @param {Object} values
+ */
+chartEditor.EditorModel.prototype.localization = function(values) {
+  var locales = [];
+
+  for (var k in values) {
+    this.setValue([['anychart'], 'format.' + k + '()'], String(values[k]), true);
+
+    if (values['inputLocale'])
+      locales.push(values['inputLocale']);
+
+    if (values['outputLocale'] && values['inputLocale'] != values['outputLocale'])
+      locales.push(values['outputLocale']);
+  }
+
+  if (locales.length)
+    this.loadLocales_(locales);
+};
+
+
+/**
+ * Load locales from cdn.anychart.com and runs obtained code
+ * @param {Array.<string>} locales List of locales to load
+ * @private
+ */
+chartEditor.EditorModel.prototype.loadLocales_ = function(locales) {
+  var locale = locales.pop();
+  var setUrl = 'https://cdn.anychart.com/releases/v8/locales/' + locale + '.js';
+  var self = this;
+  goog.net.XhrIo.send(setUrl, function(e) {
+    if (e.target.getStatus() === 200) {
+      try {
+        var localeData = e.target.getResponseText();
+        eval(localeData);
+      } catch (e) {
+        // something wrong
+      }
+    }
+
+    if (locales.length) {
+      self.loadLocales_(locales);
+    } else {
+      self.dispatchEvent({
+        type: chartEditor.events.EventType.WAIT,
+        wait: false
+      });
+    }
+  });
+};
+
 // endregion
 
 
