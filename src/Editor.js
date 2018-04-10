@@ -514,17 +514,19 @@ chartEditor.Editor.Dialog.prototype.onBackgroundClick_ = function() {
 // endregion
 
 
+window['anychart'] = window['anychart'] || {};
+
 /**
  * Constructor function for Chart Editor.
  * @return {chartEditor.Editor}
  */
-chartEditor.editor = function() {
+window['anychart'].editor = function() {
   return new chartEditor.Editor();
 };
 
 //exports
 (function() {
-  goog.exportSymbol('chartEditor.editor', chartEditor.editor);
+  goog.exportSymbol('anychart.editor', window['anychart'].editor);
   var proto = chartEditor.Editor.prototype;
   proto['render'] = proto.render;
   proto['decorate'] = proto.decorate;

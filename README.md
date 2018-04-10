@@ -66,7 +66,7 @@ Now you can create Chart Editor instance and render it to dom container.
 ```javascript
 anychart.onDocumentReady(function() {
   // Create chart editor instance
-  var editor = chartEditor.editor();
+  var editor = anychart.editor();
 
   // Render to div#container
   editor.render(document.getElementById("container"));

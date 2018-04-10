@@ -1,6 +1,6 @@
 anychart.onDocumentReady(function() {
   // Create editor instance
-  var editor = chartEditor.editor();
+  var editor = anychart.editor();
 
   // Render editor to div#container
   editor.render(document.getElementById("container"));
