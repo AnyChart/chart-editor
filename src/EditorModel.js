@@ -1198,6 +1198,8 @@ chartEditor.EditorModel.prototype.onChangeView = function() {
         if (this.model_['chart']['type'] === 'map')
           this.initGeoData_();
 
+        this.applyDefaults();
+
         this.analyzeDataBeforeChooseField_();
         this.analyzeDataAfterChooseField_();
 
@@ -1646,9 +1648,9 @@ chartEditor.EditorModel.prototype.localization = function(values) {
  */
 chartEditor.EditorModel.prototype.loadLocales_ = function(locales) {
   var locale = locales.pop();
-  var setUrl = 'https://cdn.anychart.com/releases/v8/locales/' + locale + '.js';
+  var localeUrl = 'https://cdn.anychart.com/releases/v8/locales/' + locale + '.js';
   var self = this;
-  goog.net.XhrIo.send(setUrl, function(e) {
+  goog.net.XhrIo.send(localeUrl, function(e) {
     if (e.target.getStatus() === 200) {
       try {
         var localeData = e.target.getResponseText();
@@ -2308,7 +2310,7 @@ chartEditor.EditorModel.prototype.getChartWithJsCode_ = function(opt_options) {
       }
     });
     if (addMarkers && markerSeriesName === 'opened') {
-      result.push('/*seriesNames*==/');
+      result.push('/*seriesNames=*/');
       markerSeriesName = 'closed';
     }
     result.push('');
