@@ -1,10 +1,9 @@
 goog.provide('chartEditor.GeneralTheming');
 
 goog.require('chartEditor.SettingsPanel');
-goog.require('chartEditor.controls.select.DataField');
 goog.require('chartEditor.controls.select.DataFieldSelectMenuItem');
 goog.require('chartEditor.controls.select.Palettes');
-goog.require('chartEditor.settings.Title');
+goog.require('chartEditor.controls.select.Theme');
 
 
 
@@ -28,7 +27,7 @@ chartEditor.GeneralTheming.prototype.createDom = function() {
   var themes = goog.object.filter(goog.dom.getWindow()['anychart']['themes'], function(item) {
     return item['palette'];
   });
-  this.themeSelect = new chartEditor.controls.select.DataField({caption: 'Select theme', label: 'Theme'});
+  this.themeSelect = new chartEditor.controls.select.Theme({caption: 'Select theme', label: 'Theme'});
   var themeNames = goog.object.getKeys(themes);
 
   for (var i = 0; i < themeNames.length; i++) {
@@ -67,7 +66,11 @@ chartEditor.GeneralTheming.prototype.onChartDraw = function(evt) {
   chartEditor.GeneralTheming.base(this, 'onChartDraw', evt);
   if (evt.rebuild) {
     if (this.themeSelect) this.themeSelect.getSelect().setValueByTarget(goog.dom.getWindow()['anychart']);
-    if (this.paletteSelect) this.paletteSelect.getSelect().setValueByTarget(evt.chart);
+
+    if (this.paletteSelect) {
+      this.paletteSelect.updateExclusion();
+      this.paletteSelect.getSelect().setValueByTarget(evt.chart);
+    }
   }
 };
 

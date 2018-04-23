@@ -75,8 +75,7 @@ chartEditor.settings.Grid.prototype.onChartDraw = function(evt) {
       var plotKey = splittedKey[0];
       stringKey = splittedKey[1];
       var plot = /** @type {Object} */(chartEditor.binding.exec(chart, plotKey));
-
-      elementsStat = plot['getStat']('plotElements');
+      elementsStat = plot['getStat']('chartElements');
     }
 
     this.gridExists = !!(stringKey === 'xGrid()' ? elementsStat['grids']['x'] : elementsStat['grids']['y']);

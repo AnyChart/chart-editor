@@ -249,7 +249,7 @@ chartEditor.EditorModel.ChartTypes = {
     'value': 'column',
     'name': 'Column',
     'icon': 'column-chart.svg',
-    'series': ['column', 'line', 'spline', 'area', 'splineArea', 'ohlc'],
+    'series': ['column', 'line', 'spline', 'area', 'splineArea', 'ohlc', 'candlestick'],
     'dataSetCtor': 'set',
     'panelsExcludes': ['colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
     'filters': ['common']
