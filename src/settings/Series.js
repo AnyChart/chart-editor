@@ -1,13 +1,14 @@
 goog.provide('chartEditor.settings.Series');
 
-goog.require('chartEditor.SettingsPanelZippy');
-goog.require('chartEditor.colorPicker.Base');
-goog.require('chartEditor.input.Base');
-goog.require('chartEditor.settings.Labels');
-goog.require('chartEditor.settings.Markers');
-goog.require('chartEditor.settings.Stroke');
-goog.require('chartEditor.settings.Title');
-goog.require('chartEditor.settings.scales.Base');
+goog.require("chartEditor.SettingsPanelZippy");
+goog.require("chartEditor.colorPicker.Base");
+goog.require("chartEditor.controls.LabeledControl");
+goog.require("chartEditor.input.Base");
+goog.require("chartEditor.settings.Labels");
+goog.require("chartEditor.settings.Markers");
+goog.require("chartEditor.settings.Stroke");
+goog.require("chartEditor.settings.Title");
+goog.require("chartEditor.settings.scales.Base");
 
 
 /**
@@ -33,6 +34,9 @@ chartEditor.settings.Series = function(model, seriesId, seriesIndex, opt_plotInd
   this.seriesType_ = model.getValue([['dataSettings'], ['mappings', this.getPlotIndex()], [this.index_, 'ctor']]);
   this.key = [['chart'], ['settings'], stringKey];
 
+  this.hasFallingRising_ = this.seriesType_ == 'candlestick' || this.seriesType_ == 'waterfall' || this.seriesType_ == 'ohlc';
+  this.hasFillStroke_ = this.seriesType_ == 'waterfall' || !this.hasFallingRising_;
+
   this.allowEnabled(false);
   this.addClassName(goog.getCssName('anychart-ce-settings-panel-series-single'));
 };
@@ -55,18 +59,58 @@ chartEditor.settings.Series.prototype.createDom = function() {
 
   goog.dom.classlist.add(name.getElement(), goog.getCssName('anychart-ce-series-name-input'));
 
-  var color = new chartEditor.colorPicker.Base();
-  color.init(model, this.genKey('color()'));
-  this.addHeaderChildControl(color);
-  color.addClassName(goog.getCssName('anychart-ce-settings-control-right'));
+  var fill;
+  if (this.hasFillStroke_) {
+    fill = new chartEditor.colorPicker.Base();
+    fill.init(model, this.genKey('fill()'));
+    
+    if (!this.hasFallingRising_) {
+      this.addHeaderChildControl(fill);
+      fill.addClassName(goog.getCssName('anychart-ce-settings-control-right')); 
+    }
+  }
   // endregion
 
   // region ==== Content
-  var stroke = new chartEditor.settings.Stroke(model);
-  stroke.setKey(this.genKey('stroke()'));
-  this.addChildControl(stroke);
+  if (this.hasFillStroke_) {
+    if (this.hasFallingRising_) {
+      var totalFillLC = new chartEditor.controls.LabeledControl(/** @type {chartEditor.colorPicker.Base} */(fill), 'Total Fill');
+      totalFillLC.init(model, this.genKey('fill()'));
+      this.addChildControl(totalFillLC);
+    }
+    
+    var stroke = new chartEditor.settings.Stroke(model, this.hasFillStroke_ ? 'Total Stroke' : 'Stroke');
+    stroke.setKey(this.genKey('stroke()'));
+    this.addChildControl(stroke);
 
-  this.addContentSeparator();
+    this.addContentSeparator();
+  }
+
+  if (this.hasFallingRising_) {
+    if (this.seriesType_ != 'ohlc') {
+      var risingFill = new chartEditor.colorPicker.Base();
+      var risingFillLC = new chartEditor.controls.LabeledControl(risingFill, 'Rising Fill');
+      risingFillLC.init(model, this.genKey('risingFill()'));
+      this.addChildControl(risingFillLC);
+    }
+
+    var risingStroke = new chartEditor.settings.Stroke(model, 'Rising Stroke');
+    risingStroke.setKey(this.genKey('risingStroke()'));
+    this.addChildControl(risingStroke);
+
+    if (this.seriesType_ != 'ohlc') {
+      var fallingFill = new chartEditor.colorPicker.Base();
+      var fallingFillLC = new chartEditor.controls.LabeledControl(fallingFill, 'Falling Fill');
+      fallingFillLC.init(model, this.genKey('fallingFill()'));
+      this.addChildControl(fallingFillLC);
+    }
+
+    var fallingStroke = new chartEditor.settings.Stroke(model, 'Falling Stroke');
+    fallingStroke.setKey(this.genKey('fallingStroke()'));
+    this.addChildControl(fallingStroke);
+
+    this.addContentSeparator();
+  }
 
   // Tooltip
   var tooltip = new chartEditor.settings.Title(model, 'Tooltip');
