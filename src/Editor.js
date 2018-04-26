@@ -110,7 +110,7 @@ chartEditor.Editor.prototype.getTheme = function() {
 /**
  * Renders the Chart Editor as modal dialog.
  * @param {string=} opt_class CSS class name for the dialog element, also used
- *     as a class name prefix for related elements; defaults to modal-dialog.
+ *     as a class name prefix for related elements; defaults to 'anychart-ce-dialog'.
  *     This should be a single, valid CSS class name.
  * @param {boolean=} opt_useIframeMask Work around windowed controls z-index
  *     issue by using an iframe instead of a div for bg element.
@@ -128,10 +128,9 @@ chartEditor.Editor.prototype.renderAsDialog = function(opt_class, opt_useIframeM
 
 
 /**
- * Sets the visibility of the dialog box and moves focus to the
- * default button. Lazily renders the component if needed.
+ * Sets/gets the visibility of the dialog box.
  * @param {boolean=} opt_value Whether the dialog should be visible.
- * @return {boolean|!chartEditor.Editor}
+ * @return {boolean|!chartEditor.Editor} Current visibility state or self for chaining.
  */
 chartEditor.Editor.prototype.visible = function(opt_value) {
   if (!this.dialog_) return true;

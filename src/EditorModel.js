@@ -147,7 +147,7 @@ chartEditor.EditorModel.Model;
  * @typedef {{
  *  minify: boolean,
  *  container: string,
- *  wrapper: (string),
+ *  wrapper: string,
  *  addData: boolean,
  *  addGeoData: boolean
  * }}
