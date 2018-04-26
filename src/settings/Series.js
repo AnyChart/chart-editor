@@ -62,7 +62,7 @@ chartEditor.settings.Series.prototype.createDom = function() {
   var fill;
   if (this.hasFillStroke_) {
     fill = new chartEditor.colorPicker.Base();
-    fill.init(model, this.genKey('fill()'));
+    fill.init(model, this.genKey('color()'));
     
     if (!this.hasFallingRising_) {
       this.addHeaderChildControl(fill);
@@ -79,7 +79,7 @@ chartEditor.settings.Series.prototype.createDom = function() {
       this.addChildControl(totalFillLC);
     }
     
-    var stroke = new chartEditor.settings.Stroke(model, this.hasFillStroke_ ? 'Total Stroke' : 'Stroke');
+    var stroke = new chartEditor.settings.Stroke(model, this.hasFallingRising_ ? 'Total Stroke' : 'Stroke');
     stroke.setKey(this.genKey('stroke()'));
     this.addChildControl(stroke);
 
