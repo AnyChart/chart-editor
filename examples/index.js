@@ -5,6 +5,8 @@ anychart.onDocumentReady(function() {
   // Render editor to div#container
   editor.render(document.getElementById("container"));
 
+  // console.log(editor.version());
+
   // Add your data from code
   // editor.data({
   //   data: [

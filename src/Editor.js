@@ -54,7 +54,7 @@ chartEditor.Editor = function(opt_domHelper) {
   //     imageLoader.addImage(chart.type, 'https://cdn.anychart.com/images/chartopedia/' + chart.image);
   //   });
   // });
-  //imageLoader.start();
+  // imageLoader.start();
 
   goog.events.listen(this, chartEditor.Breadcrumbs.EventType.COMPLETE, this.onComplete_, false, this);
 
@@ -78,11 +78,24 @@ goog.inherits(chartEditor.Editor, chartEditor.Component);
 
 
 /**
+ * Current version of the Editor.
+ * @define {string} Replaced on compile time.
+ */
+chartEditor.Editor.VERSION = '';
+
+/**
  * CSS class name.
  * @type {string}
  */
 chartEditor.Editor.CSS_CLASS = goog.getCssName('anychart-ce');
 
+
+/**
+ * @return {string} Current version
+ */
+chartEditor.Editor.prototype.version = function() {
+  return chartEditor.Editor.VERSION;
+};
 
 
 /** @inheritDoc */
@@ -525,6 +538,7 @@ window['anychart'].editor = function() {
 
 //exports
 (function() {
+  goog.exportSymbol('chartEditor.Editor.VERSION', chartEditor.Editor.VERSION);
   goog.exportSymbol('anychart.editor', window['anychart'].editor);
   var proto = chartEditor.Editor.prototype;
   proto['render'] = proto.render;
@@ -547,4 +561,5 @@ window['anychart'].editor = function() {
   proto['serializeModel'] = proto.serializeModel;
   proto['deserializeModel'] = proto.deserializeModel;
   proto['dispose'] = proto.dispose;
+  proto['version'] = proto.version;
 })();
