@@ -1597,13 +1597,21 @@
   display: none;
 }
 .anychart-ce-control-series-name .anychart-ce-input {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
   width: 150px;
+  height: 28px;
 }
 .anychart-ce-control-series-name .anychart-ce-button-toggle {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
   position: absolute;
   right: 0;
   top: 0;
-  height: 25px;
+  height: 28px;
+  border: none;
   z-index: 2;
 }
 .anychart-ce-control-series-name .anychart-ce-button-toggle i {
