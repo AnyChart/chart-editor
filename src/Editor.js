@@ -123,7 +123,7 @@ chartEditor.Editor.prototype.getTheme = function() {
 /**
  * Renders the Chart Editor as modal dialog.
  * @param {string=} opt_class CSS class name for the dialog element, also used
- *     as a class name prefix for related elements; defaults to modal-dialog.
+ *     as a class name prefix for related elements; defaults to 'anychart-ce-dialog'.
  *     This should be a single, valid CSS class name.
  * @param {boolean=} opt_useIframeMask Work around windowed controls z-index
  *     issue by using an iframe instead of a div for bg element.
@@ -141,10 +141,9 @@ chartEditor.Editor.prototype.renderAsDialog = function(opt_class, opt_useIframeM
 
 
 /**
- * Sets the visibility of the dialog box and moves focus to the
- * default button. Lazily renders the component if needed.
+ * Sets/gets the visibility of the dialog box.
  * @param {boolean=} opt_value Whether the dialog should be visible.
- * @return {boolean|!chartEditor.Editor}
+ * @return {boolean|!chartEditor.Editor} Current visibility state or self for chaining.
  */
 chartEditor.Editor.prototype.visible = function(opt_value) {
   if (!this.dialog_) return true;
@@ -328,6 +327,17 @@ chartEditor.Editor.prototype.setCurrentStep = function(index, doAnimation) {
  */
 chartEditor.Editor.prototype.steps = function() {
   return this.steps_;
+};
+
+
+/**
+ * Sets anychart locale settings
+ * @param {Object} values
+ * @return {chartEditor.Editor} self for chaining
+ */
+chartEditor.Editor.prototype.localization = function(values) {
+  this.getModel().localization(values);
+  return this;
 };
 
 
@@ -516,18 +526,20 @@ chartEditor.Editor.Dialog.prototype.onBackgroundClick_ = function() {
 // endregion
 
 
+window['anychart'] = window['anychart'] || {};
+
 /**
  * Constructor function for Chart Editor.
  * @return {chartEditor.Editor}
  */
-chartEditor.editor = function() {
+window['anychart'].editor = function() {
   return new chartEditor.Editor();
 };
 
 //exports
 (function() {
   goog.exportSymbol('chartEditor.Editor.VERSION', chartEditor.Editor.VERSION);
-  goog.exportSymbol('chartEditor.editor', chartEditor.editor);
+  goog.exportSymbol('anychart.editor', window['anychart'].editor);
   var proto = chartEditor.Editor.prototype;
   proto['render'] = proto.render;
   proto['decorate'] = proto.decorate;
@@ -537,6 +549,7 @@ chartEditor.editor = function() {
   proto['getChartAsJson'] = proto.getChartAsJson;
   proto['getChartAsXml'] = proto.getChartAsXml;
   proto['steps'] = proto.steps;
+  proto['localization'] = proto.localization;
   proto['data'] = proto.data;
   proto['setDefaults'] = proto.setDefaults;
   proto['listen'] = proto.listen;
