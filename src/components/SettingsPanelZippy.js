@@ -86,7 +86,7 @@ chartEditor.SettingsPanelZippy.prototype.addChildControl = function(control, opt
 
 /**
  * Adds control to header.
- * @param {chartEditor.SettingsPanel|chartEditor.controls.LabeledControl|chartEditor.checkbox.Base|chartEditor.controls.select.Base|chartEditor.comboBox.Base|chartEditor.colorPicker.Base|chartEditor.input.Base} control
+ * @param {chartEditor.SettingsPanel|chartEditor.controls.LabeledControl|chartEditor.checkbox.Base|chartEditor.controls.select.Base|chartEditor.comboBox.Base|chartEditor.colorPicker.Base|chartEditor.controls.input.Base} control
  * @return {boolean}
  */
 chartEditor.SettingsPanelZippy.prototype.addHeaderChildControl = function(control) {

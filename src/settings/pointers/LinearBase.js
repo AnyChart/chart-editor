@@ -1,13 +1,14 @@
 goog.provide('chartEditor.settings.pointers.LinearBase');
 
-goog.require('chartEditor.SettingsPanelZippy');
-goog.require('chartEditor.colorPicker.Base');
-goog.require('chartEditor.comboBox.Base');
-goog.require('chartEditor.comboBox.Percent');
-goog.require('chartEditor.controls.LabeledControl');
-goog.require('chartEditor.controls.select.DataField');
-goog.require('chartEditor.input.Base');
-goog.require('chartEditor.settings.Stroke');
+goog.require("chartEditor.SettingsPanelZippy");
+goog.require("chartEditor.colorPicker.Base");
+goog.require("chartEditor.comboBox.Base");
+goog.require("chartEditor.comboBox.Percent");
+goog.require("chartEditor.controls.LabeledControl");
+goog.require("chartEditor.controls.input.Base");
+goog.require("chartEditor.controls.select.DataField");
+goog.require("chartEditor.controls.select.Scales");
+goog.require("chartEditor.settings.Stroke");
 
 
 /**
@@ -41,7 +42,7 @@ chartEditor.settings.pointers.LinearBase.prototype.createDom = function() {
   var model = /** @type {chartEditor.EditorModel} */(this.getModel());
 
   // region ==== Header
-  var name = new chartEditor.input.Base('Pointer name');
+  var name = new chartEditor.controls.input.Base('Pointer name');
   name.init(model, this.genKey('name()'));
   this.addHeaderChildControl(name);
   goog.dom.classlist.add(name.getElement(), goog.getCssName('anychart-ce-series-name-input'));
@@ -51,6 +52,10 @@ chartEditor.settings.pointers.LinearBase.prototype.createDom = function() {
   fill.init(model, this.genKey('fill()'));
   this.addHeaderChildControl(fill);
   // endregion
+
+  var scale = new chartEditor.controls.select.Scales({label: 'Scale'});
+  scale.init(model, this.genKey('scale()'));
+  this.addChildControl(scale);
 
   var stroke = new chartEditor.settings.Stroke(model);
   stroke.setKey(this.genKey('stroke()'));

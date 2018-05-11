@@ -1,12 +1,12 @@
 goog.provide('chartEditor.settings.CircularRange');
 
-goog.require('chartEditor.SettingsPanel');
-goog.require('chartEditor.SettingsPanelZippy');
-goog.require('chartEditor.colorPicker.Base');
-goog.require('chartEditor.comboBox.Percent');
-goog.require('chartEditor.controls.LabeledControl');
-goog.require('chartEditor.controls.select.DataField');
-goog.require('chartEditor.input.Numbers');
+goog.require("chartEditor.SettingsPanel");
+goog.require("chartEditor.SettingsPanelZippy");
+goog.require("chartEditor.colorPicker.Base");
+goog.require("chartEditor.comboBox.Percent");
+goog.require("chartEditor.controls.LabeledControl");
+goog.require("chartEditor.controls.input.Numbers");
+goog.require("chartEditor.controls.select.DataField");
 
 
 /**
@@ -24,6 +24,8 @@ chartEditor.settings.CircularRange = function(model, index, opt_domHelper) {
   this.enabledKey(this.genKey('enabled', true));
 
   this.allowEnabled(true);
+
+  this.allowRemove(true);
 
   this.addClassName(goog.getCssName('anychart-ce-settings-panel-range-single'));
 };
@@ -47,12 +49,12 @@ chartEditor.settings.CircularRange.prototype.createDom = function() {
   position.init(model, this.genKey('position', true));
   this.addChildControl(position);
 
-  var from = new chartEditor.input.Numbers('From value');
+  var from = new chartEditor.controls.input.Numbers('From value');
   var fromlLC = new chartEditor.controls.LabeledControl(from, 'From');
   fromlLC.init(model, this.genKey('from', true));
   this.addChildControl(fromlLC);
 
-  var to = new chartEditor.input.Numbers('To value');
+  var to = new chartEditor.controls.input.Numbers('To value');
   var tolLC = new chartEditor.controls.LabeledControl(to, 'To');
   tolLC.init(model, this.genKey('to', true));
   this.addChildControl(tolLC);

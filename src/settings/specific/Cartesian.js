@@ -3,6 +3,7 @@ goog.provide('chartEditor.settings.specific.Cartesian');
 goog.require('chartEditor.SettingsPanel');
 goog.require('chartEditor.comboBox.Percent');
 goog.require('chartEditor.controls.LabeledControl');
+goog.require('chartEditor.controls.select.Scales');
 
 
 
@@ -16,22 +17,15 @@ chartEditor.settings.specific.Cartesian = function(model, opt_domHelper) {
   chartEditor.settings.specific.Cartesian.base(this, 'constructor', model, 'Cartesian Chart Settings', opt_domHelper);
 
   this.key = [['chart'], ['settings']];
+
+  this.addClassName(goog.getCssName('anychart-ce-settings-panel-cartesian'));
 };
 goog.inherits(chartEditor.settings.specific.Cartesian, chartEditor.SettingsPanel);
-
-
-/**
- * Default CSS class.
- * @type {string}
- */
-chartEditor.settings.specific.Cartesian.CSS_CLASS = goog.getCssName('anychart-ce-settings-panel-cartesian');
 
 
 /** @override */
 chartEditor.settings.specific.Cartesian.prototype.createDom = function() {
   chartEditor.settings.specific.Cartesian.base(this, 'createDom');
-
-  goog.dom.classlist.add(this.getElement(), chartEditor.settings.specific.Cartesian.CSS_CLASS);
 
   var model = /** @type {chartEditor.EditorModel} */(this.getModel());
 
@@ -52,4 +46,12 @@ chartEditor.settings.specific.Cartesian.prototype.createDom = function() {
   var minPointLengthLC = new chartEditor.controls.LabeledControl(minPointLength, 'Min Point Length');
   minPointLengthLC.init(model, this.genKey('minPointLength()'));
   this.addChildControl(minPointLengthLC);
+
+  var xScale = new chartEditor.controls.select.Scales({label: 'X Scale', scaleName: 'Default X Scale', availableOptions: ['ordinal', 'linear', 'date-time']});
+  xScale.init(model, this.genKey('xScale()'));
+  this.addChildControl(xScale);
+
+  var yScale = new chartEditor.controls.select.Scales({label: 'Y Scale', scaleName: 'Default Y Scale', availableOptions: ['linear', 'log', 'date-time']});
+  yScale.init(model, this.genKey('yScale()'));
+  this.addChildControl(yScale);
 };

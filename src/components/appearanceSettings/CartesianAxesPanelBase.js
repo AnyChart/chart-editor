@@ -76,8 +76,10 @@ chartEditor.CartesianAxesPanelBase.prototype.createPanels = function() {
     }
 
     if (axisCount === 0) {
+      model.suspendDispatch();
       // Always create 0 axis panel
       this.addPanelInstance(/** @type {chartEditor.SettingsPanelIndexed} */(this.createPanel()));
+      model.resumeDispatch(true);
     }
   }
 };

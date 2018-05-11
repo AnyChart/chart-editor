@@ -82,7 +82,7 @@ chartEditor.binding.parsePath_ = function(path) {
  * @param {Object} target
  * @param {Array.<Array>} path
  * @param {Array.<(string|number)>} pathArguments
- * @param {(string|number|boolean|Function)=} opt_lastArgument
+ * @param {(string|number|boolean|Function|Object)=} opt_lastArgument
  * @param {boolean=} opt_test - If set, the method returns true if operation succeeded and false otherwise.
  * @return {*}
  * @private
@@ -157,7 +157,7 @@ chartEditor.binding.applyPath_ = function(target, path, pathArguments, opt_lastA
  * Executes the path and returns true if the execution succeeded and false otherwise.
  * @param {Object} target
  * @param {string} path
- * @param {(string|number|boolean)=} opt_value
+ * @param {(string|number|boolean|Object)=} opt_value
  * @return {boolean}
  */
 chartEditor.binding.testExec = function(target, path, opt_value) {

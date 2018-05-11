@@ -49,7 +49,7 @@ chartEditor.MultiplePanelsBase.prototype.removeFromIndex_ = 1;
 
 
 /** @param {number} value */
-chartEditor.MultiplePanelsBase.prototype.setRemoveFromIndex = function(value) {
+chartEditor.MultiplePanelsBase.prototype.removeFromIndex = function(value) {
   this.removeFromIndex_ = value;
 };
 
@@ -103,7 +103,6 @@ chartEditor.MultiplePanelsBase.prototype.enterDocument = function() {
 
 /**
  * Removes all panels elements from panel.
- * @private
  */
 chartEditor.MultiplePanelsBase.prototype.removeAllPanels = function() {
   for (var i = 0; i < this.panels_.length; i++) {
@@ -137,7 +136,8 @@ chartEditor.MultiplePanelsBase.prototype.onAddPanel = function() {
   var panel = /** @type {chartEditor.SettingsPanelIndexed} */(this.createPanel());
 
   // Add instance to panels list
-  this.addPanelInstance(panel);
+  if (panel)
+    this.addPanelInstance(panel);
 };
 
 
@@ -149,9 +149,13 @@ chartEditor.MultiplePanelsBase.prototype.addPanelInstance = function(panelInstan
   var panelIndex = panelInstance.getIndex();
   var panelPlotIndex = panelInstance.getPlotIndex();
 
-  if (this.allowAddPanels_ && (!goog.isDef(this.removeFromIndex_) || panelIndex >= this.removeFromIndex_)) {
-    panelInstance.allowRemove(true);
+  if (panelInstance.allowRemove() && this.allowAddPanels_ &&
+      (!goog.isDef(this.removeFromIndex_) || panelIndex >= this.removeFromIndex_)) {
+
     this.getHandler().listen(panelInstance, chartEditor.events.EventType.PANEL_CLOSE, this.onRemovePanel);
+
+  } else {
+    panelInstance.allowRemove(false);
   }
 
   if (this.panels_.length <= panelPlotIndex)
@@ -209,15 +213,7 @@ chartEditor.MultiplePanelsBase.prototype.onRemovePanel = function(evt) {
  * @protected
  */
 chartEditor.MultiplePanelsBase.prototype.createPanel = function() {
-  // Should be overridden like this:
-
-  // var model = /** @type {chartEditor.EditorModel} */(this.getModel());
-  // var panelIndex = model.addAxis();
-
-  // Create and configure panel instance
-  // var panel = new chartEditor.settings.axes.Circular(model, panelIndex);
-  // panel.allowEnabled(true);
-
+  // Should be overridden
   // return panel;
 
   return null;

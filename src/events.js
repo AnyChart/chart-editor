@@ -13,6 +13,7 @@ chartEditor.events.EventType = {
 
   // editor model
   EDITOR_MODEL_UPDATE: goog.events.getUniqueId('editor-model-update'),
+  EDITOR_MODEL_UPDATE_SPECIAL: goog.events.getUniqueId('editor-model-update-special'),
 
   CHART_DRAW: goog.events.getUniqueId('chart-draw'),
 

@@ -3,7 +3,8 @@ goog.provide('chartEditor.settings.Series');
 goog.require("chartEditor.SettingsPanelZippy");
 goog.require("chartEditor.colorPicker.Base");
 goog.require("chartEditor.controls.LabeledControl");
-goog.require("chartEditor.input.Base");
+goog.require("chartEditor.controls.input.Base");
+goog.require("chartEditor.controls.select.Scales");
 goog.require("chartEditor.settings.Labels");
 goog.require("chartEditor.settings.Markers");
 goog.require("chartEditor.settings.Stroke");
@@ -50,7 +51,7 @@ chartEditor.settings.Series.prototype.createDom = function() {
   var model = /** @type {chartEditor.EditorModel} */(this.getModel());
 
   // region ==== Header
-  var name = new chartEditor.input.Base('Series name');
+  var name = new chartEditor.controls.input.Base('Series name');
   name.init(model, this.genKey('name()'));
   this.addHeaderChildControl(name);
 
@@ -63,10 +64,10 @@ chartEditor.settings.Series.prototype.createDom = function() {
   if (this.hasFillStroke_) {
     fill = new chartEditor.colorPicker.Base();
     fill.init(model, this.genKey('color()'));
-    
+
     if (!this.hasFallingRising_) {
       this.addHeaderChildControl(fill);
-      fill.addClassName(goog.getCssName('anychart-ce-settings-control-right')); 
+      fill.addClassName(goog.getCssName('anychart-ce-settings-control-right'));
     }
   }
   // endregion
@@ -78,7 +79,7 @@ chartEditor.settings.Series.prototype.createDom = function() {
       totalFillLC.init(model, this.genKey('fill()'));
       this.addChildControl(totalFillLC);
     }
-    
+
     var stroke = new chartEditor.settings.Stroke(model, this.hasFallingRising_ ? 'Total Stroke' : 'Stroke');
     stroke.setKey(this.genKey('stroke()'));
     this.addChildControl(stroke);
@@ -108,6 +109,19 @@ chartEditor.settings.Series.prototype.createDom = function() {
     var fallingStroke = new chartEditor.settings.Stroke(model, 'Falling Stroke');
     fallingStroke.setKey(this.genKey('fallingStroke()'));
     this.addChildControl(fallingStroke);
+
+    this.addContentSeparator();
+  }
+
+  var chartType = model.getModel()['chart']['type'];
+  if (chartType != 'stock' && chartType != 'map') {
+    var xScale = new chartEditor.controls.select.Scales({label: 'X Scale', availableOptions: ['ordinal', 'linear', 'date-time']});
+    xScale.init(model, this.genKey('xScale()'));
+    this.addChildControl(xScale);
+
+    var yScale = new chartEditor.controls.select.Scales({label: 'Y Scale', availableOptions: ['linear', 'log', 'date-time']});
+    yScale.init(model, this.genKey('yScale()'));
+    this.addChildControl(yScale);
 
     this.addContentSeparator();
   }

@@ -61,7 +61,7 @@ chartEditor.comboBox.PercentToRatio.prototype.onInputBlur_ = function(e) {
  * @extends {goog.ui.LabelInput}
  */
 chartEditor.comboBox.PercentToRatioInput = function(opt_label, opt_domHelper) {
-  chartEditor.input.Base.base(this, 'constructor', opt_label, opt_domHelper);
+  chartEditor.controls.input.Base.base(this, 'constructor', opt_label, opt_domHelper);
 };
 goog.inherits(chartEditor.comboBox.PercentToRatioInput, goog.ui.LabelInput);
 

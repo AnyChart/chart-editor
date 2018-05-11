@@ -1,4 +1,4 @@
-goog.provide('chartEditor.settings.scales.ScatterTicks');
+goog.provide('chartEditor.settings.scales.DateTimeTicks');
 
 goog.require('chartEditor.SettingsPanel');
 goog.require('chartEditor.controls.LabeledControl');
@@ -12,15 +12,15 @@ goog.require('chartEditor.controls.input.Numbers');
  * @constructor
  * @extends {chartEditor.SettingsPanel}
  */
-chartEditor.settings.scales.ScatterTicks = function(model, opt_name, opt_domHelper) {
-  chartEditor.settings.scales.ScatterTicks.base(this, 'constructor', model, opt_name, opt_domHelper);
+chartEditor.settings.scales.DateTimeTicks = function(model, opt_name, opt_domHelper) {
+  chartEditor.settings.scales.DateTimeTicks.base(this, 'constructor', model, opt_name, opt_domHelper);
 };
-goog.inherits(chartEditor.settings.scales.ScatterTicks, chartEditor.SettingsPanel);
+goog.inherits(chartEditor.settings.scales.DateTimeTicks, chartEditor.SettingsPanel);
 
 
 /** @override */
-chartEditor.settings.scales.ScatterTicks.prototype.createDom = function() {
-  chartEditor.settings.scales.ScatterTicks.base(this, 'createDom');
+chartEditor.settings.scales.DateTimeTicks.prototype.createDom = function() {
+  chartEditor.settings.scales.DateTimeTicks.base(this, 'createDom');
 
   var model = /** @type {chartEditor.EditorModel} */(this.getModel());
 
@@ -32,8 +32,8 @@ chartEditor.settings.scales.ScatterTicks.prototype.createDom = function() {
   countLC.init(model, this.genKey('count()'));
   this.addChildControl(countLC);
 
-  var interval = new chartEditor.controls.input.Numbers();
-  var intervalLC = new chartEditor.controls.LabeledControl(interval, 'Interval');
-  intervalLC.init(model, this.genKey('interval()'));
-  this.addChildControl(intervalLC);
+  // var interval = new chartEditor.controls.input.Numbers();
+  // var intervalLC = new chartEditor.controls.LabeledControl(interval, 'Interval');
+  // intervalLC.init(model, this.genKey('interval()'));
+  // this.addChildControl(intervalLC);
 };

@@ -1,11 +1,11 @@
 goog.provide('chartEditor.SeriesPanel');
 
-goog.require('chartEditor.ComponentWithKey');
-goog.require('chartEditor.controls.SeriesName');
-goog.require('chartEditor.controls.select.DataField');
-goog.require('chartEditor.controls.select.DataFieldSelectMenuItem');
-goog.require('chartEditor.input.Base');
-goog.require('goog.ui.Component');
+goog.require("chartEditor.ComponentWithKey");
+goog.require("chartEditor.controls.SeriesName");
+goog.require("chartEditor.controls.input.Base");
+goog.require("chartEditor.controls.select.DataField");
+goog.require("chartEditor.controls.select.DataFieldSelectMenuItem");
+goog.require("goog.ui.Component");
 
 
 /**
@@ -58,7 +58,7 @@ chartEditor.SeriesPanel.prototype.createDom = function() {
     keyStr += 'getSeries(\'' + id + '\').name()';
     var key = [['chart'], ['settings'], keyStr];
 
-    var name = new chartEditor.input.Base();
+    var name = new chartEditor.controls.input.Base();
 
     var isSingleValues = chartEditor.EditorModel.Series[mappings[this.index_]['ctor']]['fields'].length === 1;
     var nameLC = new chartEditor.controls.SeriesName(name, 'Name', isSingleValues);

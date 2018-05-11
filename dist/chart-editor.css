@@ -215,6 +215,9 @@
     opacity: 1;
   }
 }
+.anychart-ce-error {
+  border: 1px solid #ff5f7f !important;
+}
 /* ------- BUTTON ------- */
 .anychart-ce-button {
   -webkit-border-radius: 4px;

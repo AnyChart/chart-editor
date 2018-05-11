@@ -1,7 +1,6 @@
-goog.provide('chartEditor.input.Numbers');
+goog.provide('chartEditor.controls.input.Numbers');
 
-
-goog.require('chartEditor.input.Base');
+goog.require('chartEditor.controls.input.Base');
 
 
 /**
@@ -9,11 +8,11 @@ goog.require('chartEditor.input.Base');
  * @param {string=} opt_label The text to show as the label.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
  * @constructor
- * @extends {chartEditor.input.Base}
+ * @extends {chartEditor.controls.input.Base}
  */
-chartEditor.input.Numbers = function(opt_label, opt_domHelper) {
+chartEditor.controls.input.Numbers = function(opt_label, opt_domHelper) {
   opt_label = goog.isDef(opt_label) ? opt_label : 'Only numbers';
-  chartEditor.input.Numbers.base(this, 'constructor', opt_label, opt_domHelper);
+  chartEditor.controls.input.Numbers.base(this, 'constructor', opt_label, opt_domHelper);
 
   this.setValidateFunction(function(value){
     return !isNaN(Number(value));
@@ -22,4 +21,4 @@ chartEditor.input.Numbers = function(opt_label, opt_domHelper) {
     return String(Number(value));
   });
 };
-goog.inherits(chartEditor.input.Numbers, chartEditor.input.Base);
+goog.inherits(chartEditor.controls.input.Numbers, chartEditor.controls.input.Base);

@@ -1,10 +1,11 @@
 goog.provide('chartEditor.settings.specific.GaugeLinear');
 
-goog.require('chartEditor.SettingsPanel');
-goog.require('chartEditor.controls.LabeledControl');
-goog.require('chartEditor.controls.select.DataField');
-goog.require('chartEditor.input.Palette');
-goog.require('chartEditor.settings.Background');
+goog.require("chartEditor.SettingsPanel");
+goog.require("chartEditor.controls.LabeledControl");
+goog.require("chartEditor.controls.input.Palette");
+goog.require("chartEditor.controls.select.DataField");
+goog.require("chartEditor.controls.select.Scales");
+goog.require("chartEditor.settings.Background");
 
 
 /**
@@ -17,8 +18,6 @@ chartEditor.settings.specific.GaugeLinear = function(model, opt_domHelper) {
   chartEditor.settings.specific.GaugeLinear.base(this, 'constructor', model, 'Linear Gauge Settings', opt_domHelper);
 
   this.key = [['chart'], ['settings']];
-
-  this.addClassName(goog.getCssName('anychart-ce-settings-panel-gauge-linear'));
 };
 goog.inherits(chartEditor.settings.specific.GaugeLinear, chartEditor.SettingsPanel);
 
@@ -42,8 +41,12 @@ chartEditor.settings.specific.GaugeLinear.prototype.createDom = function() {
   background.setKey(this.genKey('background()'));
   this.addChildControl(background);
 
-  var palette = new chartEditor.input.Palette('Comma separated colors');
+  var palette = new chartEditor.controls.input.Palette('Comma separated colors');
   var paletteLC = new chartEditor.controls.LabeledControl(palette, 'Palette');
   paletteLC.init(model, this.genKey('palette()'));
   this.addChildControl(paletteLC);
+
+  var scale = new chartEditor.controls.select.Scales({label: 'Scale', scaleName: 'Default Scale'});
+  scale.init(model, this.genKey('scale()'));
+  this.addChildControl(scale);
 };

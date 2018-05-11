@@ -1,21 +1,20 @@
 goog.provide('chartEditor.settings.ColorScaleSingleRange');
-goog.provide('chartEditor.settings.scales.OrdinalColorSpecific');
+goog.provide('chartEditor.settings.scales.OrdinalColor');
 
-goog.require('chartEditor.SettingsPanel');
-goog.require('chartEditor.colorPicker.Base');
-goog.require('chartEditor.input.Base');
-goog.require('chartEditor.settings.scales.SpecificBase');
-goog.require('goog.ui.Button');
+goog.require("chartEditor.SettingsPanel");
+goog.require("chartEditor.colorPicker.Base");
+goog.require("chartEditor.controls.input.Base");
+goog.require("goog.ui.Button");
 
 
 /**
  * @param {chartEditor.EditorModel} model
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  * @constructor
- * @extends {chartEditor.settings.scales.SpecificBase}
+ * @extends {chartEditor.SettingsPanel}
  */
-chartEditor.settings.scales.OrdinalColorSpecific = function(model, opt_domHelper) {
-  chartEditor.settings.scales.OrdinalColorSpecific.base(this, 'constructor', model, opt_domHelper);
+chartEditor.settings.scales.OrdinalColor = function(model, opt_domHelper) {
+  chartEditor.settings.scales.OrdinalColor.base(this, 'constructor', model, null, opt_domHelper);
 
   /**
    * @type {Array.<chartEditor.settings.ColorScaleSingleRange>}
@@ -23,14 +22,16 @@ chartEditor.settings.scales.OrdinalColorSpecific = function(model, opt_domHelper
    */
   this.ranges_ = [];
 
+  this.allowEnabled(false);
+
   this.addClassName(goog.getCssName('anychart-ce-settings-panel-scale-ordinal-color'));
 };
-goog.inherits(chartEditor.settings.scales.OrdinalColorSpecific, chartEditor.settings.scales.SpecificBase);
+goog.inherits(chartEditor.settings.scales.OrdinalColor, chartEditor.SettingsPanel);
 
 
 /** @override */
-chartEditor.settings.scales.OrdinalColorSpecific.prototype.createDom = function() {
-  chartEditor.settings.scales.OrdinalColorSpecific.base(this, 'createDom');
+chartEditor.settings.scales.OrdinalColor.prototype.createDom = function() {
+  chartEditor.settings.scales.OrdinalColor.base(this, 'createDom');
 
   var model = /** @type {chartEditor.EditorModel} */(this.getModel());
 
@@ -48,8 +49,8 @@ chartEditor.settings.scales.OrdinalColorSpecific.prototype.createDom = function(
 
 
 /** @override */
-chartEditor.settings.scales.OrdinalColorSpecific.prototype.enterDocument = function() {
-  chartEditor.settings.scales.OrdinalColorSpecific.base(this, 'enterDocument');
+chartEditor.settings.scales.OrdinalColor.prototype.enterDocument = function() {
+  chartEditor.settings.scales.OrdinalColor.base(this, 'enterDocument');
 
   if (this.addRangeBtn_)
     this.getHandler().listen(this.addRangeBtn_, goog.ui.Component.EventType.ACTION, this.onAddRange_);
@@ -57,8 +58,8 @@ chartEditor.settings.scales.OrdinalColorSpecific.prototype.enterDocument = funct
 
 
 /** @inheritDoc */
-chartEditor.settings.scales.OrdinalColorSpecific.prototype.onChartDraw = function(evt) {
-  chartEditor.settings.scales.OrdinalColorSpecific.base(this, 'onChartDraw', evt);
+chartEditor.settings.scales.OrdinalColor.prototype.onChartDraw = function(evt) {
+  chartEditor.settings.scales.OrdinalColor.base(this, 'onChartDraw', evt);
 
   if (!this.isExcluded()) {
     this.createAllRanges(evt.chart);
@@ -70,7 +71,7 @@ chartEditor.settings.scales.OrdinalColorSpecific.prototype.onChartDraw = functio
  * Add range button handler.
  * @private
  */
-chartEditor.settings.scales.OrdinalColorSpecific.prototype.onAddRange_ = function() {
+chartEditor.settings.scales.OrdinalColor.prototype.onAddRange_ = function() {
   this.addRange(this.ranges_.length);
 };
 
@@ -79,7 +80,7 @@ chartEditor.settings.scales.OrdinalColorSpecific.prototype.onAddRange_ = functio
  * @param {goog.events.Event} evt
  * @private
  */
-chartEditor.settings.scales.OrdinalColorSpecific.prototype.onRemoveRange_ = function(evt) {
+chartEditor.settings.scales.OrdinalColor.prototype.onRemoveRange_ = function(evt) {
   evt.stopPropagation();
 
   var index = /** @type {chartEditor.settings.ColorScaleSingleRange} */(evt.target).index();
@@ -99,7 +100,7 @@ chartEditor.settings.scales.OrdinalColorSpecific.prototype.onRemoveRange_ = func
  * Change range event handler.
  * @private
  */
-chartEditor.settings.scales.OrdinalColorSpecific.prototype.onChangeRange_ = function() {
+chartEditor.settings.scales.OrdinalColor.prototype.onChangeRange_ = function() {
   var rangesValue = [];
   for (var i = 0; i < this.ranges_.length; i++) {
     if (this.ranges_[i]) {
@@ -116,7 +117,7 @@ chartEditor.settings.scales.OrdinalColorSpecific.prototype.onChangeRange_ = func
 /**
  * @param {number} index
  */
-chartEditor.settings.scales.OrdinalColorSpecific.prototype.addRange = function(index) {
+chartEditor.settings.scales.OrdinalColor.prototype.addRange = function(index) {
   var model = /** @type {chartEditor.EditorModel} */(this.getModel());
   var range = new chartEditor.settings.ColorScaleSingleRange(model, index);
   range.allowRemove(true);
@@ -129,23 +130,23 @@ chartEditor.settings.scales.OrdinalColorSpecific.prototype.addRange = function(i
 
 
 /** @inheritDoc */
-chartEditor.settings.scales.OrdinalColorSpecific.prototype.exclude = function(value) {
+chartEditor.settings.scales.OrdinalColor.prototype.exclude = function(value) {
   if (value) this.removeAllRanges();
-  chartEditor.settings.scales.OrdinalColorSpecific.base(this, 'exclude', value);
+  chartEditor.settings.scales.OrdinalColor.base(this, 'exclude', value);
 };
 
 
 /** @inheritDoc */
-chartEditor.settings.scales.OrdinalColorSpecific.prototype.exitDocument = function() {
+chartEditor.settings.scales.OrdinalColor.prototype.exitDocument = function() {
   this.removeAllRanges();
-  chartEditor.settings.scales.OrdinalColorSpecific.base(this, 'exitDocument');
+  chartEditor.settings.scales.OrdinalColor.base(this, 'exitDocument');
 };
 
 
 /** @inheritDoc */
-chartEditor.settings.scales.OrdinalColorSpecific.prototype.disposeInternal = function() {
+chartEditor.settings.scales.OrdinalColor.prototype.disposeInternal = function() {
   this.removeAllRanges();
-  chartEditor.settings.scales.OrdinalColorSpecific.base(this, 'disposeInternal');
+  chartEditor.settings.scales.OrdinalColor.base(this, 'disposeInternal');
 };
 
 
@@ -153,7 +154,7 @@ chartEditor.settings.scales.OrdinalColorSpecific.prototype.disposeInternal = fun
  * Create ranges components if need
  * @param {Object} chart
  */
-chartEditor.settings.scales.OrdinalColorSpecific.prototype.createAllRanges = function(chart) {
+chartEditor.settings.scales.OrdinalColor.prototype.createAllRanges = function(chart) {
   if (!this.ranges_.length) {
     var stringKey = chartEditor.EditorModel.getStringKey(this.rangesComponent_.getKey());
     var rangesValue = /** @type {?Array} */(chartEditor.binding.exec(chart, stringKey));
@@ -170,7 +171,7 @@ chartEditor.settings.scales.OrdinalColorSpecific.prototype.createAllRanges = fun
 /**
  * Removes ranges components.
  */
-chartEditor.settings.scales.OrdinalColorSpecific.prototype.removeAllRanges = function() {
+chartEditor.settings.scales.OrdinalColor.prototype.removeAllRanges = function() {
   for (var i = 0; i < this.ranges_.length; i++) {
     this.rangesComponent_.removeChild(this.ranges_[i], true);
   }
@@ -207,19 +208,19 @@ chartEditor.settings.ColorScaleSingleRange.prototype.createDom = function() {
   this.addChild(color, true);
   this.color_ = color;
 
-  var from = new chartEditor.input.Base('From');
+  var from = new chartEditor.controls.input.Base('From');
   this.addChild(from, true);
   this.from_ = from;
 
-  var to = new chartEditor.input.Base('To');
+  var to = new chartEditor.controls.input.Base('To');
   this.addChild(to, true);
   this.to_ = to;
 
-  var less = new chartEditor.input.Base('Less');
+  var less = new chartEditor.controls.input.Base('Less');
   this.addChild(less, true);
   this.less_ = less;
 
-  var greater = new chartEditor.input.Base('Greater');
+  var greater = new chartEditor.controls.input.Base('Greater');
   this.addChild(greater, true);
   this.greater_ = greater;
 

@@ -29,13 +29,5 @@ chartEditor.settings.axes.LinearGauge.prototype.createDom = function() {
   offset.allowNegative(true);
   var offsetLC = new chartEditor.controls.LabeledControl(offset, 'Offset');
   offsetLC.init(model, this.genKey('offset()'));
-  this.addChildControl(offsetLC, 0);
-
-  this.addContentSeparator();
-
-  var scale = new chartEditor.settings.scales.Base(model, ['linear', 'log']);
-  scale.setKey([['chart'], ['settings'], 'scale()']);
-  scale.setName('Scale');
-  scale.skipSettings(['stackMode()', 'stackDirection()']);
-  this.addChildControl(scale);
+  this.addChildControl(offsetLC, 1);
 };

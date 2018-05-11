@@ -66,7 +66,7 @@ chartEditor.ComponentWithKey.prototype.getKey = function(opt_completion) {
 /**
  * Returns new key with added string to last key's element.
  *
- * @param {string=} opt_completion
+ * @param {(string|Array)=} opt_completion
  * @param {boolean=} opt_asObjectKey
  * @return {chartEditor.EditorModel.Key}
  */
@@ -74,7 +74,7 @@ chartEditor.ComponentWithKey.prototype.genKey = function(opt_completion, opt_asO
   var result = [];
 
   for (var i = 0, count = this.key.length; i < count; i++) {
-    if (i == count - 1) {
+    if (i == count - 1 && goog.isDef(opt_completion)) {
       if (goog.isArray(this.key[i])) {
         result.push(this.key[i]);
         result.push(opt_completion);

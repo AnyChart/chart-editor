@@ -17,7 +17,7 @@ chartEditor.ScaleBarsPanel = function(model, opt_domHelper) {
 
   this.setButtonLabel('+ Add scale bar');
 
-  this.setRemoveFromIndex(0);
+  this.removeFromIndex(0);
 
   this.addClassName(goog.getCssName('anychart-ce-settings-panel-gauge-scale-bars'));
 };

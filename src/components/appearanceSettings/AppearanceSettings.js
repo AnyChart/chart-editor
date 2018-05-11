@@ -1,27 +1,28 @@
 goog.provide('chartEditor.AppearanceSettings');
 
-goog.require('chartEditor.ChartTitlePanel');
-goog.require('chartEditor.CircularRangesPanel');
-goog.require('chartEditor.ColorRangePanel');
-goog.require('chartEditor.ColorScalePanel');
-goog.require('chartEditor.Component');
-goog.require('chartEditor.ContextMenuPanel');
-goog.require('chartEditor.CreditsPanel');
-goog.require('chartEditor.DataLabelsPanel');
-goog.require('chartEditor.EditorModel');
-goog.require('chartEditor.GaugeAxesPanel');
-goog.require('chartEditor.GeneralTheming');
-goog.require('chartEditor.GridsPanel');
-goog.require('chartEditor.LegendPanel');
-goog.require('chartEditor.PointersPanel');
-goog.require('chartEditor.RadarPolarXAxisPanel');
-goog.require('chartEditor.RadarPolarYAxisPanel');
-goog.require('chartEditor.ScaleBarsPanel');
-goog.require('chartEditor.SeriesSettingsPanel');
-goog.require('chartEditor.SpecificPanel');
-goog.require('chartEditor.TooltipPanel');
-goog.require('chartEditor.XAxesPanel');
-goog.require('chartEditor.YAxesPanel');
+goog.require("chartEditor.ChartTitlePanel");
+goog.require("chartEditor.CircularRangesPanel");
+goog.require("chartEditor.ColorRangePanel");
+goog.require("chartEditor.ColorScalePanel");
+goog.require("chartEditor.Component");
+goog.require("chartEditor.ContextMenuPanel");
+goog.require("chartEditor.CreditsPanel");
+goog.require("chartEditor.DataLabelsPanel");
+goog.require("chartEditor.EditorModel");
+goog.require("chartEditor.GaugeAxesPanel");
+goog.require("chartEditor.GeneralTheming");
+goog.require("chartEditor.GridsPanel");
+goog.require("chartEditor.LegendPanel");
+goog.require("chartEditor.PointersPanel");
+goog.require("chartEditor.RadarPolarXAxisPanel");
+goog.require("chartEditor.RadarPolarYAxisPanel");
+goog.require("chartEditor.ScaleBarsPanel");
+goog.require("chartEditor.ScalesPanel");
+goog.require("chartEditor.SeriesSettingsPanel");
+goog.require("chartEditor.SpecificPanel");
+goog.require("chartEditor.TooltipPanel");
+goog.require("chartEditor.XAxesPanel");
+goog.require("chartEditor.YAxesPanel");
 
 
 /**
@@ -92,6 +93,12 @@ chartEditor.AppearanceSettings = function(model, tabs, tabContent, opt_domHelper
       name: 'ScaleBars',
       enabled: true,
       classFunc: chartEditor.ScaleBarsPanel,
+      instance: null
+    },
+    {
+      name: 'Scales',
+      enabled: true,
+      classFunc: chartEditor.ScalesPanel,
       instance: null
     },
     {

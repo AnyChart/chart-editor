@@ -1,7 +1,7 @@
 goog.provide('chartEditor.GaugeAxesPanel');
 
 goog.require('chartEditor.MultiplePanelsBase');
-goog.require('chartEditor.settings.axes.Circular');
+goog.require('chartEditor.settings.axes.CircularGauge');
 goog.require('chartEditor.settings.axes.LinearGauge');
 
 
@@ -39,7 +39,7 @@ chartEditor.GaugeAxesPanel.prototype.createPanel = function() {
 
   return this.isLinear ?
       new chartEditor.settings.axes.LinearGauge(model, axisIndex) :
-      new chartEditor.settings.axes.Circular(model, axisIndex);
+      new chartEditor.settings.axes.CircularGauge(model, axisIndex);
 };
 
 
@@ -66,7 +66,7 @@ chartEditor.GaugeAxesPanel.prototype.createPanels = function() {
         var axisIndex = Number(match[1]);
         var panel = this.isLinear ?
             new chartEditor.settings.axes.LinearGauge(model, axisIndex) :
-            new chartEditor.settings.axes.Circular(model, axisIndex);
+            new chartEditor.settings.axes.CircularGauge(model, axisIndex);
         this.addPanelInstance(panel);
         axisCount++;
       }

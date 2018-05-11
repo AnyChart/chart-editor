@@ -6,7 +6,7 @@ goog.require('chartEditor.controls.LabeledControl');
 
 
 /**
- * @param {(chartEditor.comboBox.Base|chartEditor.controls.select.Base|chartEditor.input.Base|chartEditor.colorPicker.Base)} control
+ * @param {(chartEditor.comboBox.Base|chartEditor.controls.select.Base|chartEditor.controls.input.Base|chartEditor.colorPicker.Base)} control
  * @param {string=} opt_label
  * @param {boolean=} opt_isSingeValues
  * @param {goog.dom.DomHelper=} opt_domHelper

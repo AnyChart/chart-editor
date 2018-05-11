@@ -32,23 +32,16 @@ chartEditor.settings.PlotGrids = function(model, opt_plotIndex, opt_domHelper) {
   }
 
   this.allowEnabled(false);
+
+  this.addClassName(goog.getCssName('anychart-ce-settings-panel-plot-grids'));
 };
 goog.inherits(chartEditor.settings.PlotGrids, chartEditor.SettingsPanelIndexed);
-
-
-/**
- * Default CSS class.
- * @type {string}
- */
-chartEditor.settings.PlotGrids.CSS_CLASS = goog.getCssName('anychart-ce-settings-panel-plot-grids');
 
 
 /** @override */
 chartEditor.settings.PlotGrids.prototype.createDom = function() {
   chartEditor.settings.PlotGrids.base(this, 'createDom');
 
-  var element = this.getElement();
-  goog.dom.classlist.add(element, chartEditor.settings.PlotGrids.CSS_CLASS);
   var model = /** @type {chartEditor.EditorModel} */(this.getModel());
 
   var xGrid = new chartEditor.settings.Grid(model, 'X Grid');
@@ -88,11 +81,8 @@ chartEditor.settings.PlotGrids.prototype.updateKeys = function() {
 
 /** @override */
 chartEditor.settings.PlotGrids.prototype.disposeInternal = function() {
-  this.xGrid_.dispose();
-  this.xGrid_ = null;
-
-  this.yGrid_.dispose();
-  this.yGrid_ = null;
+  goog.disposeAll([this.xGrid_, this.yGrid_]);
+  this.xGrid_ = this.yGrid_ = null;
 
   chartEditor.settings.PlotGrids.base(this, 'disposeInternal');
 };

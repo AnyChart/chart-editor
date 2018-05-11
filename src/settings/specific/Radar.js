@@ -3,6 +3,7 @@ goog.provide('chartEditor.settings.specific.Radar');
 goog.require('chartEditor.SettingsPanel');
 goog.require('chartEditor.comboBox.Base');
 goog.require('chartEditor.controls.LabeledControl');
+goog.require('chartEditor.controls.select.Scales');
 
 
 /**
@@ -19,18 +20,9 @@ chartEditor.settings.specific.Radar = function(model, opt_domHelper) {
 goog.inherits(chartEditor.settings.specific.Radar, chartEditor.SettingsPanel);
 
 
-/**
- * Default CSS class.
- * @type {string}
- */
-chartEditor.settings.specific.Radar.CSS_CLASS = goog.getCssName('anychart-ce-settings-panel-radar');
-
-
 /** @override */
 chartEditor.settings.specific.Radar.prototype.createDom = function() {
   chartEditor.settings.specific.Radar.base(this, 'createDom');
-
-  goog.dom.classlist.add(this.getElement(), chartEditor.settings.specific.Radar.CSS_CLASS);
 
   var model = /** @type {chartEditor.EditorModel} */(this.getModel());
 
@@ -40,4 +32,12 @@ chartEditor.settings.specific.Radar.prototype.createDom = function() {
   var startAngleLC = new chartEditor.controls.LabeledControl(startAngle, 'Start Angle');
   startAngleLC.init(model, this.genKey('startAngle()'));
   this.addChildControl(startAngleLC);
+
+  var xScale = new chartEditor.controls.select.Scales({label: 'X Scale', scaleName: 'Default X Scale'});
+  xScale.init(model, this.genKey('xScale()'));
+  this.addChildControl(xScale);
+
+  var yScale = new chartEditor.controls.select.Scales({label: 'Y Scale', scaleName: 'Default Y Scale'});
+  yScale.init(model, this.genKey('yScale()'));
+  this.addChildControl(yScale);
 };

@@ -1,7 +1,7 @@
 goog.provide('chartEditor.CreditsPanel');
 
 goog.require('chartEditor.SettingsPanel');
-goog.require('chartEditor.input.Base');
+goog.require('chartEditor.controls.input.Base');
 
 
 
@@ -36,7 +36,7 @@ chartEditor.CreditsPanel.prototype.createDom = function() {
       'License key');
   goog.dom.appendChild(content, licenseKeyLabel);
 
-  var licenseKey = new chartEditor.input.Base();
+  var licenseKey = new chartEditor.controls.input.Base();
   this.addChild(licenseKey, true);
   this.licenseKey_ = licenseKey;
 
@@ -55,7 +55,7 @@ chartEditor.CreditsPanel.prototype.createDom = function() {
   goog.dom.appendChild(content, textLabel);
   this.registerLabel(textLabel);
 
-  var text = new chartEditor.input.Base('Text');
+  var text = new chartEditor.controls.input.Base('Text');
   this.addChild(text, true);
   this.text_ = text;
 
@@ -74,7 +74,7 @@ chartEditor.CreditsPanel.prototype.createDom = function() {
   goog.dom.appendChild(content, urlLabel);
   this.registerLabel(urlLabel);
 
-  var url = new chartEditor.input.Base('Url');
+  var url = new chartEditor.controls.input.Base('Url');
   this.addChild(url, true);
   this.url_ = url;
 
@@ -93,7 +93,7 @@ chartEditor.CreditsPanel.prototype.createDom = function() {
   goog.dom.appendChild(content, logoLabel);
   this.registerLabel(logoLabel);
 
-  var logoSrc = new chartEditor.input.Base('Logo');
+  var logoSrc = new chartEditor.controls.input.Base('Logo');
   this.addChild(logoSrc, true);
   this.logoSrc_ = logoSrc;
 };

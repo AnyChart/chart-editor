@@ -115,13 +115,21 @@ chartEditor.controls.select.Base.prototype.handleSelectionChange = function (evt
     if (this.prevSelectedIndex_ === selectedIndex) return;
     this.prevSelectedIndex_ = selectedIndex;
 
-    if (this.callback)
-      this.editorModel.callbackByString(this.callback, this);
-    else {
-      var value = this.getValue();
-      value = goog.isObject(value) && value.value ? value.value : value;
-      this.editorModel.setValue(this.key, value, false, this.noRebuild);
-    }
+    this.applySelection();
+  }
+};
+
+
+/**
+ * Applies selection to model.
+ */
+chartEditor.controls.select.Base.prototype.applySelection = function () {
+  if (this.callback)
+    this.editorModel.callbackByString(this.callback, this);
+  else {
+    var value = this.getValue();
+    value = goog.isObject(value) && value.value ? value.value : value;
+    this.editorModel.setValue(this.key, value, false, this.noRebuild);
   }
 };
 
@@ -216,6 +224,7 @@ chartEditor.controls.select.Base.prototype.setValueByModel = function(opt_additi
  * Sets value of this control to target's value.
  * Updates model state.
  * @param {?Object} target Object, who's property corresponds to control's key. Used to get value of this control.
+ * @return {boolean|undefined} If model was updated
  */
 chartEditor.controls.select.Base.prototype.setValueByTarget = function(target) {
   if (this.excluded) return;

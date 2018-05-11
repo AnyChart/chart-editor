@@ -57,13 +57,10 @@ goog.inherits(chartEditor.controls.select.PalettesDataFieldSelect, chartEditor.c
 
 
 /** @inheritDoc */
-chartEditor.controls.select.PalettesDataFieldSelect.prototype.handleSelectionChange = function(evt) {
-  if (this.excluded) return;
+chartEditor.controls.select.PalettesDataFieldSelect.prototype.applySelection = function () {
+  this.editorModel.dropChartSettings(/getSeries\('\w+'\)\.color\(\)/);
 
-  if (!this.noDispatch && this.editorModel)
-    this.editorModel.dropChartSettings(/getSeries\('\w+'\)\.color\(\)/);
-
-  chartEditor.controls.select.PalettesDataFieldSelect.base(this, 'handleSelectionChange', evt);
+  chartEditor.controls.select.PalettesDataFieldSelect.base(this, 'applySelection');
 };
 
 

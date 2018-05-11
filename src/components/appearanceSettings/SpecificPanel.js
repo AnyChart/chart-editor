@@ -4,10 +4,12 @@ goog.require('chartEditor.SettingsPanel');
 goog.require('chartEditor.settings.specific.Cartesian');
 goog.require('chartEditor.settings.specific.GaugeCircular');
 goog.require('chartEditor.settings.specific.GaugeLinear');
+goog.require('chartEditor.settings.specific.HeatMap');
 goog.require('chartEditor.settings.specific.Mekko');
 goog.require('chartEditor.settings.specific.Pie');
 goog.require('chartEditor.settings.specific.Polar');
 goog.require('chartEditor.settings.specific.Radar');
+goog.require('chartEditor.settings.specific.Scatter');
 goog.require('chartEditor.settings.specific.TreeMap');
 goog.require('chartEditor.settings.specific.Waterfall');
 
@@ -23,6 +25,10 @@ chartEditor.SpecificPanel = function(model, opt_domHelper) {
 
   this.descriptors_ = [
     {
+      chartType: 'heatMap',
+      classFunc: chartEditor.settings.specific.HeatMap
+    },
+    {
       chartType: 'waterfall',
       classFunc: chartEditor.settings.specific.Waterfall
     },
@@ -37,6 +43,10 @@ chartEditor.SpecificPanel = function(model, opt_domHelper) {
     {
       chartType: 'polar',
       classFunc: chartEditor.settings.specific.Polar
+    },
+    {
+      chartType: 'scatter',
+      classFunc: chartEditor.settings.specific.Scatter
     },
     {
       chartType: 'treeMap',

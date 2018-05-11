@@ -1,4 +1,4 @@
-goog.provide('chartEditor.input.Base');
+goog.provide('chartEditor.controls.input.Base');
 
 goog.require('chartEditor.events');
 
@@ -16,8 +16,8 @@ goog.require('goog.ui.LabelInput');
  * @constructor
  * @extends {goog.ui.LabelInput}
  */
-chartEditor.input.Base = function(opt_label, opt_domHelper) {
-  chartEditor.input.Base.base(this, 'constructor', opt_label, opt_domHelper);
+chartEditor.controls.input.Base = function(opt_label, opt_domHelper) {
+  chartEditor.controls.input.Base.base(this, 'constructor', opt_label, opt_domHelper);
 
   /**
    * @type {string}
@@ -56,14 +56,14 @@ chartEditor.input.Base = function(opt_label, opt_domHelper) {
    */
   this.key = [];
 };
-goog.inherits(chartEditor.input.Base, goog.ui.LabelInput);
+goog.inherits(chartEditor.controls.input.Base, goog.ui.LabelInput);
 
 
 /**
  * The CSS class name to add to the input when the user has not entered a
  * value.
  */
-chartEditor.input.Base.prototype.labelCssClassName =
+chartEditor.controls.input.Base.prototype.labelCssClassName =
     goog.getCssName('anychart-ce-input-label');
 
 
@@ -71,13 +71,13 @@ chartEditor.input.Base.prototype.labelCssClassName =
  * @type {goog.events.KeyHandler}
  * @private
  */
-chartEditor.input.Base.prototype.keyHandler_ = null;
+chartEditor.controls.input.Base.prototype.keyHandler_ = null;
 
 
 /**
  * @param {chartEditor.EditorModel.Key} key
  */
-chartEditor.input.Base.prototype.setKey = function(key) {
+chartEditor.controls.input.Base.prototype.setKey = function(key) {
   this.key = key;
 };
 
@@ -85,7 +85,7 @@ chartEditor.input.Base.prototype.setKey = function(key) {
 /**
  * @return {chartEditor.EditorModel.Key}
  */
-chartEditor.input.Base.prototype.getKey = function() {
+chartEditor.controls.input.Base.prototype.getKey = function() {
   return this.key;
 };
 
@@ -94,7 +94,7 @@ chartEditor.input.Base.prototype.getKey = function() {
  * Creates the DOM nodes needed for the label input.
  * @override
  */
-chartEditor.input.Base.prototype.createDom = function() {
+chartEditor.controls.input.Base.prototype.createDom = function() {
   this.setElementInternal(this.getDomHelper().createDom(
       goog.dom.TagName.INPUT, {
         'type': goog.dom.InputType.TEXT,
@@ -104,8 +104,8 @@ chartEditor.input.Base.prototype.createDom = function() {
 
 
 /** @inheritDoc */
-chartEditor.input.Base.prototype.enterDocument = function() {
-  chartEditor.input.Base.base(this, 'enterDocument');
+chartEditor.controls.input.Base.prototype.enterDocument = function() {
+  chartEditor.controls.input.Base.base(this, 'enterDocument');
   goog.style.setElementShown(this.getElement(), !this.excluded);
 
   this.inputHandler_ = new goog.events.InputHandler(this.getElement());
@@ -115,7 +115,7 @@ chartEditor.input.Base.prototype.enterDocument = function() {
 
 
 /** @protected */
-chartEditor.input.Base.prototype.onChange = function() {
+chartEditor.controls.input.Base.prototype.onChange = function() {
   if (this.excluded) return;
 
   var value = this.getValue();
@@ -152,7 +152,7 @@ chartEditor.input.Base.prototype.onChange = function() {
  * @param {boolean=} opt_noRebuildChart Should or not rebuild chart on change value of this control.
  * @param {boolean=} opt_noRebuildMapping
  */
-chartEditor.input.Base.prototype.init = function(model, key, opt_callback, opt_noRebuildChart, opt_noRebuildMapping) {
+chartEditor.controls.input.Base.prototype.init = function(model, key, opt_callback, opt_noRebuildChart, opt_noRebuildMapping) {
   /**
    * @type {chartEditor.EditorModel}
    * @protected
@@ -170,10 +170,30 @@ chartEditor.input.Base.prototype.init = function(model, key, opt_callback, opt_n
 
 
 /** @inheritDoc */
-chartEditor.input.Base.prototype.setValue = function(s) {
+chartEditor.controls.input.Base.prototype.setValue = function(s) {
   if (this.validateFunction_(s)) {
     s = this.formatterFunction_(s);
-    chartEditor.input.Base.base(this, 'setValue', s);
+    if (this.lastValue != s) {
+      this.lastValue = s;
+      chartEditor.controls.input.Base.base(this, 'setValue', s);
+    }
+  }
+};
+
+
+/**
+ * Sets value of this control to model's value.
+ */
+chartEditor.controls.input.Base.prototype.setValueByModel = function() {
+  if (this.editorModel && this.key) {
+    this.noDispatch = true;
+
+    var value = /** @type {string} */(this.editorModel.getValue(this.key));
+    if (goog.isDef(value)) {
+      this.setValue(value);
+    }
+
+    this.noDispatch = false;
   }
 };
 
@@ -184,7 +204,7 @@ chartEditor.input.Base.prototype.setValue = function(s) {
  * @param {?Object} target Object, who's property corresponds to control's key. Used to get value of this control.
  * @param {boolean=} opt_force
  */
-chartEditor.input.Base.prototype.setValueByTarget = function(target, opt_force) {
+chartEditor.controls.input.Base.prototype.setValueByTarget = function(target, opt_force) {
   if (this.excluded) return;
   if (!opt_force && this.revisionCount1 - this.revisionCount2 > 1) return;
   this.revisionCount2 = this.revisionCount1;
@@ -193,10 +213,6 @@ chartEditor.input.Base.prototype.setValueByTarget = function(target, opt_force) 
 
   var stringKey = chartEditor.EditorModel.getStringKey(this.key);
   var value = /** @type {string} */(chartEditor.binding.exec(this.target, stringKey));
-  value = this.formatterFunction_(value);
-
-  this.lastValue = value;
-
   this.noDispatch = true;
   this.setValue(value);
   this.noDispatch = false;
@@ -208,7 +224,7 @@ chartEditor.input.Base.prototype.setValueByTarget = function(target, opt_force) 
  * @param {boolean} value True if excluded.
  * @param {boolean=} opt_needRedraw
  */
-chartEditor.input.Base.prototype.exclude = function(value, opt_needRedraw) {
+chartEditor.controls.input.Base.prototype.exclude = function(value, opt_needRedraw) {
   var dirty = this.excluded !== value;
   this.excluded = value;
 
@@ -223,7 +239,7 @@ chartEditor.input.Base.prototype.exclude = function(value, opt_needRedraw) {
 /**
  * @return {boolean}
  */
-chartEditor.input.Base.prototype.isExcluded = function() {
+chartEditor.controls.input.Base.prototype.isExcluded = function() {
   return this.excluded;
 };
 
@@ -231,7 +247,7 @@ chartEditor.input.Base.prototype.isExcluded = function() {
 /**
  * @public
  */
-chartEditor.input.Base.prototype.updateExclusion = function() {
+chartEditor.controls.input.Base.prototype.updateExclusion = function() {
   if (!this.key || !this.key.length) return;
 
   var stringKey = this.editorModel.getStringKey(this.key);
@@ -245,18 +261,18 @@ chartEditor.input.Base.prototype.updateExclusion = function() {
  * @return {boolean}
  * @private
  */
-chartEditor.input.Base.prototype.validateFunction_ = function(value) {
+chartEditor.controls.input.Base.prototype.validateFunction_ = function(value) {
   return true;
 };
 
 
 /**
  * Formatter for set value.
- * @param {string} value
+ * @param {*} value
  * @return {string}
  * @private
  */
-chartEditor.input.Base.prototype.formatterFunction_ = function(value) {
+chartEditor.controls.input.Base.prototype.formatterFunction_ = function(value) {
   if (!goog.isDef(value) || goog.isFunction(value))
     value = '';
 
@@ -268,26 +284,27 @@ chartEditor.input.Base.prototype.formatterFunction_ = function(value) {
  * Set validate function.
  * @param {function(string):boolean} validateFunction
  */
-chartEditor.input.Base.prototype.setValidateFunction = function(validateFunction) {
+chartEditor.controls.input.Base.prototype.setValidateFunction = function(validateFunction) {
   this.validateFunction_ = validateFunction;
 };
 
 
 /**
  * Set formatter function.
- * @param {function(string):string} formatterFunction
+ * @param {function(*):string} formatterFunction
  */
-chartEditor.input.Base.prototype.setFormatterFunction = function(formatterFunction) {
+chartEditor.controls.input.Base.prototype.setFormatterFunction = function(formatterFunction) {
   this.formatterFunction_ = formatterFunction;
 };
 
+
 /** @inheritDoc */
-chartEditor.input.Base.prototype.disposeInternal = function() {
+chartEditor.controls.input.Base.prototype.disposeInternal = function() {
   if (this.inputHandler_) {
     goog.events.removeAll(this.inputHandler_);
     this.inputHandler_.dispose();
     this.inputHandler_ = null;
   }
-  chartEditor.input.Base.base(this, 'disposeInternal');
+  chartEditor.controls.input.Base.base(this, 'disposeInternal');
 };
 

@@ -47,7 +47,7 @@ chartEditor.SettingsPanel = function(model, opt_name, opt_domHelper) {
   this.allowRemove_ = false;
 
   /**
-   * @type {Array.<chartEditor.SettingsPanel|chartEditor.controls.LabeledControl|chartEditor.checkbox.Base|chartEditor.controls.select.Base|chartEditor.comboBox.Base|chartEditor.colorPicker.Base|chartEditor.input.Base>}
+   * @type {Array.<chartEditor.SettingsPanel|chartEditor.controls.LabeledControl|chartEditor.checkbox.Base|chartEditor.controls.select.Base|chartEditor.comboBox.Base|chartEditor.colorPicker.Base|chartEditor.controls.input.Base>}
    * @private
    */
   this.childControls_ = [];
@@ -125,12 +125,18 @@ chartEditor.SettingsPanel.prototype.allowEnabled = function(value) {
 };
 
 
-/** @param {boolean} value */
-chartEditor.SettingsPanel.prototype.allowRemove = function(value) {
-  this.allowRemove_ = value;
-  if (this.removeButton) {
-    goog.style.setElementShown(this.removeButton, this.allowRemove_);
+/**
+ * @param {boolean=} opt_value
+ * @return {boolean}
+ */
+chartEditor.SettingsPanel.prototype.allowRemove = function(opt_value) {
+  if (goog.isDef(opt_value)) {
+    this.allowRemove_ = opt_value;
+    if (this.removeButton) {
+      goog.style.setElementShown(this.removeButton, this.allowRemove_);
+    }
   }
+  return this.allowRemove_;
 };
 
 
@@ -259,14 +265,34 @@ chartEditor.SettingsPanel.prototype.onChartDraw = function(evt) {
   chartEditor.SettingsPanel.base(this, 'onChartDraw', evt);
 
   if (!this.isExcluded()) {
-    if (evt.rebuild && this.enableContentCheckbox && this.canBeEnabled()) {
-      this.enableContentCheckbox.setValueByTarget(evt.chart);
-      this.setContentEnabled(this.enableContentCheckbox.isChecked());
-    }
+    var model = /** @type {chartEditor.EditorModel} */(this.getModel());
+    var target;
+    if (this.key[0] && this.key[0][0] == 'standalones') {
+      var key = [this.key[0], this.key[1], 'instance'];
 
-    for (var i = 0; i < this.childControls_.length; i++) {
-      var control = this.childControls_[i];
-      if (control && !goog.isFunction(control.addChildControl)) control.setValueByTarget(evt.chart);
+      target = model.getValue(key);
+    } else
+      target = evt.chart;
+
+    if (target) {
+      if (evt.rebuild && this.enableContentCheckbox && this.canBeEnabled()) {
+        this.enableContentCheckbox.setValueByTarget(target);
+        this.setContentEnabled(this.enableContentCheckbox.isChecked());
+      }
+
+      var modelUpdated = false;
+      for (var i = 0; i < this.childControls_.length; i++) {
+        var control = this.childControls_[i];
+        if (control && !goog.isFunction(control.addChildControl)) {
+          modelUpdated = control.setValueByTarget(target) || modelUpdated;
+        }
+      }
+      if (modelUpdated) {
+        evt.stopPropagation();
+        evt.preventDefault();
+        model.removeAllListeners(chartEditor.events.EventType.CHART_DRAW);
+        model.dispatchUpdate();
+      }
     }
   }
 };
@@ -378,7 +404,7 @@ chartEditor.SettingsPanel.prototype.registerLabel = function(labelElement) {
 
 
 /**
- * @param {chartEditor.SettingsPanel|chartEditor.controls.LabeledControl|chartEditor.checkbox.Base|chartEditor.controls.select.Base|chartEditor.comboBox.Base|chartEditor.colorPicker.Base|chartEditor.input.Base} control
+ * @param {chartEditor.SettingsPanel|chartEditor.controls.LabeledControl|chartEditor.checkbox.Base|chartEditor.controls.select.Base|chartEditor.comboBox.Base|chartEditor.colorPicker.Base|chartEditor.controls.input.Base} control
  * @param {number=} opt_index
  * @return {boolean} true if control was added.
  */

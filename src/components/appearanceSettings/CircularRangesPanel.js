@@ -17,7 +17,7 @@ chartEditor.CircularRangesPanel = function(model, opt_domHelper) {
 
   this.setButtonLabel('+ Add range');
 
-  this.setRemoveFromIndex(0);
+  this.removeFromIndex(0);
 
   this.addClassName(goog.getCssName('anychart-ce-settings-panel-gauge-ranges'));
 };

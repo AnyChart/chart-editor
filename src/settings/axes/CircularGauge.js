@@ -1,6 +1,5 @@
-goog.provide('chartEditor.settings.axes.Circular');
+goog.provide('chartEditor.settings.axes.CircularGauge');
 
-goog.require('chartEditor.SettingsPanel');
 goog.require('chartEditor.SettingsPanelZippy');
 goog.require('chartEditor.checkbox.Base');
 goog.require('chartEditor.colorPicker.Base');
@@ -8,10 +7,9 @@ goog.require('chartEditor.comboBox.Base');
 goog.require('chartEditor.comboBox.Percent');
 goog.require('chartEditor.controls.LabeledControl');
 goog.require('chartEditor.controls.select.DataField');
+goog.require('chartEditor.controls.select.Scales');
 goog.require('chartEditor.settings.Labels');
 goog.require('chartEditor.settings.Ticks');
-goog.require('chartEditor.settings.scales.Base');
-
 
 
 /**
@@ -21,24 +19,29 @@ goog.require('chartEditor.settings.scales.Base');
  * @constructor
  * @extends {chartEditor.SettingsPanelZippy}
  */
-chartEditor.settings.axes.Circular = function(model, index, opt_domHelper) {
-  chartEditor.settings.axes.Circular.base(this, 'constructor', model, index, null, opt_domHelper);
+chartEditor.settings.axes.CircularGauge = function(model, index, opt_domHelper) {
+  chartEditor.settings.axes.CircularGauge.base(this, 'constructor', model, index, null, opt_domHelper);
 
   this.axisExists = false;
   this.name = 'Axis(' + this.index_ + ')';
   this.key = [['chart'], ['settings'], 'axis(' + this.index_ + ')'];
 
   this.allowEnabled(true);
-  this.addClassName(goog.getCssName('anychart-ce-settings-panel-gauge-axis-single'));
+
+  this.allowRemove(true);
 };
-goog.inherits(chartEditor.settings.axes.Circular, chartEditor.SettingsPanelZippy);
+goog.inherits(chartEditor.settings.axes.CircularGauge, chartEditor.SettingsPanelZippy);
 
 
 /** @override */
-chartEditor.settings.axes.Circular.prototype.createDom = function() {
-  chartEditor.settings.axes.Circular.base(this, 'createDom');
+chartEditor.settings.axes.CircularGauge.prototype.createDom = function() {
+  chartEditor.settings.axes.CircularGauge.base(this, 'createDom');
 
   var model = /** @type {chartEditor.EditorModel} */(this.getModel());
+
+  var scale = new chartEditor.controls.select.Scales({label: 'Scale'});
+  scale.init(model, this.genKey('scale()'));
+  this.addChildControl(scale);
 
   var startAngle = new chartEditor.comboBox.Base();
   startAngle.setOptions([-90, 0, 90, 180, 270]);
@@ -137,19 +140,11 @@ chartEditor.settings.axes.Circular.prototype.createDom = function() {
   minorTicks.setKey(this.genKey('minorTicks()'));
   this.addChildControl(minorTicks);
   //endregion
-
-  this.addContentSeparator();
-
-  var scale = new chartEditor.settings.scales.Base(model, ['linear', 'log']);
-  scale.setKey(this.genKey('scale()'));
-  scale.setName('Scale');
-  scale.skipSettings(['stackMode()', 'stackDirection()']);
-  this.addChildControl(scale);
 };
 
 
 /** @inheritDoc */
-chartEditor.settings.axes.Circular.prototype.onChartDraw = function(evt) {
+chartEditor.settings.axes.CircularGauge.prototype.onChartDraw = function(evt) {
   var model = /** @type {chartEditor.EditorModel} */(this.getModel());
   this.getHandler().listenOnce(model, chartEditor.events.EventType.CHART_DRAW, this.onChartDraw);
 
@@ -160,7 +155,7 @@ chartEditor.settings.axes.Circular.prototype.onChartDraw = function(evt) {
 
     if (this.axisExists) {
       this.getHandler().unlisten(model, chartEditor.events.EventType.CHART_DRAW, this.onChartDraw);
-      chartEditor.settings.axes.Circular.base(this, 'onChartDraw', evt);
+      chartEditor.settings.axes.CircularGauge.base(this, 'onChartDraw', evt);
 
     } else
       this.setContentEnabled(false);

@@ -49,6 +49,7 @@ chartEditor.RadarPolarAxesPanelBase.prototype.createPanels = function() {
 
     if (axisCount === 0) {
       // Always create 0 axis panel
+      model.suspendDispatch();
       var panel = this.xOrY === 'x' ?
           chartType === 'polar' ?
               new chartEditor.settings.axes.Polar(model) :
@@ -56,6 +57,7 @@ chartEditor.RadarPolarAxesPanelBase.prototype.createPanels = function() {
           :
           new chartEditor.settings.axes.Radial(model);
       this.addPanelInstance(panel);
+      model.resumeDispatch(true);
     }
   }
 };

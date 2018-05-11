@@ -55,7 +55,8 @@ chartEditor.EditorModel = function() {
         //'getSeriesAt(0).name()': 'my series'
       }
     },
-    'editorSettings': {}
+    'editorSettings': {},
+    'standalones': {}
   };
 
   /**
@@ -137,7 +138,8 @@ chartEditor.EditorModel.Key;
  *      type: ?string,
  *      seriesType: ?string,
  *      settings: Object
- *  }
+ *  },
+ *  standalones: Object.<Array.<Object>>
  * }}
  */
 chartEditor.EditorModel.Model;
@@ -299,7 +301,8 @@ chartEditor.EditorModel.ChartTypes = {
     'series': ['pie'],
     'dataSetCtor': 'set',
     'singleSeries': true,
-    'panelsExcludes': ['series', 'grids', 'cartesianAxes', 'colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': ['series', 'grids', 'cartesianAxes', 'colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes',
+      'circularRanges', 'scaleBars', 'pointers', 'scales'],
     'filters': ['common']
   },
   'funnel': {
@@ -309,7 +312,8 @@ chartEditor.EditorModel.ChartTypes = {
     'series': ['funnel'],
     'dataSetCtor': 'set',
     'singleSeries': true,
-    'panelsExcludes': ['series', 'grids', 'cartesianAxes', 'colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': ['series', 'grids', 'cartesianAxes', 'colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes',
+      'circularRanges', 'scaleBars', 'pointers', 'scales'],
     'filters': ['common']
   },
   'map': {
@@ -318,7 +322,8 @@ chartEditor.EditorModel.ChartTypes = {
     'icon': 'choropleth-map.svg',
     'series': ['marker-by-id', 'marker-by-coordinates', 'bubble-by-id', 'bubble-by-coordinates', 'choropleth'],
     'dataSetCtor': 'set',
-    'panelsExcludes': ['grids', 'cartesianAxes', 'colorScale', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': ['grids', 'cartesianAxes', 'colorScale', 'radarPolarAxes', 'gaugeAxes', 'circularRanges',
+      'scaleBars', 'pointers', 'scales'],
     'settingsExcludes': ['animation().enabled()'],
     'filters': ['common']
   },
@@ -328,7 +333,8 @@ chartEditor.EditorModel.ChartTypes = {
     'icon': 'stock-chart.svg',
     'series': ['ohlc', 'candlestick', 'line', 'spline', 'column', 'area', 'splineArea'],
     'dataSetCtor': 'table',
-    'panelsExcludes': ['dataLabels', 'cartesianAxes', 'colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': ['dataLabels', 'cartesianAxes', 'colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes',
+      'circularRanges', 'scaleBars', 'pointers', 'scales'],
     'settingsExcludes': ['palette()', 'legend().enabled()', 'animation().enabled()'],
     'filters': ['common']
   },
@@ -424,7 +430,7 @@ chartEditor.EditorModel.ChartTypes = {
     'series': ['treeMap'],
     'dataSetCtor': 'tree',
     'singleSeries': true,
-    'panelsExcludes': ['series', 'grids', 'cartesianAxes', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': ['series', 'grids', 'cartesianAxes', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers', 'scales'],
     'settingsExcludes': ['palette()', 'animation().enabled()'],
     'filters': ['common']
   },
@@ -1159,22 +1165,28 @@ chartEditor.EditorModel.prototype.callbackByString = function(methodName, var_ar
 /**
  * Drops all or some chart settings.
  * @param {(Object|string)=} opt_pattern Regular extperrion or string
+ * @param {boolean=} opt_byValue Search by setting value. Is ignored if opt_pattern is undefined.
  */
-chartEditor.EditorModel.prototype.dropChartSettings = function(opt_pattern) {
+chartEditor.EditorModel.prototype.dropChartSettings = function(opt_pattern, opt_byValue) {
   if (goog.isDef(opt_pattern)) {
     for (var key in this.model_['chart']['settings']) {
       var found = false;
-      if (typeof opt_pattern === 'object') {
-        var r = new RegExp(/** @type {RegExp} */(opt_pattern));
-        found = r.test(key);
-      } else
-        found = key.indexOf(opt_pattern) >= 0;
+      var testString = opt_byValue ? this.model_['chart']['settings'][key] : key;
+
+      if (!opt_byValue || goog.isString(testString)) {
+        if (typeof opt_pattern === 'object') {
+          var r = new RegExp(/** @type {RegExp} */(opt_pattern));
+          found = r.test(testString);
+        } else
+          found = testString.indexOf(opt_pattern) >= 0;
+      }
 
       if (found)
         delete this.model_['chart']['settings'][key];
     }
   } else {
     this.model_['chart']['settings'] = {};
+    this.model_['standalones'] = {};
     this.model_['editorSettings']['lockSeriesName'] = {};
     this.stackMode = false;
     this.resetContextMenuItems();
@@ -1344,6 +1356,10 @@ chartEditor.EditorModel.prototype.setChartType = function(input) {
   if (prevDefaultSeriesType === 'mekko') {
     this.dropChartSettings('pointsPadding()');
   }
+
+  // Drop scales settings anyway
+  this.dropChartSettings(/^\w+cale\(\)/);
+  this.model_['standalones'] = {};
 
   if (this.needResetMappings(prevChartType, prevDefaultSeriesType)) {
     this.chooseActiveAndField(/** @type {string} */(this.model_['dataSettings']['active']));
@@ -1608,6 +1624,41 @@ chartEditor.EditorModel.prototype.dropIndexedSetting = function(index, stringKey
 
 
 /**
+ * @param {string} stringKeyBase 'scale', etc
+ * @param {Object=} opt_fieldValues Initial field values of created standalone
+ * @return {number} Created range index.
+ */
+chartEditor.EditorModel.prototype.addStandalone = function(stringKeyBase, opt_fieldValues) {
+  var standalones = this.getValue([['standalones'], stringKeyBase]) || [];
+  var index = standalones.length;
+
+  opt_fieldValues = opt_fieldValues || {};
+  opt_fieldValues['name'] = opt_fieldValues['name'] || 'Scale ' + (index + 1);
+
+  this.setValue([['standalones'], [stringKeyBase, index]], void 0);
+  this.model_['standalones'][stringKeyBase][index] = opt_fieldValues;
+  // Should dispatch because two previous lines do not do this
+  this.dispatchUpdate();
+
+  return index;
+};
+
+
+/**
+ * Drops last standalone
+ * @param {string} stringKeyBase 'range', 'scaleBar' etc
+ */
+chartEditor.EditorModel.prototype.dropStandalone = function(stringKeyBase) {
+  var standalones = this.getValue([['standalones'], stringKeyBase]);
+  var index = standalones.length - 1;
+
+  var pattern = 'STANDALONE:' + stringKeyBase + ':' + index;
+  this.dropChartSettings(pattern, true);
+  this.removeByKey([['standalones'], [stringKeyBase, index]]);
+};
+
+
+/**
  * @param {chartEditor.EditorModel.Model} value
  */
 chartEditor.EditorModel.prototype.setModel = function(value) {
@@ -1760,10 +1811,11 @@ chartEditor.EditorModel.prototype.suspendDispatch = function() {
 
 /**
  * suspend queue minus one.
+ * @param {boolean=} opt_skipDispatch
  */
-chartEditor.EditorModel.prototype.resumeDispatch = function() {
+chartEditor.EditorModel.prototype.resumeDispatch = function(opt_skipDispatch) {
   this.suspendQueue_--;
-  if (this.suspendQueue_ === 0 && this.needDispatch_)
+  if (this.suspendQueue_ === 0 && this.needDispatch_ && !opt_skipDispatch)
     this.dispatchUpdate();
 };
 
@@ -2226,6 +2278,8 @@ chartEditor.EditorModel.prototype.getChartWithJsCode_ = function(opt_options) {
       chartSettings = settings['chart']['settings'];
 
     var markerSeriesName = '';
+    var instances = {};
+
     goog.object.forEach(chartSettings, function(value, key) {
       var pVal = value;
       var force = false;
@@ -2236,7 +2290,63 @@ chartEditor.EditorModel.prototype.getChartWithJsCode_ = function(opt_options) {
       } else if (key === "contextMenu().itemsFormatter()")
         quotes = force = true;
 
-      if (chartEditor.binding.testExec(chart, key, value)) {
+      if (goog.isString(value) && value.indexOf('STANDALONE:') === 0) {
+        var stDescriptor = self.getStandaloneDescriptor(value);
+        if (stDescriptor && stDescriptor['type']) {
+          var tmp = value.split(':');
+          var sName = tmp[1];
+          var sIndex = tmp[2];
+          var instance = instances[value];
+          var instanceVarName = sName + sIndex;
+          var sSettingString;
+
+          if (!instance) {
+            // Create instance
+            if (stDescriptor['key']) {
+              // Native instance
+              if (stDescriptor['settings']) {
+                instance = /** @type {Object} */(chartEditor.binding.exec(chart, stDescriptor['key']));
+                if (instance)
+                  result.push('', 'var ' + instanceVarName + eq + 'chart.' + stDescriptor['key'] + ';');
+              }
+
+            } else {
+              // Standalone instance
+              var ctor = chartEditor.settings.scales.Base.descriptors[stDescriptor['type']].ctor;
+              instance = /** @type {Object} */(chartEditor.binding.exec(anychartGlobal, ctor));
+
+              if (instance && chartEditor.binding.testExec(chart, key, instance))
+                result.push('', 'var ' + instanceVarName + eq + 'anychart.' + ctor + ';');
+            }
+
+            if (instance) {
+              if (stDescriptor['settings']) {
+                // Apply standalone instance settings
+                goog.object.forEach(stDescriptor['settings'], function(sValue, sKey) {
+                  if (chartEditor.binding.testExec(instance, sKey, sValue)) {
+                    sSettingString = self.printKey_(printer, instanceVarName, sKey, sValue, force, quotes);
+                    result.push(sSettingString);
+                  }
+                });
+              }
+
+              instances[value] = instance;
+            }
+          }
+
+          if (instance) {
+            if (!stDescriptor['key']) {
+              // Pass standalone instance to chart's method
+              sSettingString = self.printKey_(printer, 'chart', key, instanceVarName, true, true);
+              result.push(sSettingString);
+            }
+          }
+        }
+
+        value = void 0;
+      }
+
+      if (goog.isDef(value) && chartEditor.binding.testExec(chart, key, value)) {
         var settingString = self.printKey_(printer, 'chart', key, pVal, force, quotes);
 
         if (addMarkers) {
@@ -2504,6 +2614,25 @@ chartEditor.EditorModel.prototype.getChartTypeKey = function() {
 chartEditor.EditorModel.prototype.getChartTypeSettings = function() {
   var chartTypeKey = this.getChartTypeKey();
   return chartEditor.EditorModel.ChartTypes[chartTypeKey];
+};
+
+
+/**
+ * Returns settings object for current chart type
+ * @param {string} value Select option value in format 'STANDALONE:scale:0'
+ * @return {*}
+ */
+chartEditor.EditorModel.prototype.getStandaloneDescriptor = function(value) {
+  var tmp = value.split(':');
+  var sName = tmp[1];
+  var sIndex = tmp[2];
+
+  if (tmp.length == 3) {
+    var model = this.getModel();
+    return (model['standalones'][sName] && model['standalones'][sName][sIndex]) || null;
+  }
+
+  return null;
 };
 
 

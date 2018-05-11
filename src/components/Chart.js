@@ -33,9 +33,7 @@ goog.inherits(chartEditor.Chart, chartEditor.Component);
 chartEditor.Chart.prototype.createDom = function() {
   chartEditor.Chart.base(this, 'createDom');
 
-
   goog.dom.classlist.add(this.getElement(), 'chart-container');
-  // var dom = this.getDomHelper();
 
   this.getDomHelper().setProperties(this.getElement(), {'id': this.containerId_});
 };
@@ -71,6 +69,41 @@ chartEditor.Chart.prototype.onModelChange = function(evt) {
   goog.object.forEach(settings['anychart'], function(value, key) {
     chartEditor.binding.exec(self.anychart, key, value);
   });
+
+  //console.log(settings['standalones']['scale']);
+
+  // Standalones instances creation
+  for (var sName in settings['standalones']) {
+    if (settings['standalones'][sName].length) {
+      for (var sIndex = 0; sIndex < settings['standalones'][sName].length; sIndex++) {
+        var descriptor = settings['standalones'][sName][sIndex];
+
+        if (!goog.isDef(descriptor['key'])) {
+          if (descriptor['type']) {
+            // Create instance
+            var ctor = chartEditor.settings.scales.Base.descriptors[descriptor['type']].ctor;
+            var instance = /** @type {Object} */(chartEditor.binding.exec(this.anychart, ctor));
+            if (instance) {
+              if (descriptor['settings']) {
+                // Apply standalone instance settings
+                goog.object.forEach(descriptor['settings'], function(value, key) {
+                  if (goog.isString(value))
+                    value = value.replace(/(\\\\)/g, '\\');
+
+                  chartEditor.binding.exec(instance, key, value);
+                });
+              }
+
+              descriptor['instance'] = instance;
+            }
+          } else if (descriptor['instance'] && goog.isFunction(descriptor['instance']['dispose'])) {
+            descriptor['instance']['dispose']();
+            descriptor['instance'] = void 0;
+          }
+        }
+      }
+    }
+  }
 
   // Chart creation
   if (rebuild) {
@@ -122,12 +155,12 @@ chartEditor.Chart.prototype.onModelChange = function(evt) {
       plotMapping = settings['dataSettings']['mappings'][i];
       for (var j = 0; j < plotMapping.length; j++) {
         seriesMapping = plotMapping[j]['mapping'];
-        
+
         mappingObj = dsCtor === 'table' || model.chartTypeLike('gauges') ? {} :
             dsCtor === 'tree' ?
                 {'id': settings['dataSettings']['field']} :
                 {'x': settings['dataSettings']['field']};
-        
+
         for (var k in seriesMapping) {
           if (seriesMapping.hasOwnProperty(k))
             mappingObj[k] = seriesMapping[k];
@@ -183,7 +216,7 @@ chartEditor.Chart.prototype.onModelChange = function(evt) {
 
   // Chart settings
   // console.log("=== Chart draw ===");
-  //console.log(settings['chart']['settings']);
+  // console.log(settings['chart']['settings']);
   goog.object.forEach(settings['chart']['settings'], function(value, key) {
     //console.log("chart settings", key, value);
     if (goog.isString(value)) {
@@ -191,6 +224,35 @@ chartEditor.Chart.prototype.onModelChange = function(evt) {
 
       if (key === 'palette()')
         value = self.anychart['palettes'][value];
+
+      if (value.indexOf('STANDALONE:') === 0) {
+        var tmp = value.split(':');
+        var sName = tmp[1];
+        var sIndex = tmp[2];
+        value = void 0;
+
+        if (tmp.length == 3) {
+          var instance;
+          var descriptor = settings['standalones'][sName][sIndex];
+
+          if (goog.isDef(descriptor['key'])) {
+            // Default scale
+            if (descriptor['settings']) {
+              // Apply standalone instance settings
+              goog.object.forEach(descriptor['settings'], function(value, key) {
+                key = descriptor['key'] + '.' + key;
+                if (goog.isString(value)) {
+                  value = value.replace(/(\\\\)/g, '\\');
+                }
+                chartEditor.binding.exec(self.chart_, key, value);
+              });
+            }
+
+          } else {
+            value = descriptor['instance'];
+          }
+        }
+      }
     }
 
     chartEditor.binding.exec(self.chart_, key, value);

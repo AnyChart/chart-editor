@@ -3,7 +3,8 @@ goog.provide('chartEditor.settings.Grid');
 goog.require("chartEditor.SettingsPanel");
 goog.require("chartEditor.checkbox.Base");
 goog.require("chartEditor.controls.LabeledControl");
-goog.require("chartEditor.input.Palette");
+goog.require("chartEditor.controls.input.Palette");
+goog.require("chartEditor.controls.select.Scales");
 goog.require("chartEditor.settings.Stroke");
 
 
@@ -20,9 +21,7 @@ chartEditor.settings.Grid = function(model, name, opt_domHelper) {
   this.gridExists = false;
 
   var chartType = model.getModel()['chart']['type'];
-  this.isRadarGrid = chartType === 'radar' || chartType === 'polar';
-
-  this.addClassName(goog.getCssName('anychart-ce-settings-panel-grid-single'));
+  this.isPolar_ = chartType === 'radar' || chartType === 'polar';
 };
 goog.inherits(chartEditor.settings.Grid, chartEditor.SettingsPanel);
 
@@ -33,7 +32,21 @@ chartEditor.settings.Grid.prototype.createDom = function() {
 
   var model = /** @type {chartEditor.EditorModel} */(this.getModel());
 
-  if (!this.isRadarGrid) {
+  if (this.isPolar_) {
+    var xScale = new chartEditor.controls.select.Scales({label: 'X Scale'});
+    xScale.init(model, this.genKey('xScale()'));
+    this.addChildControl(xScale);
+
+    var yScale = new chartEditor.controls.select.Scales({label: 'Y Scale'});
+    yScale.init(model, this.genKey('yScale()'));
+    this.addChildControl(yScale);
+
+  } else {
+
+    var scale = new chartEditor.controls.select.Scales({label: 'Scale'});
+    scale.init(model, this.genKey('scale()'));
+    this.addChildControl(scale);
+
     var drawFirstLine = new chartEditor.checkbox.Base();
     drawFirstLine.setCaption('Draw first line');
     drawFirstLine.init(model, this.genKey('drawFirstLine()'));
@@ -45,7 +58,7 @@ chartEditor.settings.Grid.prototype.createDom = function() {
   drawLastLine.init(model, this.genKey('drawLastLine()'));
   this.addChildControl(drawLastLine);
 
-  var palette = new chartEditor.input.Palette('Comma separated colors');
+  var palette = new chartEditor.controls.input.Palette('Comma separated colors');
   var paletteLC = new chartEditor.controls.LabeledControl(palette, 'Palette');
   paletteLC.init(model, this.genKey('palette()'));
   this.addChildControl(paletteLC);

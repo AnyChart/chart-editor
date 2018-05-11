@@ -1,16 +1,15 @@
 goog.provide('chartEditor.settings.Title');
 
-goog.require('chartEditor.SettingsPanel');
-goog.require('chartEditor.button.Bold');
-goog.require('chartEditor.button.Italic');
-goog.require('chartEditor.button.Underline');
-goog.require('chartEditor.colorPicker.Base');
-goog.require('chartEditor.comboBox.Base');
-goog.require('chartEditor.controls.select.DataField');
-goog.require('chartEditor.controls.select.FontFamily');
-goog.require('chartEditor.input.Base');
-goog.require('goog.ui.ButtonSide');
-
+goog.require("chartEditor.SettingsPanel");
+goog.require("chartEditor.button.Bold");
+goog.require("chartEditor.button.Italic");
+goog.require("chartEditor.button.Underline");
+goog.require("chartEditor.colorPicker.Base");
+goog.require("chartEditor.comboBox.Base");
+goog.require("chartEditor.controls.input.Base");
+goog.require("chartEditor.controls.select.DataField");
+goog.require("chartEditor.controls.select.FontFamily");
+goog.require("goog.ui.ButtonSide");
 
 
 /**
@@ -180,7 +179,7 @@ chartEditor.settings.Title.prototype.createDom = function() {
 
   var textInput = null;
   if (this.allowEditTitle_) {
-    textInput = new chartEditor.input.Base(/*'Chart title'*/);
+    textInput = new chartEditor.controls.input.Base(/*'Chart title'*/);
     this.addChild(textInput, true);
     goog.dom.classlist.add(textInput.getElement(), 'title-text');
   }

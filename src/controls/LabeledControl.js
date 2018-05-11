@@ -4,7 +4,7 @@ goog.require('chartEditor.Component');
 
 
 /**
- * @param {(chartEditor.comboBox.Base|chartEditor.controls.select.Base|chartEditor.input.Base|chartEditor.colorPicker.Base)} control
+ * @param {(chartEditor.comboBox.Base|chartEditor.controls.select.Base|chartEditor.controls.input.Base|chartEditor.colorPicker.Base)} control
  * @param {string=} opt_label
  * @param {goog.dom.DomHelper=} opt_domHelper
  * @constructor
@@ -34,15 +34,12 @@ chartEditor.controls.LabeledControl.prototype.createDom = function() {
   goog.dom.classlist.add(this.control_.getElement(), 'anychart-ce-settings-control');
   goog.dom.classlist.add(this.control_.getElement(), 'anychart-ce-settings-control-right');
 
-  // var clearBoth = new chartEditor.Component();
-  // clearBoth.addClassName('anychart-ce-clearboth');
-  // this.addChild(clearBoth, true);
   goog.dom.appendChild(this.getElement(), goog.dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-ce-clearboth')));
 };
 
 
 /**
- * @return {(chartEditor.comboBox.Base|chartEditor.controls.select.Base|chartEditor.input.Base|chartEditor.colorPicker.Base)}
+ * @return {(chartEditor.comboBox.Base|chartEditor.controls.select.Base|chartEditor.controls.input.Base|chartEditor.colorPicker.Base)}
  */
 chartEditor.controls.LabeledControl.prototype.getControl = function() {
   return this.control_;
@@ -50,9 +47,10 @@ chartEditor.controls.LabeledControl.prototype.getControl = function() {
 
 
 /**
- * @param {(chartEditor.comboBox.Base|chartEditor.controls.select.Base|chartEditor.input.Base|chartEditor.colorPicker.Base)} control
+ * @param {(chartEditor.comboBox.Base|chartEditor.controls.select.Base|chartEditor.controls.input.Base|chartEditor.colorPicker.Base)} control
  */
 chartEditor.controls.LabeledControl.prototype.setControl = function(control) {
+  goog.dispose(this.control_);
   this.control_ = control;
 };
 
@@ -77,9 +75,10 @@ chartEditor.controls.LabeledControl.prototype.init = function(model, key, opt_ca
 /**
  * Wrapper for control's method.
  * @param {?Object} target
+ * @return {boolean|undefined}
  */
 chartEditor.controls.LabeledControl.prototype.setValueByTarget = function(target) {
-  this.control_.setValueByTarget(target);
+  return this.control_.setValueByTarget(target);
 };
 
 

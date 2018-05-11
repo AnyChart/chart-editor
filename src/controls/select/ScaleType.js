@@ -56,17 +56,13 @@ goog.inherits(chartEditor.controls.select.ScaleTypeDataFieldSelect, chartEditor.
 
 
 /** @inheritDoc */
-chartEditor.controls.select.ScaleTypeDataFieldSelect.prototype.handleSelectionChange = function(evt) {
-  if (this.isExcluded()) return;
+chartEditor.controls.select.ScaleTypeDataFieldSelect.prototype.applySelection = function () {
+  var stringKey = chartEditor.EditorModel.getStringKey(this.key);
+  var tmp = stringKey.split('.');
+  var lastKey = tmp[tmp.length - 1];
+  stringKey = stringKey.replace('.' + lastKey, '');
 
-  if (!this.noDispatch && this.editorModel) {
-    var stringKey = chartEditor.EditorModel.getStringKey(this.key);
-    var tmp = stringKey.split('.');
-    var lastKey = tmp[tmp.length - 1];
-    stringKey = stringKey.replace('.' + lastKey, '');
+  this.editorModel.dropChartSettings(stringKey);
 
-    this.editorModel.dropChartSettings(stringKey);
-  }
-
-  chartEditor.controls.select.ScaleTypeDataFieldSelect.base(this, 'handleSelectionChange', evt);
+  chartEditor.controls.select.ScaleTypeDataFieldSelect.base(this, 'applySelection');
 };

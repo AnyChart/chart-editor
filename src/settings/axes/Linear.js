@@ -2,6 +2,7 @@ goog.provide('chartEditor.settings.axes.Linear');
 
 goog.require('chartEditor.SettingsPanelZippy');
 goog.require('chartEditor.controls.select.DataField');
+goog.require('chartEditor.controls.select.Scales');
 goog.require('chartEditor.settings.Labels');
 goog.require('chartEditor.settings.Stagger');
 goog.require('chartEditor.settings.Ticks');
@@ -22,7 +23,8 @@ chartEditor.settings.axes.Linear = function(model, index, opt_domHelper) {
   this.key = [['chart'], ['settings'], 'axis(' + this.index_ + ')'];
 
   this.allowEnabled(true);
-  this.addClassName(goog.getCssName('anychart-ce-settings-panel-axis-linear'));
+
+  this.allowRemove(true);
 };
 goog.inherits(chartEditor.settings.axes.Linear, chartEditor.SettingsPanelZippy);
 
@@ -32,6 +34,10 @@ chartEditor.settings.axes.Linear.prototype.createDom = function() {
   chartEditor.settings.axes.Linear.base(this, 'createDom');
 
   var model = /** @type {chartEditor.EditorModel} */(this.getModel());
+
+  var scale = new chartEditor.controls.select.Scales({label: 'Scale'});
+  scale.init(model, this.genKey('scale()'));
+  this.addChildControl(scale);
 
   var orientation = new chartEditor.controls.select.DataField({label: 'Orientation'});
   orientation.getSelect().setOptions([
