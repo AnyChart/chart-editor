@@ -18,9 +18,10 @@ chartEditor.DataSetPanelList = function(model, opt_domHelper) {
   chartEditor.DataSetPanelList.base(this, 'constructor', opt_domHelper);
 
   this.panels_ = [];
-  this.setModel(model);
-  this.addClassName('anychart-connected-data-sets');
 
+  this.setModel(model);
+
+  this.addClassName('anychart-ce-data-set');
 };
 goog.inherits(chartEditor.DataSetPanelList, chartEditor.Component);
 
@@ -36,6 +37,15 @@ chartEditor.DataSetPanelList.prototype.enterDocument = function() {
 };
 
 
+/** @inheritDoc */
+chartEditor.DataSetPanelList.prototype.exitDocument = function() {
+  chartEditor.DataSetPanelList.base(this, 'exitDocument');
+
+  goog.disposeAll(this.panels_);
+  this.panels_.length = 0;
+};
+
+
 /**
  * Updates component on model change.
  * @param {?Object} evt
@@ -48,23 +58,24 @@ chartEditor.DataSetPanelList.prototype.onModelChange = function(evt) {
   // clear all content
   this.removeChildren(true);
   goog.disposeAll(this.panels_);
-  this.panels_ = [];
+  this.panels_.length = 0;
 
   // add caption
   var caption = new chartEditor.Component();
   caption.addClassName('anychart-ce-section-caption');
-  caption.addClassName('anychart-connected-data-sets-caption');
+  caption.addClassName('anychart-ce-data-set-caption');
   this.addChild(caption, true);
 
   // todo: rework this hack!!
-  caption.getElement().innerHTML = 'Connected Data Sets';
+  caption.getElement().innerHTML = 'Current Set';
 
   // add data sets or intro
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
   var step = /** @type {chartEditor.steps.Base} */(this.getParent());
   if (data.length) {
     for (var i = 0; i < data.length; i++) {
       if (step.getIndex() === 1 || data[i].type !== chartEditor.EditorModel.DataType.GEO) {
-        var panel = new chartEditor.DataSetPanel(data[i]);
+        var panel = new chartEditor.DataSetPanel(model, data[i]);
         this.panels_.push(panel);
         this.addChild(panel, true);
 
@@ -78,4 +89,13 @@ chartEditor.DataSetPanelList.prototype.onModelChange = function(evt) {
     var intro = new chartEditor.dataSetPanelList.Intro();
     this.addChild(intro, true);
   }
+};
+
+
+/** @inheritDoc */
+chartEditor.DataSetPanelList.prototype.disposeInternal = function() {
+  goog.disposeAll(this.panels_);
+  this.panels_.length = 0;
+
+  chartEditor.DataSetPanelList.base(this, 'disposeInternal');
 };

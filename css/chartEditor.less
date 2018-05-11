@@ -1,14 +1,15 @@
-@import "mixins.less";
 @import "variables.less";
 
 @import "common.less";
 @import "button.less";
 @import "checkbox.less";
 @import "colormenubutton.less";
+@import "dialog.less";
 @import "combobox.less";
 @import "menu.less";
 @import "menubutton.less";
 
+// region ---- global layout
 .anychart-ce {
   position: relative;
   background: @color-background;
@@ -17,27 +18,9 @@
   font-size: 14px;
   width: 100%;
   height: 100%;
-}
 
-.anychart-ce-dialog {
-  .box-shadow(@shadow-dialog);
-  background: white;
-  border: 1px solid @color-border;
-  position: absolute;
-  width: 90%;
-  height: 90%;
-  min-width: 780px; // 260 is a min size of a settings sidebar, total min is 260 * 3
-  min-height: 400px;
-  color: @color-text;
-  font-family: 'Open Sans', sans-serif;
-  font-size: 13px;
-  z-index: 1000;
-}
-
-// region ---- global layout
-.anychart-ce {
   .anychart-chart-preview,
-  .anychart-predefined-datasets {
+  .anychart-ce-presets {
     position: absolute;
     left: 35%;
     top: 0;
@@ -47,12 +30,12 @@
     overflow-y: auto;
   }
 
-  .anychart-user-data {
+  .anychart-ce-user-data {
     width: 200px;
     float: left;
   }
 
-  .anychart-user-data,
+  .anychart-ce-user-data,
   .anychart-chart-data-settings {
     position: absolute;
     left: 0;
@@ -63,7 +46,7 @@
     overflow-y: auto;
   }
 
-  .anychart-connected-data-sets {
+  .anychart-ce-data-set {
     position: absolute;
     left: 0;
     top: 0;
@@ -73,7 +56,7 @@
     overflow-y: auto;
   }
 
-  .anychart-breadcrumbs {
+  .anychart-ce-breadcrumbs {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -82,7 +65,7 @@
   }
 }
 
-.anychart-prepare-data-step-wrapper {
+.anychart-ce-data-step-wrapper {
   position: absolute;
   left: 231px;
   top: 0;
@@ -90,7 +73,6 @@
   right: 0;
   overflow: hidden;
 }
-
 
 .anychart-ce-step {
   position: absolute;
@@ -125,22 +107,22 @@
 // endregion
 
 // region ---- breadcrumbs
-.anychart-breadcrumbs {
+.anychart-ce-breadcrumbs {
   /*min-height: 60px;*/
   background: @color-breadcrumbs-back;
   padding: 0 12px;
 }
 
-.anychart-breadcrumbs-item {
+.anychart-ce-breadcrumbs-item {
   float: left;
   margin: 13px 30px 13px 0;
   cursor: pointer;
 
   &:hover {
-    .anychart-breadcrumbs-item-caption {
+    .anychart-ce-breadcrumbs-item-caption {
       color: @color-blue-hovered;
     }
-    .anychart-breadcrumbs-item-indicator {
+    .anychart-ce-breadcrumbs-item-indicator {
       background: @color-blue-hovered;
     }
   }
@@ -150,12 +132,12 @@
   }
 }
 
-.anychart-breadcrumbs-item-caption {
+.anychart-ce-breadcrumbs-item-caption {
   color: @color-blue-disabled;
   font-size: 17px;
 }
 
-.anychart-breadcrumbs-item-indicator {
+.anychart-ce-breadcrumbs-item-indicator {
   .border-radius(4px);
   margin-top: 6px;
   height: 7px;
@@ -163,19 +145,19 @@
   background: @color-blue-disabled;
 }
 
-.anychart-breadcrumbs-item-active {
+.anychart-ce-breadcrumbs-item-active {
   cursor: default;
   pointer-events: none;
 
-  .anychart-breadcrumbs-item-caption {
+  .anychart-ce-breadcrumbs-item-caption {
     color: white;
   }
-  .anychart-breadcrumbs-item-indicator {
+  .anychart-ce-breadcrumbs-item-indicator {
     background: @color-blue;
   }
 }
 
-.anychart-breadcrumbs-button {
+.anychart-ce-breadcrumbs-button {
   float: right;
 
   .border-radius(40px);
@@ -194,65 +176,72 @@
   }
 }
 
-.anychart-breadcrumbs-left {
+.anychart-ce-breadcrumbs-left {
   margin-right: 10px;
 }
 
-.anychart-breadcrumbs-right {
+.anychart-ce-breadcrumbs-right {
   float: right;
 }
 // endregion
 
 // region ---- user data
-.anychart-user-data {
+.anychart-ce-user-data {
   .box-sizing(border-box);
   padding: 18px;
 }
 
-.anychart-user-data-caption {
+.anychart-ce-user-data-caption {
   margin-top: 18px;
 }
 
-.anychart-user-data-caption:first-child {
+.anychart-ce-user-data-caption:first-child {
   margin-top: 0;
 }
 
-.anychart-user-data-container {
-  text-align: left;
-}
-
-.anychart-user-data-item {
-  float: left;
-  width: 100px;
+.anychart-ce-user-data-item {
   overflow: hidden;
-  margin-bottom: 18px;
+  margin-bottom: 30px;
   cursor: pointer;
+
+  img {
+    float: left;
+  }
 }
 
-.anychart-user-data-item-caption {
-  margin-top: 4px;
+.anychart-ce-user-data-item-caption {
+  margin: 22px 0 0 65px;
   color: @color-blue;
   font-size: 16px;
 }
 // endregion
 
 // region ---- predefined data sets
-.anychart-predefined-datasets {
+.anychart-ce-presets {
   .box-sizing(border-box);
   padding: 18px;
 }
 
-.anychart-predefined-datasets-container {
+.anychart-ce-presets-container {
   .loaded {
-    display: none;
+    border-color: @color-blue;
+    .anychart-ce-presets-button-use {
+      background: @color-blue-disabled;
+      border-color: @color-border-disabled;
+      cursor: default;
+      &:hover {
+        background-color: @color-blue-disabled;
+        border-color: @color-border-disabled;
+      }
+    }
   }
 }
 
-.anychart-predefined-datasets-item {
+.anychart-ce-presets-item {
   .box-shadow(@shadow-1);
   .border-radius(4px);
   .box-sizing(border-box);
-  width: 205px;
+  width: 185px;
   float: left;
   background: white;
   margin: 0 15px 15px 0;
@@ -267,8 +256,8 @@
   //}
 }
 
-.anychart-predefined-datasets-item-image {
-  height: 110px;
+.anychart-ce-presets-item-image {
+  height: 90px;
   width: 100%;
   text-align: center;
 
@@ -278,15 +267,18 @@
   }
 }
 
-.anychart-predefined-datasets-item-caption {
+.anychart-ce-presets-item-caption {
   margin-top: 10px;
   width: 100%;
-  height: 66px;
+  height: 55px;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 13px;
+  line-height: 16px;
 }
 
-.anychart-predefined-datasets-item-btn {
+.anychart-ce-dialog-buttons button,
+.anychart-ce-presets-item-btn {
   .border-radius(4px);
   font-size: 14px;
   padding: 6px 10px;
@@ -294,53 +286,63 @@
   cursor: pointer;
 }
 
-.anychart-predefined-datasets-item-btn-use {
-  background: @color-blue;
-  color: white;
-  margin-right: 12px;
-
-  &:hover {
-    background-color: @color-blue-hovered;
-  }
-}
-
-.anychart-predefined-datasets-item-btn-view {
+.anychart-ce-dialog-buttons button,
+.anychart-ce-button-view-sample {
   background: none;
-  padding: 5px 10px;
   color: @color-blue;
+  font-size: 17px;
   border: 1px solid @color-blue;
   &:hover {
     background-color: @color-button-active-background;
   }
 }
 
+.anychart-ce-dialog-buttons button.anychart-ce-buttonset-default,
+.anychart-ce-presets-button-use {
+  background: @color-blue;
+  border-color: @color-blue;
+  color: white;
+  &:hover {
+    background-color: @color-blue-hovered;
+    border-color: @color-blue-hovered;
+  }
+}
+
+.anychart-ce-button-view-sample {
+  float: right;
+}
+
+.anychart-ce-presets-button-use {
+  margin-right: 12px;
+}
+
 // endregion
 
 // region ---- connected data
-.anychart-connected-data-sets {
+.anychart-ce-data-set {
   .box-sizing(border-box);
   padding: 18px 7px 18px 18px;
 }
 
-.anychart-connected-data-sets-intro {
+.anychart-ce-data-set-intro {
   color: @color-label;
   font-size: 15px;
 }
 
-.anychart-connected-data-sets-caption {
+.anychart-ce-data-set-caption {
   padding-left: 15px;
 }
 
-.anychart-connected-data-sets-intro-caption {
+.anychart-ce-data-set-intro-caption {
   text-transform: uppercase;
   margin-bottom: 24px;
 }
 
-.anychart-connected-data-sets-intro-p {
+.anychart-ce-data-set-intro-p {
   margin-bottom: 24px;
 }
 
-.anychart-connected-data-sets-item {
+.anychart-ce-data-set-item {
   .box-shadow(@shadow-1);
   position: relative;
   width: 100%;
@@ -350,21 +352,32 @@
   margin-bottom: 14px;
 }
 
+.anychart-ce-data-set-item-menu-item {
+  position: relative;
+  color: @color-text2;
+  .icon {
+    position: absolute;
+    left: 9px;
+    top: 5px;
+    font-size: 16px;
+    color: @color-label;
+  }
+}
 .anychart-setup-chart-step {
-  .anychart-connected-data-sets-item-disabled {
+  .anychart-ce-data-set-item-disabled {
     background: @color-background;
-    .anychart-connected-data-sets-item-field {
+    .anychart-ce-data-set-item-field {
       .opacity(0.6);
       background: white;
     }
   }
 }
 
-.anychart-connected-data-sets-item:last-child {
+.anychart-ce-data-set-item:last-child {
   margin-bottom: 0;
 }
 
-.anychart-connected-data-sets-item-menuBtn {
+.anychart-ce-data-set-item-menuBtn {
   position: absolute;
   top: 7px;
   right: 7px;
@@ -395,14 +408,14 @@
   }
 }
 
-.anychart-connected-data-sets-item-caption {
+.anychart-ce-data-set-item-caption {
   color: @color-text2;
   font-size: 14px;
   margin-right: 30px;
   margin-bottom: 14px;
 }
 
-.anychart-connected-data-sets-item-field {
+.anychart-ce-data-set-item-field {
   .border-radius(4px);
   font-size: 14px;
   color: @color-label;
@@ -414,7 +427,7 @@
     margin-bottom: 0;
   }
 
-  .anychart-connected-data-sets-item-token {
+  .anychart-ce-data-set-item-token {
     .user-select(text);
     display: block;
     font-size: 11px;
@@ -1053,66 +1066,6 @@
   }
 }
 
-.anychart-ce-dialog-bg {
-  background: @color-dialog-background;
-  left: 0;
-  position: absolute;
-  top: 0;
-  z-index: 1000;
-}
-
-.anychart-ce-dialog-title {
-  font-weight: bold;
-  height: 48px;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  padding: 12px 14px;
-  _zoom: 1; /* Ensures proper width in IE6 RTL. */
-}
-
-.anychart-ce-dialog-content {
-  position: absolute;
-  overflow: hidden;
-  top: 72px;
-  left: 14px;
-  right: 14px;
-  bottom: 12px;
-}
-
-.anychart-ce-dialog-title-logo {
-  display: inline-block;
-  /* todo rescale image to 25x25, (because background-size works only IE9+) */
-  background: white url("https://cdn.anychart.com/images/anychart-logo-medium.png") no-repeat;
-  background-size: 36px 36px;
-  width: 36px;
-  height: 36px;
-  position: relative;
-  top: 6px;
-}
-
-.anychart-ce-dialog-title-text {
-  font-size: 18px;
-  line-height: 36px;
-  position: relative;
-  top: -6px;
-  left: 7px;
-  cursor: default;
-}
-
-.anychart-ce-dialog-title-close {
-  .opacity(0.5);
-  float: right;
-  margin-top: 15px;
-  margin-right: 10px;
-  height: 18px;
-  width: 18px;
-  text-align: center;
-  font-size: 18px;
-  cursor: pointer;
-}
-
 /* ------- SETTINGS GROUP ------- */
 .anychart-ce-settings-item-gap {
   clear: both;
@@ -1174,99 +1127,6 @@
 .anychart-ce-colorPicker-popup {
   position: absolute;
   width: 300px;
-}
-
-.data-dialog {
-  background: white;
-  border: 1px solid @color-border;
-  color: @color-text;
-  padding: 4px;
-  position: absolute;
-  z-index: 1002;
-  width: 60%;
-  top: 15% !important;
-
-  a,
-  a:link,
-  a:visited  {
-    color: #06c;
-    cursor: pointer;
-  }
-
-  .input {
-    width: 100%;
-    margin-bottom: 20px;
-  }
-
-  textarea {
-    height: 150px;
-  }
-
-  label {
-    display: block;
-    width: 51%;
-    float: right;
-    margin-bottom: 10px;
-
-    .input {
-      width: 150px;
-      float: right;
-      margin: 0;
-      text-align: right;
-    }
-    .checkbox {
-      width: 20px;
-      height: 20px;
-      float: right;
-      margin: 0;
-    }
-  }
-}
-
-.data-dialog-buttons {
-  button {
-    margin-right: 20px;
-  }
-}
-
-.data-dialog-bg {
-  background: @color-dialog-background;
-  left: 0;
-  position: absolute;
-  top: 0;
-  z-index: 1001;
-}
-
-.data-dialog-title {
-  background: white;
-  color: @color-caption;
-  cursor: pointer;
-  font-size: 120%;
-  font-weight: bold;
-
-  /* Add padding on the right to ensure the close button has room. */
-  padding: 8px 31px 8px 8px;
-
-  position: relative;
-  _zoom: 1; /* Ensures proper width in IE6 RTL. */
-}
-
-.data-dialog-title-close {
-  /* Client apps may override the URL at which they serve the sprite. */
-  background: #e0edfe url('//ssl.gstatic.com/editor/editortoolbar.png') no-repeat -528px 0;
-  cursor: default;
-  height: 15px;
-  position: absolute;
-  right: 10px;
-  top: 8px;
-  width: 15px;
-  vertical-align: middle;
-}
-
-.data-dialog-buttons,
-.data-dialog-content {
-  background-color: white;
-  padding: 8px;
 }
 
 .goog-buttonset-default {
@@ -1595,33 +1455,17 @@
 // endregion
 
 // region ---- Qlik theme
-.anychart-ce-dialog-qlik-theme {
-  .anychart-ce-dialog-title {
-    padding: 4px 14px;
-  }
-  .anychart-ce-dialog-content {
-    top: 53px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-  }
-  .anychart-ce-dialog-title-close {
-    margin-top: 10px;
-    margin-right: 3px;
-  }
-}
-
 .anychart-qlik-theme {
   .chart-container,
-  .anychart-connected-data-sets-item,
+  .anychart-ce-data-set-item,
   .anychart-ce-buttons-wrapper,
   .anychart-visual-appearance-settings-tab-content > .anychart-ce-settings-panel > .content {
     border: 1px solid @color-border;
   }
-  .anychart-connected-data-sets-item-disabled {
+  .anychart-ce-data-set-item-disabled {
     border-color: @color-border-disabled;
   }
-  .anychart-connected-data-sets-item-menuBtn {
+  .anychart-ce-data-set-item-menuBtn {
     display: none;
   }
 
@@ -1670,20 +1514,20 @@
     background-color: @color-background;
   }
 
-  .anychart-breadcrumbs-item-caption {
+  .anychart-ce-breadcrumbs-item-caption {
     color: @color-text-disabled;
   }
 
-  .anychart-breadcrumbs-item-indicator {
+  .anychart-ce-breadcrumbs-item-indicator {
     background: @color-text-disabled;
   }
 
-  .anychart-breadcrumbs-item-active,
-  .anychart-breadcrumbs-item:hover {
-    .anychart-breadcrumbs-item-caption {
+  .anychart-ce-breadcrumbs-item-active,
+  .anychart-ce-breadcrumbs-item:hover {
+    .anychart-ce-breadcrumbs-item-caption {
       color: white;
     }
-    .anychart-breadcrumbs-item-indicator {
+    .anychart-ce-breadcrumbs-item-indicator {
       background: white;
     }
   }

@@ -6,9 +6,9 @@ goog.require("chartEditor.Component");
 goog.require("chartEditor.EditorModel");
 goog.require("chartEditor.Preloader");
 goog.require("chartEditor.Steps");
+goog.require("chartEditor.dialog.Base");
 goog.require("chartEditor.events");
 goog.require("goog.net.ImageLoader");
-goog.require("goog.ui.Dialog");
 
 
 /**
@@ -21,7 +21,7 @@ chartEditor.Editor = function(opt_domHelper) {
   chartEditor.Editor.base(this, 'constructor', opt_domHelper);
 
   /**
-   * @type {?goog.ui.Dialog}
+   * @type {?chartEditor.dialog.Base}
    * @private
    */
   this.dialog_ = null;
@@ -130,7 +130,7 @@ chartEditor.Editor.prototype.getTheme = function() {
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  */
 chartEditor.Editor.prototype.renderAsDialog = function(opt_class, opt_useIframeMask, opt_domHelper) {
-  this.dialog_ = new chartEditor.Editor.Dialog(opt_class, opt_useIframeMask, opt_domHelper);
+  this.dialog_ = new chartEditor.Editor.Dialog(opt_class || goog.getCssName('anychart-ce-dialog'), opt_useIframeMask, opt_domHelper);
 
   if (this.theme_) this.dialog_.setTheme(this.theme_);
 
@@ -432,10 +432,10 @@ chartEditor.Editor.prototype.setDefaults = function(values) {
  *     issue by using an iframe instead of a div for bg element.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link
     *     goog.ui.Component} for semantics.
- * @extends {goog.ui.Dialog}
+ * @extends {chartEditor.dialog.Base}
  */
 chartEditor.Editor.Dialog = function(opt_class, opt_useIframeMask, opt_domHelper) {
-  chartEditor.Editor.Dialog.base(this, 'constructor', opt_class || goog.getCssName('anychart-ce-dialog'), opt_useIframeMask, opt_domHelper);
+  chartEditor.Editor.Dialog.base(this, 'constructor', opt_class, opt_useIframeMask, opt_domHelper);
 
   /**
    * Element for the logo of the title bar.
@@ -453,7 +453,7 @@ chartEditor.Editor.Dialog = function(opt_class, opt_useIframeMask, opt_domHelper
    */
   this.theme_ = null;
 };
-goog.inherits(chartEditor.Editor.Dialog, goog.ui.Dialog);
+goog.inherits(chartEditor.Editor.Dialog, chartEditor.dialog.Base);
 
 
 /**
@@ -467,6 +467,8 @@ chartEditor.Editor.Dialog.prototype.setTheme = function(value) {
 /** @override */
 chartEditor.Editor.Dialog.prototype.createDom = function() {
   chartEditor.Editor.Dialog.base(this, 'createDom');
+
+  goog.dom.classlist.add(this.getElement(), goog.getCssName('anychart-ce-editor-dialog'));
 
   if (this.theme_)
     goog.dom.classlist.add(this.getElement(), 'anychart-ce-dialog-' + this.theme_ + '-theme');
@@ -497,9 +499,6 @@ chartEditor.Editor.Dialog.prototype.initTitleElements_ = function() {
   goog.dom.insertSiblingBefore(this.titleLogoEl_, goog.dom.getFirstElementChild(titleElement));
 
   this.setTitle('Chart Editor');
-
-  var close = this.getTitleCloseElement();
-  goog.dom.appendChild(close, goog.dom.createDom(goog.dom.TagName.I, ['ac', 'ac-remove']));
 };
 
 

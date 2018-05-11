@@ -94,71 +94,71 @@
   width: 100%;
   height: 100%;
   z-index: 1000;
+}
 
-  .anychart-ce-loader-rotating-cover {
-    width: 70px;
-    height: 70px;
-    position: absolute;
-    top: 50%;
-    margin-top: -35px;
-    left: 50%;
-    margin-left: -35px;
-  }
+.anychart-ce-loader-rotating-cover {
+  width: 70px;
+  height: 70px;
+  position: absolute;
+  top: 50%;
+  margin-top: -35px;
+  left: 50%;
+  margin-left: -35px;
+}
 
-  .anychart-ce-loader-rotating-plane {
-    .border-radius(20%);
-    .animation(anychart-ce-loader-rotate-plane, 3s, infinite);
+.anychart-ce-loader-rotating-plane {
+  .border-radius(20%);
+  .animation(anychart-ce-loader-rotate-plane, 3s, infinite);
 
-    display: block;
-    width: 100%;
-    height: 100%;
-    border: 5px solid #1c75ba;
-    margin: 0 auto;
-    position: relative;
-  }
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 5px solid #1c75ba;
+  margin: 0 auto;
+  position: relative;
+}
 
-  .anychart-ce-loader-chart-row {
-    position: absolute;
-    top: 10px;
-    bottom: 0;
-    left: 10px;
-    right: 10px;
-    letter-spacing: -3px;
-    line-height: 0;
-    font-size: 0;
-    white-space: nowrap;
+.anychart-ce-loader-chart-row {
+  position: absolute;
+  top: 10px;
+  bottom: 0;
+  left: 10px;
+  right: 10px;
+  letter-spacing: -3px;
+  line-height: 0;
+  font-size: 0;
+  white-space: nowrap;
 
-    .anychart-ce-loader-chart-col {
-      display: inline-block;
-      width: 25%;
+  .anychart-ce-loader-chart-col {
+    display: inline-block;
+    width: 25%;
+    height: 90%;
+    background: #000;
+    margin: 0 12.5% 0 0;
+    vertical-align: bottom;
+
+    &.anychart-ce-loader-green {
+      background: #26a957;
+      height: 50%;
+      .animation(anychart-ce-loader-blink-plane, 1.5s, infinite);
+      //-webkit-animation: anychart-ce-loader-blink-plane 1.5s infinite;
+      //animation: anychart-ce-loader-blink-plane 1.5s infinite;
+    }
+
+    &.anychart-ce-loader-orange {
+      background: #ff8207;
+      height: 70%;
+      .animation(anychart-ce-loader-blink-plane, 1.5s, infinite, .25s);
+      //-webkit-animation: anychart-ce-loader-blink-plane 1.5s infinite .15s;
+      //animation: anychart-ce-loader-blink-plane 1.5s infinite .25s
+    }
+
+    &.anychart-ce-loader-red {
+      background: #f0402e;
       height: 90%;
-      background: #000;
-      margin: 0 12.5% 0 0;
-      vertical-align: bottom;
-
-      &.anychart-ce-loader-green {
-        background: #26a957;
-        height: 50%;
-        .animation(anychart-ce-loader-blink-plane, 1.5s, infinite);
-        //-webkit-animation: anychart-ce-loader-blink-plane 1.5s infinite;
-        //animation: anychart-ce-loader-blink-plane 1.5s infinite;
-      }
-
-      &.anychart-ce-loader-orange {
-        background: #ff8207;
-        height: 70%;
-        .animation(anychart-ce-loader-blink-plane, 1.5s, infinite, .25s);
-        //-webkit-animation: anychart-ce-loader-blink-plane 1.5s infinite .15s;
-        //animation: anychart-ce-loader-blink-plane 1.5s infinite .25s
-      }
-
-      &.anychart-ce-loader-red {
-        background: #f0402e;
-        height: 90%;
-        .animation(anychart-ce-loader-blink-plane, 1.5s, infinite, .5s);
-        //-webkit-animation: anychart-ce-loader-blink-plane 1.5s infinite .3s;
-        //animation: anychart-ce-loader-blink-plane 1.5s infinite .5s
-      }
+      .animation(anychart-ce-loader-blink-plane, 1.5s, infinite, .5s);
+      //-webkit-animation: anychart-ce-loader-blink-plane 1.5s infinite .3s;
+      //animation: anychart-ce-loader-blink-plane 1.5s infinite .5s
     }
   }
 }

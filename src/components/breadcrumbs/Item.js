@@ -11,7 +11,7 @@ chartEditor.Item = function(caption) {
     chartEditor.Item.base(this, 'constructor');
     this.caption_ = caption;
 
-    this.addClassName('anychart-breadcrumbs-item');
+    this.addClassName('anychart-ce-breadcrumbs-item');
 };
 goog.inherits(chartEditor.Item, chartEditor.Component);
 
@@ -21,10 +21,10 @@ chartEditor.Item.prototype.createDom = function() {
     chartEditor.Item.base(this, 'createDom');
     var element = this.getElement();
 
-    var caption = goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-breadcrumbs-item-caption', this.caption_);
+    var caption = goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-ce-breadcrumbs-item-caption', this.caption_);
     goog.dom.appendChild(element, caption);
 
-    var indicator = goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-breadcrumbs-item-indicator');
+    var indicator = goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-ce-breadcrumbs-item-indicator');
     goog.dom.appendChild(element, indicator);
 
     this.getHandler().listen(element, goog.events.EventType.CLICK, function(e) {

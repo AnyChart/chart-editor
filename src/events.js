@@ -19,5 +19,7 @@ chartEditor.events.EventType = {
 
   // widgets events
   FILTER_UPDATE: goog.events.getUniqueId('filter-update'),
-  PANEL_CLOSE: goog.events.getUniqueId('panel-close')
+  PANEL_CLOSE: goog.events.getUniqueId('panel-close'),
+
+  OPEN_SAMPLE_DIALOG: goog.events.getUniqueId('open-sample-dialog')
 };

@@ -1,5 +1,6 @@
 goog.provide('chartEditor.EditorModel');
 
+goog.require('chartEditor.dialog.Confirm');
 goog.require('goog.events.EventTarget');
 goog.require('goog.format.JsonPrettyPrinter');
 goog.require('goog.format.JsonPrettyPrinter.SafeHtmlDelimiters');
@@ -1949,26 +1950,70 @@ chartEditor.EditorModel.prototype.getFullId = function(dataType, setId) {
  * @param {Object} data
  */
 chartEditor.EditorModel.prototype.addData = function(data) {
+  // debugger
   var dataType = data.dataType ? data.dataType : chartEditor.EditorModel.DataType.CUSTOM;
   var setId = goog.isDef(data.setId) ? data.setId : goog.string.createUniqueString();
   var setFullId = this.getFullId(dataType, setId);
 
-  if (!this.data_[setFullId]) {
-    this.data_[setFullId] = {
-      data: data.data,
-
-      type: dataType,
-      setId: setId,
-      setFullId: setFullId,
-
-      title: data.title,
-      chartType: data.chartType,
-      seriesType: data.seriesType,
-      activeGeo: data.activeGeo,
-      fieldNames: data.fieldNames || {},
-      defaults: data.defaults || []
-    };
+  // Check if data set exists
+  var existingData = null;
+  if (dataType != chartEditor.EditorModel.DataType.GEO) {
+    for (var i in this.data_) {
+      if (this.data_[i].type == chartEditor.EditorModel.DataType.CUSTOM || this.data_[i].type == chartEditor.EditorModel.DataType.PREDEFINED) {
+        existingData = this.data_[i];
+        break;
+      }
+    }
   }
+
+  var dataSet = {
+    data: data.data,
+
+    type: dataType,
+    setId: setId,
+    setFullId: setFullId,
+
+    title: data.title,
+    chartType: data.chartType,
+    seriesType: data.seriesType,
+    activeGeo: data.activeGeo,
+    fieldNames: data.fieldNames || {},
+    defaults: data.defaults || []
+  };
+
+  if (existingData) {
+    var confirm = new chartEditor.dialog.Confirm();
+    confirm.setTitle('Remove previous data set?');
+    confirm.setTextContent('You already have added data set. Remove it?');
+
+    var self = this;
+    goog.events.listen(confirm, goog.ui.Dialog.EventType.SELECT, function(e) {
+      if (e.key == 'ok') {
+        delete self.data_[existingData.setFullId];
+        this.generateInitialMappingsOnChangeView_ = true;
+        self.addDataInternal(dataSet);
+      }
+
+      confirm.dispose();
+    });
+    confirm.setVisible(true);
+
+  } else {
+    this.addDataInternal(dataSet);
+  }
+};
+
+
+/**
+ * Adds data set to this.data_ container.
+ * If new data set is geo data, then removes old geo data.
+ * @param {Object} dataSet Ready to use data structure in internal forma.
+ */
+chartEditor.EditorModel.prototype.addDataInternal = function(dataSet) {
+  var setFullId = dataSet.setFullId;
+  var dataType = dataSet.type;
+
+  this.data_[setFullId] = dataSet;
   this.preparedData_.length = 0;
 
   if (dataType === chartEditor.EditorModel.DataType.GEO) {
@@ -1990,12 +2035,12 @@ chartEditor.EditorModel.prototype.addData = function(data) {
       }
     }
   } else {
+    this.model_['dataSettings']['active'] = setFullId;
     this.generateInitialMappingsOnChangeView_ = true;
   }
 
   this.dispatchUpdate();
 };
-
 
 /**
  * Removes data set from data container.
@@ -2043,11 +2088,19 @@ chartEditor.EditorModel.prototype.getPreparedData = function(opt_setFullId) {
 
 /**
  * @param {boolean=} opt_activeGeo
+ * @param {number=} opt_startIndex
+ * @param {number=} opt_numRows
  * @return {?(Array.<*>|Object)}
  */
-chartEditor.EditorModel.prototype.getRawData = function(opt_activeGeo) {
+chartEditor.EditorModel.prototype.getRawData = function(opt_activeGeo, opt_startIndex, opt_numRows) {
   var dataSet = this.data_[opt_activeGeo ? this.getActiveGeo() : this.getActive()];
-  return dataSet ? dataSet.data : null;
+  if (!dataSet)
+    return null;
+
+  if (goog.isDef(opt_startIndex) && goog.isDef(opt_numRows) && goog.isArray(dataSet.data))
+    return goog.array.slice(dataSet.data, opt_startIndex, opt_startIndex + opt_numRows);
+
+  return dataSet.data;
 };
 
 

@@ -11,7 +11,7 @@ goog.require("goog.ui.Button");
  */
 chartEditor.Breadcrumbs = function() {
   chartEditor.Breadcrumbs.base(this, 'constructor');
-  this.addClassName('anychart-breadcrumbs');
+  this.addClassName('anychart-ce-breadcrumbs');
 };
 goog.inherits(chartEditor.Breadcrumbs, chartEditor.Component);
 
@@ -66,10 +66,10 @@ chartEditor.Breadcrumbs.prototype.createDom = function() {
 
   var items = new chartEditor.Component();
   items.addClassName('anychart-ce-noselect');
-  items.addClassName('anychart-breadcrumbs-items');
+  items.addClassName('anychart-ce-breadcrumbs-items');
   this.addChild(items, true);
 
-  var prepareData = new chartEditor.Item('Prepare Data');
+  var prepareData = new chartEditor.Item('Configure Data');
   items.addChild(prepareData, true);
 
   var setupChart = new chartEditor.Item('Setup Chart');
@@ -79,23 +79,23 @@ chartEditor.Breadcrumbs.prototype.createDom = function() {
   items.addChild(visualAppearance, true);
 
   var buttons = new chartEditor.Component();
-  buttons.addClassName('anychart-breadcrumbs-buttons');
+  buttons.addClassName('anychart-ce-breadcrumbs-buttons');
   this.addChild(buttons, true);
 
   var buttonsRenderer = /** @type {goog.ui.ButtonRenderer} */(goog.ui.ControlRenderer.getCustomRenderer(
       goog.ui.ButtonRenderer,
-      'anychart-breadcrumbs-button'));
+      'anychart-ce-breadcrumbs-button'));
 
   var next = new goog.ui.Button('Next', buttonsRenderer);
-  next.addClassName('anychart-breadcrumbs-right');
+  next.addClassName('anychart-ce-breadcrumbs-right');
   buttons.addChild(next, true);
 
   var complete = new goog.ui.Button('Complete', buttonsRenderer);
-  complete.addClassName('anychart-breadcrumbs-right');
+  complete.addClassName('anychart-ce-breadcrumbs-right');
   buttons.addChild(complete, true);
 
   var prev = new goog.ui.Button('Previous', buttonsRenderer);
-  prev.addClassName('anychart-breadcrumbs-left');
+  prev.addClassName('anychart-ce-breadcrumbs-left');
   buttons.addChild(prev, true);
 
   var clear = new chartEditor.Component();
@@ -134,12 +134,12 @@ chartEditor.Breadcrumbs.prototype.setStep = function(index, stepDescriptors) {
       // update items
       for (var i = 0; i < this.steps_.length; i++) {
         var step = this.steps_[i];
-        step.removeClassName('anychart-breadcrumbs-item-active');
+        step.removeClassName('anychart-ce-breadcrumbs-item-active');
         step.setVisible(stepDescriptors[i].enabled);
 
         if (firstStep < 0 && stepDescriptors[i].enabled) firstStep = i;
       }
-      this.steps_[this.step_].addClassName('anychart-breadcrumbs-item-active');
+      this.steps_[this.step_].addClassName('anychart-ce-breadcrumbs-item-active');
 
       // update buttons
       if (this.step_ === firstStep) {
