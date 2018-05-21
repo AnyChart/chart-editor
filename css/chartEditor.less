@@ -90,7 +90,7 @@
     display: none;
   }
 
-  .chart-container {
+  .anychart-ce-chart-container {
     position: absolute;
     top: 55px;
     bottom: 18px;
@@ -114,9 +114,11 @@
 }
 
 .anychart-ce-breadcrumbs-item {
+  .box-sizing(content-box);
   float: left;
   margin: 13px 30px 13px 0;
   cursor: pointer;
+  width: 18%;
 
   &:hover {
     .anychart-ce-breadcrumbs-item-caption {
@@ -141,7 +143,7 @@
   .border-radius(4px);
   margin-top: 6px;
   height: 7px;
-  width: 260px;
+  width: 100%;
   background: @color-blue-disabled;
 }
 
@@ -497,7 +499,8 @@
 .anychart-ce-plot-panel-add-series-btn,
 .anychart-chart-data-settings-add-plot-btn,
 .anychart-axes-panel-add-axis-btn,
-.anychart-ce-settings-panel-add-range-btn {
+.anychart-ce-settings-panel-add-range-btn,
+.anychart-ce-embed-button {
   .border-radius(4px);
   font-size: 14px;
   padding: 6px 10px;
@@ -604,7 +607,8 @@
 // endregion
 
 // region ---- Appearance step
-.anychart-visual-appearance-step-tabs {
+.anychart-ce-step-tabs {
+  .box-sizing(border-box);
   position: absolute;
   left: 0;
   top: 0;
@@ -634,7 +638,7 @@
   }
 }
 
-.anychart-visual-appearance-right-wrapper {
+.anychart-ce-step-right-wrapper {
   position: absolute;
   left: 231px;
   top: 0;
@@ -643,7 +647,8 @@
   overflow: hidden;
 }
 
-.anychart-visual-appearance-settings-tab-content {
+.anychart-ce-step-tab-content {
+  .box-sizing(border-box);
   position: absolute;
   left: 0;
   top: 0;
@@ -673,7 +678,8 @@
   }
 }
 
-.anychart-visual-appearance-settings-chart-wrapper {
+.anychart-ce-step-chart-wrapper {
+  .box-sizing(border-box);
   position: absolute;
   left: 35%;
   top: 0;
@@ -1041,6 +1047,20 @@
 .anychart-ce-buttonset-default {
   font-weight: bold;
 }
+// endregion
+
+// region ---- Export step
+.anychart-ce-step-export {
+  .anychart-ce-step-tab-content {
+    width: auto;
+    right: 12px;
+  }
+  .anychart-ce-step-chart-wrapper {
+    width: 0;
+    visibility: hidden;
+  }
+}
+
 // endregion
 
 .anychart-ce-flat-menu-button {
@@ -1456,10 +1476,10 @@
 
 // region ---- Qlik theme
 .anychart-qlik-theme {
-  .chart-container,
+  .anychart-ce-chart-container,
   .anychart-ce-data-set-item,
   .anychart-ce-buttons-wrapper,
-  .anychart-visual-appearance-settings-tab-content > .anychart-ce-settings-panel > .content {
+  .anychart-ce-step-tab-content > .anychart-ce-settings-panel > .content {
     border: 1px solid @color-border;
   }
   .anychart-ce-data-set-item-disabled {
@@ -1554,7 +1574,7 @@
   }
 
   .anychart-ce-checkbox-checked,
-  .anychart-visual-appearance-settings-tab-content > .anychart-ce-settings-panel > .top .anychart-ce-checkbox-checked {
+  .anychart-ce-step-tab-content > .anychart-ce-settings-panel > .top .anychart-ce-checkbox-checked {
     .anychart-ce-checkbox-element {
       background-color: @color-blue;
       border-color: @color-blue;
@@ -1581,4 +1601,32 @@
     }
   }
 }
+// endregion
+
+// region ---- Export step
+.anychart-ce-settings-panel-json {
+
+}
+.anychart-ce-settings-panel-sourcecode,
+.anychart-ce-settings-panel-json {
+  > .content {
+    padding: 0 !important;
+  }
+
+  div.code-toolbar>.toolbar {
+    right: 22px;
+  }
+  pre.language-html,
+  pre.language-json {
+    margin: 0 !important;
+  }
+}
+
+pre[class*=language-]>code {
+  border-left-color: @color-blue !important;
+}
+pre[class*=language-]:after, pre[class*=language-]:before {
+  .box-shadow(none) !important;
+}
+
 // endregion

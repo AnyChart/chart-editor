@@ -20,7 +20,7 @@ chartEditor.dataSetPanelList.Intro.prototype.createDom = function () {
     var element = this.getElement();
     var caption = goog.dom.createDom(
         goog.dom.TagName.DIV,
-        'anychart-ce-data-set-intro-caption',
+        'anychart-ce-content-caption',
         'Welcome to AnyChart Charts Editor'
     );
     var p1 = goog.dom.createDom(

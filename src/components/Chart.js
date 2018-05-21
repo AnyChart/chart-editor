@@ -24,7 +24,7 @@ chartEditor.Chart = function(model, opt_domHelper) {
    * @type {string}
    * @private
    */
-  this.containerId_ = 'chart-container-' + goog.string.createUniqueString();
+  this.containerId_ = 'anychart-ce-chart-container-' + goog.string.createUniqueString();
 };
 goog.inherits(chartEditor.Chart, chartEditor.Component);
 
@@ -33,7 +33,7 @@ goog.inherits(chartEditor.Chart, chartEditor.Component);
 chartEditor.Chart.prototype.createDom = function() {
   chartEditor.Chart.base(this, 'createDom');
 
-  goog.dom.classlist.add(this.getElement(), 'chart-container');
+  goog.dom.classlist.add(this.getElement(), 'anychart-ce-chart-container');
 
   this.getDomHelper().setProperties(this.getElement(), {'id': this.containerId_});
 };
@@ -119,6 +119,9 @@ chartEditor.Chart.prototype.onModelChange = function(evt) {
         var geoIdField = model.getGeoIdField();
         if (geoIdField)
           this.chart_['geoIdField'](geoIdField);
+      } else {
+        // Geo data still loading
+        return;
       }
     }
 
@@ -273,11 +276,9 @@ chartEditor.Chart.prototype.onModelChange = function(evt) {
 
 
 /** @inheritDoc */
-chartEditor.Chart.prototype.dispose = function() {
-  if (this.chart_ && typeof this.chart_['dispose'] === 'function') {
-    this.chart_['dispose']();
-    this.chart_ = null;
-  }
+chartEditor.Chart.prototype.disposeInternal = function() {
+  goog.dispose(this.chart_);
+  this.chart_ = null;
 
-  chartEditor.Chart.base(this, 'dispose');
+  chartEditor.Chart.base(this, 'disposeInternal');
 };

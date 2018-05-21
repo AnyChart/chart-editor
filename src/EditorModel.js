@@ -148,11 +148,12 @@ chartEditor.EditorModel.Model;
 
 /**
  * @typedef {{
- *  minify: boolean,
- *  container: string,
- *  wrapper: string,
- *  addData: boolean,
- *  addGeoData: boolean
+ *  minify: (boolean|undefined),
+ *  container: (string|undefined),
+ *  wrapper: (string|undefined),
+ *  addData: (boolean|undefined),
+ *  addGeoData: (boolean|undefined),
+ *  addMarkers: (boolean|undefined)
  * }}
  */
 chartEditor.EditorModel.OutputOptions;
@@ -982,7 +983,6 @@ chartEditor.EditorModel.prototype.createSeriesConfig = function(index, type, opt
     this.fieldsState_.numbersCount = numbers.length;
   }
 
-  //
   var fields = chartEditor.EditorModel.Series[type]['fields'];
 
   for (var i = 0; i < fields.length; i++) {
@@ -1054,12 +1054,6 @@ chartEditor.EditorModel.prototype.checkSeriesFieldsCompatible = function(seriesT
 };
 
 
-/** @return {?Array.<Object>} */
-chartEditor.EditorModel.prototype.getGeoDataIndex = function() {
-  return this.geoDataIndex_.length ? this.geoDataIndex_ : null;
-};
-
-
 /** @private */
 chartEditor.EditorModel.prototype.initGeoData_ = function() {
   var activeGeo = goog.isString(this.model_['dataSettings']['activeGeo']) ?
@@ -1091,6 +1085,11 @@ chartEditor.EditorModel.prototype.initGeoData_ = function() {
           });
 
           self.loadGeoData_(activeGeo);
+
+          self.dispatchEvent({
+            type: chartEditor.events.EventType.WAIT,
+            wait: false
+          });
         });
   }
 };
@@ -1134,6 +1133,31 @@ chartEditor.EditorModel.prototype.loadGeoData_ = function(opt_setId) {
         });
   }
 };
+
+
+/** @return {?Array.<Object>} */
+chartEditor.EditorModel.prototype.getGeoDataIndex = function() {
+  return this.geoDataIndex_.length ? this.geoDataIndex_ : null;
+};
+
+
+/**@return {Object} */
+chartEditor.EditorModel.prototype.getGeoDataInfo = function() {
+  var result = {};
+  if (this.geoDataIndex_ && this.model_['dataSettings']['activeGeo']) {
+    var setId = Number(this.model_['dataSettings']['activeGeo'].substr(1));
+    if (this.geoDataIndex_[setId]) {
+      var url = this.geoDataIndex_[setId]['data'];
+      var match = url.match(/\/(\w*)\.json/);
+      if (match) {
+        result['path'] = 'anychart.maps.' + match[1];
+        result['url'] = 'https://cdn.anychart.com/geodata/1.2.0' + url.replace('json', 'js');
+        result['geoIdField'] =  this.getGeoIdField();
+      }
+    }
+  }
+  return result;
+};
 // endregion
 
 
@@ -1144,11 +1168,13 @@ chartEditor.EditorModel.prototype.loadGeoData_ = function(opt_setId) {
  * @param {boolean} rebuild
  */
 chartEditor.EditorModel.prototype.onChartDraw = function(chart, rebuild) {
-  this.dispatchEvent({
-    type: chartEditor.events.EventType.CHART_DRAW,
-    chart: chart,
-    rebuild: rebuild
-  });
+  if (chart) { // todo: sometimes it's null
+    this.dispatchEvent({
+      type: chartEditor.events.EventType.CHART_DRAW,
+      chart: chart,
+      rebuild: rebuild
+    });
+  }
 };
 
 
@@ -1224,9 +1250,6 @@ chartEditor.EditorModel.prototype.onChangeView = function() {
         this.chooseDefaultChartType();
         this.chooseDefaultSeriesType();
         this.createDefaultMappings();
-
-        // Set default chart title by dataset title
-        this.setValue([['chart'], ['settings'], 'title()'], this.data_[this.getActive()]['title']);
       }
     } else {
       console.warn("NO DATA");
@@ -2157,7 +2180,7 @@ chartEditor.EditorModel.prototype.getChartAsJsCode = function(opt_options) {
 chartEditor.EditorModel.prototype.getChartAsJson = function() {
   var chart = this.getChartWithJsCode_()[1];
   if (!chart) return '';
-  var json = chart ? chart.toJson() : '';
+  var json = chart ? chart['toJson']() : '';
   var settings = this.getModel();
   var outputSettings = settings['editorSettings'] && settings['editorSettings']['output'] ? settings['editorSettings']['output'] : {};
   var minify = !!outputSettings['minify'];
@@ -2184,7 +2207,7 @@ chartEditor.EditorModel.prototype.getChartAsJson = function() {
  */
 chartEditor.EditorModel.prototype.getChartAsXml = function() {
   var chart = this.getChartWithJsCode_()[1];
-  return chart ? chart.toXml(false) : '';
+  return chart ? chart['toXml'](false) : '';
 };
 
 
@@ -2253,7 +2276,8 @@ chartEditor.EditorModel.prototype.getChartWithJsCode_ = function(opt_options) {
             'chart.geoData(geoData);'
         );
       } else {
-        // todo: show link to geo data or something
+        var getGeoDataInfo = this.getGeoDataInfo();
+        result.push('chart.geoData(\'' + getGeoDataInfo['path'] + '\');');
       }
 
       var geoIdField = this.getGeoIdField();
@@ -2273,7 +2297,7 @@ chartEditor.EditorModel.prototype.getChartWithJsCode_ = function(opt_options) {
 
   if (addMarkers) result.push('/*=rawData*/');
 
-  var str = 'var rawData' + eq + (addData ? this.printValue_(printer, rawData) : '[/*Add your data here*/]') + ';';
+  var str = 'var rawData' + eq + (addData ? this.printValue_(printer, rawData) : 'getData()') + ';';
   result.push(str);
 
   if (addMarkers) result.push('/*rawData=*/');
@@ -2456,7 +2480,7 @@ chartEditor.EditorModel.prototype.getChartWithJsCode_ = function(opt_options) {
       }
 
       if (goog.isDef(value) && chartEditor.binding.testExec(chart, key, value)) {
-        var settingString = self.printKey_(printer, 'chart', key, pVal, force, quotes);
+        var settingString = self.printKey_(printer, 'chart', key, pVal, goog.isString(value) || force, quotes);
 
         if (addMarkers) {
           var pattern = /(plot\(\d\)\.)?getSeries.*\.name\(.*\)/;
@@ -2499,6 +2523,8 @@ chartEditor.EditorModel.prototype.getChartWithJsCode_ = function(opt_options) {
         return '  ' + item;
       });
     }
+
+    this.indentCode(result);
 
     // wrap with function
     if (wrapper === 'function') {
@@ -2565,6 +2591,53 @@ chartEditor.EditorModel.prototype.printValue_ = function(printer, value) {
     value = '"' + value + '"';
   }
   return printer.format(value);
+};
+
+
+/**
+ * Returns code with function that returns current data
+ * @return {string}
+ */
+chartEditor.EditorModel.prototype.getDataCode = function() {
+  var printerSettings = new goog.format.JsonPrettyPrinter.TextDelimiters();
+  var printer = new goog.format.JsonPrettyPrinter(printerSettings);
+  var result = [];
+
+  result.push('');
+  result.push('function getData() {');
+
+  var rawData = this.getRawData();
+
+  var dataStr = 'return ' + this.printValue_(printer, rawData) + ';';
+  result.push(dataStr);
+
+  this.indentCode(result, void 0, 2);
+
+  result.push('}');
+
+  return result.join('\n');
+};
+
+
+/**
+ * @param {Array.<string>|string} code
+ * @param {number=} opt_numSpaces
+ * @param {number=} opt_from
+ * @param {number=} opt_to
+ * @return {Array.<string>|string} Result indented code
+ */
+chartEditor.EditorModel.prototype.indentCode = function(code, opt_numSpaces, opt_from, opt_to) {
+  var isString = goog.isString(code);
+  code = isString ? [code] : code;
+  opt_numSpaces = goog.isDef(opt_numSpaces) ? opt_numSpaces : 2;
+  opt_from = goog.isDef(opt_from) ? opt_from : 0;
+  opt_to = !goog.isDef(opt_to) || opt_to > code.length ? code.length : opt_to;
+  var indentation = ' '.repeat(opt_numSpaces);
+  for (var i = opt_from; i < opt_to; i++) {
+    code[i] = indentation + code[i].replace(/\n/g, '\n' + indentation);
+  }
+
+  return isString ? code[0] : code;
 };
 
 

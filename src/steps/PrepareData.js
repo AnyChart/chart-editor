@@ -150,7 +150,7 @@ chartEditor.steps.PrepareData.prototype.onCloseDataDialog = function(evt) {
 
           switch (dataType) {
             case 'json':
-              anychart['dataAdapterModule']['loadJsonFile'](inputValue,
+              anychart['data']['loadJsonFile'](inputValue,
                   function(data) {
                     self.onSuccessDataLoad(data, dataType);
                   }, errorCallback);
@@ -158,14 +158,14 @@ chartEditor.steps.PrepareData.prototype.onCloseDataDialog = function(evt) {
               break;
 
             case 'csv':
-              anychart['dataAdapterModule']['loadCsvFile'](inputValue,
+              anychart['data']['loadCsvFile'](inputValue,
                   function(data) {
                     self.onSuccessDataLoad(data, dataType);
                   }, errorCallback);
               break;
 
             case 'xml':
-              anychart['dataAdapterModule']['loadXmlFile'](inputValue,
+              anychart['data']['loadXmlFile'](inputValue,
                   function(data) {
                     self.onSuccessDataLoad(data, dataType);
                   }, errorCallback);
@@ -193,7 +193,7 @@ chartEditor.steps.PrepareData.prototype.onCloseDataDialog = function(evt) {
           type: chartEditor.events.EventType.WAIT,
           wait: true
         });
-        anychart['dataAdapterModule']['loadGoogleSpreadsheet'](key,
+        anychart['data']['loadGoogleSpreadsheet'](key,
             function(data) {
               self.onSuccessDataLoad(data, dataType);
             },

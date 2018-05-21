@@ -30,6 +30,7 @@ chartEditor.Editor = function(opt_domHelper) {
 
   this.imagesLoaded_ = true;
   this.preloader_ = new chartEditor.Preloader();
+  this.waitQueue_ = 0;
 
   /**
    * @type {chartEditor.Steps}
@@ -153,11 +154,6 @@ chartEditor.Editor.prototype.visible = function(opt_value) {
     this.dialog_.setVisible(opt_value);
     this.waitForImages_();
 
-    if (!prevVisible && opt_value) {
-      this.setFirstStep_();
-      this.breadcrumbs_.setStep(this.steps_.getCurrentStepIndex(), this.steps_.getDescriptors());
-    }
-
     return this;
   }
 
@@ -168,11 +164,11 @@ chartEditor.Editor.prototype.visible = function(opt_value) {
 // region ---- chart export
 /**
  * Returns JS code string that creates a configured chart.
- * @param {chartEditor.EditorModel.OutputOptions=} opt_options Output options object.
+ * @param {chartEditor.EditorModel.OutputOptions=} opt_outputOptions Output options object.
  * @return {string}
  */
-chartEditor.Editor.prototype.getChartAsJsCode = function(opt_options) {
-  return (/** @type {chartEditor.EditorModel} */(this.getModel())).getChartAsJsCode(opt_options);
+chartEditor.Editor.prototype.getChartAsJsCode = function(opt_outputOptions) {
+  return (/** @type {chartEditor.EditorModel} */(this.getModel())).getChartAsJsCode(opt_outputOptions);
 };
 
 
@@ -255,12 +251,13 @@ chartEditor.Editor.prototype.createDom = function() {
   this.breadcrumbs_ = new chartEditor.Breadcrumbs();
   this.addChild(this.breadcrumbs_, true);
 
+  var self = this;
   this.getHandler().listen(this.breadcrumbs_, BreadcrumbsEventType.NEXT, function() {
-    var nextIndex = this.steps_.getCurrentStepIndex() + 1;
+    var nextIndex = self.steps_.getCurrentStep().getIndex() + 1;
     this.setCurrentStep(nextIndex, true);
   });
   this.getHandler().listen(this.breadcrumbs_, BreadcrumbsEventType.PREV, function() {
-    var nextIndex = this.steps_.getCurrentStepIndex() - 1;
+    var nextIndex = self.steps_.getCurrentStep().getIndex() - 1;
     this.setCurrentStep(nextIndex, true);
   });
 
@@ -272,9 +269,9 @@ chartEditor.Editor.prototype.createDom = function() {
   });
 
   // Add steps
-  var stepNames = ['PrepareData', 'SetupChart', 'VisualAppearance'];
-  for (var i = 0; i < stepNames.length; i++) {
-    var step = this.steps_.createStep(stepNames[i]);
+  var stepsCount = this.steps_.getStepsCount();
+  for (var i = 0; i < stepsCount; i++) {
+    var step = this.steps_.getStepByIndex(i);
     this.addChildAt(step, i); // don't render until this.setCurrentStep() call
   }
 
@@ -287,7 +284,7 @@ chartEditor.Editor.prototype.createDom = function() {
  * @private
  */
 chartEditor.Editor.prototype.onBeforeChangeStep_ = function(evt) {
-  this.breadcrumbs_.setStep(evt.index, this.steps_.getDescriptors());
+  this.breadcrumbs_.setStep(evt.index, this.steps_);
   if (evt.index !== 0) this.getModel().onChangeView();
 };
 
@@ -299,10 +296,16 @@ chartEditor.Editor.prototype.enterDocument = function() {
 };
 
 
-/** @private */
+/**
+ * @return {number} First step index
+ * @private
+ */
 chartEditor.Editor.prototype.setFirstStep_ = function() {
   var index = this.steps_.getFirstStepIndex();
-  this.setCurrentStep(index, false);
+  if (index >= 0)
+    this.setCurrentStep(index, false);
+
+  return index;
 };
 
 
@@ -314,7 +317,7 @@ chartEditor.Editor.prototype.setFirstStep_ = function() {
  */
 chartEditor.Editor.prototype.setCurrentStep = function(index, doAnimation) {
   if (index > 0 && this.getModel().getDataSetsCount() <= 0) {
-    alert('You need at least one data set for the next step!');
+    alert('You need at least one data set at the current step!');
 
   } else {
     this.steps_.setStep(index, doAnimation);
@@ -323,9 +326,20 @@ chartEditor.Editor.prototype.setCurrentStep = function(index, doAnimation) {
 
 
 /**
- * @return {chartEditor.Steps}
+ * @param {number=} opt_index
+ * @param {boolean|Object=} opt_value
+ * @return {chartEditor.Steps|chartEditor.steps.Base|chartEditor.Editor}
  */
-chartEditor.Editor.prototype.steps = function() {
+chartEditor.Editor.prototype.steps = function(opt_index, opt_value) {
+  if (goog.isDef(opt_index)) {
+    if (goog.isDef(opt_value)) {
+      var step = this.steps_.getStepByIndex(opt_index);
+      if (step)
+        step.setup(opt_value);
+      return this;
+    } else
+      return this.steps_.getStepByIndex(opt_index);
+  }
   return this.steps_;
 };
 
@@ -343,7 +357,7 @@ chartEditor.Editor.prototype.localization = function(values) {
 
 /**
  * Add data to editor while initialization.
- * @param {Object} data
+ * @param {Object|Array.<Object>} data Raw data.
  */
 chartEditor.Editor.prototype.data = function(data) {
   if (goog.isObject(data)) {
@@ -389,7 +403,16 @@ chartEditor.Editor.prototype.onDataRemove_ = function(evt) {
  * @private
  */
 chartEditor.Editor.prototype.onWait_ = function(evt) {
-  this.showWaitAnimation_(evt.wait);
+  this.waitQueue_ += evt.wait ? 1 : -1;
+
+  if (this.waitQueue_ > 0 && !this.preloader_.visible()) {
+    this.showWaitAnimation_(true);
+  } else if (this.waitQueue_ == 0) {
+    this.showWaitAnimation_(false);
+  }
+
+  if (this.waitQueue_ < 0)
+    console.warn("Wait queue error!");
 };
 
 

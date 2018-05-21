@@ -25,6 +25,12 @@ chartEditor.steps.Base = function(index, opt_domHelper) {
   chartEditor.steps.Base.base(this, 'constructor', opt_domHelper);
 
   /**
+   * @type {number}
+   * @private
+   */
+  this.index_ = index;
+
+  /**
    * @type {string}
    * @private
    */
@@ -37,26 +43,22 @@ chartEditor.steps.Base = function(index, opt_domHelper) {
   this.title_ = 'Step';
 
   /**
-   * Enabled transition to next step.
    * @type {boolean}
    * @private
    */
-  this.enableNextStep_ = true;
+  this.enabled_ = true;
 
-  /**
-   * @type {number}
-   * @private
-   */
-  this.index_ = index;
+  this.addClassName(goog.getCssName('anychart-ce-step'));
 };
 goog.inherits(chartEditor.steps.Base, chartEditor.Component);
 
 
 /**
- * CSS class name.
- * @type {string}
+ * @returns {number}
  */
-chartEditor.steps.Base.CSS_CLASS = goog.getCssName('anychart-ce-step');
+chartEditor.steps.Base.prototype.getIndex = function() {
+  return this.index_;
+};
 
 
 /**
@@ -88,17 +90,29 @@ chartEditor.steps.Base.prototype.title = function(opt_value) {
 
 
 /**
- * @returns {number}
+ * Getter/setter for enabled state
+ * @param {boolean=} opt_value
+ * @return {boolean|chartEditor.steps.Base} Enabled state or self for chaining
  */
-chartEditor.steps.Base.prototype.getIndex = function() {
-  return this.index_;
+chartEditor.steps.Base.prototype.enabled = function(opt_value) {
+  if (goog.isDef(opt_value)) {
+    this.enabled_ = opt_value;
+    return this;
+  }
+  return this.enabled_;
 };
 
 
-/** @override */
-chartEditor.steps.Base.prototype.createDom = function() {
-  goog.base(this, 'createDom');
-
-  var element = /** @type {Element} */(this.getElement());
-  goog.dom.classlist.add(element, chartEditor.steps.Base.CSS_CLASS);
+/**
+ * @param {boolean|Object} value
+ */
+chartEditor.steps.Base.prototype.setup = function(value) {
+  if (goog.isBoolean(value)) {
+    this.enabled(value);
+  } else {
+    // todo: costyling
+    if (goog.isDef(value['enabled'])) {
+      this.enabled(value['enabled']);
+    }
+  }
 };

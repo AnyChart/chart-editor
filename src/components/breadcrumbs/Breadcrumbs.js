@@ -1,7 +1,7 @@
 goog.provide('chartEditor.Breadcrumbs');
 
 goog.require("chartEditor.Component");
-goog.require("chartEditor.Item");
+goog.require("chartEditor.breadcrumbs.Item");
 goog.require("goog.ui.Button");
 
 
@@ -29,14 +29,14 @@ chartEditor.Breadcrumbs.EventType = {
  * @type {number}
  * @private
  */
-chartEditor.Breadcrumbs.prototype.step_ = 0;
+chartEditor.Breadcrumbs.prototype.stepIndex_ = 0;
 
 
 /**
- * @type {Array.<chartEditor.Component>}
+ * @type {Array.<chartEditor.breadcrumbs.Item>}
  * @private
  */
-chartEditor.Breadcrumbs.prototype.steps_ = null;
+chartEditor.Breadcrumbs.prototype.items_ = null;
 
 
 /**
@@ -69,14 +69,17 @@ chartEditor.Breadcrumbs.prototype.createDom = function() {
   items.addClassName('anychart-ce-breadcrumbs-items');
   this.addChild(items, true);
 
-  var prepareData = new chartEditor.Item('Configure Data');
+  var prepareData = new chartEditor.breadcrumbs.Item('Configure Data');
   items.addChild(prepareData, true);
 
-  var setupChart = new chartEditor.Item('Setup Chart');
+  var setupChart = new chartEditor.breadcrumbs.Item('Setup Chart');
   items.addChild(setupChart, true);
 
-  var visualAppearance = new chartEditor.Item('Visual Appearance');
+  var visualAppearance = new chartEditor.breadcrumbs.Item('Visual Appearance');
   items.addChild(visualAppearance, true);
+
+  var exportStep = new chartEditor.breadcrumbs.Item('Export');
+  items.addChild(exportStep, true);
 
   var buttons = new chartEditor.Component();
   buttons.addClassName('anychart-ce-breadcrumbs-buttons');
@@ -105,7 +108,7 @@ chartEditor.Breadcrumbs.prototype.createDom = function() {
   this.next_ = next;
   this.prev_ = prev;
   this.complete_ = complete;
-  this.steps_ = [prepareData, setupChart, visualAppearance];
+  this.items_ = [prepareData, setupChart, visualAppearance, exportStep];
 
   this.next_.setVisible(false);
   this.prev_.setVisible(false);
@@ -115,47 +118,67 @@ chartEditor.Breadcrumbs.prototype.createDom = function() {
   this.getHandler().listen(prev, goog.ui.Component.EventType.ACTION, this.onButtonAction_);
   this.getHandler().listen(complete, goog.ui.Component.EventType.ACTION, this.onButtonAction_);
 
-  goog.array.forEach(this.steps_, function(item) {
+  goog.array.forEach(this.items_, function(item) {
     this.getHandler().listen(item, goog.ui.Component.EventType.ACTION, this.onItemAction_);
   }, this);
 };
 
 
+/** @inheritDoc */
+chartEditor.Breadcrumbs.prototype.enterDocument = function() {
+  chartEditor.Breadcrumbs.base(this, 'enterDocument');
+
+  for (var i = 0; i < this.items_.length; i++) {
+    this.items_[i].setVisible(false);
+  }
+};
+
+
 /**
- * @param {number} index
- * @param {Object} stepDescriptors
+ * @param {number} index Next step index
+ * @param {chartEditor.Steps} steps
  */
-chartEditor.Breadcrumbs.prototype.setStep = function(index, stepDescriptors) {
-  this.step_ = index;
-  var firstStep = -1;
+chartEditor.Breadcrumbs.prototype.setStep = function(index, steps) {
+  this.stepIndex_ = index;
 
   if (this.isInDocument()) {
-    if (this.steps_) {
+    if (this.items_) {
       // update items
-      for (var i = 0; i < this.steps_.length; i++) {
-        var step = this.steps_[i];
-        step.removeClassName('anychart-ce-breadcrumbs-item-active');
-        step.setVisible(stepDescriptors[i].enabled);
-
-        if (firstStep < 0 && stepDescriptors[i].enabled) firstStep = i;
+      for (var i = 0; i < this.items_.length; i++) {
+        var item = this.items_[i];
+        item.removeClassName('anychart-ce-breadcrumbs-item-active');
+        var isEnabled = /** @type {boolean} */(steps.getStepByIndex(i).enabled());
+        item.setVisible(isEnabled);
       }
-      this.steps_[this.step_].addClassName('anychart-ce-breadcrumbs-item-active');
+      this.items_[this.stepIndex_].addClassName('anychart-ce-breadcrumbs-item-active');
 
       // update buttons
-      if (this.step_ === firstStep) {
-        this.prev_.setVisible(false);
-        this.complete_.setVisible(false);
-        this.next_.setVisible(true);
+      var firstIndex = steps.getFirstStepIndex();
+      var lastIndex = steps.getLastStepIndex();
 
-      } else if (this.step_ === this.steps_.length - 1) {
-        this.prev_.setVisible(true);
-        this.complete_.setVisible(true);
+      if (firstIndex == lastIndex) {
+        // Only one step
+        this.prev_.setVisible(false);
         this.next_.setVisible(false);
+        this.complete_.setVisible(true);
+
+      } else if (this.stepIndex_ === firstIndex) {
+        // First step
+        this.prev_.setVisible(false);
+        this.next_.setVisible(true);
+        this.complete_.setVisible(false);
+
+      } else if (this.stepIndex_ === lastIndex) {
+        // Last step
+        this.prev_.setVisible(true);
+        this.next_.setVisible(false);
+        this.complete_.setVisible(true);
 
       } else {
+        // In the middle
         this.prev_.setVisible(true);
-        this.complete_.setVisible(false);
         this.next_.setVisible(true);
+        this.complete_.setVisible(false);
       }
     }
   }
@@ -169,7 +192,7 @@ chartEditor.Breadcrumbs.prototype.setStep = function(index, stepDescriptors) {
 chartEditor.Breadcrumbs.prototype.onItemAction_ = function(e) {
   this.dispatchEvent({
     type: chartEditor.Breadcrumbs.EventType.CHANGE_STEP,
-    step: goog.array.indexOf(this.steps_, e.target)
+    step: goog.array.indexOf(this.items_, e.target)
   });
 };
 
@@ -191,7 +214,9 @@ chartEditor.Breadcrumbs.prototype.onButtonAction_ = function(e) {
 
 /** @inheritDoc */
 chartEditor.Breadcrumbs.prototype.disposeInternal = function() {
-  this.steps_ = null;
+  goog.disposeAll(this.items_);
+  goog.disposeAll([this.next_, this.prev_, this.complete_]);
+  this.items_ = null;
   this.next_ = null;
   this.prev_ = null;
   this.complete_ = null;

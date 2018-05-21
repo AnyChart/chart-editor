@@ -2,7 +2,6 @@ goog.provide('chartEditor.controls.input.Base');
 
 goog.require('chartEditor.events');
 
-goog.require('goog.Timer');
 goog.require('goog.events.InputHandler');
 goog.require('goog.events.KeyHandler');
 goog.require('goog.ui.LabelInput');
