@@ -1461,7 +1461,7 @@
   left: 25px;
   display: none;
 }
-.anychart-ce-step .chart-container {
+.anychart-ce-step .anychart-ce-chart-container {
   position: absolute;
   top: 55px;
   bottom: 18px;
@@ -1479,9 +1479,13 @@
   padding: 0 12px;
 }
 .anychart-ce-breadcrumbs-item {
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
   float: left;
   margin: 13px 30px 13px 0;
   cursor: pointer;
+  width: 18%;
 }
 .anychart-ce-breadcrumbs-item:hover .anychart-ce-breadcrumbs-item-caption {
   color: #02befc;
@@ -1505,7 +1509,7 @@
   background-clip: padding-box;
   margin-top: 6px;
   height: 7px;
-  width: 260px;
+  width: 100%;
   background: #738db0;
 }
 .anychart-ce-breadcrumbs-item-active {
@@ -1836,7 +1840,8 @@
 .anychart-ce-plot-panel-add-series-btn,
 .anychart-chart-data-settings-add-plot-btn,
 .anychart-axes-panel-add-axis-btn,
-.anychart-ce-settings-panel-add-range-btn {
+.anychart-ce-settings-panel-add-range-btn,
+.anychart-ce-embed-button {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
@@ -1855,7 +1860,8 @@
 .anychart-ce-plot-panel-add-series-btn:hover,
 .anychart-chart-data-settings-add-plot-btn:hover,
 .anychart-axes-panel-add-axis-btn:hover,
-.anychart-ce-settings-panel-add-range-btn:hover {
+.anychart-ce-settings-panel-add-range-btn:hover,
+.anychart-ce-embed-button:hover {
   background-color: #02befc;
 }
 .anychart-ce-plot-panel-add-series-btn {
@@ -1932,7 +1938,10 @@
 .anychart-geo-data-inputs {
   margin: 10px 0;
 }
-.anychart-visual-appearance-step-tabs {
+.anychart-ce-step-tabs {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
   position: absolute;
   left: 0;
   top: 0;
@@ -1942,26 +1951,26 @@
   overflow-y: auto;
   padding: 56px 7px 18px 18px;
 }
-.anychart-visual-appearance-step-tabs .anychart-ce-buttons-wrapper {
+.anychart-ce-step-tabs .anychart-ce-buttons-wrapper {
   -webkit-box-shadow: 0 0 8px #c4d5df;
   -moz-box-shadow: 0 0 8px #c4d5df;
   box-shadow: 0 0 8px #c4d5df;
 }
-.anychart-visual-appearance-step-tabs .button {
+.anychart-ce-step-tabs .button {
   background: white;
   padding: 23px 0 24px 15px;
   font-size: 16px;
   cursor: pointer;
 }
-.anychart-visual-appearance-step-tabs .button:hover {
+.anychart-ce-step-tabs .button:hover {
   background-color: #ecf7ff;
 }
-.anychart-visual-appearance-step-tabs .active {
+.anychart-ce-step-tabs .active {
   color: #469ced;
   background-color: #ecf7ff;
   cursor: default;
 }
-.anychart-visual-appearance-right-wrapper {
+.anychart-ce-step-right-wrapper {
   position: absolute;
   left: 231px;
   top: 0;
@@ -1969,7 +1978,10 @@
   right: 0;
   overflow: hidden;
 }
-.anychart-visual-appearance-settings-tab-content {
+.anychart-ce-step-tab-content {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
   position: absolute;
   left: 0;
   top: 0;
@@ -1979,23 +1991,26 @@
   overflow-y: auto;
   padding: 18px 0;
 }
-.anychart-visual-appearance-settings-tab-content > .anychart-ce-settings-panel {
+.anychart-ce-step-tab-content > .anychart-ce-settings-panel {
   margin: 5px;
 }
-.anychart-visual-appearance-settings-tab-content > .anychart-ce-settings-panel > .top .anychart-ce-checkbox .anychart-ce-checkbox-element {
+.anychart-ce-step-tab-content > .anychart-ce-settings-panel > .top .anychart-ce-checkbox .anychart-ce-checkbox-element {
   background: white;
 }
-.anychart-visual-appearance-settings-tab-content > .anychart-ce-settings-panel > .top .title {
+.anychart-ce-step-tab-content > .anychart-ce-settings-panel > .top .title {
   padding-left: 15px !important;
 }
-.anychart-visual-appearance-settings-tab-content > .anychart-ce-settings-panel > .content {
+.anychart-ce-step-tab-content > .anychart-ce-settings-panel > .content {
   -webkit-box-shadow: 0 0 8px #c4d5df;
   -moz-box-shadow: 0 0 8px #c4d5df;
   box-shadow: 0 0 8px #c4d5df;
   padding: 15px;
   background: white;
 }
-.anychart-visual-appearance-settings-chart-wrapper {
+.anychart-ce-step-chart-wrapper {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
   position: absolute;
   left: 35%;
   top: 0;
@@ -2293,6 +2308,14 @@
 }
 .anychart-ce-buttonset-default {
   font-weight: bold;
+}
+.anychart-ce-step-export .anychart-ce-step-tab-content {
+  width: auto;
+  right: 12px;
+}
+.anychart-ce-step-export .anychart-ce-step-chart-wrapper {
+  width: 0;
+  visibility: hidden;
 }
 .anychart-ce-flat-menu-button {
   height: 14px;
@@ -2655,10 +2678,10 @@
 .anychart-ce-pager .current:hover {
   background-color: #469ced;
 }
-.anychart-qlik-theme .chart-container,
+.anychart-qlik-theme .anychart-ce-chart-container,
 .anychart-qlik-theme .anychart-ce-data-set-item,
 .anychart-qlik-theme .anychart-ce-buttons-wrapper,
-.anychart-qlik-theme .anychart-visual-appearance-settings-tab-content > .anychart-ce-settings-panel > .content {
+.anychart-qlik-theme .anychart-ce-step-tab-content > .anychart-ce-settings-panel > .content {
   border: 1px solid #c7d8e4;
 }
 .anychart-qlik-theme .anychart-ce-data-set-item-disabled {
@@ -2734,12 +2757,12 @@
   top: 18px;
 }
 .anychart-qlik-theme .anychart-ce-checkbox-checked .anychart-ce-checkbox-element,
-.anychart-qlik-theme .anychart-visual-appearance-settings-tab-content > .anychart-ce-settings-panel > .top .anychart-ce-checkbox-checked .anychart-ce-checkbox-element {
+.anychart-qlik-theme .anychart-ce-step-tab-content > .anychart-ce-settings-panel > .top .anychart-ce-checkbox-checked .anychart-ce-checkbox-element {
   background-color: #469ced;
   border-color: #469ced;
 }
 .anychart-qlik-theme .anychart-ce-checkbox-checked .anychart-ce-checkbox-checkmark,
-.anychart-qlik-theme .anychart-visual-appearance-settings-tab-content > .anychart-ce-settings-panel > .top .anychart-ce-checkbox-checked .anychart-ce-checkbox-checkmark {
+.anychart-qlik-theme .anychart-ce-step-tab-content > .anychart-ce-settings-panel > .top .anychart-ce-checkbox-checked .anychart-ce-checkbox-checkmark {
   color: white;
 }
 .anychart-qlik-theme .anychart-ce-button-standard.anychart-ce-button-checked {
@@ -2751,4 +2774,27 @@
 }
 .anychart-qlik-theme .anychart-ce-button-disabled.anychart-ce-button-checked {
   background-color: #e9edf0 !important;
+}
+.anychart-ce-settings-panel-sourcecode > .content,
+.anychart-ce-settings-panel-json > .content {
+  padding: 0 !important;
+}
+.anychart-ce-settings-panel-sourcecode div.code-toolbar > .toolbar,
+.anychart-ce-settings-panel-json div.code-toolbar > .toolbar {
+  right: 22px;
+}
+.anychart-ce-settings-panel-sourcecode pre.language-html,
+.anychart-ce-settings-panel-json pre.language-html,
+.anychart-ce-settings-panel-sourcecode pre.language-json,
+.anychart-ce-settings-panel-json pre.language-json {
+  margin: 0 !important;
+}
+pre[class*=language-] > code {
+  border-left-color: #469ced !important;
+}
+pre[class*=language-]:after,
+pre[class*=language-]:before {
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
 }
