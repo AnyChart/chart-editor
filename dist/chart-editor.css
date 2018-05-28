@@ -2198,6 +2198,12 @@
   margin-bottom: 15px;
   background: white;
 }
+.anychart-ce-settings-panel-multiple .anychart-ce-settings-panel-indexed.locked {
+  background: #e9edf0;
+}
+.anychart-ce-settings-panel-multiple .anychart-ce-settings-panel-indexed.locked .anychart-plus-minus {
+  display: none;
+}
 .anychart-ce-settings-panel-legend-single,
 .anychart-ce-settings-panel-plot-grids {
   -webkit-box-shadow: 0 0 8px #c4d5df;
