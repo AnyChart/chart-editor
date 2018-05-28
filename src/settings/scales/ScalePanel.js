@@ -1,8 +1,7 @@
-goog.provide('chartEditor.scales.StandalonePanel');
+goog.provide('chartEditor.scales.ScalePanel');
 
 goog.require("chartEditor.SettingsPanelZippy");
 goog.require("chartEditor.controls.input.Base");
-goog.require("chartEditor.settings.scales.Base");
 goog.require("chartEditor.settings.scales.Standalone");
 
 
@@ -14,8 +13,8 @@ goog.require("chartEditor.settings.scales.Standalone");
  * @constructor
  * @extends {chartEditor.SettingsPanelZippy}
  */
-chartEditor.scales.StandalonePanel = function(model, index, opt_name, opt_domHelper) {
-  chartEditor.scales.StandalonePanel.base(this, 'constructor', model, index, null, opt_domHelper);
+chartEditor.scales.ScalePanel = function(model, index, opt_name, opt_domHelper) {
+  chartEditor.scales.ScalePanel.base(this, 'constructor', model, index, null, opt_domHelper);
 
   this.setKey([['standalones'], ['scale', index]]);
 
@@ -25,39 +24,38 @@ chartEditor.scales.StandalonePanel = function(model, index, opt_name, opt_domHel
 
   this.scale_ = null;
 };
-goog.inherits(chartEditor.scales.StandalonePanel, chartEditor.SettingsPanelZippy);
+goog.inherits(chartEditor.scales.ScalePanel, chartEditor.SettingsPanelZippy);
 
 
 /**
  * @param {string} type
  */
-chartEditor.scales.StandalonePanel.prototype.setScaleAsDefault = function(type) {
+chartEditor.scales.ScalePanel.prototype.setScaleAsDefault = function(type) {
   this.scaleType_ = type;
   this.allowRemove(false);
 };
 
 
 /** @inheritDoc */
-chartEditor.scales.StandalonePanel.prototype.createDom = function() {
-  chartEditor.scales.StandalonePanel.base(this, 'createDom');
+chartEditor.scales.ScalePanel.prototype.createDom = function() {
+  chartEditor.scales.ScalePanel.base(this, 'createDom');
   var model = /** @type {chartEditor.EditorModel} */(this.getModel());
-
+  var self = this;
   var name = new chartEditor.controls.input.Base('Scale name');
   name.init(model, this.genKey('name'));
   this.addHeaderChildControl(name);
   this.scaleName_ = name;
 
-  var scale;
   var scaleTypes = ['ordinal', 'linear', 'log', 'date-time'];
-
-  if (this.scaleType_) {
-    scale = new chartEditor.settings.scales.Base(model, scaleTypes);
-    scale.setFixedScaleType(this.scaleType_);
-  } else {
-    scale = new chartEditor.settings.scales.Standalone(model, scaleTypes);
-  }
-
+  var scale = new chartEditor.settings.scales.Standalone(model, scaleTypes);
   scale.setKey(this.genKey(['settings']));
+  this.getHandler().listen(scale, chartEditor.events.EventType.LOCK, function(evt){
+    self.lock(evt.lock);
+  });
+
+  if (this.scaleType_)
+    scale.setFixedScaleType(this.scaleType_);
+
   this.addChildControl(scale);
 
   this.scale_ = scale;
@@ -65,8 +63,8 @@ chartEditor.scales.StandalonePanel.prototype.createDom = function() {
 
 
 /** @inheritDoc */
-chartEditor.scales.StandalonePanel.prototype.onChartDraw = function(evt) {
-  chartEditor.scales.StandalonePanel.base(this, 'onChartDraw', evt);
+chartEditor.scales.ScalePanel.prototype.onChartDraw = function(evt) {
+  chartEditor.scales.ScalePanel.base(this, 'onChartDraw', evt);
   this.scaleName_.setValueByModel();
 
   this.checkScaleType();
@@ -76,7 +74,7 @@ chartEditor.scales.StandalonePanel.prototype.onChartDraw = function(evt) {
 /**
  * If scale type is not set, adds error style to panel
  */
-chartEditor.scales.StandalonePanel.prototype.checkScaleType = function() {
+chartEditor.scales.ScalePanel.prototype.checkScaleType = function() {
   var errorClass = goog.getCssName('anychart-ce-error');
   if (this.scale_ && this.scale_.getScaleType()) {
     this.removeClassName(errorClass);
@@ -88,9 +86,9 @@ chartEditor.scales.StandalonePanel.prototype.checkScaleType = function() {
 
 
 /** @inheritDoc */
-chartEditor.scales.StandalonePanel.prototype.disposeInternal = function() {
+chartEditor.scales.ScalePanel.prototype.disposeInternal = function() {
   goog.dispose(this.scale_);
   this.scale_ = null;
   
-  chartEditor.scales.StandalonePanel.base(this, 'disposeInternal');
+  chartEditor.scales.ScalePanel.base(this, 'disposeInternal');
 };

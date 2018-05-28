@@ -17,6 +17,8 @@ chartEditor.SettingsPanelZippy = function(model, index, opt_name, opt_domHelper)
   chartEditor.SettingsPanelZippy.base(this, 'constructor', model, index, opt_name, opt_domHelper);
 
   this.addClassName(goog.getCssName('anychart-ce-settings-panel-zippy'));
+
+  this.locked_ = false;
 };
 goog.inherits(chartEditor.SettingsPanelZippy, chartEditor.SettingsPanelIndexed);
 
@@ -25,7 +27,20 @@ goog.inherits(chartEditor.SettingsPanelZippy, chartEditor.SettingsPanelIndexed);
  * Expands panel.
  */
 chartEditor.SettingsPanelZippy.prototype.expand = function() {
-  if (this.zippy_) this.zippy_.expand();
+  if (this.zippy_ && !this.locked_) this.zippy_.expand();
+};
+
+
+/**
+ * Lock panel to prevent user's interaction
+ * @param {boolean} value
+ */
+chartEditor.SettingsPanelZippy.prototype.lock = function(value) {
+  this.locked_ = value;
+  goog.dom.classlist.enable(this.getElement(), 'locked', this.locked_);
+
+  if (this.locked_)
+    this.zippy_.collapse();
 };
 
 

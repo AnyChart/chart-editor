@@ -70,41 +70,6 @@ chartEditor.Chart.prototype.onModelChange = function(evt) {
     chartEditor.binding.exec(self.anychart, key, value);
   });
 
-  //console.log(settings['standalones']['scale']);
-
-  // Standalones instances creation
-  for (var sName in settings['standalones']) {
-    if (settings['standalones'][sName].length) {
-      for (var sIndex = 0; sIndex < settings['standalones'][sName].length; sIndex++) {
-        var descriptor = settings['standalones'][sName][sIndex];
-
-        if (!goog.isDef(descriptor['key'])) {
-          if (descriptor['type']) {
-            // Create instance
-            var ctor = chartEditor.settings.scales.Base.descriptors[descriptor['type']].ctor;
-            var instance = /** @type {Object} */(chartEditor.binding.exec(this.anychart, ctor));
-            if (instance) {
-              if (descriptor['settings']) {
-                // Apply standalone instance settings
-                goog.object.forEach(descriptor['settings'], function(value, key) {
-                  if (goog.isString(value))
-                    value = value.replace(/(\\\\)/g, '\\');
-
-                  chartEditor.binding.exec(instance, key, value);
-                });
-              }
-
-              descriptor['instance'] = instance;
-            }
-          } else if (descriptor['instance'] && goog.isFunction(descriptor['instance']['dispose'])) {
-            descriptor['instance']['dispose']();
-            descriptor['instance'] = void 0;
-          }
-        }
-      }
-    }
-  }
-
   // Chart creation
   if (rebuild) {
     if (this.chart_)
@@ -217,8 +182,50 @@ chartEditor.Chart.prototype.onModelChange = function(evt) {
     }
   }
 
+  // Standalones instances creation
+  var sName;
+  var sIndex;
+  var descriptor;
+  
+  var defaultInstances = {};
+  for (sName in settings['standalones']) {
+    defaultInstances[sName] = [];
+
+    if (settings['standalones'][sName].length) {
+      for (sIndex = 0; sIndex < settings['standalones'][sName].length; sIndex++) {
+        descriptor = settings['standalones'][sName][sIndex];
+
+        if (descriptor['type']) {
+          if (descriptor['key']) {
+            // Save default instance before standalones are applied to chart
+            defaultInstances[sName][descriptor['key']] = /** @type {Object} */(chartEditor.binding.exec(this.chart_, descriptor['key']));
+
+          } else if (!descriptor['instance']) {
+            // Create instance
+            var ctor = chartEditor.settings.scales.Base.descriptors[descriptor['type']].ctor;
+            var instance = /** @type {Object} */(chartEditor.binding.exec(this.anychart, ctor));
+            if (instance) {
+              if (descriptor['settings']) {
+                // Apply standalone instance settings
+                goog.object.forEach(descriptor['settings'], function(value, key) {
+                  if (goog.isString(value))
+                    value = value.replace(/(\\\\)/g, '\\');
+
+                  chartEditor.binding.exec(instance, key, value);
+                });
+              }
+
+              descriptor['instance'] = instance;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // console.log(defaultInstances['scale']);
+
   // Chart settings
-  // console.log("=== Chart draw ===");
   // console.log(settings['chart']['settings']);
   goog.object.forEach(settings['chart']['settings'], function(value, key) {
     //console.log("chart settings", key, value);
@@ -235,33 +242,92 @@ chartEditor.Chart.prototype.onModelChange = function(evt) {
         value = void 0;
 
         if (tmp.length == 3) {
-          var instance;
-          var descriptor = settings['standalones'][sName][sIndex];
+          // Apply only real standalones (not defaults)
+          descriptor = settings['standalones'][sName][sIndex];
+          if (!descriptor['key']) {
+            value = descriptor['instance'];
 
-          if (goog.isDef(descriptor['key'])) {
-            // Default scale
+          } else if (descriptor['key'] == key) {
+            delete settings['chart']['settings'][key];
+          }
+        }
+      }
+    }
+
+    if (goog.isDef(value))
+      chartEditor.binding.exec(self.chart_, key, value);
+  });
+
+  // After standalones are applied we should apply default standalones
+  for (sName in settings['standalones']) {
+    if (settings['standalones'][sName].length) {
+      for (sIndex = 0; sIndex < settings['standalones'][sName].length; sIndex++) {
+        descriptor = settings['standalones'][sName][sIndex];
+
+        if (descriptor['key']) {
+          if (descriptor['instance'] && goog.isFunction(descriptor['instance']['dispose'])) {
+            // This is default scale
+            descriptor['instance']['dispose']();
+          }
+          
+          descriptor['instance'] = chartEditor.binding.exec(this.chart_, descriptor['key']);
+          descriptor['locked'] = defaultInstances[sName][descriptor['key']] != descriptor['instance'];
+          
+          if (descriptor['locked']) {
             if (descriptor['settings']) {
-              // Apply standalone instance settings
+              descriptor['settingsCache'] = descriptor['settings'];
+              delete descriptor['settings'];
+            }
+            
+          } else {
+            if (descriptor['settingsCache']) {
+              descriptor['settings'] = descriptor['settingsCache'];
+              delete descriptor['settingsCache'];
+            }
+
+            if (descriptor['settings']) {
               goog.object.forEach(descriptor['settings'], function(value, key) {
                 key = descriptor['key'] + '.' + key;
                 if (goog.isString(value)) {
                   value = value.replace(/(\\\\)/g, '\\');
                 }
                 chartEditor.binding.exec(self.chart_, key, value);
-              });
+              }); 
+            }
+          }
+        }
+      }
+    }
+  }
+
+  this.chart_['listenOnce']('chartdraw', function() {
+    // Default standalone instances creation. Should be called after chart.draw()
+    for (var sName in settings['standalones']) {
+      if (settings['standalones'][sName].length) {
+        for (var sIndex = 0; sIndex < settings['standalones'][sName].length; sIndex++) {
+          var descriptor = settings['standalones'][sName][sIndex];
+
+          // Update default standalones instances
+          if (goog.isDef(descriptor['key'])) {
+            if (descriptor['instance'] && goog.isFunction(descriptor['instance']['dispose'])) {
+              // This is default scale
+              descriptor['instance']['dispose']();
             }
 
-          } else {
-            value = descriptor['instance'];
+            descriptor['instance'] = /** @type {Object} */(chartEditor.binding.exec(self.chart_, descriptor['key']));
+            if (descriptor['instance'] !== defaultInstances[sName][descriptor['key']]) {
+              if (descriptor['settings']) {
+                descriptor['settingsCache'] = descriptor['settings'];
+                delete descriptor['settings'];
+              }
+              descriptor['locked'] = true;
+            }
+
           }
         }
       }
     }
 
-    chartEditor.binding.exec(self.chart_, key, value);
-  });
-
-  this.chart_['listenOnce']('chartdraw', function() {
     model.onChartDraw(self.chart_, rebuild);
   });
 
@@ -271,7 +337,7 @@ chartEditor.Chart.prototype.onModelChange = function(evt) {
   }
 
   // todo: debug
-  window['chart'] = this.chart_;
+  // window['chart'] = this.chart_;
 };
 
 

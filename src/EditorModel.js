@@ -171,6 +171,28 @@ chartEditor.EditorModel.DataType = {
 
 
 /**
+ * @enum {Array.<Object>}
+ */
+chartEditor.EditorModel.Scales = {
+  CARTESIAN: [
+    {'type': 'ordinal', 'key': 'xScale()', 'name': 'Default X Scale'},
+    {'type': 'linear', 'key': 'yScale()', 'name': 'Default Y Scale'}
+  ],
+  SCATTER: [
+    {'type': 'linear', 'key': 'xScale()', 'name': 'Default X Scale'},
+    {'type': 'linear', 'key': 'yScale()', 'name': 'Default Y Scale'}
+  ],
+  HEATMAP: [
+    {'type': 'ordinal', 'key': 'xScale()', 'name': 'Default X Scale'},
+    {'type': 'ordinal', 'key': 'yScale()', 'name': 'Default Y Scale'}
+  ],
+  GAUGE_LINEAR: [
+    {'type': 'linear', 'key': 'scale()', 'name': 'Default Scale'}
+  ]
+};
+
+
+/**
  * @type {Object}
  */
 chartEditor.EditorModel.ChartTypes = {
@@ -187,6 +209,7 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Line',
     'icon': 'line-chart-1.svg', // 'http://www.anychart.com/_design/img/upload/charts/types/'
     'series': ['line', 'spline', 'area', 'splineArea', 'column', 'ohlc'], // first value is default
+    'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
     'panelsExcludes': ['colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
     'filters': ['common']
@@ -196,6 +219,7 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Area',
     'icon': 'area-chart.svg',
     'series': ['area', 'splineArea', 'line', 'spline', 'column', 'ohlc'],
+    'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
     'panelsExcludes': ['colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
     'filters': ['common']
@@ -206,6 +230,7 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Area stacked (value)',
     'icon': 'stacked-area-chart.svg',
     'series': ['area', 'splineArea', 'line', 'spline', 'column', 'ohlc'],
+    'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
     'panelsExcludes': ['colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
     'filters': ['stacked-value']
@@ -216,6 +241,7 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Area stacked (percent)',
     'icon': 'percent-stacked-area-chart.svg',
     'series': ['area', 'splineArea', 'line', 'spline', 'column', 'ohlc'],
+    'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
     'panelsExcludes': ['colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
     'filters': ['stacked-percent']
@@ -225,6 +251,7 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Bar',
     'icon': 'bar-chart.svg',
     'series': ['bar', 'line', 'spline', 'area', 'splineArea', 'ohlc'],
+    'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
     'panelsExcludes': ['colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
     'filters': ['common']
@@ -235,6 +262,7 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Bar stacked (value)',
     'icon': 'stacked-bar-chart.svg',
     'series': ['bar', 'line', 'spline', 'area', 'splineArea', 'ohlc'],
+    'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
     'panelsExcludes': ['colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
     'filters': ['stacked-value']
@@ -245,6 +273,7 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Bar stacked (percent)',
     'icon': 'percent-stacked-bar-chart.svg',
     'series': ['bar', 'line', 'spline', 'area', 'splineArea', 'ohlc'],
+    'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
     'panelsExcludes': ['colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
     'filters': ['stacked-percent']
@@ -254,6 +283,7 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Column',
     'icon': 'column-chart.svg',
     'series': ['column', 'line', 'spline', 'area', 'splineArea', 'ohlc', 'candlestick'],
+    'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
     'panelsExcludes': ['colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
     'filters': ['common']
@@ -264,6 +294,7 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Column stacked (value)',
     'icon': 'stacked-column-chart.svg',
     'series': ['column', 'line', 'spline', 'area', 'splineArea', 'ohlc'],
+    'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
     'panelsExcludes': ['colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
     'filters': ['stacked-value']
@@ -274,6 +305,7 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Column stacked (percent)',
     'icon': 'percent-stacked-step-line-area-chart.svg',
     'series': ['column', 'line', 'spline', 'area', 'splineArea', 'ohlc'],
+    'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
     'panelsExcludes': ['colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
     'filters': ['stacked-percent']
@@ -283,6 +315,7 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Scatter',
     'icon': 'scatter-chart.svg',
     'series': ['marker', 'bubble', 'line'],
+    'scales': chartEditor.EditorModel.Scales.SCATTER,
     'dataSetCtor': 'set',
     'panelsExcludes': ['colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
     'filters': ['common']
@@ -292,6 +325,7 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Waterfall',
     'icon': 'waterfall-chart.svg',
     'series': ['waterfall'],
+    'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
     'panelsExcludes': ['colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
     'filters': ['common']
@@ -345,6 +379,7 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Box',
     'icon': 'box-chart.svg',
     'series': ['box', 'line', 'spline', 'column', 'area', 'marker', 'bubble', 'ohlc'],
+    'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
     'panelsExcludes': ['colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
     'filters': ['common']
@@ -354,6 +389,7 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Polar',
     'icon': 'polar-column-chart.svg',
     'series': ['line', 'area', 'column', 'marker', 'polygon', 'polyline', 'rangeColumn'],
+    'scales': chartEditor.EditorModel.Scales.SCATTER,
     'dataSetCtor': 'set',
     'panelsExcludes': ['colorScale', 'colorRange', 'cartesianAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
     'filters': ['common']
@@ -363,6 +399,7 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Radar',
     'icon': 'radar-chart-1.svg',
     'series': ['line', 'area', 'marker'],
+    'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
     'panelsExcludes': ['colorScale', 'colorRange', 'cartesianAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
     'filters': ['common']
@@ -373,6 +410,7 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Radar stacked (value)',
     'icon': 'radar-chart-1.svg',
     'series': ['area'/*, 'line', 'marker'*/],
+    'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
     'panelsExcludes': ['colorScale', 'colorRange', 'cartesianAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
     'filters': ['stacked-value']
@@ -383,6 +421,7 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Radar stacked (percent)',
     'icon': 'radar-chart-1.svg',
     'series': ['area'/*, 'line', 'marker'*/],
+    'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
     'panelsExcludes': ['colorScale', 'colorRange', 'cartesianAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
     'filters': ['stacked-percent']
@@ -392,6 +431,7 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Mekko',
     'icon': 'bar-mekko-chart.svg',
     'series': ['mekko'],
+    'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
     'panelsExcludes': ['grids', 'colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
     'filters': ['common']
@@ -401,6 +441,7 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Bar Mekko',
     'icon': 'bar-mekko-chart.svg',
     'series': ['mekko'],
+    'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
     'panelsExcludes': ['grids', 'colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
     'filters': ['common']
@@ -410,6 +451,7 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Mosaic',
     'icon': 'bar-mekko-chart.svg',
     'series': ['mekko'],
+    'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
     'panelsExcludes': ['grids', 'colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
     'filters': ['common']
@@ -419,6 +461,7 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Heat Map',
     'icon': 'heatmap-chart.svg',
     'series': ['heatMap'],
+    'scales': chartEditor.EditorModel.Scales.HEATMAP,
     'dataSetCtor': 'set',
     'singleSeries': true,
     'panelsExcludes': ['series', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
@@ -442,7 +485,7 @@ chartEditor.EditorModel.ChartTypes = {
     'icon': 'circular-gauge.svg',
     'series': ['gauges.bar', 'gauges.marker', 'needle', 'knob'],
     'dataSetCtor': 'set',
-    'panelsExcludes': ['legend', 'dataLabels', 'series', 'cartesianAxes', 'radarPolarAxes', 'grids', 'colorScale', 'colorRange', 'scaleBars'],
+    'panelsExcludes': ['legend', 'dataLabels', 'series',  'scales', 'cartesianAxes', 'radarPolarAxes', 'grids', 'colorScale', 'colorRange', 'scaleBars'],
     'settingsExcludes': ['palette()'],
     'filters': ['common', 'gauges']
   },
@@ -452,6 +495,7 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Linear Gauge',
     'icon': 'vertical-gauge-1.svg',
     'series': ['linearGauge.bar', 'linearGauge.led', 'linearGauge.tank', 'linearGauge.thermometer', 'linearGauge.marker', 'linearGauge.rangeBar'],
+    'scales': chartEditor.EditorModel.Scales.GAUGE_LINEAR,
     'dataSetCtor': 'set',
     'panelsExcludes': ['dataLabels', 'series', 'grids', 'colorScale', 'colorRange', 'circularRanges',
       'cartesianAxes', 'radarPolarAxes'
@@ -464,6 +508,7 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Led Gauge',
     'icon': 'vertical-gauge-1.svg',
     'series': ['linearGauge.led', 'linearGauge.bar', 'linearGauge.tank', 'linearGauge.thermometer', 'linearGauge.marker', 'linearGauge.rangeBar'],
+    'scales': chartEditor.EditorModel.Scales.GAUGE_LINEAR,
     'dataSetCtor': 'set',
     'panelsExcludes': ['dataLabels', 'series', 'grids', 'colorScale', 'colorRange', 'circularRanges',
       'cartesianAxes', 'radarPolarAxes'
@@ -476,6 +521,7 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Tank Gauge',
     'icon': 'tank-gauge-1.svg',
     'series': ['linearGauge.tank', 'linearGauge.bar', 'linearGauge.led', 'linearGauge.thermometer', 'linearGauge.marker', 'linearGauge.rangeBar'],
+    'scales': chartEditor.EditorModel.Scales.GAUGE_LINEAR,
     'dataSetCtor': 'set',
     'panelsExcludes': ['dataLabels', 'series', 'grids', 'colorScale', 'colorRange', 'circularRanges',
       'cartesianAxes', 'radarPolarAxes'
@@ -488,6 +534,7 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Thermometer Gauge',
     'icon': 'thermometer-gauge.svg',
     'series': ['linearGauge.thermometer', 'linearGauge.bar', 'linearGauge.led', 'linearGauge.tank', 'linearGauge.marker', 'linearGauge.rangeBar'],
+    'scales': chartEditor.EditorModel.Scales.GAUGE_LINEAR,
     'dataSetCtor': 'set',
     'panelsExcludes': ['dataLabels', 'series', 'grids', 'colorScale', 'colorRange', 'circularRanges',
       'cartesianAxes', 'radarPolarAxes'
@@ -771,7 +818,7 @@ chartEditor.EditorModel.prototype.analyzeDataAfterChooseField_ = function() {
  * @param {string=} opt_active Active data set id
  * @param {string=} opt_field Field id
  */
-chartEditor.EditorModel.prototype.chooseActiveAndField = function(opt_active, opt_field) {
+chartEditor.EditorModel.prototype.chooseDatasetAndField = function(opt_active, opt_field) {
   var preparedData = this.getPreparedData();
   this.model_['dataSettings']['active'] = goog.isDefAndNotNull(opt_active) ? opt_active : preparedData[0].setFullId;
 
@@ -1006,6 +1053,24 @@ chartEditor.EditorModel.prototype.createSeriesConfig = function(index, type, opt
     }
   }
   return config;
+};
+
+
+/**
+ * Create default scales
+ */
+chartEditor.EditorModel.prototype.createDefaultStandalones = function() {
+  this.model_['standalones'] = {};
+
+  // Set default scales
+  var chartSettings = this.getChartTypeSettings();
+  if (chartSettings['scales']) {
+    this.suspendDispatch();
+    for (var i = 0; i < chartSettings['scales'].length; i++) {
+      this.addStandalone('scale', chartSettings['scales'][i]);
+    }
+    this.resumeDispatch(true);
+  }
 };
 
 
@@ -1246,10 +1311,11 @@ chartEditor.EditorModel.prototype.onChangeView = function() {
 
       } else {
         this.model_['chart']['type'] = null;
-        this.chooseActiveAndField();
+        this.chooseDatasetAndField();
         this.chooseDefaultChartType();
         this.chooseDefaultSeriesType();
         this.createDefaultMappings();
+        this.createDefaultStandalones();
       }
     } else {
       console.warn("NO DATA");
@@ -1326,10 +1392,11 @@ chartEditor.EditorModel.prototype.setActiveAndField = function(input) {
   if (active !== this.model_['dataSettings']['active']) {
     this.model_['chart']['type'] = null;
 
-    this.chooseActiveAndField(active, field);
+    this.chooseDatasetAndField(active, field);
     this.chooseDefaultChartType();
     this.chooseDefaultSeriesType();
     this.createDefaultMappings();
+    this.createDefaultStandalones();
 
     this.dispatchUpdate();
 
@@ -1388,17 +1455,19 @@ chartEditor.EditorModel.prototype.setChartType = function(input) {
   this.model_['standalones'] = {};
 
   if (this.needResetMappings(prevChartType, prevDefaultSeriesType)) {
-    this.chooseActiveAndField(/** @type {string} */(this.model_['dataSettings']['active']));
+    this.chooseDatasetAndField(/** @type {string} */(this.model_['dataSettings']['active']));
 
-    // set it again because it was reset in chooseActiveAndField()
+    // set it again because it was reset in chooseDatasetAndField()
     this.stackMode = selectValue.stackMode;
     this.chooseDefaultSeriesType();
 
     this.createDefaultMappings();
+    this.createDefaultStandalones();
 
   } else {
     // Update default series
     this.chooseDefaultSeriesType();
+    this.createDefaultStandalones();
 
     for (var i = 0; i < this.model_['dataSettings']['mappings'].length; i++) {
       for (var j = 0; j < this.model_['dataSettings']['mappings'][i].length; j++) {
@@ -1973,7 +2042,6 @@ chartEditor.EditorModel.prototype.getFullId = function(dataType, setId) {
  * @param {Object} data
  */
 chartEditor.EditorModel.prototype.addData = function(data) {
-  // debugger
   var dataType = data.dataType ? data.dataType : chartEditor.EditorModel.DataType.CUSTOM;
   var setId = goog.isDef(data.setId) ? data.setId : goog.string.createUniqueString();
   var setFullId = this.getFullId(dataType, setId);
@@ -2395,6 +2463,70 @@ chartEditor.EditorModel.prototype.getChartWithJsCode_ = function(opt_options) {
   }
   result.push('');
 
+  // Process standalones instances
+  var appliedScalesSettings = false;
+  var standaloneInstances = {};
+
+  goog.object.forEach(settings['standalones'], function(descriptors, sName) {
+    var count = 0;
+    for (var i = 0; i < descriptors.length; i++) {
+      var descriptor = descriptors[i];
+      if (!descriptor['locked'] && descriptor['type']) {
+        var id = 'STANDALONE:' + sName + ':' + i;
+        var instance = standaloneInstances[id] && standaloneInstances[id].instance;
+        var instanceVarName = sName + count;
+        var settingsString;
+
+        if (!instance) {
+          // Create instance
+          if (!descriptor['key']) {
+            // Standalone instance
+            if(goog.object.containsValue(settings['chart']['settings'], id)) {
+              var ctor = chartEditor.settings.scales.Base.descriptors[descriptor['type']].ctor;
+              instance = /** @type {Object} */(chartEditor.binding.exec(anychartGlobal, ctor));
+
+              if (instance)
+                settingsString = 'var ' + instanceVarName + eq + 'anychart.' + ctor + ';';
+            }
+
+          } else if (descriptor['settings']) {
+            // Native instance
+            instance = /** @type {Object} */(chartEditor.binding.exec(chart, descriptor['key']));
+
+            if (instance)
+              settingsString = 'var ' + instanceVarName + eq + 'chart.' + descriptor['key'] + ';';
+          }
+
+          if (instance) {
+            count++;
+            if (!appliedScalesSettings) {
+              appliedScalesSettings = true;
+              result.push('// Applying scales settings');
+            }
+
+            result.push(settingsString);
+
+            if (descriptor['settings']) {
+              // Apply standalone instance settings
+              goog.object.forEach(descriptor['settings'], function(sValue, sKey) {
+                if (chartEditor.binding.testExec(instance, sKey, sValue)) {
+                  var sSettingString = self.printKey_(printer, instanceVarName, sKey, sValue);
+                  result.push(sSettingString);
+                }
+              });
+            }
+
+            standaloneInstances[id] = {instance: instance, name: instanceVarName};
+          }
+        }
+      }
+    }
+  });
+
+  if(appliedScalesSettings)
+    result.push('');
+
+  // Apply chart settings
   if (!goog.object.isEmpty(settings['chart']['settings'])) {
     result.push('// Applying appearance settings');
 
@@ -2411,7 +2543,6 @@ chartEditor.EditorModel.prototype.getChartWithJsCode_ = function(opt_options) {
       chartSettings = settings['chart']['settings'];
 
     var markerSeriesName = '';
-    var instances = {};
 
     goog.object.forEach(chartSettings, function(value, key) {
       var pVal = value;
@@ -2424,56 +2555,17 @@ chartEditor.EditorModel.prototype.getChartWithJsCode_ = function(opt_options) {
         quotes = force = true;
 
       if (goog.isString(value) && value.indexOf('STANDALONE:') === 0) {
-        var stDescriptor = self.getStandaloneDescriptor(value);
-        if (stDescriptor && stDescriptor['type']) {
-          var tmp = value.split(':');
-          var sName = tmp[1];
-          var sIndex = tmp[2];
-          var instance = instances[value];
-          var instanceVarName = sName + sIndex;
-          var sSettingString;
+        var tmp = value.split(':');
+        var sName = tmp[1];
+        var sIndex = tmp[2];
+        var instance = standaloneInstances[value] && standaloneInstances[value].instance;
+        var sDescriptor = settings['standalones'][sName][sIndex];
 
-          if (!instance) {
-            // Create instance
-            if (stDescriptor['key']) {
-              // Native instance
-              if (stDescriptor['settings']) {
-                instance = /** @type {Object} */(chartEditor.binding.exec(chart, stDescriptor['key']));
-                if (instance)
-                  result.push('', 'var ' + instanceVarName + eq + 'chart.' + stDescriptor['key'] + ';');
-              }
-
-            } else {
-              // Standalone instance
-              var ctor = chartEditor.settings.scales.Base.descriptors[stDescriptor['type']].ctor;
-              instance = /** @type {Object} */(chartEditor.binding.exec(anychartGlobal, ctor));
-
-              if (instance && chartEditor.binding.testExec(chart, key, instance))
-                result.push('', 'var ' + instanceVarName + eq + 'anychart.' + ctor + ';');
-            }
-
-            if (instance) {
-              if (stDescriptor['settings']) {
-                // Apply standalone instance settings
-                goog.object.forEach(stDescriptor['settings'], function(sValue, sKey) {
-                  if (chartEditor.binding.testExec(instance, sKey, sValue)) {
-                    sSettingString = self.printKey_(printer, instanceVarName, sKey, sValue, force, quotes);
-                    result.push(sSettingString);
-                  }
-                });
-              }
-
-              instances[value] = instance;
-            }
-          }
-
-          if (instance) {
-            if (!stDescriptor['key']) {
+        if (instance && !sDescriptor['key'] && chartEditor.binding.testExec(chart, key, instance)) {
               // Pass standalone instance to chart's method
-              sSettingString = self.printKey_(printer, 'chart', key, instanceVarName, true, true);
-              result.push(sSettingString);
-            }
-          }
+          var instanceVarName = standaloneInstances[value].name;
+          var sSettingString = self.printKey_(printer, 'chart', key, instanceVarName, true, true);
+          result.push(sSettingString);
         }
 
         value = void 0;
@@ -2796,25 +2888,6 @@ chartEditor.EditorModel.prototype.getChartTypeKey = function() {
 chartEditor.EditorModel.prototype.getChartTypeSettings = function() {
   var chartTypeKey = this.getChartTypeKey();
   return chartEditor.EditorModel.ChartTypes[chartTypeKey];
-};
-
-
-/**
- * Returns settings object for current chart type
- * @param {string} value Select option value in format 'STANDALONE:scale:0'
- * @return {*}
- */
-chartEditor.EditorModel.prototype.getStandaloneDescriptor = function(value) {
-  var tmp = value.split(':');
-  var sName = tmp[1];
-  var sIndex = tmp[2];
-
-  if (tmp.length == 3) {
-    var model = this.getModel();
-    return (model['standalones'][sName] && model['standalones'][sName][sIndex]) || null;
-  }
-
-  return null;
 };
 
 

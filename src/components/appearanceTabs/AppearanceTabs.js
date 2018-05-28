@@ -168,7 +168,7 @@ chartEditor.AppearanceTabs = function(model, tabs, tabContent, opt_domHelper) {
       classFunc: chartEditor.CreditsPanel,
       instance: null
     }
-    ];
+  ];
 };
 goog.inherits(chartEditor.AppearanceTabs, chartEditor.Tabs);
 

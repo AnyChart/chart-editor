@@ -33,7 +33,7 @@ chartEditor.settings.scales.Standalone.prototype.onModelChange = function(evt) {
   var model = /** @type {chartEditor.EditorModel} */(this.getModel());
 
   if (!this.isExcluded()) {
-    var scaleType = model.getValue(this.scaleTypeField.getKey());
+    var scaleType = this.fixedScaleType_ || model.getValue(this.scaleTypeField.getKey());
 
     this.scaleTypeField.setValue(scaleType ? scaleType : null, true);
     this.updateSpecific();
@@ -51,12 +51,23 @@ chartEditor.settings.scales.Standalone.prototype.onChartDraw = function(evt) {
     key.pop();
     var descriptor = model.getValue(key);
 
-    if (descriptor['instance']) {
+    if (descriptor['instance'] && !descriptor['locked']) {
       this.scaleTypeField.setValue(descriptor['type'], true);
+      if (this.specificComponent) {
+        this.specificComponent.exclude(false);
+        this.specificComponent.onChartDraw(evt);
+      }
 
-    } else if (this.specificComponent) {
+    } else {
       this.scaleTypeField.setValue(null, true);
-      this.specificComponent.exclude(true);
+      if (this.specificComponent) {
+        this.specificComponent.exclude(true);
+      }
     }
+
+    this.dispatchEvent({
+      type: chartEditor.events.EventType.LOCK,
+      lock: descriptor['locked']
+    });
   }
 };

@@ -10,6 +10,7 @@ goog.require('chartEditor.controls.select.DataField');
 goog.require('chartEditor.controls.select.Scales');
 goog.require('chartEditor.settings.Labels');
 goog.require('chartEditor.settings.Ticks');
+goog.require('chartEditor.settings.scales.Base');
 
 
 /**
@@ -39,9 +40,9 @@ chartEditor.settings.axes.CircularGauge.prototype.createDom = function() {
 
   var model = /** @type {chartEditor.EditorModel} */(this.getModel());
 
-  var scale = new chartEditor.controls.select.Scales({label: 'Scale'});
-  scale.init(model, this.genKey('scale()'));
-  this.addChildControl(scale);
+  // var scale = new chartEditor.controls.select.Scales({label: 'Scale'});
+  // scale.init(model, this.genKey('scale()'));
+  // this.addChildControl(scale);
 
   var startAngle = new chartEditor.comboBox.Base();
   startAngle.setOptions([-90, 0, 90, 180, 270]);
@@ -139,6 +140,13 @@ chartEditor.settings.axes.CircularGauge.prototype.createDom = function() {
   minorTicks.allowEditFill(true);
   minorTicks.setKey(this.genKey('minorTicks()'));
   this.addChildControl(minorTicks);
+  //endregion
+
+  // Scale
+  this.addContentSeparator();
+  var scale = new chartEditor.settings.scales.Base(model, ['linear', 'log']);
+  scale.setKey(this.genKey('scale()'));
+  this.addChildControl(scale);
   //endregion
 };
 

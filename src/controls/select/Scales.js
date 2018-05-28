@@ -119,62 +119,26 @@ chartEditor.controls.select.ScalesDataFieldSelect.prototype.setValueByTarget = f
     this.target = target;
     var stringKey = chartEditor.EditorModel.getStringKey(this.getKey());
     var value = chartEditor.binding.exec(this.target, stringKey);
+    var selectValue;
 
     this.noDispatch = true;
-    var modelUpdated = false;
-    
+
     if (value) {
       var found = false;
       var scales = this.editorModel.getModel()['standalones']['scale'];
-      var defaultsMap = {};
-
       if (scales) {
-        for (var i = 0; i < scales.length; i++) {
-          if (scales[i]['instance'] === value) {
-              this.setValue('STANDALONE:scale:' + i);
-              found = true;
-              break;
+        for (var i = scales.length; i--;) {
+          if (scales[i]['instance'] == value) {
+            found = true;
+            selectValue = 'STANDALONE:scale:' + i;
+            this.setValue(selectValue);
+            break;
           }
-
-          if (scales[i]['key'])
-            defaultsMap[scales[i]['key']] = i;
         }
       }
 
       if (!found) {
-        // This is default scale
-        var index;
-        if (goog.isDef(defaultsMap[stringKey])) {
-          // Replace existing instance
-          index = defaultsMap[stringKey];
-          this.editorModel.getModel()['standalones']['scale'][index]['instance'] = value;
-
-        } else {
-          // Create standalone record for default scale
-          this.editorModel.suspendDispatch();
-
-          var scaleName = this.scaleName_ || 'Default scale';
-          index = this.editorModel.addStandalone('scale', {
-            'name': scaleName,
-            'type': value['getType'](),
-            'key': stringKey,
-            'instance': value
-          });
-          this.editorModel.resumeDispatch(true);
-          this.editorModel.dispatchEvent({
-            type: chartEditor.events.EventType.EDITOR_MODEL_UPDATE_SPECIAL,
-            target: 'scales'
-          });
-
-          var scalesControl = this.getParent();
-          scalesControl.updateOptions();
-
-          modelUpdated = true;
-        }
-
-        var selectValue = 'STANDALONE:scale:' + index;
-        this.setValue(selectValue);
-        this.editorModel.setValue(this.key, selectValue, true);
+        console.warn("Scale not found!");
       }
 
     } else
@@ -182,6 +146,6 @@ chartEditor.controls.select.ScalesDataFieldSelect.prototype.setValueByTarget = f
 
     this.noDispatch = false;
 
-    return modelUpdated;
+    return false;
   }
 };

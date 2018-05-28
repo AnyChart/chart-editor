@@ -1,7 +1,7 @@
 goog.provide('chartEditor.ScalesPanel');
 
 goog.require('chartEditor.MultiplePanelsBase');
-goog.require('chartEditor.scales.StandalonePanel');
+goog.require('chartEditor.scales.ScalePanel');
 
 
 /**
@@ -50,7 +50,7 @@ chartEditor.ScalesPanel.prototype.onModelSpecialChange = function(evt) {
 chartEditor.ScalesPanel.prototype.createPanel = function() {
   var model = /** @type {chartEditor.EditorModel} */(this.getModel());
   var panelIndex = model.addStandalone('scale');
-  return new chartEditor.scales.StandalonePanel(model, panelIndex);
+  return new chartEditor.scales.ScalePanel(model, panelIndex);
 };
 
 
@@ -69,9 +69,10 @@ chartEditor.ScalesPanel.prototype.createPanels = function() {
 
     if (scales) {
       for (var i = 0; i < scales.length; i++) {
-        var panel = new chartEditor.scales.StandalonePanel(model, i);
-        if (scales[i]['key'])
-         panel.setScaleAsDefault(scales[i]['type']);
+        var panel = new chartEditor.scales.ScalePanel(model, i);
+        if (scales[i]['key']) {
+          panel.setScaleAsDefault(scales[i]['type']);
+        }
 
         this.addPanelInstance(panel);
       }

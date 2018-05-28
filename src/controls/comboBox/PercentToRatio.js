@@ -21,12 +21,10 @@ chartEditor.comboBox.PercentToRatio = function(opt_domHelper, opt_menu, opt_labe
   chartEditor.comboBox.PercentToRatio.base(this, 'constructor', opt_domHelper, opt_menu, opt_labelInput);
 
   this.setValidateFunction(function(value) {
-    debugger
     return !isNaN(Number(value));
   });
 
   this.setFormatterFunction(function(value) {
-    debugger
     return String(goog.math.clamp(Number(value), 0, 1));
   });
 };

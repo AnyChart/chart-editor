@@ -47,11 +47,19 @@ chartEditor.settings.specific.Cartesian.prototype.createDom = function() {
   minPointLengthLC.init(model, this.genKey('minPointLength()'));
   this.addChildControl(minPointLengthLC);
 
-  var xScale = new chartEditor.controls.select.Scales({label: 'X Scale', scaleName: 'Default X Scale', availableOptions: ['ordinal', 'linear', 'date-time']});
+  var xScale = new chartEditor.controls.select.Scales({
+    label: 'X Scale',
+    scaleName: 'Default X Scale',
+    availableOptions: ['ordinal', 'linear', 'date-time']});
+
   xScale.init(model, this.genKey('xScale()'));
   this.addChildControl(xScale);
 
-  var yScale = new chartEditor.controls.select.Scales({label: 'Y Scale', scaleName: 'Default Y Scale', availableOptions: ['linear', 'log', 'date-time']});
+  var yScale = new chartEditor.controls.select.Scales({
+    label: 'Y Scale',
+    scaleName: 'Default Y Scale',
+    availableOptions: ['linear', 'log', 'date-time']});
+
   yScale.init(model, this.genKey('yScale()'));
   this.addChildControl(yScale);
 };
