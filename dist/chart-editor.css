@@ -2198,7 +2198,7 @@
   background: white;
 }
 .anychart-ce-settings-panel-multiple .anychart-ce-settings-panel-indexed.locked {
-  background: #e9edf0;
+  background: #f1f1f1;
 }
 .anychart-ce-settings-panel-multiple .anychart-ce-settings-panel-indexed.locked .anychart-plus-minus {
   display: none;
