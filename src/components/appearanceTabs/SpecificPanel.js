@@ -23,6 +23,8 @@ goog.require('chartEditor.settings.specific.Waterfall');
 chartEditor.SpecificPanel = function(model, opt_domHelper) {
   chartEditor.SpecificPanel.base(this, 'constructor', model, 'Specific Settings', opt_domHelper);
 
+  this.stringId = chartEditor.enums.EditorTabs.SPECIFIC;
+
   this.descriptors_ = [
     {
       chartType: 'heatMap',
@@ -77,6 +79,8 @@ goog.inherits(chartEditor.SpecificPanel, chartEditor.SettingsPanel);
  * @public
  */
 chartEditor.SpecificPanel.prototype.updateSpecific = function() {
+  if (this.isExcluded()) return;
+
   var self = this;
   var model = /** @type {chartEditor.EditorModel} */(this.getModel());
   var currentChartType = model.getModel()['chart']['type'];
@@ -93,18 +97,18 @@ chartEditor.SpecificPanel.prototype.updateSpecific = function() {
     var descriptor = descriptors.length && descriptors[0];
 
     if (descriptor) {
-      if (this.specificComponent_) {
-        this.removeChild(this.specificComponent_, true);
-        goog.dispose(this.specificComponent_);
+      if (this.specific_) {
+        this.removeChild(this.specific_, true);
+        goog.dispose(this.specific_);
       }
 
-      this.specificComponent_ = /** @type {chartEditor.SettingsPanel} */(new descriptor.classFunc(model));
-      this.specificComponent_.allowEnabled(false);
+      this.specific_ = /** @type {chartEditor.SettingsPanel} */(new descriptor.classFunc(model));
+      this.specific_.allowEnabled(false);
 
-      this.addChild(this.specificComponent_, true);
-      goog.style.setElementShown(this.specificComponent_.getTopElement(), false);
+      this.addChild(this.specific_, true);
+      goog.style.setElementShown(this.specific_.getTopElement(), false);
 
-      this.name = this.specificComponent_.getName();
+      this.name = this.specific_.getName();
       if (this.topEl) {
         // Update title
         var titleEl = this.getDomHelper().getElementByClass('title', this.topEl);
@@ -128,8 +132,8 @@ chartEditor.SpecificPanel.prototype.enterDocument = function() {
 
 /** @override */
 chartEditor.SpecificPanel.prototype.disposeInternal = function() {
-  goog.dispose(this.specificComponent_);
-  this.specificComponent_ = null;
+  goog.dispose(this.specific_);
+  this.specific_ = null;
 
   chartEditor.SpecificPanel.base(this, 'disposeInternal');
 };

@@ -1,6 +1,7 @@
 goog.provide('chartEditor.CircularRangesPanel');
 
 goog.require('chartEditor.MultiplePanelsBase');
+goog.require('chartEditor.enums');
 goog.require('chartEditor.settings.CircularRange');
 
 
@@ -13,7 +14,7 @@ goog.require('chartEditor.settings.CircularRange');
 chartEditor.CircularRangesPanel = function(model, opt_domHelper) {
   chartEditor.CircularRangesPanel.base(this, 'constructor', model, 'Ranges', opt_domHelper);
 
-  this.stringId = 'circularRanges';
+  this.stringId = chartEditor.enums.EditorTabs.CIRCULAR_RANGES;
 
   this.setButtonLabel('+ Add range');
 

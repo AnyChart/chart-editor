@@ -16,7 +16,7 @@ goog.require("chartEditor.steps.Base");
 chartEditor.steps.Export = function(index, opt_domHelper) {
   chartEditor.steps.Export.base(this, 'constructor', index, opt_domHelper);
 
-  this.name('Export');
+  this.name(chartEditor.enums.EditorSteps.EXPORT);
 
   this.title('Export');
 
@@ -43,25 +43,22 @@ chartEditor.steps.Export.prototype.createDom = function() {
   var editor = /** @type {chartEditor.Editor} */(this.getParent());
   var model = /** @type {chartEditor.EditorModel} */(editor.getModel());
 
-  var tabs = new chartEditor.Component();
-  tabs.addClassName('anychart-ce-step-tabs');
-  this.addChild(tabs, true);
+  var buttonsWrapper = new chartEditor.Component();
+  buttonsWrapper.addClassName('anychart-ce-tabs-buttons-wrapper');
+  this.addChild(buttonsWrapper, true);
 
-  var wrapper = new chartEditor.Component();
-  wrapper.addClassName('anychart-ce-step-right-wrapper');
-  this.addChild(wrapper, true);
+  var rightWrapper = new chartEditor.Component();
+  rightWrapper.addClassName('anychart-ce-step-right-wrapper');
+  this.addChild(rightWrapper, true);
 
-  var tabContent = new chartEditor.Component();
-  tabContent.addClassName('anychart-ce-step-tab-content');
-  wrapper.addChild(tabContent, true);
+  this.tabs = new chartEditor.ExportTabs(model, buttonsWrapper);
+  this.tabs.updateDescriptors(this.tabsSettings);
+  rightWrapper.addChild(this.tabs, true);
 
   var chartWrapper = new chartEditor.Component();
   chartWrapper.addClassName('anychart-ce-step-chart-wrapper');
-  wrapper.addChild(chartWrapper, true);
+  rightWrapper.addChild(chartWrapper, true);
   this.chartWrapper_ = chartWrapper;
-
-  this.exportTabs_ = new chartEditor.ExportTabs(model, tabs, tabContent);
-  this.addChild(this.exportTabs_, true);
 };
 
 
@@ -88,9 +85,8 @@ chartEditor.steps.Export.prototype.exitDocument = function() {
 
 /** @inheritDoc */
 chartEditor.steps.Export.prototype.disposeInternal = function() {
-  goog.disposeAll([this.chart_, this.exportTabs_]);
+  goog.dispose(this.chart_);
   this.chart_ = null;
-  this.exportTabs_ = null;
 
   chartEditor.steps.Export.base(this, 'disposeInternal');
 };

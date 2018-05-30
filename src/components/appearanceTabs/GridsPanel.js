@@ -13,7 +13,7 @@ goog.require('chartEditor.settings.PlotGrids');
 chartEditor.GridsPanel = function(model, opt_domHelper) {
   chartEditor.GridsPanel.base(this, 'constructor', model, 'Grids', opt_domHelper);
 
-  this.stringId = 'grids';
+  this.stringId = chartEditor.enums.EditorTabs.GRIDS;
 
   this.allowAddPanels(false);
 };

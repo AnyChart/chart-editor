@@ -13,7 +13,7 @@ goog.require('chartEditor.scales.ScalePanel');
 chartEditor.ScalesPanel = function(model, opt_domHelper) {
   chartEditor.ScalesPanel.base(this, 'constructor', model, 'Scales', opt_domHelper);
 
-  this.stringId = 'scales';
+  this.stringId = chartEditor.enums.EditorTabs.SCALES;
 
   this.setButtonLabel('+ Add scale');
 

@@ -14,7 +14,7 @@ goog.require('chartEditor.settings.scales.Base');
 chartEditor.ColorScalePanel = function(model, opt_domHelper) {
   chartEditor.ColorScalePanel.base(this, 'constructor', model, 'Color Scale', opt_domHelper);
 
-  this.stringId = 'colorScale';
+  this.stringId = chartEditor.enums.EditorTabs.COLOR_SCALE;
 };
 goog.inherits(chartEditor.ColorScalePanel, chartEditor.SettingsPanel);
 

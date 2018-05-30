@@ -206,3 +206,45 @@ chartEditor.enums.InfoCode = {
 chartEditor.enums.WarningCode = {
   EDITOR_MODEL_VALUE_NOT_FOUND: 1
 };
+
+
+/**
+ * Names of all the steps
+ * @enum {string}
+ */
+chartEditor.enums.EditorSteps = {
+  DATA: 'data',
+  CHART: 'chart',
+  APPEARANCE: 'appearance',
+  EXPORT: 'export'
+};
+
+
+/**
+ * Names of all the tabs
+ * @enum {string}
+ */
+chartEditor.enums.EditorTabs = {
+  THEMING: 'theming',
+  SPECIFIC: 'specific',
+  TITLE: 'title',
+  LEGEND: 'legend',
+  DATA_LABELS: 'dataLabels',
+  SERIES: 'series',
+  POINTERS: 'pointers',
+  CIRCULAR_RANGES: 'circularRanges',
+  SCALE_BARS: 'scaleBars',
+  SCALES: 'scales',
+  CARTESIAN_AXES: 'cartesianAxes',
+  RADAR_POLAR_AXES: 'radarPolarAxes',
+  GAUGE_AXES: 'gaugeAxes',
+  TOOLTIP: 'tooltip',
+  GRIDS: 'grids',
+  COLOR_SCALE: 'colorScale',
+  COLOR_RANGE: 'colorRange',
+  CONTEXT_MENU: 'contextMenu',
+  CREDITS: 'credits',
+  SOURCE_CODE: 'sourceCode',
+  JSON: 'json',
+  EMBED: 'embed'
+};

@@ -2,9 +2,6 @@ anychart.onDocumentReady(function() {
   // Create editor instance
   var editor = anychart.editor();
 
-  // Render editor to div#container
-  editor.render(document.getElementById("container"));
-
   // console.log(editor.version());
 
   // Add your data from code
@@ -22,7 +19,10 @@ anychart.onDocumentReady(function() {
   //   title: 'Awesome Chart'
   // });
 
-  editor.listen('complete', function() {
-    console.log(editor.getChartAsJsCode());
+  // Render editor to div#container
+  editor.render(document.getElementById("container"));
+
+  editor.listen('editorComplete', function() {
+    console.log(editor.getJavascript());
   });
 });

@@ -7,13 +7,12 @@ goog.require('chartEditor.Component');
  * Tabs panels
  *
  * @param {chartEditor.EditorModel} model
- * @param {chartEditor.Component} tabs
- * @param {chartEditor.Component} tabContent
+ * @param {chartEditor.Component=} opt_buttonsWrapper
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  * @constructor
  * @extends {chartEditor.Component}
  */
-chartEditor.Tabs = function(model, tabs, tabContent, opt_domHelper) {
+chartEditor.Tabs = function(model, opt_buttonsWrapper, opt_domHelper) {
   chartEditor.Tabs.base(this, 'constructor', opt_domHelper);
 
   this.setModel(model);
@@ -23,7 +22,7 @@ chartEditor.Tabs = function(model, tabs, tabContent, opt_domHelper) {
    */
   this.descriptors = [
     // {
-    //   name: 'GeneralTheming',
+    //   name: 'theming',
     //   enabled: true,
     //   classFunc: chartEditor.GeneralTheming,
     //   instance: null
@@ -34,17 +33,7 @@ chartEditor.Tabs = function(model, tabs, tabContent, opt_domHelper) {
 
   this.buttons = [];
 
-  /**
-   * @type {chartEditor.Component}
-   * @private
-   */
-  this.tabs = tabs;
-
-  /**
-   * @type {chartEditor.Component}
-   * @private
-   */
-  this.tabContent = tabContent;
+  this.buttonsWrapper_ = opt_buttonsWrapper;
 };
 goog.inherits(chartEditor.Tabs, chartEditor.Component);
 
@@ -56,22 +45,32 @@ chartEditor.Tabs.prototype.createDom = function() {
   var model = /** @type {chartEditor.EditorModel} */(this.getModel());
   var dom = this.getDomHelper();
 
-  this.buttonsWrapper_ = goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-ce-buttons-wrapper');
-  goog.dom.appendChild(this.tabs.getElement(), this.buttonsWrapper_);
+  if (!this.buttonsWrapper_) {
+    this.buttonsWrapper_ = new chartEditor.Component();
+    this.buttonsWrapper_.addClassName('anychart-ce-tabs-buttons-wrapper');
+    this.addChild(this.buttonsWrapper_, true);
+  }
+
+  this.buttonsEl_ = goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-ce-buttons');
+  goog.dom.appendChild(this.buttonsWrapper_.getElement(), this.buttonsEl_);
+
+  var tabContent = new chartEditor.Component();
+  tabContent.addClassName('anychart-ce-tabs-tab-content');
+  this.addChild(tabContent, true);
 
   for (var i = 0; i < this.descriptors.length; i++) {
     var panel = /** @type {?chartEditor.SettingsPanel} */(this.descriptors[i].instance);
     var classFunc = this.descriptors[i].classFunc;
     panel = this.descriptors[i].instance = new classFunc(model);
 
-    this.tabContent.addChild(panel, true);
+    tabContent.addChild(panel, true);
     goog.dom.classlist.add(panel.getElement(), 'anychart-ce-settings-panel-' + this.descriptors[i].name.toLowerCase());
     goog.dom.classlist.add(panel.getTopElement(), 'anychart-ce-section-caption');
 
     var button = dom.createDom(goog.dom.TagName.DIV, 'button', panel.getName());
     button.setAttribute('data-index', i);
     this.buttons.push(button);
-    this.buttonsWrapper_.appendChild(button);
+    this.buttonsEl_.appendChild(button);
   }
 };
 
@@ -98,7 +97,24 @@ chartEditor.Tabs.prototype.enterDocument = function() {
  * Updates exclusion state of panels.
  */
 chartEditor.Tabs.prototype.updateExclusions = function() {
-  // Override me
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
+  var panelsExcludes = model.getChartTypeSettings()['panelsExcludes'];
+
+  for (var i = 0; i < this.descriptors.length; i++) {
+    var panel = /** @type {chartEditor.SettingsPanel} */(this.descriptors[i].instance);
+    var panelId = panel.getStringId();
+
+    var excluded = !this.descriptors[i].enabled || (panelsExcludes && goog.array.indexOf(panelsExcludes, panel.getStringId()) !== -1);
+    panel.exclude(excluded);
+
+    if (panelId === 'specific' && !excluded) {
+      panel.updateSpecific();
+      this.getDomHelper().setTextContent(this.buttons[i], /** @type {string} */(panel.getName()));
+    }
+
+    if (excluded && this.currentPanel === i)
+      this.currentPanel = 0;
+  }
 };
 
 
@@ -154,7 +170,7 @@ chartEditor.Tabs.prototype.getDescriptorByName_ = function(name) {
  * @param {string} name
  * @param {boolean} enabled
  */
-chartEditor.Tabs.prototype.enablePanelByName = function(name, enabled) {
+chartEditor.Tabs.prototype.enableTabByName = function(name, enabled) {
   var descriptor = this.getDescriptorByName_(name);
   if (descriptor && descriptor.enabled !== enabled) {
     descriptor.enabled = enabled;
@@ -165,12 +181,7 @@ chartEditor.Tabs.prototype.enablePanelByName = function(name, enabled) {
 
 /** @inheritDoc */
 chartEditor.Tabs.prototype.disposeInternal = function() {
-  goog.disposeAll([this.tabs, this.tabContent, this.buttonsWrapper_]);
-
-  this.tabs = null;
-  this.tabContent = null;
-  this.buttonsWrapper_ = null;
-
+  this.buttonsEl_ = null;
   this.descriptors.length = 0;
   this.buttons.length = 0;
 

@@ -14,7 +14,7 @@ goog.require('chartEditor.settings.Legend');
 chartEditor.LegendPanel = function(model, opt_domHelper) {
   chartEditor.LegendPanel.base(this, 'constructor', model, 'Legend', opt_domHelper);
 
-  this.stringId = 'legend';
+  this.stringId = chartEditor.enums.EditorTabs.LEGEND;
 
   this.allowAddPanels(false);
 };

@@ -13,7 +13,7 @@ goog.require('chartEditor.settings.axes.Cartesian');
 chartEditor.CartesianAxesPanelBase = function(model, opt_domHelper) {
   chartEditor.CartesianAxesPanelBase.base(this, 'constructor', model, 'CartesianAxesPanelBase', opt_domHelper);
 
-  this.stringId = 'cartesianAxes';
+  this.stringId = chartEditor.enums.EditorTabs.CARTESIAN_AXES;
 
   /**
    * Axis prefix. Should be overridden.

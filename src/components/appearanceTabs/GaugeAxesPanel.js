@@ -14,7 +14,7 @@ goog.require('chartEditor.settings.axes.LinearGauge');
 chartEditor.GaugeAxesPanel = function(model, opt_domHelper) {
   chartEditor.GaugeAxesPanel.base(this, 'constructor', model, 'Axes', opt_domHelper);
 
-  this.stringId = 'gaugeAxes';
+  this.stringId = chartEditor.enums.EditorTabs.GAUGE_AXES;
 
   this.addClassName(goog.getCssName('anychart-ce-settings-panel-gauge-axes'));
 

@@ -153,14 +153,14 @@ chartEditor.Breadcrumbs.prototype.setStep = function(index, steps) {
       this.items_[this.stepIndex_].addClassName('anychart-ce-breadcrumbs-item-active');
 
       // update buttons
-      var firstIndex = steps.getFirstStepIndex();
-      var lastIndex = steps.getLastStepIndex();
+      var firstIndex = steps.getStepIndex(chartEditor.Steps.StepRole.FIRST);
+      var lastIndex = steps.getStepIndex(chartEditor.Steps.StepRole.LAST);
 
       if (firstIndex == lastIndex) {
         // Only one step
         this.prev_.setVisible(false);
         this.next_.setVisible(false);
-        this.complete_.setVisible(true);
+        this.complete_.setVisible(firstIndex != 0);
 
       } else if (this.stepIndex_ === firstIndex) {
         // First step

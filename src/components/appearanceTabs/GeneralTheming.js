@@ -15,6 +15,8 @@ goog.require('chartEditor.controls.select.Theme');
  */
 chartEditor.GeneralTheming = function(model, opt_domHelper) {
   chartEditor.GeneralTheming.base(this, 'constructor', model, 'General Theming', opt_domHelper);
+
+  this.stringId = chartEditor.enums.EditorTabs.THEMING;
 };
 goog.inherits(chartEditor.GeneralTheming, chartEditor.SettingsPanel);
 

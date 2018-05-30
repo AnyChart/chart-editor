@@ -30,140 +30,137 @@ goog.require('chartEditor.YAxesPanel');
  * Appearance settings widget.
  *
  * @param {chartEditor.EditorModel} model
- * @param {chartEditor.Component} tabs
- * @param {chartEditor.Component} tabContent
+ * @param {chartEditor.Component=} opt_buttonsWrapper
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  * @constructor
  * @extends {chartEditor.Tabs}
  */
-chartEditor.AppearanceTabs = function(model, tabs, tabContent, opt_domHelper) {
-  chartEditor.AppearanceTabs.base(this, 'constructor', model, tabs, tabContent, opt_domHelper);
-
-  this.setModel(model);
+chartEditor.AppearanceTabs = function(model, opt_buttonsWrapper, opt_domHelper) {
+  chartEditor.AppearanceTabs.base(this, 'constructor', model, opt_buttonsWrapper, opt_domHelper);
 
   this.descriptors = [
     {
-      name: 'GeneralTheming',
+      name: chartEditor.enums.EditorTabs.THEMING,
       enabled: true,
       classFunc: chartEditor.GeneralTheming,
       instance: null
     },
     {
-      name: 'Specific',
+      name: chartEditor.enums.EditorTabs.SPECIFIC,
       enabled: true,
       classFunc: chartEditor.SpecificPanel,
       instance: null
     },
     {
-      name: 'ChartTitle',
+      name: chartEditor.enums.EditorTabs.TITLE,
       enabled: true,
       classFunc: chartEditor.ChartTitlePanel,
       instance: null
     },
     {
-      name: 'Legend',
+      name: chartEditor.enums.EditorTabs.LEGEND,
       enabled: true,
       classFunc: chartEditor.LegendPanel,
       instance: null
     },
     {
-      name: 'DataLabels',
+      name: chartEditor.enums.EditorTabs.DATA_LABELS,
       enabled: true,
       classFunc: chartEditor.DataLabelsPanel,
       instance: null
     },
     {
-      name: 'SeriesSettings',
+      name: chartEditor.enums.EditorTabs.SERIES,
       enabled: true,
       classFunc: chartEditor.SeriesSettingsPanel,
       instance: null
     },
     {
-      name: 'Pointers',
+      name: chartEditor.enums.EditorTabs.POINTERS,
       enabled: true,
       classFunc: chartEditor.PointersPanel,
       instance: null
     },
     {
-      name: 'Ranges',
+      name: chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
       enabled: true,
       classFunc: chartEditor.CircularRangesPanel,
       instance: null
     },
     {
-      name: 'ScaleBars',
+      name: chartEditor.enums.EditorTabs.SCALE_BARS,
       enabled: true,
       classFunc: chartEditor.ScaleBarsPanel,
       instance: null
     },
     {
-      name: 'Scales',
+      name: chartEditor.enums.EditorTabs.SCALES,
       enabled: true,
       classFunc: chartEditor.ScalesPanel,
       instance: null
     },
     {
-      name: 'CartesianXAxes',
+      name: chartEditor.enums.EditorTabs.CARTESIAN_AXES,
       enabled: true,
       classFunc: chartEditor.XAxesPanel,
       instance: null
     },
     {
-      name: 'CartesianYAxes',
+      name: chartEditor.enums.EditorTabs.CARTESIAN_AXES,
       enabled: true,
       classFunc: chartEditor.YAxesPanel,
       instance: null
     },
     {
-      name: 'RadarXAxes',
+      name: chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
       enabled: true,
       classFunc: chartEditor.RadarPolarXAxisPanel,
       instance: null
     },
     {
-      name: 'RadarYAxes',
+      name: chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
       enabled: true,
       classFunc: chartEditor.RadarPolarYAxisPanel,
       instance: null
     },
     {
-      name: 'gaugeAxes',
+      name: chartEditor.enums.EditorTabs.GAUGE_AXES,
       enabled: true,
       classFunc: chartEditor.GaugeAxesPanel,
       instance: null
     },
     {
-      name: 'Tooltip',
+      name: chartEditor.enums.EditorTabs.TOOLTIP,
       enabled: true,
       classFunc: chartEditor.TooltipPanel,
       instance: null
     },
     {
-      name: 'Grids',
+      name: chartEditor.enums.EditorTabs.GRIDS,
       enabled: true,
       classFunc: chartEditor.GridsPanel,
       instance: null
     },
     {
-      name: 'ColorScale',
+      name: chartEditor.enums.EditorTabs.COLOR_SCALE,
       enabled: true,
       classFunc: chartEditor.ColorScalePanel,
       instance: null
     },
     {
-      name: 'ColorRange',
+      name: chartEditor.enums.EditorTabs.COLOR_RANGE,
       enabled: true,
       classFunc: chartEditor.ColorRangePanel,
       instance: null
     },
     {
-      name: 'ContextMenu',
+      name: chartEditor.enums.EditorTabs.CONTEXT_MENU,
       enabled: true,
       classFunc: chartEditor.ContextMenuPanel,
       instance: null
     },
     {
-      name: 'Credits',
+      name: chartEditor.enums.EditorTabs.CREDITS,
       enabled: true,
       classFunc: chartEditor.CreditsPanel,
       instance: null
@@ -172,30 +169,3 @@ chartEditor.AppearanceTabs = function(model, tabs, tabContent, opt_domHelper) {
 };
 goog.inherits(chartEditor.AppearanceTabs, chartEditor.Tabs);
 
-
-/**
- * Updates exclusion state of panels.
- */
-chartEditor.AppearanceTabs.prototype.updateExclusions = function() {
-  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
-  var panelsExcludes = model.getChartTypeSettings()['panelsExcludes'];
-
-  for (var i = 0; i < this.descriptors.length; i++) {
-    var panel = /** @type {?chartEditor.SettingsPanel} */(this.descriptors[i].instance);
-    var excluded;
-
-    if (this.descriptors[i].name === 'Specific') {
-      panel.updateSpecific();
-      excluded = panel.isExcluded();
-      if (!excluded)
-        this.getDomHelper().setTextContent(this.buttons[i], /** @type {string} */(panel.getName()));
-
-    } else {
-      excluded = !this.descriptors[i].enabled || panelsExcludes && goog.array.indexOf(panelsExcludes, panel.getStringId()) !== -1;
-      panel.exclude(excluded);
-    }
-
-    if (excluded && this.currentPanel === i)
-      this.currentPanel = 0;
-  }
-};

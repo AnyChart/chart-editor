@@ -14,6 +14,8 @@ goog.require('chartEditor.settings.Title');
 chartEditor.ChartTitlePanel = function(model, opt_domHelper) {
   chartEditor.ChartTitlePanel.base(this, 'constructor', model, 'Chart Title', opt_domHelper);
 
+  this.stringId = chartEditor.enums.EditorTabs.TITLE;
+
   this.key = [['chart'], ['settings'], 'title()'];
 };
 goog.inherits(chartEditor.ChartTitlePanel, chartEditor.SettingsPanel);

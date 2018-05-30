@@ -14,7 +14,7 @@ goog.require('chartEditor.settings.Labels');
 chartEditor.DataLabelsPanel = function(model, opt_domHelper) {
   chartEditor.DataLabelsPanel.base(this, 'constructor', model, 'Data Labels', opt_domHelper);
 
-  this.stringId = 'dataLabels';
+  this.stringId = chartEditor.enums.EditorTabs.DATA_LABELS;
 
   this.key = [['chart'], ['settings'], 'labels()'];
 };

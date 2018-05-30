@@ -13,7 +13,7 @@ goog.require('chartEditor.settings.ScaleBar');
 chartEditor.ScaleBarsPanel = function(model, opt_domHelper) {
   chartEditor.ScaleBarsPanel.base(this, 'constructor', model, 'Scale Bars', opt_domHelper);
 
-  this.stringId = 'scaleBars';
+  this.stringId = chartEditor.enums.EditorTabs.SCALE_BARS;
 
   this.setButtonLabel('+ Add scale bar');
 

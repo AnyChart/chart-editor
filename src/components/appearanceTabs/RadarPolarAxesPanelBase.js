@@ -15,7 +15,7 @@ goog.require('chartEditor.settings.axes.Radial');
 chartEditor.RadarPolarAxesPanelBase = function(model, opt_domHelper) {
   chartEditor.RadarPolarAxesPanelBase.base(this, 'constructor', model, 'RadarAxesPanelBase', opt_domHelper);
 
-  this.stringId = 'radarPolarAxes';
+  this.stringId = chartEditor.enums.EditorTabs.RADAR_POLAR_AXES;
 
   /**
    * Axis prefix. Should be overridden.

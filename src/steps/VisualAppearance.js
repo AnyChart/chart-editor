@@ -19,11 +19,8 @@ goog.require("goog.dom.classlist");
 chartEditor.steps.VisualAppearance = function(index, opt_domHelper) {
   chartEditor.steps.VisualAppearance.base(this, 'constructor', index, opt_domHelper);
 
-  this.name('Visual Appearance');
-
+  this.name(chartEditor.enums.EditorSteps.APPEARANCE);
   this.title('Visual Appearance');
-
-  this.tabsSettings = {};
 };
 goog.inherits(chartEditor.steps.VisualAppearance, chartEditor.steps.Base);
 
@@ -35,37 +32,30 @@ chartEditor.steps.VisualAppearance.prototype.createDom = function() {
   var editor = /** @type {chartEditor.Editor} */(this.getParent());
   var model = /** @type {chartEditor.EditorModel} */(editor.getModel());
 
-  var tabs = new chartEditor.Component();
-  tabs.addClassName('anychart-ce-step-tabs');
-  this.addChild(tabs, true);
+  var buttonsWrapper = new chartEditor.Component();
+  buttonsWrapper.addClassName('anychart-ce-tabs-buttons-wrapper');
+  this.addChild(buttonsWrapper, true);
 
-  var wrapper = new chartEditor.Component();
-  wrapper.addClassName('anychart-ce-step-right-wrapper');
-  this.addChild(wrapper, true);
+  var rightWrapper = new chartEditor.Component();
+  rightWrapper.addClassName('anychart-ce-step-right-wrapper');
+  this.addChild(rightWrapper, true);
 
-  var tabContent = new chartEditor.Component();
-  tabContent.addClassName('anychart-ce-step-tab-content');
-  wrapper.addChild(tabContent, true);
+  this.tabs = new chartEditor.AppearanceTabs(model, buttonsWrapper);
+  this.tabs.updateDescriptors(this.tabsSettings);
+  rightWrapper.addChild(this.tabs, true);
 
   var chartWrapper = new chartEditor.Component();
   chartWrapper.addClassName('anychart-ce-step-chart-wrapper');
-  wrapper.addChild(chartWrapper, true);
+  rightWrapper.addChild(chartWrapper, true);
 
   this.chartWrapper = chartWrapper;
   var caption = goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-ce-section-caption anychart-chart-preview-caption', 'Chart Preview');
   goog.dom.appendChild(this.chartWrapper.getElement(), caption);
-
-  this.appearanceTabs = new chartEditor.AppearanceTabs(model, tabs, tabContent);
-  this.appearanceTabs.updateDescriptors(this.tabsSettings);
-  this.addChild(this.appearanceTabs, true);
 };
 
 
 /** @inheritDoc */
 chartEditor.steps.VisualAppearance.prototype.enterDocument = function() {
-  // Should be called before enterDocument()!
-  this.appearanceTabs.updateExclusions();
-
   chartEditor.steps.VisualAppearance.base(this, 'enterDocument');
 
   var editor = /** @type {chartEditor.Editor} */(this.getParent());
@@ -86,30 +76,7 @@ chartEditor.steps.VisualAppearance.prototype.exitDocument = function() {
 
 /** @inheritDoc */
 chartEditor.steps.VisualAppearance.prototype.disposeInternal = function() {
-  goog.disposeAll([this.chart_, this.appearanceTabs]);
+  goog.dispose(this.chart_);
   this.chart_ = null;
-  this.appearanceTabs = null;
-
   chartEditor.steps.VisualAppearance.base(this, 'disposeInternal');
 };
-
-
-/**
- * Enable/disable context menu panel.
- * @param {string} panelName
- * @param {boolean} enabled
- */
-chartEditor.steps.VisualAppearance.prototype.enablePanel = function(panelName, enabled) {
-  if (this.appearanceTabs)
-    this.appearanceTabs.enablePanelByName(panelName, enabled);
-  else {
-    this.tabsSettings[panelName] = this.tabsSettings[panelName] ? this.tabsSettings[panelName] : {};
-    this.tabsSettings[panelName].enabled = enabled;
-  }
-};
-
-
-(function() {
-  var proto = chartEditor.steps.VisualAppearance.prototype;
-  proto['enablePanel'] = proto.enablePanel;
-})();

@@ -118,6 +118,7 @@ chartEditor.controls.input.Base.prototype.onChange = function() {
   if (this.excluded) return;
 
   var value = this.getValue();
+  value = value.replace(/(\\)/g, '\\\\');
 
   if (!this.noDispatch && value !== this.lastValue && this.editorModel) {
     if (this.validateFunction_(value)) {

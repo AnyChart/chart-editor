@@ -12,6 +12,8 @@ goog.require('goog.Timer');
  */
 chartEditor.exportTabs.SourceCode = function(model, opt_domHelper) {
   chartEditor.exportTabs.SourceCode.base(this, 'constructor', model, 'Source Code', opt_domHelper);
+
+  this.stringId = chartEditor.enums.EditorTabs.SOURCE_CODE;
 };
 goog.inherits(chartEditor.exportTabs.SourceCode, chartEditor.exportTabs.Scripts);
 
@@ -20,10 +22,12 @@ goog.inherits(chartEditor.exportTabs.SourceCode, chartEditor.exportTabs.Scripts)
 chartEditor.exportTabs.SourceCode.prototype.enterDocument = function() {
   chartEditor.exportTabs.SourceCode.base(this, 'enterDocument');
 
-  this.dispatchEvent({
-    type: chartEditor.events.EventType.WAIT,
-    wait: true
-  });
+  if (!this.isExcluded()) {
+    this.dispatchEvent({
+      type: chartEditor.events.EventType.WAIT,
+      wait: true
+    });
+  }
 };
 
 
@@ -109,7 +113,7 @@ chartEditor.exportTabs.SourceCode.prototype.onChartDraw = function(evt) {
     goog.style.setHeight(this.preEl, h);
   }
 
-  var wrapperEl = dom.getAncestorByClass( this.preEl, 'anychart-ce-step-tab-content');
+  var wrapperEl = dom.getAncestorByClass( this.preEl, 'anychart-ce-tabs-tab-content');
   if (wrapperEl) {
     goog.style.setStyle(wrapperEl, 'overflow-y', 'hidden');
   }

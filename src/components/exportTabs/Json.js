@@ -13,6 +13,8 @@ goog.require('goog.Timer');
 chartEditor.exportTabs.Json = function(model, opt_domHelper) {
   chartEditor.exportTabs.Json.base(this, 'constructor', model, 'JSON', opt_domHelper);
 
+  this.stringId = chartEditor.enums.EditorTabs.JSON;
+
   this.key = [];
 };
 goog.inherits(chartEditor.exportTabs.Json, chartEditor.SettingsPanel);
@@ -22,14 +24,15 @@ goog.inherits(chartEditor.exportTabs.Json, chartEditor.SettingsPanel);
 chartEditor.exportTabs.Json.prototype.enterDocument = function() {
   chartEditor.exportTabs.Json.base(this, 'enterDocument');
 
-  this.dispatchEvent({
-    type: chartEditor.events.EventType.WAIT,
-    wait: true
-  });
+  if (!this.isExcluded()) {
+    this.dispatchEvent({
+      type: chartEditor.events.EventType.WAIT,
+      wait: true
+    });
+  }
 };
 
 
-/** @inheritDoc */
 /** @inheritDoc */
 chartEditor.exportTabs.Json.prototype.onChartDraw = function(evt) {
   chartEditor.exportTabs.Json.base(this, 'onChartDraw', evt);
@@ -52,7 +55,7 @@ chartEditor.exportTabs.Json.prototype.onChartDraw = function(evt) {
     goog.style.setHeight(this.preEl, h);
   }
 
-  var wrapperEl = dom.getAncestorByClass( this.preEl, 'anychart-ce-step-tab-content');
+  var wrapperEl = dom.getAncestorByClass( this.preEl, 'anychart-ce-tabs-tab-content');
   if (wrapperEl) {
     goog.style.setStyle(wrapperEl, 'overflow-y', 'hidden');
   }

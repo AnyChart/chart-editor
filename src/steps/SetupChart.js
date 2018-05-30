@@ -17,8 +17,10 @@ goog.require("chartEditor.steps.Base");
 chartEditor.steps.SetupChart = function (index, opt_domHelper) {
     chartEditor.steps.SetupChart.base(this, 'constructor', index, opt_domHelper);
 
-    this.name('Setup Chart');
+    this.name(chartEditor.enums.EditorSteps.CHART);
+
     this.title('Setup Chart');
+
     this.addClassName('anychart-setup-chart-step');
 };
 goog.inherits(chartEditor.steps.SetupChart, chartEditor.steps.Base);

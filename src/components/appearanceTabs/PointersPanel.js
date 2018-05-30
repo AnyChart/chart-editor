@@ -23,7 +23,7 @@ goog.require('chartEditor.settings.pointers.Thermometer');
 chartEditor.PointersPanel = function(model, opt_domHelper) {
   chartEditor.PointersPanel.base(this, 'constructor', model, 'Pointers', opt_domHelper);
 
-  this.stringId = 'pointers';
+  this.stringId = chartEditor.enums.EditorTabs.POINTERS;
 
   this.allowAddPanels(false);
 };

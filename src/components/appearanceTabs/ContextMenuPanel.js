@@ -14,6 +14,8 @@ goog.require('chartEditor.checkbox.Base');
 chartEditor.ContextMenuPanel = function(model, opt_domHelper) {
   chartEditor.ContextMenuPanel.base(this, 'constructor', model, 'Context menu', opt_domHelper);
 
+  this.stringId = chartEditor.enums.EditorTabs.CONTEXT_MENU;
+
   this.key = [['chart'], ['settings'], 'contextMenu()'];
 
   this.map_ = {

@@ -21,7 +21,7 @@ goog.require("goog.ui.Button");
 chartEditor.steps.PrepareData = function(index, opt_domHelper) {
   chartEditor.steps.PrepareData.base(this, 'constructor', index, opt_domHelper);
 
-  this.name('Configure Data');
+  this.name(chartEditor.enums.EditorSteps.DATA);
 
   this.title('Configure Data');
 

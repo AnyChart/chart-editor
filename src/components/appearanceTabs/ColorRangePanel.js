@@ -23,7 +23,7 @@ goog.require('chartEditor.settings.Title');
 chartEditor.ColorRangePanel = function(model, opt_domHelper) {
   chartEditor.ColorRangePanel.base(this, 'constructor', model, 'Color Range', opt_domHelper);
 
-  this.stringId = 'colorRange';
+  this.stringId = chartEditor.enums.EditorTabs.COLOR_RANGE;
 
   this.key = [['chart'], ['settings'], 'colorRange()'];
 };

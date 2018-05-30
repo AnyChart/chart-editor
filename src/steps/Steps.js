@@ -58,6 +58,16 @@ chartEditor.Steps.EventType = {
 };
 
 
+/** @enum {string} */
+chartEditor.Steps.StepRole = {
+  NEXT: 'next',
+  PREVIOUS: 'previous',
+  FIRST: 'first',
+  LAST: 'last'
+};
+
+
+
 /**
  * Create step instances
  */
@@ -108,27 +118,54 @@ chartEditor.Steps.prototype.getStepByIndex = function(index) {
 
 
 /**
- * @return {number}
+ * @param {chartEditor.enums.EditorSteps} stepName
+ * @return {?chartEditor.steps.Base}
  */
-chartEditor.Steps.prototype.getFirstStepIndex = function() {
+chartEditor.Steps.prototype.getStepByName = function(stepName) {
   for (var i = 0; i < this.descriptors_.length; i++) {
-    if (this.descriptors_[i].instance && this.descriptors_[i].instance['enabled']())
-      return i;
+    if (this.descriptors_[i].instance && this.descriptors_[i].instance['name']() == stepName)
+      return /** @type {chartEditor.steps.Base} */(this.descriptors_[i].instance);
   }
-  return -1;
+
+  return null;
 };
 
 
 /**
+ * @param {chartEditor.Steps.StepRole} role
  * @return {number}
  */
-chartEditor.Steps.prototype.getLastStepIndex = function() {
-  for (var i = this.descriptors_.length; i--;) {
-    if (this.descriptors_[i].instance && this.descriptors_[i].instance['enabled']())
-      return i;
+chartEditor.Steps.prototype.getStepIndex = function(role) {
+  var index = -1;
+  var i;
+  switch(role){
+    case chartEditor.Steps.StepRole.FIRST:
+    case chartEditor.Steps.StepRole.NEXT:
+      i = role == chartEditor.Steps.StepRole.FIRST ? 0 : this.getCurrentStep().getIndex() + 1;
+      for (; i < this.descriptors_.length; i++) {
+        if (this.descriptors_[i].instance && this.descriptors_[i].instance['enabled']()) {
+          index = i;
+          break;
+        }
+      }
+      break;
+    case chartEditor.Steps.StepRole.LAST:
+    case chartEditor.Steps.StepRole.PREVIOUS:
+      i = role == chartEditor.Steps.StepRole.LAST ? this.descriptors_.length - 1: this.getCurrentStep().getIndex() - 1;
+      for (; i >= 0; i--) {
+        if (this.descriptors_[i].instance && this.descriptors_[i].instance['enabled']()) {
+          index = i;
+          break;
+        }
+      }
+      break;
   }
-  return -1;
+
+
+
+  return index;
 };
+
 
 
 /**
@@ -207,6 +244,6 @@ chartEditor.Steps.prototype.disposeInternal = function() {
 
 
 (function() {
-  var proto = chartEditor.Steps.prototype;
+  // var proto = chartEditor.Steps.prototype;
   // proto['enabled'] = proto.enabled;
 })();

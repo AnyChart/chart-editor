@@ -13,6 +13,8 @@ goog.require('goog.ui.FormPost');
  */
 chartEditor.exportTabs.Embed = function(model, opt_domHelper) {
   chartEditor.exportTabs.Embed.base(this, 'constructor', model, 'Save To Cloud', opt_domHelper);
+
+  this.stringId = chartEditor.enums.EditorTabs.EMBED;
 };
 goog.inherits(chartEditor.exportTabs.Embed, chartEditor.exportTabs.Scripts);
 

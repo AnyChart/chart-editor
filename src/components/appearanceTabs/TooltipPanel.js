@@ -16,6 +16,8 @@ goog.require('chartEditor.settings.TooltipTitle');
 chartEditor.TooltipPanel = function(model, opt_domHelper) {
   chartEditor.TooltipPanel.base(this, 'constructor', model, 'Tooltip', opt_domHelper);
 
+  this.stringId = chartEditor.enums.EditorTabs.TOOLTIP;
+
   this.key = [['chart'], ['settings'], 'tooltip()'];
 };
 goog.inherits(chartEditor.TooltipPanel, chartEditor.SettingsPanel);

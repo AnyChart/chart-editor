@@ -11,6 +11,7 @@ goog.require("chartEditor.events");
 goog.require("goog.net.ImageLoader");
 
 
+
 /**
  * Chart Editor application Component Class.
  * @constructor
@@ -73,7 +74,7 @@ chartEditor.Editor = function(opt_domHelper) {
   this.theme_ = '';
 
   // Enable Qlik theme
-  // this.theme_ = 'qlik';
+  this.theme_ = 'qlik';
 };
 goog.inherits(chartEditor.Editor, chartEditor.Component);
 
@@ -92,7 +93,7 @@ chartEditor.Editor.CSS_CLASS = goog.getCssName('anychart-ce');
 
 
 /**
- * @return {string} Current version
+ * @return {string} Current editor version
  */
 chartEditor.Editor.prototype.version = function() {
   return chartEditor.Editor.VERSION;
@@ -130,7 +131,7 @@ chartEditor.Editor.prototype.getTheme = function() {
  *     issue by using an iframe instead of a div for bg element.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  */
-chartEditor.Editor.prototype.renderAsDialog = function(opt_class, opt_useIframeMask, opt_domHelper) {
+chartEditor.Editor.prototype.dialogRender = function(opt_class, opt_useIframeMask, opt_domHelper) {
   this.dialog_ = new chartEditor.Editor.Dialog(opt_class || goog.getCssName('anychart-ce-dialog'), opt_useIframeMask, opt_domHelper);
 
   if (this.theme_) this.dialog_.setTheme(this.theme_);
@@ -144,16 +145,14 @@ chartEditor.Editor.prototype.renderAsDialog = function(opt_class, opt_useIframeM
 /**
  * Sets/gets the visibility of the dialog box.
  * @param {boolean=} opt_value Whether the dialog should be visible.
- * @return {boolean|!chartEditor.Editor} Current visibility state or self for chaining.
+ * @return {boolean|chartEditor.Editor} Current visibility state or self for chaining.
  */
-chartEditor.Editor.prototype.visible = function(opt_value) {
+chartEditor.Editor.prototype.dialogVisible = function(opt_value) {
   if (!this.dialog_) return true;
 
   if (goog.isDef(opt_value)) {
-    var prevVisible = this.dialog_.isVisible();
     this.dialog_.setVisible(opt_value);
     this.waitForImages_();
-
     return this;
   }
 
@@ -164,10 +163,10 @@ chartEditor.Editor.prototype.visible = function(opt_value) {
 // region ---- chart export
 /**
  * Returns JS code string that creates a configured chart.
- * @param {chartEditor.EditorModel.OutputOptions=} opt_outputOptions Output options object.
+ * @param {chartEditor.EditorModel.JavascriptOptions=} opt_outputOptions Output options object.
  * @return {string}
  */
-chartEditor.Editor.prototype.getChartAsJsCode = function(opt_outputOptions) {
+chartEditor.Editor.prototype.getJavascript = function(opt_outputOptions) {
   return (/** @type {chartEditor.EditorModel} */(this.getModel())).getChartAsJsCode(opt_outputOptions);
 };
 
@@ -176,7 +175,7 @@ chartEditor.Editor.prototype.getChartAsJsCode = function(opt_outputOptions) {
  * Returns configured chart in JSON representation.
  * @return {string}
  */
-chartEditor.Editor.prototype.getChartAsJson = function() {
+chartEditor.Editor.prototype.getJson = function() {
   return (/** @type {chartEditor.EditorModel} */(this.getModel())).getChartAsJson();
 };
 
@@ -185,7 +184,7 @@ chartEditor.Editor.prototype.getChartAsJson = function() {
  * Returns configured chart in XML representation.
  * @return {string}
  */
-chartEditor.Editor.prototype.getChartAsXml = function() {
+chartEditor.Editor.prototype.getXml = function() {
   return (/** @type {chartEditor.EditorModel} */(this.getModel())).getChartAsXml();
 };
 // endregion
@@ -220,7 +219,7 @@ chartEditor.Editor.prototype.waitForImages_ = function() {
  * @private
  */
 chartEditor.Editor.prototype.onComplete_ = function(evt) {
-  this.dispatchEvent('complete');
+  this.dispatchEvent('editorcomplete');
   if (this.dialog_)
     this.dialog_.setVisible(false);
 };
@@ -253,11 +252,11 @@ chartEditor.Editor.prototype.createDom = function() {
 
   var self = this;
   this.getHandler().listen(this.breadcrumbs_, BreadcrumbsEventType.NEXT, function() {
-    var nextIndex = self.steps_.getCurrentStep().getIndex() + 1;
+    var nextIndex = self.steps_.getStepIndex(chartEditor.Steps.StepRole.NEXT);
     this.setCurrentStep(nextIndex, true);
   });
   this.getHandler().listen(this.breadcrumbs_, BreadcrumbsEventType.PREV, function() {
-    var nextIndex = self.steps_.getCurrentStep().getIndex() - 1;
+    var nextIndex = self.steps_.getStepIndex(chartEditor.Steps.StepRole.PREVIOUS);
     this.setCurrentStep(nextIndex, true);
   });
 
@@ -301,7 +300,7 @@ chartEditor.Editor.prototype.enterDocument = function() {
  * @private
  */
 chartEditor.Editor.prototype.setFirstStep_ = function() {
-  var index = this.steps_.getFirstStepIndex();
+  var index = this.steps_.getStepIndex(chartEditor.Steps.StepRole.FIRST);
   if (index >= 0)
     this.setCurrentStep(index, false);
 
@@ -317,7 +316,7 @@ chartEditor.Editor.prototype.setFirstStep_ = function() {
  */
 chartEditor.Editor.prototype.setCurrentStep = function(index, doAnimation) {
   if (index > 0 && this.getModel().getDataSetsCount() <= 0) {
-    alert('You need at least one data set at the current step!');
+    alert('To use these steps you should have data set to be added.\nPlease use data() method or enable data step.');
 
   } else {
     this.steps_.setStep(index, doAnimation);
@@ -326,21 +325,20 @@ chartEditor.Editor.prototype.setCurrentStep = function(index, doAnimation) {
 
 
 /**
- * @param {number=} opt_index
- * @param {boolean|Object=} opt_value
- * @return {chartEditor.Steps|chartEditor.steps.Base|chartEditor.Editor}
+ * Allows to get step by it's name.
+ * Call this method only before render chart editor.
+ * @param {chartEditor.enums.EditorSteps} stepName Step name
+ * @param {(boolean|Object)=} opt_value Boolean value to enable/disable step or configuration object.
+ * @return {chartEditor.steps.Base|chartEditor.Editor|null} Step or self for chaining
  */
-chartEditor.Editor.prototype.steps = function(opt_index, opt_value) {
-  if (goog.isDef(opt_index)) {
-    if (goog.isDef(opt_value)) {
-      var step = this.steps_.getStepByIndex(opt_index);
-      if (step)
-        step.setup(opt_value);
-      return this;
-    } else
-      return this.steps_.getStepByIndex(opt_index);
-  }
-  return this.steps_;
+chartEditor.Editor.prototype.step = function(stepName, opt_value) {
+  if (goog.isDef(opt_value)) {
+    var step = this.steps_.getStepByName(stepName);
+    if (step)
+      step.setup(opt_value);
+    return this;
+  } else
+    return this.steps_.getStepByName(stepName);
 };
 
 
@@ -356,8 +354,8 @@ chartEditor.Editor.prototype.localization = function(values) {
 
 
 /**
- * Add data to editor while initialization.
- * @param {Object|Array.<Object>} data Raw data.
+ * Add data to editor programmatically.
+ * @param {Array.<Object>|Object} data Raw data.
  */
 chartEditor.Editor.prototype.data = function(data) {
   if (goog.isObject(data)) {
@@ -417,20 +415,30 @@ chartEditor.Editor.prototype.onWait_ = function(evt) {
 
 
 /**
- *  @return {string}
+ * Serialize model structure
+ * @return {string} Serialized model
  */
 chartEditor.Editor.prototype.serializeModel = function() {
   var model = this.getModel().getModel();
+  if (model['standalones'] && model['standalones']['scale']) {
+    for (var i = 0; i < model['standalones']['scale'].length; i++) {
+      model['standalones']['scale'][i]['instance'] = null;
+    }
+  }
   return goog.json.hybrid.stringify(model);
 };
 
 
 /**
+ * Deserialize model structure from string
  * @param {?string} serializedModel
  */
 chartEditor.Editor.prototype.deserializeModel = function(serializedModel) {
   if (serializedModel) {
     var deserialized = /** @type {chartEditor.EditorModel.Model} */(goog.json.hybrid.parse(serializedModel));
+    if (!deserialized['standalones']) {
+      deserialized['standalones'] = {'scale': []};
+    }
     var model = /** @type {chartEditor.EditorModel} */(this.getModel());
     model.setModel(deserialized);
   }
@@ -438,6 +446,7 @@ chartEditor.Editor.prototype.deserializeModel = function(serializedModel) {
 
 
 /**
+ * Allows to set defaults for created chart. This is for Qlik
  * @param {Array.<{key: chartEditor.EditorModel.Key, value: (string|boolean|Object) }>} values
  */
 chartEditor.Editor.prototype.setDefaults = function(values) {
@@ -565,12 +574,12 @@ window['anychart'].editor = function() {
   var proto = chartEditor.Editor.prototype;
   proto['render'] = proto.render;
   proto['decorate'] = proto.decorate;
-  proto['renderAsDialog'] = proto.renderAsDialog;
-  proto['visible'] = proto.visible;
-  proto['getChartAsJsCode'] = proto.getChartAsJsCode;
-  proto['getChartAsJson'] = proto.getChartAsJson;
-  proto['getChartAsXml'] = proto.getChartAsXml;
-  proto['steps'] = proto.steps;
+  proto['dialogRender'] = proto.dialogRender;
+  proto['dialogVisible'] = proto.dialogVisible;
+  proto['getJavascript'] = proto.getJavascript;
+  proto['getJson'] = proto.getJson;
+  proto['getXml'] = proto.getXml;
+  proto['step'] = proto.step;
   proto['localization'] = proto.localization;
   proto['data'] = proto.data;
   proto['setDefaults'] = proto.setDefaults;
@@ -584,4 +593,6 @@ window['anychart'].editor = function() {
   proto['deserializeModel'] = proto.deserializeModel;
   proto['dispose'] = proto.dispose;
   proto['version'] = proto.version;
+  proto['addClassName'] = proto.addClassName;
+  proto['removeClassName'] = proto.removeClassName;
 })();

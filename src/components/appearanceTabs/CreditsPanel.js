@@ -14,6 +14,8 @@ goog.require('chartEditor.controls.input.Base');
 chartEditor.CreditsPanel = function(model, opt_domHelper) {
   chartEditor.CreditsPanel.base(this, 'constructor', model, 'License & Credits', opt_domHelper);
 
+  this.stringId = chartEditor.enums.EditorTabs.CREDITS;
+
   this.key = [['chart'], ['settings'], 'credits()'];
 
   this.isValidKey_ = false;

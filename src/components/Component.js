@@ -67,7 +67,11 @@ chartEditor.Component.prototype.enterDocument = function() {
 };
 
 
-/** @param {string} className */
+/**
+ * Add the given class name to the list of classes to be applied to
+ * the component's root element.
+ * @param {string} className
+ */
 chartEditor.Component.prototype.addClassName = function(className) {
   if (className) {
     if (this.extraClassNames_) {

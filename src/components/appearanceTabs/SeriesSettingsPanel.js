@@ -14,7 +14,7 @@ goog.require('chartEditor.settings.Series');
 chartEditor.SeriesSettingsPanel = function(model, opt_domHelper) {
   chartEditor.SeriesSettingsPanel.base(this, 'constructor', model, 'Series', opt_domHelper);
 
-  this.stringId = 'series';
+  this.stringId = chartEditor.enums.EditorTabs.SERIES;
 
   this.allowAddPanels(false);
 };

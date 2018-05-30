@@ -1,9 +1,11 @@
 goog.provide('chartEditor.EditorModel');
 
-goog.require('chartEditor.dialog.Confirm');
-goog.require('goog.events.EventTarget');
-goog.require('goog.format.JsonPrettyPrinter');
-goog.require('goog.format.JsonPrettyPrinter.SafeHtmlDelimiters');
+goog.require("chartEditor.dialog.Confirm");
+goog.require("chartEditor.enums");
+goog.require("goog.events.EventTarget");
+goog.require("goog.format.JsonPrettyPrinter");
+goog.require("goog.format.JsonPrettyPrinter.SafeHtmlDelimiters");
+
 
 
 /**
@@ -156,7 +158,7 @@ chartEditor.EditorModel.Model;
  *  addMarkers: (boolean|undefined)
  * }}
  */
-chartEditor.EditorModel.OutputOptions;
+chartEditor.EditorModel.JavascriptOptions;
 
 
 // region Structures
@@ -196,14 +198,6 @@ chartEditor.EditorModel.Scales = {
  * @type {Object}
  */
 chartEditor.EditorModel.ChartTypes = {
-  // 'cartesian': {
-  //   'value': 'cartesian',
-  //   'name': 'cartesian',
-  //   'icon': 'line-chart-1.svg', // 'http://www.anychart.com/_design/img/upload/charts/types/'
-  //   'series': ['line', 'spline', 'column', 'area', 'ohlc'], // first value is default
-  //   'dataSetCtor': 'set',
-  //   'panelsExcludes' : ['colorScale']
-  // },
   'line': {
     'value': 'line',
     'name': 'Line',
@@ -211,7 +205,15 @@ chartEditor.EditorModel.ChartTypes = {
     'series': ['line', 'spline', 'area', 'splineArea', 'column', 'ohlc'], // first value is default
     'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS
+    ],
     'filters': ['common']
   },
   'area': {
@@ -221,7 +223,15 @@ chartEditor.EditorModel.ChartTypes = {
     'series': ['area', 'splineArea', 'line', 'spline', 'column', 'ohlc'],
     'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS
+    ],
     'filters': ['common']
   },
   'area-stacked-value': {
@@ -232,7 +242,15 @@ chartEditor.EditorModel.ChartTypes = {
     'series': ['area', 'splineArea', 'line', 'spline', 'column', 'ohlc'],
     'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS
+    ],
     'filters': ['stacked-value']
   },
   'area-stacked-percent': {
@@ -243,7 +261,15 @@ chartEditor.EditorModel.ChartTypes = {
     'series': ['area', 'splineArea', 'line', 'spline', 'column', 'ohlc'],
     'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS
+    ],
     'filters': ['stacked-percent']
   },
   'bar': {
@@ -253,7 +279,15 @@ chartEditor.EditorModel.ChartTypes = {
     'series': ['bar', 'line', 'spline', 'area', 'splineArea', 'ohlc'],
     'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS
+    ],
     'filters': ['common']
   },
   'bar-stacked-value': {
@@ -264,7 +298,15 @@ chartEditor.EditorModel.ChartTypes = {
     'series': ['bar', 'line', 'spline', 'area', 'splineArea', 'ohlc'],
     'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS
+    ],
     'filters': ['stacked-value']
   },
   'bar-stacked-percent': {
@@ -275,7 +317,15 @@ chartEditor.EditorModel.ChartTypes = {
     'series': ['bar', 'line', 'spline', 'area', 'splineArea', 'ohlc'],
     'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS
+    ],
     'filters': ['stacked-percent']
   },
   'column': {
@@ -285,7 +335,15 @@ chartEditor.EditorModel.ChartTypes = {
     'series': ['column', 'line', 'spline', 'area', 'splineArea', 'ohlc', 'candlestick'],
     'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS
+    ],
     'filters': ['common']
   },
   'column-stacked-value': {
@@ -296,7 +354,15 @@ chartEditor.EditorModel.ChartTypes = {
     'series': ['column', 'line', 'spline', 'area', 'splineArea', 'ohlc'],
     'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS
+    ],
     'filters': ['stacked-value']
   },
   'column-stacked-percent': {
@@ -307,7 +373,15 @@ chartEditor.EditorModel.ChartTypes = {
     'series': ['column', 'line', 'spline', 'area', 'splineArea', 'ohlc'],
     'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS
+    ],
     'filters': ['stacked-percent']
   },
   'scatter': {
@@ -317,7 +391,15 @@ chartEditor.EditorModel.ChartTypes = {
     'series': ['marker', 'bubble', 'line'],
     'scales': chartEditor.EditorModel.Scales.SCATTER,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS
+    ],
     'filters': ['common']
   },
   'waterfall': {
@@ -327,7 +409,15 @@ chartEditor.EditorModel.ChartTypes = {
     'series': ['waterfall'],
     'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS
+    ],
     'filters': ['common']
   },
   'pie': {
@@ -337,8 +427,19 @@ chartEditor.EditorModel.ChartTypes = {
     'series': ['pie'],
     'dataSetCtor': 'set',
     'singleSeries': true,
-    'panelsExcludes': ['series', 'grids', 'cartesianAxes', 'colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes',
-      'circularRanges', 'scaleBars', 'pointers', 'scales'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.SERIES,
+      chartEditor.enums.EditorTabs.GRIDS,
+      chartEditor.enums.EditorTabs.CARTESIAN_AXES,
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS,
+      chartEditor.enums.EditorTabs.SCALES
+    ],
     'filters': ['common']
   },
   'funnel': {
@@ -348,8 +449,19 @@ chartEditor.EditorModel.ChartTypes = {
     'series': ['funnel'],
     'dataSetCtor': 'set',
     'singleSeries': true,
-    'panelsExcludes': ['series', 'grids', 'cartesianAxes', 'colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes',
-      'circularRanges', 'scaleBars', 'pointers', 'scales'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.SERIES,
+      chartEditor.enums.EditorTabs.GRIDS,
+      chartEditor.enums.EditorTabs.CARTESIAN_AXES,
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS,
+      chartEditor.enums.EditorTabs.SCALES
+    ],
     'filters': ['common']
   },
   'map': {
@@ -358,8 +470,17 @@ chartEditor.EditorModel.ChartTypes = {
     'icon': 'choropleth-map.svg',
     'series': ['marker-by-id', 'marker-by-coordinates', 'bubble-by-id', 'bubble-by-coordinates', 'choropleth'],
     'dataSetCtor': 'set',
-    'panelsExcludes': ['grids', 'cartesianAxes', 'colorScale', 'radarPolarAxes', 'gaugeAxes', 'circularRanges',
-      'scaleBars', 'pointers', 'scales'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.GRIDS,
+      chartEditor.enums.EditorTabs.CARTESIAN_AXES,
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS,
+      chartEditor.enums.EditorTabs.SCALES
+    ],
     'settingsExcludes': ['animation().enabled()'],
     'filters': ['common']
   },
@@ -369,8 +490,18 @@ chartEditor.EditorModel.ChartTypes = {
     'icon': 'stock-chart.svg',
     'series': ['ohlc', 'candlestick', 'line', 'spline', 'column', 'area', 'splineArea'],
     'dataSetCtor': 'table',
-    'panelsExcludes': ['dataLabels', 'cartesianAxes', 'colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes',
-      'circularRanges', 'scaleBars', 'pointers', 'scales'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.DATA_LABELS,
+      chartEditor.enums.EditorTabs.CARTESIAN_AXES,
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS,
+      chartEditor.enums.EditorTabs.SCALES
+    ],
     'settingsExcludes': ['palette()', 'legend().enabled()', 'animation().enabled()'],
     'filters': ['common']
   },
@@ -381,7 +512,15 @@ chartEditor.EditorModel.ChartTypes = {
     'series': ['box', 'line', 'spline', 'column', 'area', 'marker', 'bubble', 'ohlc'],
     'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+        chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS
+    ],
     'filters': ['common']
   },
   'polar': {
@@ -391,7 +530,15 @@ chartEditor.EditorModel.ChartTypes = {
     'series': ['line', 'area', 'column', 'marker', 'polygon', 'polyline', 'rangeColumn'],
     'scales': chartEditor.EditorModel.Scales.SCATTER,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['colorScale', 'colorRange', 'cartesianAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.CARTESIAN_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS
+    ],
     'filters': ['common']
   },
   'radar': {
@@ -401,7 +548,15 @@ chartEditor.EditorModel.ChartTypes = {
     'series': ['line', 'area', 'marker'],
     'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['colorScale', 'colorRange', 'cartesianAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.CARTESIAN_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS
+    ],
     'filters': ['common']
   },
   'radar-stacked-value': {
@@ -412,7 +567,15 @@ chartEditor.EditorModel.ChartTypes = {
     'series': ['area'/*, 'line', 'marker'*/],
     'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['colorScale', 'colorRange', 'cartesianAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.CARTESIAN_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS
+    ],
     'filters': ['stacked-value']
   },
   'radar-stacked-percent': {
@@ -423,7 +586,15 @@ chartEditor.EditorModel.ChartTypes = {
     'series': ['area'/*, 'line', 'marker'*/],
     'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['colorScale', 'colorRange', 'cartesianAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.CARTESIAN_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS
+    ],
     'filters': ['stacked-percent']
   },
   'mekko': {
@@ -433,7 +604,16 @@ chartEditor.EditorModel.ChartTypes = {
     'series': ['mekko'],
     'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['grids', 'colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.GRIDS,
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS
+    ],
     'filters': ['common']
   },
   'barmekko': {
@@ -443,7 +623,16 @@ chartEditor.EditorModel.ChartTypes = {
     'series': ['mekko'],
     'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['grids', 'colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.GRIDS,
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS
+    ],
     'filters': ['common']
   },
   'mosaic': {
@@ -453,7 +642,16 @@ chartEditor.EditorModel.ChartTypes = {
     'series': ['mekko'],
     'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['grids', 'colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.GRIDS,
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS
+    ],
     'filters': ['common']
   },
   'heatMap': {
@@ -464,7 +662,15 @@ chartEditor.EditorModel.ChartTypes = {
     'scales': chartEditor.EditorModel.Scales.HEATMAP,
     'dataSetCtor': 'set',
     'singleSeries': true,
-    'panelsExcludes': ['series', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.SERIES,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS
+    ],
     'settingsExcludes': ['palette()', 'animation().enabled()'],
     'filters': ['common']
   },
@@ -475,7 +681,17 @@ chartEditor.EditorModel.ChartTypes = {
     'series': ['treeMap'],
     'dataSetCtor': 'tree',
     'singleSeries': true,
-    'panelsExcludes': ['series', 'grids', 'cartesianAxes', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers', 'scales'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.SERIES,
+      chartEditor.enums.EditorTabs.GRIDS,
+      chartEditor.enums.EditorTabs.CARTESIAN_AXES,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS,
+      chartEditor.enums.EditorTabs.SCALES
+    ],
     'settingsExcludes': ['palette()', 'animation().enabled()'],
     'filters': ['common']
   },
@@ -485,7 +701,18 @@ chartEditor.EditorModel.ChartTypes = {
     'icon': 'circular-gauge.svg',
     'series': ['gauges.bar', 'gauges.marker', 'needle', 'knob'],
     'dataSetCtor': 'set',
-    'panelsExcludes': ['legend', 'dataLabels', 'series',  'scales', 'cartesianAxes', 'radarPolarAxes', 'grids', 'colorScale', 'colorRange', 'scaleBars'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.LEGEND,
+      chartEditor.enums.EditorTabs.DATA_LABELS,
+      chartEditor.enums.EditorTabs.SERIES,
+      chartEditor.enums.EditorTabs.CARTESIAN_AXES,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GRIDS,
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.SCALES
+    ],
     'settingsExcludes': ['palette()'],
     'filters': ['common', 'gauges']
   },
@@ -497,8 +724,15 @@ chartEditor.EditorModel.ChartTypes = {
     'series': ['linearGauge.bar', 'linearGauge.led', 'linearGauge.tank', 'linearGauge.thermometer', 'linearGauge.marker', 'linearGauge.rangeBar'],
     'scales': chartEditor.EditorModel.Scales.GAUGE_LINEAR,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['dataLabels', 'series', 'grids', 'colorScale', 'colorRange', 'circularRanges',
-      'cartesianAxes', 'radarPolarAxes'
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.DATA_LABELS,
+      chartEditor.enums.EditorTabs.SERIES,
+      chartEditor.enums.EditorTabs.GRIDS,
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.CARTESIAN_AXES,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES
     ],
     'settingsExcludes': ['palette()'],
     'filters': ['common', 'gauges']
@@ -510,8 +744,15 @@ chartEditor.EditorModel.ChartTypes = {
     'series': ['linearGauge.led', 'linearGauge.bar', 'linearGauge.tank', 'linearGauge.thermometer', 'linearGauge.marker', 'linearGauge.rangeBar'],
     'scales': chartEditor.EditorModel.Scales.GAUGE_LINEAR,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['dataLabels', 'series', 'grids', 'colorScale', 'colorRange', 'circularRanges',
-      'cartesianAxes', 'radarPolarAxes'
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.DATA_LABELS,
+      chartEditor.enums.EditorTabs.SERIES,
+      chartEditor.enums.EditorTabs.GRIDS,
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.CARTESIAN_AXES,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES
     ],
     'settingsExcludes': ['palette()'],
     'filters': ['common', 'gauges']
@@ -523,8 +764,15 @@ chartEditor.EditorModel.ChartTypes = {
     'series': ['linearGauge.tank', 'linearGauge.bar', 'linearGauge.led', 'linearGauge.thermometer', 'linearGauge.marker', 'linearGauge.rangeBar'],
     'scales': chartEditor.EditorModel.Scales.GAUGE_LINEAR,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['dataLabels', 'series', 'grids', 'colorScale', 'colorRange', 'circularRanges',
-      'cartesianAxes', 'radarPolarAxes'
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.DATA_LABELS,
+      chartEditor.enums.EditorTabs.SERIES,
+      chartEditor.enums.EditorTabs.GRIDS,
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.CARTESIAN_AXES,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES
     ],
     'settingsExcludes': ['palette()'],
     'filters': ['common', 'gauges']
@@ -536,8 +784,15 @@ chartEditor.EditorModel.ChartTypes = {
     'series': ['linearGauge.thermometer', 'linearGauge.bar', 'linearGauge.led', 'linearGauge.tank', 'linearGauge.marker', 'linearGauge.rangeBar'],
     'scales': chartEditor.EditorModel.Scales.GAUGE_LINEAR,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['dataLabels', 'series', 'grids', 'colorScale', 'colorRange', 'circularRanges',
-      'cartesianAxes', 'radarPolarAxes'
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.DATA_LABELS,
+      chartEditor.enums.EditorTabs.SERIES,
+      chartEditor.enums.EditorTabs.GRIDS,
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.CARTESIAN_AXES,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES
     ],
     'settingsExcludes': ['palette()'],
     'filters': ['common', 'gauges']
@@ -1539,21 +1794,24 @@ chartEditor.EditorModel.prototype.setTheme = function(input) {
  * @param {chartEditor.checkbox.Base} input
  */
 chartEditor.EditorModel.prototype.setSettingForSeries = function(input) {
+
   var value = input.getChecked();
   this.suspendDispatch();
 
-  var chartType = this.model_['chart']['type'];
-  var mappings = this.model_['dataSettings']['mappings'];
-  var key = input.getKey();
-  var stringKey = key[key.length - 1];
+  if (!this.isChartSingleSeries()) {
+    var chartType = this.model_['chart']['type'];
+    var mappings = this.model_['dataSettings']['mappings'];
+    var key = input.getKey();
+    var stringKey = key[key.length - 1];
 
-  var seriesId;
-  for (var i = 0; i < mappings.length; i++) {
-    for (var j = 0; j < mappings[i].length; j++) {
-      seriesId = mappings[i][j]['id'];
-      var stringKey2 = (chartType === 'stock' ? 'plot(' + i + ').' : '') + 'getSeries(\'' + seriesId + '\').' + stringKey;
-      var key2 = [['chart'], ['settings'], stringKey2];
-      this.setValue(key2, value);
+    var seriesId;
+    for (var i = 0; i < mappings.length; i++) {
+      for (var j = 0; j < mappings[i].length; j++) {
+        seriesId = mappings[i][j]['id'];
+        var stringKey2 = (chartType === 'stock' ? 'plot(' + i + ').' : '') + 'getSeries(\'' + seriesId + '\').' + stringKey;
+        var key2 = [['chart'], ['settings'], stringKey2];
+        this.setValue(key2, value);
+      }
     }
   }
 
@@ -2233,7 +2491,7 @@ chartEditor.EditorModel.prototype.getGeoIdField = function() {
 
 /**
  * Returns JS code string that creates a configured chart.
- * @param {chartEditor.EditorModel.OutputOptions=} opt_options
+ * @param {chartEditor.EditorModel.JavascriptOptions=} opt_options
  * @return {string}
  */
 chartEditor.EditorModel.prototype.getChartAsJsCode = function(opt_options) {
@@ -2281,7 +2539,7 @@ chartEditor.EditorModel.prototype.getChartAsXml = function() {
 
 /**
  * Creates a chart instance from the model and the JS code string that creates the chart.
- * @param {chartEditor.EditorModel.OutputOptions=} opt_options Output options object.
+ * @param {chartEditor.EditorModel.JavascriptOptions=} opt_options Output options object.
  * @return {!Array} Returns [JsString, ChartInstance]
  * @private
  */
@@ -2724,7 +2982,7 @@ chartEditor.EditorModel.prototype.indentCode = function(code, opt_numSpaces, opt
   opt_numSpaces = goog.isDef(opt_numSpaces) ? opt_numSpaces : 2;
   opt_from = goog.isDef(opt_from) ? opt_from : 0;
   opt_to = !goog.isDef(opt_to) || opt_to > code.length ? code.length : opt_to;
-  var indentation = ' '.repeat(opt_numSpaces);
+  var indentation = goog.string.repeat(' ', opt_numSpaces);
   for (var i = opt_from; i < opt_to; i++) {
     code[i] = indentation + code[i].replace(/\n/g, '\n' + indentation);
   }
