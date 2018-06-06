@@ -74,7 +74,7 @@ chartEditor.Editor = function(opt_domHelper) {
   this.theme_ = '';
 
   // Enable Qlik theme
-  this.theme_ = 'qlik';
+  // this.theme_ = 'qlik';
 };
 goog.inherits(chartEditor.Editor, chartEditor.Component);
 
