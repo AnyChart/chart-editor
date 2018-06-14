@@ -4,6 +4,7 @@ goog.require('chartEditor.SettingsPanel');
 goog.require('chartEditor.comboBox.Percent');
 goog.require('chartEditor.controls.LabeledControl');
 goog.require('chartEditor.controls.select.DataField');
+goog.require('chartEditor.controls.select.Scales');
 goog.require('chartEditor.settings.Stroke');
 
 
@@ -22,18 +23,9 @@ chartEditor.settings.specific.Waterfall = function(model, opt_domHelper) {
 goog.inherits(chartEditor.settings.specific.Waterfall, chartEditor.SettingsPanel);
 
 
-/**
- * Default CSS class.
- * @type {string}
- */
-chartEditor.settings.specific.Waterfall.CSS_CLASS = goog.getCssName('anychart-settings-panel-waterfall');
-
-
 /** @override */
 chartEditor.settings.specific.Waterfall.prototype.createDom = function() {
   chartEditor.settings.specific.Waterfall.base(this, 'createDom');
-
-  goog.dom.classlist.add(this.getElement(), chartEditor.settings.specific.Waterfall.CSS_CLASS);
 
   var model = /** @type {chartEditor.EditorModel} */(this.getModel());
   
@@ -74,4 +66,12 @@ chartEditor.settings.specific.Waterfall.prototype.createDom = function() {
   var minPointLengthLC = new chartEditor.controls.LabeledControl(minPointLength, 'Min Point Length');
   minPointLengthLC.init(model, this.genKey('minPointLength()'));
   this.addChildControl(minPointLengthLC);
+
+  var xScale = new chartEditor.controls.select.Scales({label: 'X Scale', scaleName: 'Default X Scale'});
+  xScale.init(model, this.genKey('xScale()'));
+  this.addChildControl(xScale);
+
+  var yScale = new chartEditor.controls.select.Scales({label: 'Y Scale', scaleName: 'Default Y Scale'});
+  yScale.init(model, this.genKey('yScale()'));
+  this.addChildControl(yScale);
 };

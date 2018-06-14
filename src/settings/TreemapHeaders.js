@@ -25,7 +25,7 @@ goog.inherits(chartEditor.settings.TreemapHeaders, chartEditor.SettingsPanel);
  * Default CSS class.
  * @type {string}
  */
-chartEditor.settings.TreemapHeaders.CSS_CLASS = goog.getCssName('anychart-settings-treemap-headers');
+chartEditor.settings.TreemapHeaders.CSS_CLASS = goog.getCssName('anychart-ce-settings-treemap-headers');
 
 
 /** @inheritDoc */

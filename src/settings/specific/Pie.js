@@ -25,7 +25,7 @@ goog.inherits(chartEditor.settings.specific.Pie, chartEditor.SettingsPanel);
  * Default CSS class.
  * @type {string}
  */
-chartEditor.settings.specific.Pie.CSS_CLASS = goog.getCssName('anychart-settings-panel-pie');
+chartEditor.settings.specific.Pie.CSS_CLASS = goog.getCssName('anychart-ce-settings-panel-pie');
 
 
 /** @override */

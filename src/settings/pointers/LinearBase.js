@@ -1,13 +1,14 @@
 goog.provide('chartEditor.settings.pointers.LinearBase');
 
-goog.require('chartEditor.SettingsPanelZippy');
-goog.require('chartEditor.colorPicker.Base');
-goog.require('chartEditor.comboBox.Base');
-goog.require('chartEditor.comboBox.Percent');
-goog.require('chartEditor.controls.LabeledControl');
-goog.require('chartEditor.controls.select.DataField');
-goog.require('chartEditor.input.Base');
-goog.require('chartEditor.settings.Stroke');
+goog.require("chartEditor.SettingsPanelZippy");
+goog.require("chartEditor.colorPicker.Base");
+goog.require("chartEditor.comboBox.Base");
+goog.require("chartEditor.comboBox.Percent");
+goog.require("chartEditor.controls.LabeledControl");
+goog.require("chartEditor.controls.input.Base");
+goog.require("chartEditor.controls.select.DataField");
+goog.require("chartEditor.controls.select.Scales");
+goog.require("chartEditor.settings.Stroke");
 
 
 /**
@@ -29,7 +30,7 @@ chartEditor.settings.pointers.LinearBase = function(model, type, pointerId, poin
   this.key = [['chart'], ['settings'], stringKey];
 
   this.allowEnabled(false);
-  this.addClassName(goog.getCssName('anychart-settings-panel-pointer-single'));
+  this.addClassName(goog.getCssName('anychart-ce-settings-panel-pointer-single'));
 };
 goog.inherits(chartEditor.settings.pointers.LinearBase, chartEditor.SettingsPanelZippy);
 
@@ -41,16 +42,20 @@ chartEditor.settings.pointers.LinearBase.prototype.createDom = function() {
   var model = /** @type {chartEditor.EditorModel} */(this.getModel());
 
   // region ==== Header
-  var name = new chartEditor.input.Base('Pointer name');
+  var name = new chartEditor.controls.input.Base('Pointer name');
   name.init(model, this.genKey('name()'));
   this.addHeaderChildControl(name);
-  goog.dom.classlist.add(name.getElement(), goog.getCssName('anychart-chart-editor-series-name-input'));
+  goog.dom.classlist.add(name.getElement(), goog.getCssName('anychart-ce-series-name-input'));
 
   var fill = new chartEditor.colorPicker.Base();
-  fill.addClassName(goog.getCssName('anychart-chart-editor-settings-control-right'));
+  fill.addClassName(goog.getCssName('anychart-ce-settings-control-right'));
   fill.init(model, this.genKey('fill()'));
   this.addHeaderChildControl(fill);
   // endregion
+
+  var scale = new chartEditor.controls.select.Scales({label: 'Scale'});
+  scale.init(model, this.genKey('scale()'));
+  this.addChildControl(scale);
 
   var stroke = new chartEditor.settings.Stroke(model);
   stroke.setKey(this.genKey('stroke()'));

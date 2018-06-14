@@ -1,13 +1,14 @@
 goog.provide('chartEditor.Steps');
 
-goog.require('chartEditor.steps.Base');
-goog.require('chartEditor.steps.PrepareData');
-goog.require('chartEditor.steps.SetupChart');
-goog.require('chartEditor.steps.VisualAppearance');
-goog.require('goog.events.EventTarget');
-goog.require('goog.fx.AnimationSerialQueue');
-goog.require('goog.fx.Transition.EventType');
-goog.require('goog.fx.dom');
+goog.require("chartEditor.steps.Base");
+goog.require("chartEditor.steps.Export");
+goog.require("chartEditor.steps.PrepareData");
+goog.require("chartEditor.steps.SetupChart");
+goog.require("chartEditor.steps.VisualAppearance");
+goog.require("goog.events.EventTarget");
+goog.require("goog.fx.AnimationSerialQueue");
+goog.require("goog.fx.Transition.EventType");
+goog.require("goog.fx.dom");
 
 
 /**
@@ -23,21 +24,19 @@ chartEditor.Steps = function() {
    * @private
    */
   this.descriptors_ = [{
-      name: 'PrepareData',
-      enabled: true,
       classFunc: chartEditor.steps.PrepareData,
       instance: null
     },
     {
-      name: 'SetupChart',
-      enabled: true,
       classFunc: chartEditor.steps.SetupChart,
       instance: null
     },
     {
-      name: 'VisualAppearance',
-      enabled: true,
       classFunc: chartEditor.steps.VisualAppearance,
+      instance: null
+    },
+    {
+      classFunc: chartEditor.steps.Export,
       instance: null
     }];
 
@@ -47,6 +46,8 @@ chartEditor.Steps = function() {
    * @private
    */
   this.currentStep_ = null;
+
+  this.createSteps();
 };
 goog.inherits(chartEditor.Steps, goog.events.EventTarget);
 
@@ -57,36 +58,53 @@ chartEditor.Steps.EventType = {
 };
 
 
-/**
- * Create step by string name.
- *
- * @param {string} name
- * @return {?chartEditor.steps.Base}
- */
-chartEditor.Steps.prototype.createStep = function(name) {
-  var stepDescriptor;
-  var index;
-  for (index = 0; index < this.descriptors_.length; index++) {
-    if (this.descriptors_[index].name == name) {
-      stepDescriptor = this.descriptors_[index];
-      break;
-    }
-  }
+/** @enum {string} */
+chartEditor.Steps.StepRole = {
+  NEXT: 'next',
+  PREVIOUS: 'previous',
+  FIRST: 'first',
+  LAST: 'last'
+};
 
-  if (stepDescriptor && !stepDescriptor.instance) {
-    var classFunc = this.descriptors_[index].classFunc;
-    this.descriptors_[index].instance = new classFunc(index);
-    return this.descriptors_[index].instance;
+
+
+/**
+ * Create step instances
+ */
+chartEditor.Steps.prototype.createSteps = function() {
+  var stepDescriptor;
+  var classFunc;
+  for (var i = 0; i < this.descriptors_.length; i++) {
+    stepDescriptor = this.descriptors_[i];
+    classFunc = this.descriptors_[i].classFunc;
+    this.descriptors_[i].instance = new classFunc(i);
   }
-  return null;
 };
 
 
 /**
+ * @param {boolean=} opt_onlyEnabled
  * @return {number}
  */
-chartEditor.Steps.prototype.getCurrentStepIndex = function() {
-  return this.currentStep_.getIndex();
+chartEditor.Steps.prototype.getStepsCount = function(opt_onlyEnabled) {
+  if (!opt_onlyEnabled)
+    return this.descriptors_.length;
+
+  var count = 0;
+  for (var i = 0; i < this.descriptors_.length; i++) {
+    if (this.descriptors_[i].instance && this.descriptors_[i].instance['enabled']())
+      count++;
+  }
+
+  return count;
+};
+
+
+/**
+ * @return {chartEditor.steps.Base}
+ */
+chartEditor.Steps.prototype.getCurrentStep = function() {
+  return this.currentStep_;
 };
 
 
@@ -100,64 +118,54 @@ chartEditor.Steps.prototype.getStepByIndex = function(index) {
 
 
 /**
- * @param {string} name
- * @return {?Object}
+ * @param {chartEditor.enums.EditorSteps} stepName
+ * @return {?chartEditor.steps.Base}
  */
-chartEditor.Steps.prototype.getStepDescriptorByName_ = function(name) {
-  var stepDescriptor = null;
+chartEditor.Steps.prototype.getStepByName = function(stepName) {
   for (var i = 0; i < this.descriptors_.length; i++) {
-    if (this.descriptors_[i].name == name) {
-      stepDescriptor = this.descriptors_[i];
-      break;
-    }
+    if (this.descriptors_[i].instance && this.descriptors_[i].instance['name']() == stepName)
+      return /** @type {chartEditor.steps.Base} */(this.descriptors_[i].instance);
   }
-  return stepDescriptor;
+
+  return null;
 };
 
 
 /**
- * TODO: Refactor for better API
- * @param {boolean=} opt_enabled
- * @return {chartEditor.steps.Base}}
- */
-chartEditor.Steps.prototype.prepareData = function(opt_enabled) {
-  var descriptor = this.getStepDescriptorByName_('PrepareData');
-
-  if (goog.isDef(opt_enabled) && descriptor.enabled != opt_enabled) {
-    descriptor.enabled = opt_enabled;
-    this.setStep(this.getFirstStepIndex(), false);
-  }
-
-  return descriptor.instance;
-};
-
-
-/**
- * @param {boolean=} opt_enabled
- * @return {chartEditor.steps.Base}}
- */
-chartEditor.Steps.prototype.visualAppearance = function(opt_enabled) {
-  var descriptor = this.getStepDescriptorByName_('VisualAppearance');
-
-  if (goog.isDef(opt_enabled) && descriptor.enabled != opt_enabled) {
-    descriptor.enabled = opt_enabled;
-    this.setStep(this.getFirstStepIndex(), false);
-  }
-
-  return descriptor.instance;
-};
-
-
-/**
+ * @param {chartEditor.Steps.StepRole} role
  * @return {number}
  */
-chartEditor.Steps.prototype.getFirstStepIndex = function() {
-  for (var i = 0; i < this.descriptors_.length; i++) {
-    if (this.descriptors_[i].enabled)
-      return i;
+chartEditor.Steps.prototype.getStepIndex = function(role) {
+  var index = -1;
+  var i;
+  switch(role){
+    case chartEditor.Steps.StepRole.FIRST:
+    case chartEditor.Steps.StepRole.NEXT:
+      i = role == chartEditor.Steps.StepRole.FIRST ? 0 : this.getCurrentStep().getIndex() + 1;
+      for (; i < this.descriptors_.length; i++) {
+        if (this.descriptors_[i].instance && this.descriptors_[i].instance['enabled']()) {
+          index = i;
+          break;
+        }
+      }
+      break;
+    case chartEditor.Steps.StepRole.LAST:
+    case chartEditor.Steps.StepRole.PREVIOUS:
+      i = role == chartEditor.Steps.StepRole.LAST ? this.descriptors_.length - 1: this.getCurrentStep().getIndex() - 1;
+      for (; i >= 0; i--) {
+        if (this.descriptors_[i].instance && this.descriptors_[i].instance['enabled']()) {
+          index = i;
+          break;
+        }
+      }
+      break;
   }
-  return -1;
+
+
+
+  return index;
 };
+
 
 
 /**
@@ -205,18 +213,21 @@ chartEditor.Steps.prototype.setStep = function(index, doAnimation) {
  * @private
  */
 chartEditor.Steps.prototype.removeStep_ = function(step) {
-  // Remove the child component's DOM from the document.  We have to call
-  // exitDocument first (see documentation).
+  // Remove the child component's DOM from the document.
+  // We have to call exitDocument first (see documentation).
   step.exitDocument();
   goog.dom.removeNode(step.getElement());
 };
 
 
 /**
- * @return {Array.<Object>}
+ * @param {boolean} value
  */
-chartEditor.Steps.prototype.getDescriptors = function() {
-  return this.descriptors_;
+chartEditor.Steps.prototype.enabled = function(value) {
+  for (var i = this.descriptors_.length; i--;) {
+    if (this.descriptors_[i].instance)
+      this.descriptors_[i].instance['enabled'](value);
+  }
 };
 
 
@@ -233,7 +244,6 @@ chartEditor.Steps.prototype.disposeInternal = function() {
 
 
 (function() {
-  var proto = chartEditor.Steps.prototype;
-  proto['prepareData'] = proto.prepareData;
-  proto['visualAppearance'] = proto.visualAppearance;
+  // var proto = chartEditor.Steps.prototype;
+  // proto['enabled'] = proto.enabled;
 })();

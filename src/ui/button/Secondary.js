@@ -18,4 +18,4 @@ goog.inherits(chartEditor.ui.button.Secondary, chartEditor.ui.button.Base);
 
 
 /** @type {string} */
-chartEditor.ui.button.Secondary.CSS_CLASS = goog.getCssName('anychart-button-secondary');
+chartEditor.ui.button.Secondary.CSS_CLASS = goog.getCssName('anychart-ce-button-secondary');

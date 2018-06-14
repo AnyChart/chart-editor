@@ -2,6 +2,7 @@ goog.provide('chartEditor.settings.axes.Linear');
 
 goog.require('chartEditor.SettingsPanelZippy');
 goog.require('chartEditor.controls.select.DataField');
+goog.require('chartEditor.controls.select.Scales');
 goog.require('chartEditor.settings.Labels');
 goog.require('chartEditor.settings.Stagger');
 goog.require('chartEditor.settings.Ticks');
@@ -22,7 +23,8 @@ chartEditor.settings.axes.Linear = function(model, index, opt_domHelper) {
   this.key = [['chart'], ['settings'], 'axis(' + this.index_ + ')'];
 
   this.allowEnabled(true);
-  this.addClassName(goog.getCssName('anychart-settings-panel-axis-linear'));
+
+  this.allowRemove(true);
 };
 goog.inherits(chartEditor.settings.axes.Linear, chartEditor.SettingsPanelZippy);
 
@@ -32,6 +34,10 @@ chartEditor.settings.axes.Linear.prototype.createDom = function() {
   chartEditor.settings.axes.Linear.base(this, 'createDom');
 
   var model = /** @type {chartEditor.EditorModel} */(this.getModel());
+
+  var scale = new chartEditor.controls.select.Scales({label: 'Scale'});
+  scale.init(model, this.genKey('scale()'));
+  this.addChildControl(scale);
 
   var orientation = new chartEditor.controls.select.DataField({label: 'Orientation'});
   orientation.getSelect().setOptions([
@@ -77,7 +83,7 @@ chartEditor.settings.axes.Linear.prototype.createDom = function() {
 
   var ticks = new chartEditor.settings.Ticks(model);
   ticks.allowEnabled(true);
-  ticks.allowEditPosition(true/*!this.isRadarPolarAxis*/);
+  ticks.allowEditPosition(true);
   ticks.setKey(this.genKey('ticks()'));
   this.addChildControl(ticks);
 
@@ -96,7 +102,7 @@ chartEditor.settings.axes.Linear.prototype.createDom = function() {
   var minorTicks = new chartEditor.settings.Ticks(model);
   minorTicks.setName('Minor Ticks');
   minorTicks.allowEnabled(true);
-  minorTicks.allowEditPosition(true/*!this.isRadarPolarAxis*/);
+  minorTicks.allowEditPosition(true);
   minorTicks.setKey(this.genKey('minorTicks()'));
   this.addChildControl(minorTicks);
 };

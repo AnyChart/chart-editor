@@ -2,6 +2,7 @@
  * Created by graph on 2018-03-02.
  */
 goog.provide('chartEditor.reporting');
+
 goog.require('chartEditor.enums');
 
 

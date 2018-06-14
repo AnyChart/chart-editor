@@ -26,8 +26,7 @@ goog.addSingletonGetter(chartEditor.colorPicker.Renderer);
  * by this renderer.
  * @type {string}
  */
-chartEditor.colorPicker.Renderer.CSS_CLASS =
-    goog.getCssName('anychart-color-menu-button');
+chartEditor.colorPicker.Renderer.CSS_CLASS = goog.getCssName('anychart-ce-color-menu-button');
 
 
 /**

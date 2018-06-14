@@ -2,7 +2,7 @@ goog.provide('chartEditor.settings.scales.ScatterTicks');
 
 goog.require('chartEditor.SettingsPanel');
 goog.require('chartEditor.controls.LabeledControl');
-goog.require('chartEditor.input.Numbers');
+goog.require('chartEditor.controls.input.Numbers');
 
 
 /**
@@ -18,22 +18,13 @@ chartEditor.settings.scales.ScatterTicks = function(model, opt_name, opt_domHelp
 goog.inherits(chartEditor.settings.scales.ScatterTicks, chartEditor.SettingsPanel);
 
 
-/**
- * Default CSS class.
- * @type {string}
- */
-chartEditor.settings.scales.ScatterTicks.CSS_CLASS = goog.getCssName('anychart-settings-panel-scatter-ticks');
-
-
 /** @override */
 chartEditor.settings.scales.ScatterTicks.prototype.createDom = function() {
   chartEditor.settings.scales.ScatterTicks.base(this, 'createDom');
 
-  goog.dom.classlist.add(this.getElement(), chartEditor.settings.scales.ScatterTicks.CSS_CLASS);
-
   var model = /** @type {chartEditor.EditorModel} */(this.getModel());
 
-  var count = new chartEditor.input.Numbers();
+  var count = new chartEditor.controls.input.Numbers();
   count.setFormatterFunction(function(value){
     return String(goog.isArray(value) ? Number(value[0]) : Number(value));
   });
@@ -41,7 +32,7 @@ chartEditor.settings.scales.ScatterTicks.prototype.createDom = function() {
   countLC.init(model, this.genKey('count()'));
   this.addChildControl(countLC);
 
-  var interval = new chartEditor.input.Numbers();
+  var interval = new chartEditor.controls.input.Numbers();
   var intervalLC = new chartEditor.controls.LabeledControl(interval, 'Interval');
   intervalLC.init(model, this.genKey('interval()'));
   this.addChildControl(intervalLC);

@@ -1,6 +1,8 @@
 goog.provide('chartEditor.settings.Labels');
 
 goog.require('chartEditor.SettingsPanel');
+goog.require('chartEditor.comboBox.Base');
+goog.require('chartEditor.controls.LabeledControl');
 goog.require('chartEditor.settings.Title');
 
 
@@ -20,7 +22,7 @@ goog.inherits(chartEditor.settings.Labels, chartEditor.SettingsPanel);
  * Default CSS class.
  * @type {string}
  */
-chartEditor.settings.Labels.CSS_CLASS = goog.getCssName('anychart-chart-editor-settings-labels');
+chartEditor.settings.Labels.CSS_CLASS = goog.getCssName('anychart-ce-settings-labels');
 
 
 /**
@@ -72,10 +74,16 @@ chartEditor.settings.Labels.prototype.createDom = function() {
   settings.setAlignKey('anchor()');
 
   settings.setTitleKey('format()');
-  settings.setKey(this.getKey()); // This is for enabled working sake!
+  settings.setKey(this.getKey());
   this.addChild(settings, true);
-
   this.settings_ = settings;
+
+  var rotation = new chartEditor.comboBox.Base();
+  rotation.setOptions([-90, -45, 0, 45, 90]);
+  rotation.setRange(-360, 260);
+  var rotationLC = new chartEditor.controls.LabeledControl(rotation, 'Rotation');
+  rotationLC.init(model, this.genKey('rotation()'));
+  this.addChildControl(rotationLC);
 };
 
 
@@ -142,7 +150,7 @@ chartEditor.settings.Labels.prototype.updateKeys = function() {
 
 /** @override */
 chartEditor.settings.Labels.prototype.disposeInternal = function() {
-  this.settings_.dispose();
+  goog.dispose(this.settings_);
   this.settings_ = null;
 
   chartEditor.settings.Labels.base(this, 'disposeInternal');

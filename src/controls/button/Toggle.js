@@ -20,7 +20,7 @@ chartEditor.button.Toggle = function(opt_content, opt_renderer, opt_domHelper) {
   chartEditor.button.Toggle.base(this, 'constructor', opt_content, opt_renderer, opt_domHelper);
 
   this.addClassName(goog.ui.INLINE_BLOCK_CLASSNAME);
-  this.addClassName('anychart-button-standard');
+  this.addClassName('anychart-ce-button-standard');
   this.addClassName(chartEditor.button.Toggle.CSS_CLASS);
 
   this.setSupportedState(goog.ui.Component.State.CHECKED, true);
@@ -57,7 +57,7 @@ goog.inherits(chartEditor.button.Toggle, chartEditor.ui.button.Base);
 
 
 /** @type {string} */
-chartEditor.button.Toggle.CSS_CLASS = goog.getCssName('anychart-button-toggle');
+chartEditor.button.Toggle.CSS_CLASS = goog.getCssName('anychart-ce-button-toggle');
 
 
 /**

@@ -41,7 +41,7 @@ chartEditor.controls.chartType.Menu.prototype.setVisible = function(show, opt_fo
     goog.style.setHeight(pages.getElement(), menuSize.height - filtersSize.height);
 
     var pageEl = pages.getCurrentPageElement();
-    var menuItemEl = goog.dom.getElementByClass('anychart-menuitem', pageEl);
+    var menuItemEl = goog.dom.getElementByClass('anychart-ce-menuitem', pageEl);
 
     var pageContentSize = goog.style.getContentBoxSize(pageEl);
     var menuItemSize = goog.style.getSize(menuItemEl);
@@ -196,6 +196,6 @@ chartEditor.controls.chartType.MenuRenderer.prototype.getContentElement = functi
 
 /** @inheritDoc */
 chartEditor.controls.chartType.MenuRenderer.prototype.getCssClass = function () {
-  return 'anychart-chart-editor-select-chart-type-menu';
+  return 'anychart-ce-select-chart-type-menu';
 };
 // endregion

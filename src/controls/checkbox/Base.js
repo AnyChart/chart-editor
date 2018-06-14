@@ -81,7 +81,7 @@ chartEditor.checkbox.Base.prototype.setKey = function(value) {
 /** @override */
 chartEditor.checkbox.Base.prototype.enterDocument = function() {
   chartEditor.checkbox.Base.base(this, 'enterDocument');
-  goog.dom.classlist.enable(this.getElement(), 'anychart-hidden', this.excluded);
+  goog.dom.classlist.enable(this.getElement(), 'anychart-ce-hidden', this.excluded);
   if (!this.excluded)
     goog.events.listen(this, goog.ui.Component.EventType.CHANGE, this.onChange, false, this);
 };
@@ -166,11 +166,11 @@ chartEditor.checkbox.Base.prototype.setValueByTarget = function(target) {
  * @param {boolean} value True if excluded.
  */
 chartEditor.checkbox.Base.prototype.exclude = function(value) {
-  var dirty = this.excluded != value;
+  var dirty = this.excluded !== value;
   this.excluded = value;
 
   if (this.isInDocument())
-    goog.dom.classlist.enable(this.getElement(), 'anychart-hidden', this.excluded);
+    goog.dom.classlist.enable(this.getElement(), 'anychart-ce-hidden', this.excluded);
   if (dirty && this.excluded && this.editorModel)
     this.editorModel.removeByKey(this.key, true);
 };

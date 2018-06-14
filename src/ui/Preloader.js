@@ -1,4 +1,4 @@
-goog.provide('chartEditor.ui.Preloader');
+goog.provide('chartEditor.Preloader');
 
 goog.require('goog.ui.Component');
 
@@ -6,17 +6,20 @@ goog.require('goog.ui.Component');
 
 /**
  * Preloader.
+ *
+ * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
+ *
  * @constructor
  * @extends {goog.ui.Component}
  */
-chartEditor.ui.Preloader = function() {
-  chartEditor.ui.Preloader.base(this, 'constructor');
+chartEditor.Preloader = function(opt_domHelper) {
+  chartEditor.Preloader.base(this, 'constructor', opt_domHelper);
 };
-goog.inherits(chartEditor.ui.Preloader, goog.ui.Component);
+goog.inherits(chartEditor.Preloader, goog.ui.Component);
 
 
 /** @type {string} */
-chartEditor.ui.Preloader.CSS_CLASS = goog.getCssName('anychart-loader');
+chartEditor.Preloader.CSS_CLASS = goog.getCssName('anychart-ce-loader');
 
 
 /**
@@ -24,18 +27,18 @@ chartEditor.ui.Preloader.CSS_CLASS = goog.getCssName('anychart-loader');
  * @type {boolean}
  * @private
  */
-chartEditor.ui.Preloader.prototype.visible_ = false;
+chartEditor.Preloader.prototype.visible_ = false;
 
 
 /**
  * Sets the visibility of the preloader.
  * Lazily renders the component if needed.
  * @param {boolean=} opt_value Whether the preloader should be visible.
- * @return {boolean|!chartEditor.ui.Preloader}
+ * @return {boolean|!chartEditor.Preloader}
  */
-chartEditor.ui.Preloader.prototype.visible = function(opt_value) {
+chartEditor.Preloader.prototype.visible = function(opt_value) {
   if (goog.isDef(opt_value)) {
-    if (opt_value == this.visible_) {
+    if (opt_value === this.visible_) {
       return this;
     }
 
@@ -59,7 +62,7 @@ chartEditor.ui.Preloader.prototype.visible = function(opt_value) {
  * Show preloader.
  * @private
  */
-chartEditor.ui.Preloader.prototype.show_ = function() {
+chartEditor.Preloader.prototype.show_ = function() {
   this.visible_ = true;
   goog.style.setElementShown(this.getElement(), this.visible_);
 };
@@ -69,7 +72,7 @@ chartEditor.ui.Preloader.prototype.show_ = function() {
  * Hide preloader.
  * @private
  */
-chartEditor.ui.Preloader.prototype.hide_ = function() {
+chartEditor.Preloader.prototype.hide_ = function() {
   this.visible_ = false;
   goog.style.setElementShown(this.getElement(), this.visible_);
 };
@@ -80,10 +83,10 @@ chartEditor.ui.Preloader.prototype.hide_ = function() {
  * @param {Element=} opt_element
  * @private
  */
-chartEditor.ui.Preloader.prototype.createLogo_ = function(opt_element) {
+chartEditor.Preloader.prototype.createLogo_ = function(opt_element) {
   var dom = this.getDomHelper();
   var element = opt_element || this.getElement();
-  var className = chartEditor.ui.Preloader.CSS_CLASS;
+  var className = chartEditor.Preloader.CSS_CLASS;
   goog.dom.classlist.add(element, className);
 
   var rotatingCover = dom.createDom(
@@ -122,50 +125,50 @@ chartEditor.ui.Preloader.prototype.createLogo_ = function(opt_element) {
 
 
 /** @override */
-chartEditor.ui.Preloader.prototype.createDom = function() {
-  chartEditor.ui.Preloader.base(this, 'createDom');
+chartEditor.Preloader.prototype.createDom = function() {
+  chartEditor.Preloader.base(this, 'createDom');
   this.createLogo_();
 };
 
 
 /** @override */
-chartEditor.ui.Preloader.prototype.decorateInternal = function(element) {
-  chartEditor.ui.Preloader.base(this, 'decorateInternal', element);
+chartEditor.Preloader.prototype.decorateInternal = function(element) {
+  chartEditor.Preloader.base(this, 'decorateInternal', element);
   this.createLogo_(element);
 };
 
 
 /** @override */
-chartEditor.ui.Preloader.prototype.enterDocument = function() {
-  chartEditor.ui.Preloader.base(this, 'enterDocument');
+chartEditor.Preloader.prototype.enterDocument = function() {
+  chartEditor.Preloader.base(this, 'enterDocument');
 };
 
 
 /** @override */
-chartEditor.ui.Preloader.prototype.exitDocument = function() {
-  chartEditor.ui.Preloader.base(this, 'exitDocument');
+chartEditor.Preloader.prototype.exitDocument = function() {
+  chartEditor.Preloader.base(this, 'exitDocument');
 };
 
 
 /** @override */
-chartEditor.ui.Preloader.prototype.disposeInternal = function() {
-  chartEditor.ui.Preloader.base(this, 'disposeInternal');
+chartEditor.Preloader.prototype.disposeInternal = function() {
+  chartEditor.Preloader.base(this, 'disposeInternal');
 };
 
 
 /**
  * Constructor function for preloader.
- * @return {chartEditor.ui.Preloader}
+ * @return {chartEditor.Preloader}
  */
-chartEditor.ui.preloader = function() {
-  return new chartEditor.ui.Preloader();
+chartEditor.preloader = function() {
+  return new chartEditor.Preloader();
 };
 
 
 //exports
 (function() {
-  var proto = chartEditor.ui.Preloader.prototype;
-  goog.exportSymbol('chartEditor.ui.preloader', chartEditor.ui.preloader);
+  var proto = chartEditor.Preloader.prototype;
+  goog.exportSymbol('chartEditor.preloader', chartEditor.preloader);
   proto['render'] = proto.render;
   proto['decorate'] = proto.decorate;
   proto['visible'] = proto.visible;

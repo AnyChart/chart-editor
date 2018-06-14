@@ -2,6 +2,7 @@ goog.provide('chartEditor.settings.axes.Polar');
 
 goog.require('chartEditor.SettingsPanelZippy');
 goog.require('chartEditor.controls.select.DataField');
+goog.require('chartEditor.controls.select.Scales');
 goog.require('chartEditor.settings.Labels');
 goog.require('chartEditor.settings.Ticks');
 
@@ -17,7 +18,7 @@ chartEditor.settings.axes.Polar = function(model, opt_domHelper) {
 
   this.key = [['chart'], ['settings'], 'xAxis()'];
 
-  this.addClassName(goog.getCssName('anychart-settings-panel-axis-polar'));
+  this.addClassName(goog.getCssName('anychart-ce-settings-panel-axis-polar'));
 };
 goog.inherits(chartEditor.settings.axes.Polar, chartEditor.SettingsPanelZippy);
 
@@ -27,6 +28,10 @@ chartEditor.settings.axes.Polar.prototype.createDom = function() {
   chartEditor.settings.axes.Polar.base(this, 'createDom');
 
   var model = /** @type {chartEditor.EditorModel} */(this.getModel());
+
+  var scale = new chartEditor.controls.select.Scales({label: 'Scale'});
+  scale.init(model, this.genKey('scale()'));
+  this.addChildControl(scale);
 
   // Overlap mode
   var overlapMode = new chartEditor.controls.select.DataField({label: 'Labels Overlap'});

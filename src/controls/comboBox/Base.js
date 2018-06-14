@@ -186,7 +186,7 @@ chartEditor.comboBox.Base.prototype.createDom = function() {
   chartEditor.comboBox.Base.base(this, 'createDom');
 
   var element = this.getElement();
-  var button = this.getElementByClass(goog.getCssName('anychart-combobox-button'));
+  var button = this.getElementByClass(goog.getCssName('anychart-ce-combobox-button'));
   if (this.useDropdownArrow_) {
     // Don't use UTF-8. We use css.
     button.innerHTML = '&nbsp';

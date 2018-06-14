@@ -10,7 +10,9 @@ goog.require('chartEditor.Component');
  */
 chartEditor.UserData = function(opt_model) {
   chartEditor.UserData.base(this, 'constructor');
-  this.addClassName('anychart-user-data');
+
+  this.addClassName('anychart-ce-user-data');
+
   this.setModel(opt_model);
 
   this.items_ = [];
@@ -29,38 +31,25 @@ chartEditor.UserData.prototype.createDom = function() {
   var element = this.getElement();
   var model = /** @type {Array.<{id: string, caption: string, icon:string}>} */(this.getModel());
 
-  var connectCaption = goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-chart-editor-section-caption anychart-user-data-caption', 'Connect External Data');
+  var connectCaption = goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-ce-section-caption anychart-ce-user-data-caption', 'User Data');
   goog.dom.appendChild(element, connectCaption);
-
-  var connectContainer = goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-user-data-container');
-  goog.dom.appendChild(element, connectContainer);
-
-  var uploadCaption = goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-chart-editor-section-caption anychart-user-data-caption', 'Upload Your Data');
-  goog.dom.appendChild(element, uploadCaption);
-
-  var uploadContainer = goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-user-data-container');
-  goog.dom.appendChild(element, uploadContainer);
 
   if (model) {
     for (var i = 0, count = model.length; i < count; i++) {
       var item = model[i];
-      var itemElement = goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-user-data-item', [
+      var itemElement = goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-ce-user-data-item', [
         goog.dom.createDom(goog.dom.TagName.IMG, {
           'src': item.icon,
-          'class': 'anychart-user-data-item-icon'
+          'class': 'anychart-ce-user-data-item-icon'
         }),
-        goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-user-data-item-caption', item.caption)
+        goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-ce-user-data-item-caption', item.caption)
       ]);
       goog.dom.setProperties(itemElement, {'data-value': item.id});
-      var container = item.type === 'connect' ? connectContainer : uploadContainer;
-      goog.dom.appendChild(container, itemElement);
+      goog.dom.appendChild(element, itemElement);
 
       this.items_.push(itemElement);
     }
   }
-
-  goog.dom.appendChild(connectContainer, goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-clear'));
-  goog.dom.appendChild(uploadContainer, goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-clear'));
 };
 
 

@@ -1,16 +1,15 @@
 goog.provide('chartEditor.settings.Title');
 
-goog.require('chartEditor.SettingsPanel');
-goog.require('chartEditor.button.Bold');
-goog.require('chartEditor.button.Italic');
-goog.require('chartEditor.button.Underline');
-goog.require('chartEditor.colorPicker.Base');
-goog.require('chartEditor.comboBox.Base');
-goog.require('chartEditor.controls.select.DataField');
-goog.require('chartEditor.controls.select.FontFamily');
-goog.require('chartEditor.input.Base');
-goog.require('goog.ui.ButtonSide');
-
+goog.require("chartEditor.SettingsPanel");
+goog.require("chartEditor.button.Bold");
+goog.require("chartEditor.button.Italic");
+goog.require("chartEditor.button.Underline");
+goog.require("chartEditor.colorPicker.Base");
+goog.require("chartEditor.comboBox.Base");
+goog.require("chartEditor.controls.input.Base");
+goog.require("chartEditor.controls.select.DataField");
+goog.require("chartEditor.controls.select.FontFamily");
+goog.require("goog.ui.ButtonSide");
 
 
 /**
@@ -30,7 +29,7 @@ goog.inherits(chartEditor.settings.Title, chartEditor.SettingsPanel);
  * Default CSS class.
  * @type {string}
  */
-chartEditor.settings.Title.CSS_CLASS = goog.getCssName('anychart-settings-title');
+chartEditor.settings.Title.CSS_CLASS = goog.getCssName('anychart-ce-settings-title');
 
 
 /**
@@ -180,7 +179,7 @@ chartEditor.settings.Title.prototype.createDom = function() {
 
   var textInput = null;
   if (this.allowEditTitle_) {
-    textInput = new chartEditor.input.Base(/*'Chart title'*/);
+    textInput = new chartEditor.controls.input.Base(/*'Chart title'*/);
     this.addChild(textInput, true);
     goog.dom.classlist.add(textInput.getElement(), 'title-text');
   }
@@ -193,7 +192,7 @@ chartEditor.settings.Title.prototype.createDom = function() {
           goog.dom.TagName.LABEL,
           [
             goog.ui.INLINE_BLOCK_CLASSNAME,
-            goog.getCssName('anychart-settings-label')
+            goog.getCssName('anychart-ce-settings-label')
           ],
           'Font color');
       goog.dom.appendChild(content, colorLabel);
@@ -205,7 +204,7 @@ chartEditor.settings.Title.prototype.createDom = function() {
 
     goog.dom.appendChild(content, goog.dom.createDom(
         goog.dom.TagName.DIV,
-        goog.getCssName('anychart-chart-editor-settings-item-gap')));
+        goog.getCssName('anychart-ce-settings-item-gap')));
   }
 
   var fontFamily = new chartEditor.controls.select.FontFamily();
@@ -223,7 +222,7 @@ chartEditor.settings.Title.prototype.createDom = function() {
   goog.dom.appendChild(content, buttonsWrapper);
 
   var boldBtn = new chartEditor.button.Bold();
-  boldBtn.addClassName(goog.getCssName('anychart-chart-editor-settings-bold'));
+  boldBtn.addClassName(goog.getCssName('anychart-ce-settings-bold'));
   this.addChild(boldBtn, true);
   goog.dom.appendChild(buttonsWrapper, boldBtn.getElement());
 
@@ -243,7 +242,7 @@ chartEditor.settings.Title.prototype.createDom = function() {
 
   goog.dom.appendChild(content, goog.dom.createDom(
       goog.dom.TagName.DIV,
-      goog.getCssName('anychart-chart-editor-settings-item-gap')));
+      goog.getCssName('anychart-ce-settings-item-gap')));
 
   if (this.allowEditPosition_) {
     var positionField = new chartEditor.controls.select.DataField({label: this.positionLabel_});
@@ -270,7 +269,7 @@ chartEditor.settings.Title.prototype.createDom = function() {
     this.addChild(alignField, true);
   }
 
-  goog.dom.appendChild(content, goog.dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-clearboth')));
+  goog.dom.appendChild(content, goog.dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-ce-clearboth')));
 
   this.textInput_ = textInput;
   this.colorPicker_ = colorPicker;

@@ -1,0 +1,308 @@
+@import "variables.less";
+
+// region ---- anychart-ce-dialog
+.anychart-ce-dialog {
+  .box-shadow(@shadow-dialog);
+  background: white;
+  border: 1px solid @color-border;
+  position: absolute;
+  width: 90%;
+  height: 90%;
+  min-width: 780px; // 260 is a min size of a settings sidebar, total min is 260 * 3
+  min-height: 400px;
+  color: @color-text;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 13px;
+  z-index: 1000;
+}
+
+.anychart-ce-dialog-bg {
+  background: @color-dialog-background;
+  left: 0;
+  position: absolute;
+  top: 0;
+  z-index: 1000;
+}
+
+.anychart-ce-dialog-title {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  padding: 12px 14px;
+  _zoom: 1; /* Ensures proper width in IE6 RTL. */
+}
+
+.anychart-ce-dialog-title-text {
+  font-size: 18px;
+  line-height: 20px;
+  position: relative;
+  cursor: default;
+}
+
+.anychart-ce-dialog-title-close {
+  .opacity(0.5);
+  .rotate(45deg);
+
+  position: absolute;
+  top: 14px;
+  right: 12px;
+  vertical-align: middle;
+  float: right;
+  height: 18px;
+  width: 18px;
+  text-align: center;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.anychart-ce-dialog-content {
+  position: absolute;
+  overflow: hidden;
+  top: 72px;
+  left: 14px;
+  right: 14px;
+  bottom: 12px;
+}
+
+.anychart-ce-dialog-buttons {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 20px;
+
+  button {
+    padding: 6px 18px !important;
+    font-size: 15px;
+    line-height: 20px;
+    font-family: 'Open Sans', sans-serif;
+  }
+  .anychart-ce-buttonset-default {
+    font-weight: normal;
+    margin-right: 12px;
+  }
+}
+// endregion
+
+// region ---- anychart-ce-editor-dialog
+.anychart-ce-editor-dialog {
+  .anychart-ce-dialog-title {
+    font-weight: bold;
+  }
+  .anychart-ce-dialog-title-logo {
+    display: inline-block;
+    /* todo rescale image to 25x25, (because background-size works only IE9+) */
+    background: white url("https://cdn.anychart.com/images/anychart-logo-medium.png") no-repeat;
+    background-size: 36px 36px;
+    width: 36px;
+    height: 36px;
+    position: relative;
+    top: 6px;
+  }
+  .anychart-ce-dialog-title-text {
+    line-height: 36px;
+    top: -6px;
+    left: 7px;
+  }
+  .anychart-ce-dialog-title-close {
+    right: 20px;
+    top: 22px;
+  }
+}
+// endregion
+
+// region ---- anychart-ce-data-dialog
+.anychart-ce-data-dialog {
+  width: 60%;
+  height: 290px;
+  min-height: auto;
+  top: 15% !important;
+
+  .anychart-ce-dialog-content {
+    top: 60px;
+  }
+
+  a,
+  a:link,
+  a:visited  {
+    color: #06c;
+    cursor: pointer;
+  }
+
+  .anychart-ce-input {
+    width: 97%;
+    margin-bottom: 15px;
+    font-size: 15px;
+    padding: 6px 10px;
+  }
+
+  textarea {
+    height: 150px;
+  }
+
+  label {
+    display: block;
+    width: 51%;
+    height: 30px;
+    float: left;
+    position: relative;
+    margin-bottom: 10px;
+    font-size: 15px;
+
+    .anychart-ce-input {
+      width: 80px;
+    }
+    .anychart-ce-input,
+    .anychart-ce-checkbox {
+      position: absolute;
+      top: 0;
+      left: 180px;
+    }
+  }
+}
+.anychart-ce-dialog-file-json {
+  height: 175px;
+}
+.anychart-ce-dialog-google-spreadsheets {
+  height: 220px;
+}
+.anychart-ce-dialog-string-csv {
+  height: 450px;
+}
+.anychart-ce-dialog-file-csv {
+  height: 330px;
+}
+// endregion
+
+// region ---- anychart-ce-sample-dialog
+.anychart-ce-sample-dialog {
+  width: 90%;
+  height: 80%;
+  min-width: auto;
+  max-width: 800px;
+  .anychart-ce-dialog-content {
+    padding-bottom: 60px;
+    top: 40px;
+  }
+  iframe {
+    position: relative;
+    border: none;
+    z-index: 10;
+  }
+  .anychart-ce-loader-rotating-cover {
+    z-index: 1;
+  }
+}
+// endregion
+
+// region ---- anychart-ce-confirm-dialog
+.anychart-ce-confirm-dialog {
+  .border-radius(3px);
+  width: 400px;
+  min-width:auto;
+  height: 160px;
+  min-height: auto;
+  top: 15% !important;
+
+  .anychart-ce-dialog-content {
+    top: 50px;
+    font-size: 15px;
+  }
+}
+// endregion
+
+
+  // region ---- anychart-ce-data-preview-dialog
+.anychart-ce-data-preview-dialog {
+  width: 80%;
+  height: 80%;
+
+  .anychart-ce-dialog-content {
+    z-index: 0;
+    top: 50px;
+    bottom: 65px;
+    overflow-y: auto;
+  }
+}
+.anychart-ce-data-preview-table {
+  width: 100%;
+  border-spacing: 0;
+  font-size: 15px;
+
+  tr {
+    height: 20px;
+  }
+  
+  td, th {
+    text-align: left;
+    border: 1px solid white;
+  }
+
+  td {
+    padding: 5px 15px;
+    &.empty {
+      font-style: italic;
+      color: #7093aa;
+    }
+  }
+
+  th {
+    background-color: @color-background;
+    color: #7093aa;
+    padding: 10px 15px;
+
+    span {
+      display: block;
+      font-size: 13px;
+      font-weight: normal;
+    }
+  }
+
+  .odd {
+    background-color: @color-background;
+  }
+}
+
+.anychart-ce-data-preview-header {
+  position: absolute;
+  z-index: 1;
+  top: 50px;
+  left: 14px;
+  right: 14px;
+
+  .item {
+    display: inline-block;
+    height: 40px;
+
+    background-color: @color-background;
+    border: 1px solid white;
+    color: #7093aa;
+    padding: 10px 15px;
+
+    span {
+      display: block;
+      font-size: 13px;
+      font-weight: normal;
+    }
+  }
+}
+
+// endregion
+
+// region ---- Qlik theme
+.anychart-ce-dialog-qlik-theme {
+  .anychart-ce-dialog-title {
+    padding: 4px 14px;
+  }
+  .anychart-ce-dialog-content {
+    top: 53px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  .anychart-ce-dialog-title-close {
+    margin-top: 10px;
+    margin-right: 3px;
+  }
+}
+// endregion

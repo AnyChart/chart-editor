@@ -17,6 +17,6 @@ chartEditor.settings.pointers.RangeBar = function(model, type, pointerId, pointe
 
   this.pointerType_ = 'rangeBar';
 
-  this.addClassName(goog.getCssName('anychart-settings-panel-pointer-range-bar'));
+  this.addClassName(goog.getCssName('anychart-ce-settings-panel-pointer-range-bar'));
 };
 goog.inherits(chartEditor.settings.pointers.RangeBar, chartEditor.settings.pointers.LinearBase);

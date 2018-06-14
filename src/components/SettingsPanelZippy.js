@@ -16,7 +16,9 @@ goog.require('goog.ui.AnimatedZippy');
 chartEditor.SettingsPanelZippy = function(model, index, opt_name, opt_domHelper) {
   chartEditor.SettingsPanelZippy.base(this, 'constructor', model, index, opt_name, opt_domHelper);
 
-  this.addClassName(goog.getCssName('anychart-chart-editor-settings-panel-zippy'));
+  this.addClassName(goog.getCssName('anychart-ce-settings-panel-zippy'));
+
+  this.locked_ = false;
 };
 goog.inherits(chartEditor.SettingsPanelZippy, chartEditor.SettingsPanelIndexed);
 
@@ -25,7 +27,20 @@ goog.inherits(chartEditor.SettingsPanelZippy, chartEditor.SettingsPanelIndexed);
  * Expands panel.
  */
 chartEditor.SettingsPanelZippy.prototype.expand = function() {
-  if (this.zippy_) this.zippy_.expand();
+  if (this.zippy_ && !this.locked_) this.zippy_.expand();
+};
+
+
+/**
+ * Lock panel to prevent user's interaction
+ * @param {boolean} value
+ */
+chartEditor.SettingsPanelZippy.prototype.lock = function(value) {
+  this.locked_ = value;
+  goog.dom.classlist.enable(this.getElement(), 'locked', this.locked_);
+
+  if (this.locked_)
+    this.zippy_.collapse();
 };
 
 
@@ -58,7 +73,7 @@ chartEditor.SettingsPanelZippy.prototype.createDom = function() {
   zippyContent.addChild(innerContent, true);
   this.zippyContent = innerContent;
 
-  goog.dom.appendChild(this.zippyContent.getElement(), goog.dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-clearboth')));
+  goog.dom.appendChild(this.zippyContent.getElement(), goog.dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-ce-clearboth')));
 
   this.zippy_ = new goog.ui.AnimatedZippy(zippyHeader.getElement(), zippyContent.getElement());
   this.zippy_.setHandleKeyboardEvents(false);
@@ -86,7 +101,7 @@ chartEditor.SettingsPanelZippy.prototype.addChildControl = function(control, opt
 
 /**
  * Adds control to header.
- * @param {chartEditor.SettingsPanel|chartEditor.controls.LabeledControl|chartEditor.checkbox.Base|chartEditor.controls.select.Base|chartEditor.comboBox.Base|chartEditor.colorPicker.Base|chartEditor.input.Base} control
+ * @param {chartEditor.SettingsPanel|chartEditor.controls.LabeledControl|chartEditor.checkbox.Base|chartEditor.controls.select.Base|chartEditor.comboBox.Base|chartEditor.colorPicker.Base|chartEditor.controls.input.Base} control
  * @return {boolean}
  */
 chartEditor.SettingsPanelZippy.prototype.addHeaderChildControl = function(control) {
@@ -105,5 +120,5 @@ chartEditor.SettingsPanelZippy.prototype.addHeaderChildControl = function(contro
 chartEditor.SettingsPanelZippy.prototype.addContentSeparator = function() {
   goog.dom.appendChild(this.zippyContent.getElement(), goog.dom.createDom(
       goog.dom.TagName.DIV,
-      goog.getCssName('anychart-chart-editor-settings-item-separator-gaps')));
+      goog.getCssName('anychart-ce-settings-item-separator-gaps')));
 };

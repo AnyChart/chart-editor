@@ -21,12 +21,10 @@ chartEditor.comboBox.PercentToRatio = function(opt_domHelper, opt_menu, opt_labe
   chartEditor.comboBox.PercentToRatio.base(this, 'constructor', opt_domHelper, opt_menu, opt_labelInput);
 
   this.setValidateFunction(function(value) {
-    debugger
     return !isNaN(Number(value));
   });
 
   this.setFormatterFunction(function(value) {
-    debugger
     return String(goog.math.clamp(Number(value), 0, 1));
   });
 };
@@ -61,7 +59,7 @@ chartEditor.comboBox.PercentToRatio.prototype.onInputBlur_ = function(e) {
  * @extends {goog.ui.LabelInput}
  */
 chartEditor.comboBox.PercentToRatioInput = function(opt_label, opt_domHelper) {
-  chartEditor.input.Base.base(this, 'constructor', opt_label, opt_domHelper);
+  chartEditor.controls.input.Base.base(this, 'constructor', opt_label, opt_domHelper);
 };
 goog.inherits(chartEditor.comboBox.PercentToRatioInput, goog.ui.LabelInput);
 

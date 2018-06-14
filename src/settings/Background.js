@@ -17,7 +17,7 @@ chartEditor.settings.Background = function(model, opt_domHelper) {
 
   this.allowEnabled(false);
 
-  this.addClassName(goog.getCssName('anychart-chart-editor-settings-Background'));
+  this.addClassName(goog.getCssName('anychart-ce-settings-Background'));
 };
 goog.inherits(chartEditor.settings.Background, chartEditor.SettingsPanel);
 

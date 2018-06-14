@@ -20,7 +20,7 @@ chartEditor.settings.pointers.Marker = function(model, type, pointerId, pointerI
 
   this.pointerType_ = 'marker';
 
-  this.addClassName(goog.getCssName('anychart-settings-panel-pointer-marker'));
+  this.addClassName(goog.getCssName('anychart-ce-settings-panel-pointer-marker'));
 };
 goog.inherits(chartEditor.settings.pointers.Marker, chartEditor.settings.pointers.CircularBase);
 

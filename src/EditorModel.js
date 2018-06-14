@@ -1,8 +1,11 @@
 goog.provide('chartEditor.EditorModel');
 
-goog.require('goog.events.EventTarget');
-goog.require('goog.format.JsonPrettyPrinter');
-goog.require('goog.format.JsonPrettyPrinter.SafeHtmlDelimiters');
+goog.require("chartEditor.dialog.Confirm");
+goog.require("chartEditor.enums");
+goog.require("goog.events.EventTarget");
+goog.require("goog.format.JsonPrettyPrinter");
+goog.require("goog.format.JsonPrettyPrinter.SafeHtmlDelimiters");
+
 
 
 /**
@@ -55,7 +58,8 @@ chartEditor.EditorModel = function() {
         //'getSeriesAt(0).name()': 'my series'
       }
     },
-    'editorSettings': {}
+    'editorSettings': {},
+    'standalones': {}
   };
 
   /**
@@ -137,7 +141,8 @@ chartEditor.EditorModel.Key;
  *      type: ?string,
  *      seriesType: ?string,
  *      settings: Object
- *  }
+ *  },
+ *  standalones: Object.<Array.<Object>>
  * }}
  */
 chartEditor.EditorModel.Model;
@@ -145,14 +150,15 @@ chartEditor.EditorModel.Model;
 
 /**
  * @typedef {{
- *  minify: boolean,
- *  container: string,
- *  wrapper: (string),
- *  addData: boolean,
- *  addGeoData: boolean
+ *  minify: (boolean|undefined),
+ *  container: (string|undefined),
+ *  wrapper: (string|undefined),
+ *  addData: (boolean|undefined),
+ *  addGeoData: (boolean|undefined),
+ *  addMarkers: (boolean|undefined)
  * }}
  */
-chartEditor.EditorModel.OutputOptions;
+chartEditor.EditorModel.JavascriptOptions;
 
 
 // region Structures
@@ -167,24 +173,47 @@ chartEditor.EditorModel.DataType = {
 
 
 /**
+ * @enum {Array.<Object>}
+ */
+chartEditor.EditorModel.Scales = {
+  CARTESIAN: [
+    {'type': 'ordinal', 'key': 'xScale()', 'name': 'Default X Scale'},
+    {'type': 'linear', 'key': 'yScale()', 'name': 'Default Y Scale'}
+  ],
+  SCATTER: [
+    {'type': 'linear', 'key': 'xScale()', 'name': 'Default X Scale'},
+    {'type': 'linear', 'key': 'yScale()', 'name': 'Default Y Scale'}
+  ],
+  HEATMAP: [
+    {'type': 'ordinal', 'key': 'xScale()', 'name': 'Default X Scale'},
+    {'type': 'ordinal', 'key': 'yScale()', 'name': 'Default Y Scale'}
+  ],
+  GAUGE_LINEAR: [
+    {'type': 'linear', 'key': 'scale()', 'name': 'Default Scale'}
+  ]
+};
+
+
+/**
  * @type {Object}
  */
 chartEditor.EditorModel.ChartTypes = {
-  // 'cartesian': {
-  //   'value': 'cartesian',
-  //   'name': 'cartesian',
-  //   'icon': 'line-chart-1.svg', // 'http://www.anychart.com/_design/img/upload/charts/types/'
-  //   'series': ['line', 'spline', 'column', 'area', 'ohlc'], // first value is default
-  //   'dataSetCtor': 'set',
-  //   'panelsExcludes' : ['colorScale']
-  // },
   'line': {
     'value': 'line',
     'name': 'Line',
     'icon': 'line-chart-1.svg', // 'http://www.anychart.com/_design/img/upload/charts/types/'
     'series': ['line', 'spline', 'area', 'splineArea', 'column', 'ohlc'], // first value is default
+    'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS
+    ],
     'filters': ['common']
   },
   'area': {
@@ -192,8 +221,17 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Area',
     'icon': 'area-chart.svg',
     'series': ['area', 'splineArea', 'line', 'spline', 'column', 'ohlc'],
+    'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS
+    ],
     'filters': ['common']
   },
   'area-stacked-value': {
@@ -202,8 +240,17 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Area stacked (value)',
     'icon': 'stacked-area-chart.svg',
     'series': ['area', 'splineArea', 'line', 'spline', 'column', 'ohlc'],
+    'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS
+    ],
     'filters': ['stacked-value']
   },
   'area-stacked-percent': {
@@ -212,8 +259,17 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Area stacked (percent)',
     'icon': 'percent-stacked-area-chart.svg',
     'series': ['area', 'splineArea', 'line', 'spline', 'column', 'ohlc'],
+    'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS
+    ],
     'filters': ['stacked-percent']
   },
   'bar': {
@@ -221,8 +277,17 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Bar',
     'icon': 'bar-chart.svg',
     'series': ['bar', 'line', 'spline', 'area', 'splineArea', 'ohlc'],
+    'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS
+    ],
     'filters': ['common']
   },
   'bar-stacked-value': {
@@ -231,8 +296,17 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Bar stacked (value)',
     'icon': 'stacked-bar-chart.svg',
     'series': ['bar', 'line', 'spline', 'area', 'splineArea', 'ohlc'],
+    'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS
+    ],
     'filters': ['stacked-value']
   },
   'bar-stacked-percent': {
@@ -241,17 +315,35 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Bar stacked (percent)',
     'icon': 'percent-stacked-bar-chart.svg',
     'series': ['bar', 'line', 'spline', 'area', 'splineArea', 'ohlc'],
+    'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS
+    ],
     'filters': ['stacked-percent']
   },
   'column': {
     'value': 'column',
     'name': 'Column',
     'icon': 'column-chart.svg',
-    'series': ['column', 'line', 'spline', 'area', 'splineArea', 'ohlc'],
+    'series': ['column', 'line', 'spline', 'area', 'splineArea', 'ohlc', 'candlestick'],
+    'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS
+    ],
     'filters': ['common']
   },
   'column-stacked-value': {
@@ -260,8 +352,17 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Column stacked (value)',
     'icon': 'stacked-column-chart.svg',
     'series': ['column', 'line', 'spline', 'area', 'splineArea', 'ohlc'],
+    'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS
+    ],
     'filters': ['stacked-value']
   },
   'column-stacked-percent': {
@@ -270,8 +371,17 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Column stacked (percent)',
     'icon': 'percent-stacked-step-line-area-chart.svg',
     'series': ['column', 'line', 'spline', 'area', 'splineArea', 'ohlc'],
+    'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS
+    ],
     'filters': ['stacked-percent']
   },
   'scatter': {
@@ -279,8 +389,17 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Scatter',
     'icon': 'scatter-chart.svg',
     'series': ['marker', 'bubble', 'line'],
+    'scales': chartEditor.EditorModel.Scales.SCATTER,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS
+    ],
     'filters': ['common']
   },
   'waterfall': {
@@ -288,8 +407,17 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Waterfall',
     'icon': 'waterfall-chart.svg',
     'series': ['waterfall'],
+    'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS
+    ],
     'filters': ['common']
   },
   'pie': {
@@ -299,7 +427,19 @@ chartEditor.EditorModel.ChartTypes = {
     'series': ['pie'],
     'dataSetCtor': 'set',
     'singleSeries': true,
-    'panelsExcludes': ['series', 'grids', 'cartesianAxes', 'colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.SERIES,
+      chartEditor.enums.EditorTabs.GRIDS,
+      chartEditor.enums.EditorTabs.CARTESIAN_AXES,
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS,
+      chartEditor.enums.EditorTabs.SCALES
+    ],
     'filters': ['common']
   },
   'funnel': {
@@ -309,7 +449,19 @@ chartEditor.EditorModel.ChartTypes = {
     'series': ['funnel'],
     'dataSetCtor': 'set',
     'singleSeries': true,
-    'panelsExcludes': ['series', 'grids', 'cartesianAxes', 'colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.SERIES,
+      chartEditor.enums.EditorTabs.GRIDS,
+      chartEditor.enums.EditorTabs.CARTESIAN_AXES,
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS,
+      chartEditor.enums.EditorTabs.SCALES
+    ],
     'filters': ['common']
   },
   'map': {
@@ -318,7 +470,17 @@ chartEditor.EditorModel.ChartTypes = {
     'icon': 'choropleth-map.svg',
     'series': ['marker-by-id', 'marker-by-coordinates', 'bubble-by-id', 'bubble-by-coordinates', 'choropleth'],
     'dataSetCtor': 'set',
-    'panelsExcludes': ['grids', 'cartesianAxes', 'colorScale', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.GRIDS,
+      chartEditor.enums.EditorTabs.CARTESIAN_AXES,
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS,
+      chartEditor.enums.EditorTabs.SCALES
+    ],
     'settingsExcludes': ['animation().enabled()'],
     'filters': ['common']
   },
@@ -328,7 +490,18 @@ chartEditor.EditorModel.ChartTypes = {
     'icon': 'stock-chart.svg',
     'series': ['ohlc', 'candlestick', 'line', 'spline', 'column', 'area', 'splineArea'],
     'dataSetCtor': 'table',
-    'panelsExcludes': ['dataLabels', 'cartesianAxes', 'colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.DATA_LABELS,
+      chartEditor.enums.EditorTabs.CARTESIAN_AXES,
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS,
+      chartEditor.enums.EditorTabs.SCALES
+    ],
     'settingsExcludes': ['palette()', 'legend().enabled()', 'animation().enabled()'],
     'filters': ['common']
   },
@@ -337,8 +510,17 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Box',
     'icon': 'box-chart.svg',
     'series': ['box', 'line', 'spline', 'column', 'area', 'marker', 'bubble', 'ohlc'],
+    'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+        chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS
+    ],
     'filters': ['common']
   },
   'polar': {
@@ -346,8 +528,17 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Polar',
     'icon': 'polar-column-chart.svg',
     'series': ['line', 'area', 'column', 'marker', 'polygon', 'polyline', 'rangeColumn'],
+    'scales': chartEditor.EditorModel.Scales.SCATTER,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['colorScale', 'colorRange', 'cartesianAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.CARTESIAN_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS
+    ],
     'filters': ['common']
   },
   'radar': {
@@ -355,8 +546,17 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Radar',
     'icon': 'radar-chart-1.svg',
     'series': ['line', 'area', 'marker'],
+    'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['colorScale', 'colorRange', 'cartesianAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.CARTESIAN_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS
+    ],
     'filters': ['common']
   },
   'radar-stacked-value': {
@@ -365,8 +565,17 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Radar stacked (value)',
     'icon': 'radar-chart-1.svg',
     'series': ['area'/*, 'line', 'marker'*/],
+    'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['colorScale', 'colorRange', 'cartesianAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.CARTESIAN_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS
+    ],
     'filters': ['stacked-value']
   },
   'radar-stacked-percent': {
@@ -375,8 +584,17 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Radar stacked (percent)',
     'icon': 'radar-chart-1.svg',
     'series': ['area'/*, 'line', 'marker'*/],
+    'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['colorScale', 'colorRange', 'cartesianAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.CARTESIAN_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS
+    ],
     'filters': ['stacked-percent']
   },
   'mekko': {
@@ -384,8 +602,18 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Mekko',
     'icon': 'bar-mekko-chart.svg',
     'series': ['mekko'],
+    'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['grids', 'colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.GRIDS,
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS
+    ],
     'filters': ['common']
   },
   'barmekko': {
@@ -393,8 +621,18 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Bar Mekko',
     'icon': 'bar-mekko-chart.svg',
     'series': ['mekko'],
+    'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['grids', 'colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.GRIDS,
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS
+    ],
     'filters': ['common']
   },
   'mosaic': {
@@ -402,8 +640,18 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Mosaic',
     'icon': 'bar-mekko-chart.svg',
     'series': ['mekko'],
+    'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['grids', 'colorScale', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.GRIDS,
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS
+    ],
     'filters': ['common']
   },
   'heatMap': {
@@ -411,9 +659,18 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Heat Map',
     'icon': 'heatmap-chart.svg',
     'series': ['heatMap'],
+    'scales': chartEditor.EditorModel.Scales.HEATMAP,
     'dataSetCtor': 'set',
     'singleSeries': true,
-    'panelsExcludes': ['series', 'colorRange', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.SERIES,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS
+    ],
     'settingsExcludes': ['palette()', 'animation().enabled()'],
     'filters': ['common']
   },
@@ -424,7 +681,17 @@ chartEditor.EditorModel.ChartTypes = {
     'series': ['treeMap'],
     'dataSetCtor': 'tree',
     'singleSeries': true,
-    'panelsExcludes': ['series', 'grids', 'cartesianAxes', 'radarPolarAxes', 'gaugeAxes', 'circularRanges', 'scaleBars', 'pointers'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.SERIES,
+      chartEditor.enums.EditorTabs.GRIDS,
+      chartEditor.enums.EditorTabs.CARTESIAN_AXES,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS,
+      chartEditor.enums.EditorTabs.SCALES
+    ],
     'settingsExcludes': ['palette()', 'animation().enabled()'],
     'filters': ['common']
   },
@@ -434,7 +701,18 @@ chartEditor.EditorModel.ChartTypes = {
     'icon': 'circular-gauge.svg',
     'series': ['gauges.bar', 'gauges.marker', 'needle', 'knob'],
     'dataSetCtor': 'set',
-    'panelsExcludes': ['legend', 'dataLabels', 'series', 'cartesianAxes', 'radarPolarAxes', 'grids', 'colorScale', 'colorRange', 'scaleBars'],
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.LEGEND,
+      chartEditor.enums.EditorTabs.DATA_LABELS,
+      chartEditor.enums.EditorTabs.SERIES,
+      chartEditor.enums.EditorTabs.CARTESIAN_AXES,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GRIDS,
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.SCALES
+    ],
     'settingsExcludes': ['palette()'],
     'filters': ['common', 'gauges']
   },
@@ -444,9 +722,17 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Linear Gauge',
     'icon': 'vertical-gauge-1.svg',
     'series': ['linearGauge.bar', 'linearGauge.led', 'linearGauge.tank', 'linearGauge.thermometer', 'linearGauge.marker', 'linearGauge.rangeBar'],
+    'scales': chartEditor.EditorModel.Scales.GAUGE_LINEAR,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['dataLabels', 'series', 'grids', 'colorScale', 'colorRange', 'circularRanges',
-      'cartesianAxes', 'radarPolarAxes'
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.DATA_LABELS,
+      chartEditor.enums.EditorTabs.SERIES,
+      chartEditor.enums.EditorTabs.GRIDS,
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.CARTESIAN_AXES,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES
     ],
     'settingsExcludes': ['palette()'],
     'filters': ['common', 'gauges']
@@ -456,9 +742,17 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Led Gauge',
     'icon': 'vertical-gauge-1.svg',
     'series': ['linearGauge.led', 'linearGauge.bar', 'linearGauge.tank', 'linearGauge.thermometer', 'linearGauge.marker', 'linearGauge.rangeBar'],
+    'scales': chartEditor.EditorModel.Scales.GAUGE_LINEAR,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['dataLabels', 'series', 'grids', 'colorScale', 'colorRange', 'circularRanges',
-      'cartesianAxes', 'radarPolarAxes'
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.DATA_LABELS,
+      chartEditor.enums.EditorTabs.SERIES,
+      chartEditor.enums.EditorTabs.GRIDS,
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.CARTESIAN_AXES,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES
     ],
     'settingsExcludes': ['palette()'],
     'filters': ['common', 'gauges']
@@ -468,9 +762,17 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Tank Gauge',
     'icon': 'tank-gauge-1.svg',
     'series': ['linearGauge.tank', 'linearGauge.bar', 'linearGauge.led', 'linearGauge.thermometer', 'linearGauge.marker', 'linearGauge.rangeBar'],
+    'scales': chartEditor.EditorModel.Scales.GAUGE_LINEAR,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['dataLabels', 'series', 'grids', 'colorScale', 'colorRange', 'circularRanges',
-      'cartesianAxes', 'radarPolarAxes'
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.DATA_LABELS,
+      chartEditor.enums.EditorTabs.SERIES,
+      chartEditor.enums.EditorTabs.GRIDS,
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.CARTESIAN_AXES,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES
     ],
     'settingsExcludes': ['palette()'],
     'filters': ['common', 'gauges']
@@ -480,9 +782,17 @@ chartEditor.EditorModel.ChartTypes = {
     'name': 'Thermometer Gauge',
     'icon': 'thermometer-gauge.svg',
     'series': ['linearGauge.thermometer', 'linearGauge.bar', 'linearGauge.led', 'linearGauge.tank', 'linearGauge.marker', 'linearGauge.rangeBar'],
+    'scales': chartEditor.EditorModel.Scales.GAUGE_LINEAR,
     'dataSetCtor': 'set',
-    'panelsExcludes': ['dataLabels', 'series', 'grids', 'colorScale', 'colorRange', 'circularRanges',
-      'cartesianAxes', 'radarPolarAxes'
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.DATA_LABELS,
+      chartEditor.enums.EditorTabs.SERIES,
+      chartEditor.enums.EditorTabs.GRIDS,
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.CARTESIAN_AXES,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES
     ],
     'settingsExcludes': ['palette()'],
     'filters': ['common', 'gauges']
@@ -763,7 +1073,7 @@ chartEditor.EditorModel.prototype.analyzeDataAfterChooseField_ = function() {
  * @param {string=} opt_active Active data set id
  * @param {string=} opt_field Field id
  */
-chartEditor.EditorModel.prototype.chooseActiveAndField = function(opt_active, opt_field) {
+chartEditor.EditorModel.prototype.chooseDatasetAndField = function(opt_active, opt_field) {
   var preparedData = this.getPreparedData();
   this.model_['dataSettings']['active'] = goog.isDefAndNotNull(opt_active) ? opt_active : preparedData[0].setFullId;
 
@@ -975,7 +1285,6 @@ chartEditor.EditorModel.prototype.createSeriesConfig = function(index, type, opt
     this.fieldsState_.numbersCount = numbers.length;
   }
 
-  //
   var fields = chartEditor.EditorModel.Series[type]['fields'];
 
   for (var i = 0; i < fields.length; i++) {
@@ -999,6 +1308,24 @@ chartEditor.EditorModel.prototype.createSeriesConfig = function(index, type, opt
     }
   }
   return config;
+};
+
+
+/**
+ * Create default scales
+ */
+chartEditor.EditorModel.prototype.createDefaultStandalones = function() {
+  this.model_['standalones'] = {};
+
+  // Set default scales
+  var chartSettings = this.getChartTypeSettings();
+  if (chartSettings['scales']) {
+    this.suspendDispatch();
+    for (var i = 0; i < chartSettings['scales'].length; i++) {
+      this.addStandalone('scale', chartSettings['scales'][i]);
+    }
+    this.resumeDispatch(true);
+  }
 };
 
 
@@ -1047,12 +1374,6 @@ chartEditor.EditorModel.prototype.checkSeriesFieldsCompatible = function(seriesT
 };
 
 
-/** @return {?Array.<Object>} */
-chartEditor.EditorModel.prototype.getGeoDataIndex = function() {
-  return this.geoDataIndex_.length ? this.geoDataIndex_ : null;
-};
-
-
 /** @private */
 chartEditor.EditorModel.prototype.initGeoData_ = function() {
   var activeGeo = goog.isString(this.model_['dataSettings']['activeGeo']) ?
@@ -1084,6 +1405,11 @@ chartEditor.EditorModel.prototype.initGeoData_ = function() {
           });
 
           self.loadGeoData_(activeGeo);
+
+          self.dispatchEvent({
+            type: chartEditor.events.EventType.WAIT,
+            wait: false
+          });
         });
   }
 };
@@ -1127,6 +1453,31 @@ chartEditor.EditorModel.prototype.loadGeoData_ = function(opt_setId) {
         });
   }
 };
+
+
+/** @return {?Array.<Object>} */
+chartEditor.EditorModel.prototype.getGeoDataIndex = function() {
+  return this.geoDataIndex_.length ? this.geoDataIndex_ : null;
+};
+
+
+/**@return {Object} */
+chartEditor.EditorModel.prototype.getGeoDataInfo = function() {
+  var result = {};
+  if (this.geoDataIndex_ && this.model_['dataSettings']['activeGeo']) {
+    var setId = Number(this.model_['dataSettings']['activeGeo'].substr(1));
+    if (this.geoDataIndex_[setId]) {
+      var url = this.geoDataIndex_[setId]['data'];
+      var match = url.match(/\/(\w*)\.json/);
+      if (match) {
+        result['path'] = 'anychart.maps.' + match[1];
+        result['url'] = 'https://cdn.anychart.com/geodata/1.2.0' + url.replace('json', 'js');
+        result['geoIdField'] =  this.getGeoIdField();
+      }
+    }
+  }
+  return result;
+};
 // endregion
 
 
@@ -1137,11 +1488,13 @@ chartEditor.EditorModel.prototype.loadGeoData_ = function(opt_setId) {
  * @param {boolean} rebuild
  */
 chartEditor.EditorModel.prototype.onChartDraw = function(chart, rebuild) {
-  this.dispatchEvent({
-    type: chartEditor.events.EventType.CHART_DRAW,
-    chart: chart,
-    rebuild: rebuild
-  });
+  if (chart) { // todo: sometimes it's null
+    this.dispatchEvent({
+      type: chartEditor.events.EventType.CHART_DRAW,
+      chart: chart,
+      rebuild: rebuild
+    });
+  }
 };
 
 
@@ -1159,22 +1512,28 @@ chartEditor.EditorModel.prototype.callbackByString = function(methodName, var_ar
 /**
  * Drops all or some chart settings.
  * @param {(Object|string)=} opt_pattern Regular extperrion or string
+ * @param {boolean=} opt_byValue Search by setting value. Is ignored if opt_pattern is undefined.
  */
-chartEditor.EditorModel.prototype.dropChartSettings = function(opt_pattern) {
+chartEditor.EditorModel.prototype.dropChartSettings = function(opt_pattern, opt_byValue) {
   if (goog.isDef(opt_pattern)) {
     for (var key in this.model_['chart']['settings']) {
       var found = false;
-      if (typeof opt_pattern === 'object') {
-        var r = new RegExp(/** @type {RegExp} */(opt_pattern));
-        found = r.test(key);
-      } else
-        found = key.indexOf(opt_pattern) >= 0;
+      var testString = opt_byValue ? this.model_['chart']['settings'][key] : key;
+
+      if (!opt_byValue || goog.isString(testString)) {
+        if (typeof opt_pattern === 'object') {
+          var r = new RegExp(/** @type {RegExp} */(opt_pattern));
+          found = r.test(testString);
+        } else
+          found = testString.indexOf(opt_pattern) >= 0;
+      }
 
       if (found)
         delete this.model_['chart']['settings'][key];
     }
   } else {
     this.model_['chart']['settings'] = {};
+    this.model_['standalones'] = {};
     this.model_['editorSettings']['lockSeriesName'] = {};
     this.stackMode = false;
     this.resetContextMenuItems();
@@ -1198,6 +1557,8 @@ chartEditor.EditorModel.prototype.onChangeView = function() {
         if (this.model_['chart']['type'] === 'map')
           this.initGeoData_();
 
+        this.applyDefaults();
+
         this.analyzeDataBeforeChooseField_();
         this.analyzeDataAfterChooseField_();
 
@@ -1205,13 +1566,11 @@ chartEditor.EditorModel.prototype.onChangeView = function() {
 
       } else {
         this.model_['chart']['type'] = null;
-        this.chooseActiveAndField();
+        this.chooseDatasetAndField();
         this.chooseDefaultChartType();
         this.chooseDefaultSeriesType();
         this.createDefaultMappings();
-
-        // Set default chart title by dataset title
-        this.setValue([['chart'], ['settings'], 'title()'], this.data_[this.getActive()]['title']);
+        this.createDefaultStandalones();
       }
     } else {
       console.warn("NO DATA");
@@ -1288,10 +1647,11 @@ chartEditor.EditorModel.prototype.setActiveAndField = function(input) {
   if (active !== this.model_['dataSettings']['active']) {
     this.model_['chart']['type'] = null;
 
-    this.chooseActiveAndField(active, field);
+    this.chooseDatasetAndField(active, field);
     this.chooseDefaultChartType();
     this.chooseDefaultSeriesType();
     this.createDefaultMappings();
+    this.createDefaultStandalones();
 
     this.dispatchUpdate();
 
@@ -1345,18 +1705,24 @@ chartEditor.EditorModel.prototype.setChartType = function(input) {
     this.dropChartSettings('pointsPadding()');
   }
 
-  if (this.needResetMappings(prevChartType, prevDefaultSeriesType)) {
-    this.chooseActiveAndField(/** @type {string} */(this.model_['dataSettings']['active']));
+  // Drop scales settings anyway
+  this.dropChartSettings(/^\w+cale\(\)/);
+  this.model_['standalones'] = {};
 
-    // set it again because it was reset in chooseActiveAndField()
+  if (this.needResetMappings(prevChartType, prevDefaultSeriesType)) {
+    this.chooseDatasetAndField(/** @type {string} */(this.model_['dataSettings']['active']));
+
+    // set it again because it was reset in chooseDatasetAndField()
     this.stackMode = selectValue.stackMode;
     this.chooseDefaultSeriesType();
 
     this.createDefaultMappings();
+    this.createDefaultStandalones();
 
   } else {
     // Update default series
     this.chooseDefaultSeriesType();
+    this.createDefaultStandalones();
 
     for (var i = 0; i < this.model_['dataSettings']['mappings'].length; i++) {
       for (var j = 0; j < this.model_['dataSettings']['mappings'][i].length; j++) {
@@ -1428,21 +1794,24 @@ chartEditor.EditorModel.prototype.setTheme = function(input) {
  * @param {chartEditor.checkbox.Base} input
  */
 chartEditor.EditorModel.prototype.setSettingForSeries = function(input) {
+
   var value = input.getChecked();
   this.suspendDispatch();
 
-  var chartType = this.model_['chart']['type'];
-  var mappings = this.model_['dataSettings']['mappings'];
-  var key = input.getKey();
-  var stringKey = key[key.length - 1];
+  if (!this.isChartSingleSeries()) {
+    var chartType = this.model_['chart']['type'];
+    var mappings = this.model_['dataSettings']['mappings'];
+    var key = input.getKey();
+    var stringKey = key[key.length - 1];
 
-  var seriesId;
-  for (var i = 0; i < mappings.length; i++) {
-    for (var j = 0; j < mappings[i].length; j++) {
-      seriesId = mappings[i][j]['id'];
-      var stringKey2 = (chartType === 'stock' ? 'plot(' + i + ').' : '') + 'getSeries(\'' + seriesId + '\').' + stringKey;
-      var key2 = [['chart'], ['settings'], stringKey2];
-      this.setValue(key2, value);
+    var seriesId;
+    for (var i = 0; i < mappings.length; i++) {
+      for (var j = 0; j < mappings[i].length; j++) {
+        seriesId = mappings[i][j]['id'];
+        var stringKey2 = (chartType === 'stock' ? 'plot(' + i + ').' : '') + 'getSeries(\'' + seriesId + '\').' + stringKey;
+        var key2 = [['chart'], ['settings'], stringKey2];
+        this.setValue(key2, value);
+      }
     }
   }
 
@@ -1608,6 +1977,41 @@ chartEditor.EditorModel.prototype.dropIndexedSetting = function(index, stringKey
 
 
 /**
+ * @param {string} stringKeyBase 'scale', etc
+ * @param {Object=} opt_fieldValues Initial field values of created standalone
+ * @return {number} Created range index.
+ */
+chartEditor.EditorModel.prototype.addStandalone = function(stringKeyBase, opt_fieldValues) {
+  var standalones = this.getValue([['standalones'], stringKeyBase]) || [];
+  var index = standalones.length;
+
+  opt_fieldValues = opt_fieldValues || {};
+  opt_fieldValues['name'] = opt_fieldValues['name'] || 'Scale ' + (index + 1);
+
+  this.setValue([['standalones'], [stringKeyBase, index]], void 0);
+  this.model_['standalones'][stringKeyBase][index] = opt_fieldValues;
+  // Should dispatch because two previous lines do not do this
+  this.dispatchUpdate();
+
+  return index;
+};
+
+
+/**
+ * Drops last standalone
+ * @param {string} stringKeyBase 'range', 'scaleBar' etc
+ */
+chartEditor.EditorModel.prototype.dropStandalone = function(stringKeyBase) {
+  var standalones = this.getValue([['standalones'], stringKeyBase]);
+  var index = standalones.length - 1;
+
+  var pattern = 'STANDALONE:' + stringKeyBase + ':' + index;
+  this.dropChartSettings(pattern, true);
+  this.removeByKey([['standalones'], [stringKeyBase, index]]);
+};
+
+
+/**
  * @param {chartEditor.EditorModel.Model} value
  */
 chartEditor.EditorModel.prototype.setModel = function(value) {
@@ -1615,6 +2019,60 @@ chartEditor.EditorModel.prototype.setModel = function(value) {
   this.afterSetModel_ = true;
   this.dispatchUpdate();
 };
+
+
+/**
+ * Sets anychart locale settings
+ * @param {Object} values
+ */
+chartEditor.EditorModel.prototype.localization = function(values) {
+  var locales = [];
+
+  for (var k in values) {
+    this.setValue([['anychart'], 'format.' + k + '()'], String(values[k]), true);
+
+    if (values['inputLocale'])
+      locales.push(values['inputLocale']);
+
+    if (values['outputLocale'] && values['inputLocale'] != values['outputLocale'])
+      locales.push(values['outputLocale']);
+  }
+
+  if (locales.length)
+    this.loadLocales_(locales);
+};
+
+
+/**
+ * Load locales from cdn.anychart.com and runs obtained code
+ * @param {Array.<string>} locales List of locales to load
+ * @private
+ */
+chartEditor.EditorModel.prototype.loadLocales_ = function(locales) {
+  var locale = locales.pop();
+  var localeUrl = 'https://cdn.anychart.com/releases/v8/locales/' + locale + '.js';
+  var self = this;
+  goog.net.XhrIo.send(localeUrl, function(e) {
+    if (e.target.getStatus() === 200) {
+      try {
+        var localeData = e.target.getResponseText();
+        eval(localeData);
+      } catch (e) {
+        // something wrong
+      }
+    }
+
+    if (locales.length) {
+      self.loadLocales_(locales);
+    } else {
+      self.dispatchEvent({
+        type: chartEditor.events.EventType.WAIT,
+        wait: false
+      });
+    }
+  });
+};
+
 // endregion
 
 
@@ -1760,10 +2218,11 @@ chartEditor.EditorModel.prototype.suspendDispatch = function() {
 
 /**
  * suspend queue minus one.
+ * @param {boolean=} opt_skipDispatch
  */
-chartEditor.EditorModel.prototype.resumeDispatch = function() {
+chartEditor.EditorModel.prototype.resumeDispatch = function(opt_skipDispatch) {
   this.suspendQueue_--;
-  if (this.suspendQueue_ === 0 && this.needDispatch_)
+  if (this.suspendQueue_ === 0 && this.needDispatch_ && !opt_skipDispatch)
     this.dispatchUpdate();
 };
 
@@ -1845,22 +2304,65 @@ chartEditor.EditorModel.prototype.addData = function(data) {
   var setId = goog.isDef(data.setId) ? data.setId : goog.string.createUniqueString();
   var setFullId = this.getFullId(dataType, setId);
 
-  if (!this.data_[setFullId]) {
-    this.data_[setFullId] = {
-      data: data.data,
-
-      type: dataType,
-      setId: setId,
-      setFullId: setFullId,
-
-      title: data.title,
-      chartType: data.chartType,
-      seriesType: data.seriesType,
-      activeGeo: data.activeGeo,
-      fieldNames: data.fieldNames || {},
-      defaults: data.defaults || []
-    };
+  // Check if data set exists
+  var existingData = null;
+  if (dataType != chartEditor.EditorModel.DataType.GEO) {
+    for (var i in this.data_) {
+      if (this.data_[i].type == chartEditor.EditorModel.DataType.CUSTOM || this.data_[i].type == chartEditor.EditorModel.DataType.PREDEFINED) {
+        existingData = this.data_[i];
+        break;
+      }
+    }
   }
+
+  var dataSet = {
+    data: data.data,
+
+    type: dataType,
+    setId: setId,
+    setFullId: setFullId,
+
+    title: data.title,
+    chartType: data.chartType,
+    seriesType: data.seriesType,
+    activeGeo: data.activeGeo,
+    fieldNames: data.fieldNames || {},
+    defaults: data.defaults || []
+  };
+
+  if (existingData) {
+    var confirm = new chartEditor.dialog.Confirm();
+    confirm.setTitle('Remove previous data set?');
+    confirm.setTextContent('You already have added data set. Remove it?');
+
+    var self = this;
+    goog.events.listen(confirm, goog.ui.Dialog.EventType.SELECT, function(e) {
+      if (e.key == 'ok') {
+        delete self.data_[existingData.setFullId];
+        this.generateInitialMappingsOnChangeView_ = true;
+        self.addDataInternal(dataSet);
+      }
+
+      confirm.dispose();
+    });
+    confirm.setVisible(true);
+
+  } else {
+    this.addDataInternal(dataSet);
+  }
+};
+
+
+/**
+ * Adds data set to this.data_ container.
+ * If new data set is geo data, then removes old geo data.
+ * @param {Object} dataSet Ready to use data structure in internal forma.
+ */
+chartEditor.EditorModel.prototype.addDataInternal = function(dataSet) {
+  var setFullId = dataSet.setFullId;
+  var dataType = dataSet.type;
+
+  this.data_[setFullId] = dataSet;
   this.preparedData_.length = 0;
 
   if (dataType === chartEditor.EditorModel.DataType.GEO) {
@@ -1882,12 +2384,12 @@ chartEditor.EditorModel.prototype.addData = function(data) {
       }
     }
   } else {
+    this.model_['dataSettings']['active'] = setFullId;
     this.generateInitialMappingsOnChangeView_ = true;
   }
 
   this.dispatchUpdate();
 };
-
 
 /**
  * Removes data set from data container.
@@ -1935,11 +2437,19 @@ chartEditor.EditorModel.prototype.getPreparedData = function(opt_setFullId) {
 
 /**
  * @param {boolean=} opt_activeGeo
+ * @param {number=} opt_startIndex
+ * @param {number=} opt_numRows
  * @return {?(Array.<*>|Object)}
  */
-chartEditor.EditorModel.prototype.getRawData = function(opt_activeGeo) {
+chartEditor.EditorModel.prototype.getRawData = function(opt_activeGeo, opt_startIndex, opt_numRows) {
   var dataSet = this.data_[opt_activeGeo ? this.getActiveGeo() : this.getActive()];
-  return dataSet ? dataSet.data : null;
+  if (!dataSet)
+    return null;
+
+  if (goog.isDef(opt_startIndex) && goog.isDef(opt_numRows) && goog.isArray(dataSet.data))
+    return goog.array.slice(dataSet.data, opt_startIndex, opt_startIndex + opt_numRows);
+
+  return dataSet.data;
 };
 
 
@@ -1981,7 +2491,7 @@ chartEditor.EditorModel.prototype.getGeoIdField = function() {
 
 /**
  * Returns JS code string that creates a configured chart.
- * @param {chartEditor.EditorModel.OutputOptions=} opt_options
+ * @param {chartEditor.EditorModel.JavascriptOptions=} opt_options
  * @return {string}
  */
 chartEditor.EditorModel.prototype.getChartAsJsCode = function(opt_options) {
@@ -1996,7 +2506,7 @@ chartEditor.EditorModel.prototype.getChartAsJsCode = function(opt_options) {
 chartEditor.EditorModel.prototype.getChartAsJson = function() {
   var chart = this.getChartWithJsCode_()[1];
   if (!chart) return '';
-  var json = chart ? chart.toJson() : '';
+  var json = chart ? chart['toJson']() : '';
   var settings = this.getModel();
   var outputSettings = settings['editorSettings'] && settings['editorSettings']['output'] ? settings['editorSettings']['output'] : {};
   var minify = !!outputSettings['minify'];
@@ -2023,13 +2533,13 @@ chartEditor.EditorModel.prototype.getChartAsJson = function() {
  */
 chartEditor.EditorModel.prototype.getChartAsXml = function() {
   var chart = this.getChartWithJsCode_()[1];
-  return chart ? chart.toXml(false) : '';
+  return chart ? chart['toXml'](false) : '';
 };
 
 
 /**
  * Creates a chart instance from the model and the JS code string that creates the chart.
- * @param {chartEditor.EditorModel.OutputOptions=} opt_options Output options object.
+ * @param {chartEditor.EditorModel.JavascriptOptions=} opt_options Output options object.
  * @return {!Array} Returns [JsString, ChartInstance]
  * @private
  */
@@ -2078,7 +2588,7 @@ chartEditor.EditorModel.prototype.getChartWithJsCode_ = function(opt_options) {
     result.push('');
   }
 
-  var chart = /** @type {anychart.core.Chart} */(chartEditor.binding.exec(anychartGlobal, chartType + '()'));
+  var chart = /** @type {Object} */(chartEditor.binding.exec(anychartGlobal, chartType + '()'));
   result.push('// Creating chart', 'var chart' + eq + 'anychart.' + chartType + '();', '');
 
   if (chartType === 'map') {
@@ -2092,7 +2602,8 @@ chartEditor.EditorModel.prototype.getChartWithJsCode_ = function(opt_options) {
             'chart.geoData(geoData);'
         );
       } else {
-        // todo: show link to geo data or something
+        var getGeoDataInfo = this.getGeoDataInfo();
+        result.push('chart.geoData(\'' + getGeoDataInfo['path'] + '\');');
       }
 
       var geoIdField = this.getGeoIdField();
@@ -2112,7 +2623,7 @@ chartEditor.EditorModel.prototype.getChartWithJsCode_ = function(opt_options) {
 
   if (addMarkers) result.push('/*=rawData*/');
 
-  var str = 'var rawData' + eq + (addData ? this.printValue_(printer, rawData) : '[/*Add your data here*/]') + ';';
+  var str = 'var rawData' + eq + (addData ? this.printValue_(printer, rawData) : 'getData()') + ';';
   result.push(str);
 
   if (addMarkers) result.push('/*rawData=*/');
@@ -2210,6 +2721,70 @@ chartEditor.EditorModel.prototype.getChartWithJsCode_ = function(opt_options) {
   }
   result.push('');
 
+  // Process standalones instances
+  var appliedScalesSettings = false;
+  var standaloneInstances = {};
+
+  goog.object.forEach(settings['standalones'], function(descriptors, sName) {
+    var count = 0;
+    for (var i = 0; i < descriptors.length; i++) {
+      var descriptor = descriptors[i];
+      if (!descriptor['locked'] && descriptor['type']) {
+        var id = 'STANDALONE:' + sName + ':' + i;
+        var instance = standaloneInstances[id] && standaloneInstances[id].instance;
+        var instanceVarName = sName + count;
+        var settingsString;
+
+        if (!instance) {
+          // Create instance
+          if (!descriptor['key']) {
+            // Standalone instance
+            if(goog.object.containsValue(settings['chart']['settings'], id)) {
+              var ctor = chartEditor.settings.scales.Base.descriptors[descriptor['type']].ctor;
+              instance = /** @type {Object} */(chartEditor.binding.exec(anychartGlobal, ctor));
+
+              if (instance)
+                settingsString = 'var ' + instanceVarName + eq + 'anychart.' + ctor + ';';
+            }
+
+          } else if (descriptor['settings']) {
+            // Native instance
+            instance = /** @type {Object} */(chartEditor.binding.exec(chart, descriptor['key']));
+
+            if (instance)
+              settingsString = 'var ' + instanceVarName + eq + 'chart.' + descriptor['key'] + ';';
+          }
+
+          if (instance) {
+            count++;
+            if (!appliedScalesSettings) {
+              appliedScalesSettings = true;
+              result.push('// Applying scales settings');
+            }
+
+            result.push(settingsString);
+
+            if (descriptor['settings']) {
+              // Apply standalone instance settings
+              goog.object.forEach(descriptor['settings'], function(sValue, sKey) {
+                if (chartEditor.binding.testExec(instance, sKey, sValue)) {
+                  var sSettingString = self.printKey_(printer, instanceVarName, sKey, sValue);
+                  result.push(sSettingString);
+                }
+              });
+            }
+
+            standaloneInstances[id] = {instance: instance, name: instanceVarName};
+          }
+        }
+      }
+    }
+  });
+
+  if(appliedScalesSettings)
+    result.push('');
+
+  // Apply chart settings
   if (!goog.object.isEmpty(settings['chart']['settings'])) {
     result.push('// Applying appearance settings');
 
@@ -2226,6 +2801,7 @@ chartEditor.EditorModel.prototype.getChartWithJsCode_ = function(opt_options) {
       chartSettings = settings['chart']['settings'];
 
     var markerSeriesName = '';
+
     goog.object.forEach(chartSettings, function(value, key) {
       var pVal = value;
       var force = false;
@@ -2236,8 +2812,25 @@ chartEditor.EditorModel.prototype.getChartWithJsCode_ = function(opt_options) {
       } else if (key === "contextMenu().itemsFormatter()")
         quotes = force = true;
 
-      if (chartEditor.binding.testExec(chart, key, value)) {
-        var settingString = self.printKey_(printer, 'chart', key, pVal, force, quotes);
+      if (goog.isString(value) && value.indexOf('STANDALONE:') === 0) {
+        var tmp = value.split(':');
+        var sName = tmp[1];
+        var sIndex = tmp[2];
+        var instance = standaloneInstances[value] && standaloneInstances[value].instance;
+        var sDescriptor = settings['standalones'][sName][sIndex];
+
+        if (instance && !sDescriptor['key'] && chartEditor.binding.testExec(chart, key, instance)) {
+              // Pass standalone instance to chart's method
+          var instanceVarName = standaloneInstances[value].name;
+          var sSettingString = self.printKey_(printer, 'chart', key, instanceVarName, true, true);
+          result.push(sSettingString);
+        }
+
+        value = void 0;
+      }
+
+      if (goog.isDef(value) && chartEditor.binding.testExec(chart, key, value)) {
+        var settingString = self.printKey_(printer, 'chart', key, pVal, goog.isString(value) || force, quotes);
 
         if (addMarkers) {
           var pattern = /(plot\(\d\)\.)?getSeries.*\.name\(.*\)/;
@@ -2254,7 +2847,7 @@ chartEditor.EditorModel.prototype.getChartWithJsCode_ = function(opt_options) {
       }
     });
     if (addMarkers && markerSeriesName === 'opened') {
-      result.push('/*seriesNames*==/');
+      result.push('/*seriesNames=*/');
       markerSeriesName = 'closed';
     }
     result.push('');
@@ -2280,6 +2873,8 @@ chartEditor.EditorModel.prototype.getChartWithJsCode_ = function(opt_options) {
         return '  ' + item;
       });
     }
+
+    this.indentCode(result);
 
     // wrap with function
     if (wrapper === 'function') {
@@ -2346,6 +2941,53 @@ chartEditor.EditorModel.prototype.printValue_ = function(printer, value) {
     value = '"' + value + '"';
   }
   return printer.format(value);
+};
+
+
+/**
+ * Returns code with function that returns current data
+ * @return {string}
+ */
+chartEditor.EditorModel.prototype.getDataCode = function() {
+  var printerSettings = new goog.format.JsonPrettyPrinter.TextDelimiters();
+  var printer = new goog.format.JsonPrettyPrinter(printerSettings);
+  var result = [];
+
+  result.push('');
+  result.push('function getData() {');
+
+  var rawData = this.getRawData();
+
+  var dataStr = 'return ' + this.printValue_(printer, rawData) + ';';
+  result.push(dataStr);
+
+  this.indentCode(result, void 0, 2);
+
+  result.push('}');
+
+  return result.join('\n');
+};
+
+
+/**
+ * @param {Array.<string>|string} code
+ * @param {number=} opt_numSpaces
+ * @param {number=} opt_from
+ * @param {number=} opt_to
+ * @return {Array.<string>|string} Result indented code
+ */
+chartEditor.EditorModel.prototype.indentCode = function(code, opt_numSpaces, opt_from, opt_to) {
+  var isString = goog.isString(code);
+  code = isString ? [code] : code;
+  opt_numSpaces = goog.isDef(opt_numSpaces) ? opt_numSpaces : 2;
+  opt_from = goog.isDef(opt_from) ? opt_from : 0;
+  opt_to = !goog.isDef(opt_to) || opt_to > code.length ? code.length : opt_to;
+  var indentation = goog.string.repeat(' ', opt_numSpaces);
+  for (var i = opt_from; i < opt_to; i++) {
+    code[i] = indentation + code[i].replace(/\n/g, '\n' + indentation);
+  }
+
+  return isString ? code[0] : code;
 };
 
 

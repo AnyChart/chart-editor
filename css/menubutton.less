@@ -1,7 +1,7 @@
 /* ------- MENU BUTTON ------- */
 
 /* State: resting. */
-.anychart-menu-button {
+.anychart-ce-menu-button {
   /* Client apps may override the URL at which they serve the image. */
 //todo
   background: #ddd url("//ssl.gstatic.com/editor/button-bg.png") repeat-x top left;
@@ -17,143 +17,244 @@
 }
 
 /* Pseudo-rounded corners. */
-.anychart-menu-button-outer-box,
-.anychart-menu-button-inner-box {
+.anychart-ce-menu-button-outer-box,
+.anychart-ce-menu-button-inner-box {
   border-style: solid;
   border-color: #aaa;
   vertical-align: top;
 }
-.anychart-menu-button-outer-box {
+.anychart-ce-menu-button-outer-box {
   margin: 0;
   border-width: 1px 0;
   padding: 0;
 }
-.anychart-menu-button-inner-box {
+.anychart-ce-menu-button-inner-box {
   margin: 0 -1px;
   border-width: 0 1px;
   padding: 3px 4px;
 }
 
 /* Pre-IE7 IE hack; ignored by IE7 and all non-IE browsers. */
-* html .anychart-menu-button-inner-box {
+* html .anychart-ce-menu-button-inner-box {
   /* IE6 needs to have the box shifted to make the borders line up. */
   left: -1px;
 }
 
 /* Pre-IE7 BiDi fixes. */
-* html .anychart-menu-button-rtl .anychart-menu-button-outer-box {
+* html .anychart-ce-menu-button-rtl .anychart-ce-menu-button-outer-box {
   /* @noflip */ left: -1px;
   /* @noflip */ right: auto;
 }
-* html .anychart-menu-button-rtl .anychart-menu-button-inner-box {
+* html .anychart-ce-menu-button-rtl .anychart-ce-menu-button-inner-box {
   /* @noflip */ right: auto;
 }
 
 /* IE7-only hack; ignored by all other browsers. */
-*:first-child+html .anychart-menu-button-inner-box {
+*:first-child+html .anychart-ce-menu-button-inner-box {
   /* IE7 needs to have the box shifted to make the borders line up. */
   left: -1px;
 }
 /* IE7 BiDi fix. */
-*:first-child+html .anychart-menu-button-rtl .anychart-menu-button-inner-box {
+*:first-child+html .anychart-ce-menu-button-rtl .anychart-ce-menu-button-inner-box {
   /* @noflip */ left: 1px;
   /* @noflip */ right: auto;
 }
 
 /* Safari-only hacks. */
-::root .anychart-menu-button,
-::root .anychart-menu-button-outer-box,
-::root .anychart-menu-button-inner-box {
+::root .anychart-ce-menu-button,
+::root .anychart-ce-menu-button-outer-box,
+::root .anychart-ce-menu-button-inner-box {
   /* Required to make pseudo-rounded corners work on Safari. */
   line-height: 0;
 }
-::root .anychart-menu-button-caption,
-::root .anychart-menu-button-dropdown {
+::root .anychart-ce-menu-button-caption,
+::root .anychart-ce-menu-button-dropdown {
   /* Required to make pseudo-rounded corners work on Safari. */
   line-height: normal;
 }
 
 /* State: disabled. */
-.anychart-menu-button-disabled {
+.anychart-ce-menu-button-disabled {
   background-image: none !important;
   .opacity(0.3);
   filter: alpha(opacity=30);
   cursor: default;
 }
-.anychart-menu-button-disabled .anychart-menu-button-outer-box,
-.anychart-menu-button-disabled .anychart-menu-button-inner-box,
-.anychart-menu-button-disabled .anychart-menu-button-caption,
-.anychart-menu-button-disabled .anychart-menu-button-dropdown {
+.anychart-ce-menu-button-disabled .anychart-ce-menu-button-outer-box,
+.anychart-ce-menu-button-disabled .anychart-ce-menu-button-inner-box,
+.anychart-ce-menu-button-disabled .anychart-ce-menu-button-caption,
+.anychart-ce-menu-button-disabled .anychart-ce-menu-button-dropdown {
   color: #333 !important;
   border-color: #999 !important;
 }
 
 /* Pre-IE7 IE hack; ignored by IE7 and all non-IE browsers. */
-* html .anychart-menu-button-disabled {
+* html .anychart-ce-menu-button-disabled {
   margin: 2px 1px !important;
   padding: 0 1px !important;
 }
 
 /* IE7-only hack; ignored by all other browsers. */
-*:first-child+html .anychart-menu-button-disabled {
+*:first-child+html .anychart-ce-menu-button-disabled {
   margin: 2px 1px !important;
   padding: 0 1px !important;
 }
 
 /* State: hover. */
-.anychart-menu-button-hover .anychart-menu-button-outer-box,
-.anychart-menu-button-hover .anychart-menu-button-inner-box {
+.anychart-ce-menu-button-hover .anychart-ce-menu-button-outer-box,
+.anychart-ce-menu-button-hover .anychart-ce-menu-button-inner-box {
   border-color: #9cf #69e #69e #7af !important; /* Hover border wins. */
 }
 
 /* State: active, open. */
-.anychart-menu-button-active,
-.anychart-menu-button-open {
+.anychart-ce-menu-button-active,
+.anychart-ce-menu-button-open {
   background-color: #bbb;
   background-position: bottom left;
 }
 
 /* State: focused. */
-.anychart-menu-button-focused .anychart-menu-button-outer-box,
-.anychart-menu-button-focused .anychart-menu-button-inner-box {
+.anychart-ce-menu-button-focused .anychart-ce-menu-button-outer-box,
+.anychart-ce-menu-button-focused .anychart-ce-menu-button-inner-box {
   border-color: orange;
 }
 
 /* Caption style. */
-.anychart-menu-button-caption {
+.anychart-ce-menu-button-caption {
   padding: 0 4px 0 0;
   vertical-align: top;
 }
 
 /* Dropdown arrow style. */
-.anychart-menu-button-dropdown {
+.anychart-ce-menu-button-dropdown {
   height: 15px;
   width: 7px;
   /* Client apps may override the URL at which they serve the sprite. */
   //todo
-  background: url("//ssl.gstatic.com/editor/editortoolbar.png") no-repeat -388px 0;
+  //background: url("//ssl.gstatic.com/editor/editortoolbar.png") no-repeat -388px 0;
   vertical-align: top;
 }
 
 /* Pill (collapsed border) styles. */
 /* TODO(gboyer): Remove specific menu button styles and have any button support being a menu button. */
-.anychart-menu-button-collapse-right,
-.anychart-menu-button-collapse-right .anychart-menu-button-outer-box,
-.anychart-menu-button-collapse-right .anychart-menu-button-inner-box {
+.anychart-ce-menu-button-collapse-right,
+.anychart-ce-menu-button-collapse-right .anychart-ce-menu-button-outer-box,
+.anychart-ce-menu-button-collapse-right .anychart-ce-menu-button-inner-box {
   margin-right: 0;
 }
 
-.anychart-menu-button-collapse-left,
-.anychart-menu-button-collapse-left .anychart-menu-button-outer-box,
-.anychart-menu-button-collapse-left .anychart-menu-button-inner-box {
+.anychart-ce-menu-button-collapse-left,
+.anychart-ce-menu-button-collapse-left .anychart-ce-menu-button-outer-box,
+.anychart-ce-menu-button-collapse-left .anychart-ce-menu-button-inner-box {
   margin-left: 0;
 }
 
-.anychart-menu-button-collapse-left .anychart-menu-button-inner-box  {
+.anychart-ce-menu-button-collapse-left .anychart-ce-menu-button-inner-box  {
   border-left: 1px solid #fff;
 }
 
-.anychart-menu-button-collapse-left.anychart-menu-button-checked
-.anychart-menu-button-inner-box {
+.anychart-ce-menu-button-collapse-left.anychart-ce-menu-button-checked
+.anychart-ce-menu-button-inner-box {
   border-left: 1px solid #ddd;
+}
+
+.anychart-ce-flat-menu-button {
+  .border-radius(2px);
+
+  background-color: #f5f5f5;
+  .gradient(#f5f5f5; #f1f1f1);
+  .box-sizing(content-box);
+
+  border: 1px solid #dcdcdc;
+  color: #333;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: bold;
+  line-height: 27px;
+  list-style: none;
+  margin: 0 2px;
+  min-width: 46px;
+  outline: none;
+  padding: 0 18px 0 6px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.anychart-ce-flat-menu-button-disabled {
+  .box-shadow(none);
+
+  //border-color: @color-border-disabled !important;
+  color: @color-text-disabled;
+  cursor: default;
+
+  .anychart-ce-flat-menu-button-dropdown {
+    border-color: @color-border-disabled transparent;
+  }
+}
+
+.anychart-ce-flat-menu-button-hover {
+  //background-color: #f8f8f8;
+  //.gradient(#f8f8f8; #f1f1f1);
+  //
+  //.box-shadow(0 1px 1px rgba(0, 0, 0, .1));
+  //border-color: #c6c6c6;
+  //color: #111;
+}
+
+.anychart-ce-flat-menu-button {
+  .anychart-ce-flat-menu-button-open,
+  .anychart-ce-flat-menu-button-active {
+    z-index: 2;
+  }
+}
+
+.anychart-ce-flat-menu-button-focused {
+  border-color: #4d90fe;
+}
+
+.anychart-ce-flat-menu-button-caption {
+  .box-sizing(border-box);
+
+  white-space: nowrap;
+  padding-right: 20px;
+  text-overflow: ellipsis;
+}
+
+.anychart-ce-flat-menu-button-dropdown {
+  @thickness: 3px;
+  @unitSize: 6px;
+  width: 0;
+  height: 0;
+  top: 4px;
+
+  border-right: @unitSize solid transparent;
+  border-left: @unitSize solid transparent;
+  border-top: (@unitSize * 1) solid @color-arrow;
+  margin-bottom: @unitSize;
+
+  &:before {
+    content: "";
+    position: absolute;
+
+    border-right: @unitSize solid transparent;
+    border-left: @unitSize solid transparent;
+    border-top: (@unitSize * 1) solid @color-background;
+    margin-bottom: @unitSize;
+
+    left: -@unitSize;
+    top: -(@unitSize + @thickness);
+  }
+}
+
+.anychart-ce-flat-menu-button-open .anychart-ce-flat-menu-button-dropdown {
+  .rotate(180deg);
+}
+
+.anychart-ce-flat-menu-button-active,
+.anychart-ce-flat-menu-button-open,
+.anychart-ce-flat-menu-button-selected,
+.anychart-ce-flat-menu-button-hover {
+  .anychart-ce-flat-menu-button-dropdown {
+    //border-color: #595959 transparent;
+  }
 }

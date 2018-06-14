@@ -1,6 +1,7 @@
 goog.provide('chartEditor.settings.axes.Radar');
 
 goog.require('chartEditor.SettingsPanelZippy');
+goog.require('chartEditor.controls.select.Scales');
 goog.require('chartEditor.settings.Labels');
 goog.require('chartEditor.settings.Ticks');
 
@@ -17,7 +18,7 @@ chartEditor.settings.axes.Radar = function(model, opt_domHelper) {
   this.key = [['chart'], ['settings'], 'xAxis()'];
 
   this.allowEnabled(true);
-  this.addClassName(goog.getCssName('anychart-settings-panel-axis-radar'));
+  this.addClassName(goog.getCssName('anychart-ce-settings-panel-axis-radar'));
 };
 goog.inherits(chartEditor.settings.axes.Radar, chartEditor.SettingsPanelZippy);
 
@@ -27,6 +28,12 @@ chartEditor.settings.axes.Radar.prototype.createDom = function() {
   chartEditor.settings.axes.Radar.base(this, 'createDom');
 
   var model = /** @type {chartEditor.EditorModel} */(this.getModel());
+
+  var scale = new chartEditor.controls.select.Scales({label: 'Scale'});
+  scale.init(model, this.genKey('scale()'));
+  this.addChildControl(scale);
+
+  this.addContentSeparator();
 
   //region Labels
   var labels = new chartEditor.settings.Labels(model);

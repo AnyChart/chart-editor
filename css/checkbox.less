@@ -2,7 +2,7 @@
 
 /* ------- CHECKBOX ------- */
 
-.anychart-checkbox {
+.anychart-ce-checkbox {
   cursor: pointer;
   display: inline-block;
 
@@ -13,7 +13,7 @@
   white-space: nowrap;
   vertical-align: middle;
 
-  .anychart-checkbox-element {
+  .anychart-ce-checkbox-element {
     .border-radius(4px);
     .box-sizing(content-box);
 
@@ -29,65 +29,65 @@
   }
 }
 
-.anychart-checkbox-hover {
-  .anychart-checkbox-element {
+.anychart-ce-checkbox-hover {
+  .anychart-ce-checkbox-element {
 
   }
 }
 
-.anychart-checkbox-focused {
-  .anychart-checkbox-element {
+.anychart-ce-checkbox-focused {
+  .anychart-ce-checkbox-element {
     border-color: @color-shadow;
   }
 }
 
-.anychart-checkbox-checked {
+.anychart-ce-checkbox-checked {
   background-color: #fff;
   background-color: rgba(255,255,255,.65);
 
-  .anychart-checkbox-checkmark {
+  .anychart-ce-checkbox-checkmark {
     display: block;
   }
 }
 
-.anychart-checkbox-undetermined {
+.anychart-ce-checkbox-undetermined {
 
 }
 
-.anychart-checkbox-unchecked {
-  .anychart-checkbox-checkmark {
+.anychart-ce-checkbox-unchecked {
+  .anychart-ce-checkbox-checkmark {
     display: none !important;
   }
 }
 
-.anychart-checkbox-caption {
+.anychart-ce-checkbox-caption {
   color: @color-label;
   padding: 0 10px;
 }
 
-.anychart-checkbox-disabled {
+.anychart-ce-checkbox-disabled {
   cursor: default;
   color: @color-text-disabled;
 
-  .anychart-checkbox-element {
+  .anychart-ce-checkbox-element {
     //background-color: @color-border-disabled;
     border: 1px solid @color-border-disabled !important;
     cursor: default;
   }
-  .anychart-checkbox-caption {
+  .anychart-ce-checkbox-caption {
     color: @color-text-disabled;
   }
 }
-.anychart-checkbox-disabled.anychart-checkbox-checked {
-  .anychart-checkbox-element {
+.anychart-ce-checkbox-disabled.anychart-ce-checkbox-checked {
+  .anychart-ce-checkbox-element {
     background-color: @color-background !important;
   }
-  .anychart-checkbox-checkmark {
+  .anychart-ce-checkbox-checkmark {
     color: @color-text-disabled !important;
   }
 }
 
-.anychart-checkbox-checkmark {
+.anychart-ce-checkbox-checkmark {
   display: none;
   height: 15px;
   width: 15px;

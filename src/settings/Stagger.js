@@ -15,7 +15,7 @@ goog.require('chartEditor.controls.LabeledControl');
 chartEditor.settings.Stagger = function(model, opt_domHelper) {
   chartEditor.settings.Stagger.base(this, 'constructor', model, 'Stagger Mode', opt_domHelper);
 
-  this.addClassName(goog.getCssName('anychart-chart-editor-settings-stagger'));
+  this.addClassName(goog.getCssName('anychart-ce-settings-stagger'));
 };
 goog.inherits(chartEditor.settings.Stagger, chartEditor.SettingsPanel);
 

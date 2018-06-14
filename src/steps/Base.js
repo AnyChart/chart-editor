@@ -25,6 +25,12 @@ chartEditor.steps.Base = function(index, opt_domHelper) {
   chartEditor.steps.Base.base(this, 'constructor', opt_domHelper);
 
   /**
+   * @type {number}
+   * @private
+   */
+  this.index_ = index;
+
+  /**
    * @type {string}
    * @private
    */
@@ -37,26 +43,29 @@ chartEditor.steps.Base = function(index, opt_domHelper) {
   this.title_ = 'Step';
 
   /**
-   * Enabled transition to next step.
    * @type {boolean}
    * @private
    */
-  this.enableNextStep_ = true;
+  this.enabled_ = true;
 
   /**
-   * @type {number}
-   * @private
+   * @type {chartEditor.Tabs|null}
    */
-  this.index_ = index;
+  this.tabs = null;
+
+  this.tabsSettings = {};
+
+  this.addClassName(goog.getCssName('anychart-ce-step'));
 };
 goog.inherits(chartEditor.steps.Base, chartEditor.Component);
 
 
 /**
- * CSS class name.
- * @type {string}
+ * @returns {number}
  */
-chartEditor.steps.Base.CSS_CLASS = goog.getCssName('anychart-chart-editor-step');
+chartEditor.steps.Base.prototype.getIndex = function() {
+  return this.index_;
+};
 
 
 /**
@@ -88,17 +97,77 @@ chartEditor.steps.Base.prototype.title = function(opt_value) {
 
 
 /**
- * @returns {number}
+ * Getter/setter for enabled state of the step
+ * @param {boolean=} opt_value
+ * @return {boolean|chartEditor.steps.Base} Enabled state or self for chaining
  */
-chartEditor.steps.Base.prototype.getIndex = function() {
-  return this.index_;
+chartEditor.steps.Base.prototype.enabled = function(opt_value) {
+  if (goog.isDef(opt_value)) {
+    this.enabled_ = opt_value;
+    return this;
+  }
+  return this.enabled_;
 };
 
 
-/** @override */
-chartEditor.steps.Base.prototype.createDom = function() {
-  goog.base(this, 'createDom');
-
-  var element = /** @type {Element} */(this.getElement());
-  goog.dom.classlist.add(element, chartEditor.steps.Base.CSS_CLASS);
+/**
+ * @param {boolean|Object} value
+ */
+chartEditor.steps.Base.prototype.setup = function(value) {
+  if (goog.isBoolean(value)) {
+    this.enabled(value);
+  } else {
+    if (goog.isDef(value['enabled'])) {
+      this.enabled(value['enabled']);
+    }
+  }
 };
+
+
+/** @inheritDoc */
+chartEditor.steps.Base.prototype.enterDocument = function() {
+  // Should be called before enterDocument()!
+  if (this.tabs)
+    this.tabs.updateExclusions();
+
+  chartEditor.steps.Base.base(this, 'enterDocument');
+};
+
+
+/**
+ * Allows to enable/disable tab by name.
+ *
+ * @param {chartEditor.enums.EditorTabs} tabName
+ * @param {boolean|Object} value Boolean value to enable/disable tab or configuration object
+ * @return {chartEditor.steps.Base} Self for chaining
+ */
+chartEditor.steps.Base.prototype.tab = function(tabName, value) {
+  value = goog.isObject(value) ? value['enabled'] : !!value;
+
+  if (this.tabs)
+    /** @type {chartEditor.Tabs} */(this.tabs).enableTabByName(tabName, value);
+  else {
+    // Write setting to use it after draw
+    this.tabsSettings[tabName] = this.tabsSettings[tabName] ? this.tabsSettings[tabName] : {};
+    this.tabsSettings[tabName].enabled = value;
+  }
+
+  return this;
+};
+
+
+/** @inheritDoc */
+chartEditor.steps.Base.prototype.disposeInternal = function() {
+  goog.dispose(this.tabs);
+  this.tabs = null;
+
+  chartEditor.steps.Base.base(this, 'disposeInternal');
+};
+
+
+//exports
+(function() {
+  var proto = chartEditor.steps.Base.prototype;
+  proto['enabled'] = proto.enabled;
+  proto['tab'] = proto.tab;
+})();

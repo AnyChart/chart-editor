@@ -1,29 +1,48 @@
 {
   "name": "chart-editor",
   "version": "1.0.0",
-  "description": "Anychart Chart Editor utility",
+  "description": "AnyChart Chart Editor utility",
   "main": "index.js",
   "scripts": {
-    "compile": "sh compile.sh",
-    "deps":  "sh deps.sh",
-    "css":  "echo 'Style me!'",
-    "build-help": "java -jar node_modules/google-closure-compiler/compiler.jar --help"
+    "build": "sh ./bin/build.sh",
+    "compile": "sh ./bin/build.sh compile",
+    "deps": "sh ./bin/build.sh deps",
+    "css": "sh ./bin/build.sh css"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/AnyChart/chart-editor.git"
   },
   "keywords": [
-    "anychart"
+    "anychart",
+    "anystock",
+    "anymap",
+    "charts",
+    "plots",
+    "line charts",
+    "bar charts",
+    "pie charts",
+    "choropleth map",
+    "javascript charts",
+    "javascript plots",
+    "javascript",
+    "SVG",
+    "HTML5",
+    "VML"
   ],
-  "author": "anychart",
-  "license": "ISC",
+  "author": "AnyChart",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/AnyChart/chart-editor/issues"
   },
-  "homepage": "https://github.com/AnyChart/chart-editor#readme",
+  "homepage": "https://github.com/AnyChart/chart-editor",
   "devDependencies": {
     "google-closure-compiler": "^20180204.0.0",
-    "google-closure-library": "^20180204.0.0"
+    "google-closure-library": "^20180204.0.0",
+    "less": "^3.0.1",
+    "less-plugin-clean-css": "^1.5.1"
+  },
+  "dependencies": {
+    "anychart": "8.2.x"
   }
 }

@@ -1,15 +1,10 @@
 goog.provide('chartEditor.steps.SetupChart');
 
-goog.require('chartEditor.Chart');
-goog.require('chartEditor.ChartTypeSelector');
-goog.require('chartEditor.DataSetPanelList');
-goog.require('chartEditor.events');
-goog.require('chartEditor.steps.Base');
-goog.require('chartEditor.Component');
-goog.require('goog.dom.classlist');
-goog.require('goog.format.JsonPrettyPrinter');
-
-goog.forwardDeclare('anychart.data.Mapping');
+goog.require("chartEditor.Chart");
+goog.require("chartEditor.ChartTypeSelector");
+goog.require("chartEditor.Component");
+goog.require("chartEditor.DataSetPanelList");
+goog.require("chartEditor.steps.Base");
 
 
 /**
@@ -22,8 +17,10 @@ goog.forwardDeclare('anychart.data.Mapping');
 chartEditor.steps.SetupChart = function (index, opt_domHelper) {
     chartEditor.steps.SetupChart.base(this, 'constructor', index, opt_domHelper);
 
-    this.name('Setup Chart');
+    this.name(chartEditor.enums.EditorSteps.CHART);
+
     this.title('Setup Chart');
+
     this.addClassName('anychart-setup-chart-step');
 };
 goog.inherits(chartEditor.steps.SetupChart, chartEditor.steps.Base);
@@ -41,7 +38,7 @@ chartEditor.steps.SetupChart.prototype.createDom = function () {
 
     // user data and predefined data sets sections wrapper
     var wrapper = new chartEditor.Component();
-    wrapper.addClassName('anychart-prepare-data-step-wrapper');
+    wrapper.addClassName('anychart-ce-data-step-wrapper');
     this.addChild(wrapper, true);
 
     var chartDataSettings = new chartEditor.ChartTypeSelector(model);
@@ -52,7 +49,7 @@ chartEditor.steps.SetupChart.prototype.createDom = function () {
     wrapper.addChild(chartPreview, true);
 
     this.chartWrapper_ = chartPreview.getElement();
-    var caption = goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-chart-editor-section-caption anychart-chart-preview-caption', 'Chart Preview');
+    var caption = goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-ce-section-caption anychart-chart-preview-caption', 'Chart Preview');
     goog.dom.appendChild(this.chartWrapper_, caption);
 };
 

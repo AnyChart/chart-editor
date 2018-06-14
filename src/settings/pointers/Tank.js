@@ -21,7 +21,7 @@ chartEditor.settings.pointers.Tank = function(model, type, pointerId, pointerInd
 
   this.skipSettings(['stroke()']);
 
-  this.addClassName(goog.getCssName('anychart-settings-panel-pointer-tank'));
+  this.addClassName(goog.getCssName('anychart-ce-settings-panel-pointer-tank'));
 };
 goog.inherits(chartEditor.settings.pointers.Tank, chartEditor.settings.pointers.LinearBase);
 

@@ -1,9 +1,11 @@
 goog.provide('chartEditor.settings.Grid');
 
-goog.require('chartEditor.SettingsPanel');
-goog.require('chartEditor.checkbox.Base');
-goog.require('chartEditor.input.Palette');
-goog.require('chartEditor.settings.Stroke');
+goog.require("chartEditor.SettingsPanel");
+goog.require("chartEditor.checkbox.Base");
+goog.require("chartEditor.controls.LabeledControl");
+goog.require("chartEditor.controls.input.Palette");
+goog.require("chartEditor.controls.select.Scales");
+goog.require("chartEditor.settings.Stroke");
 
 
 /**
@@ -19,79 +21,52 @@ chartEditor.settings.Grid = function(model, name, opt_domHelper) {
   this.gridExists = false;
 
   var chartType = model.getModel()['chart']['type'];
-  this.isRadarGrid = chartType === 'radar' || chartType === 'polar';
+  this.isPolar_ = chartType === 'radar' || chartType === 'polar';
 };
 goog.inherits(chartEditor.settings.Grid, chartEditor.SettingsPanel);
-
-
-/**
- * Default CSS class.
- * @type {string}
- */
-chartEditor.settings.Grid.CSS_CLASS = goog.getCssName('anychart-settings-panel-grid-single');
 
 
 /** @override */
 chartEditor.settings.Grid.prototype.createDom = function() {
   chartEditor.settings.Grid.base(this, 'createDom');
 
-  var element = this.getElement();
-  goog.dom.classlist.add(element, chartEditor.settings.Grid.CSS_CLASS);
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
 
-  var content = this.getContentElement();
-  //var model = /** @type {chartEditor.EditorModel} */(this.getModel());
+  if (this.isPolar_) {
+    var xScale = new chartEditor.controls.select.Scales({label: 'X Scale'});
+    xScale.init(model, this.genKey('xScale()'));
+    this.addChildControl(xScale);
 
-  if (!this.isRadarGrid) {
-    this.firstLine_ = new chartEditor.checkbox.Base();
-    this.firstLine_.setCaption('Draw first line');
-    this.addChild(this.firstLine_, true);
+    var yScale = new chartEditor.controls.select.Scales({label: 'Y Scale'});
+    yScale.init(model, this.genKey('yScale()'));
+    this.addChildControl(yScale);
+
+  } else {
+
+    var scale = new chartEditor.controls.select.Scales({label: 'Scale'});
+    scale.init(model, this.genKey('scale()'));
+    this.addChildControl(scale);
+
+    var drawFirstLine = new chartEditor.checkbox.Base();
+    drawFirstLine.setCaption('Draw first line');
+    drawFirstLine.init(model, this.genKey('drawFirstLine()'));
+    this.addChildControl(drawFirstLine);
   }
 
-  this.lastLine_ = new chartEditor.checkbox.Base();
-  this.lastLine_.setCaption('Draw last line');
-  this.addChild(this.lastLine_, true);
+  var drawLastLine = new chartEditor.checkbox.Base();
+  drawLastLine.setCaption('Draw last line');
+  drawLastLine.init(model, this.genKey('drawLastLine()'));
+  this.addChildControl(drawLastLine);
 
-  var paletteLabel = goog.dom.createDom(
-      goog.dom.TagName.LABEL,
-      [
-        goog.ui.INLINE_BLOCK_CLASSNAME,
-        goog.getCssName('anychart-settings-label')
-      ],
-      'Palette');
-  goog.dom.appendChild(content, paletteLabel);
-  this.registerLabel(paletteLabel);
+  var palette = new chartEditor.controls.input.Palette('Comma separated colors');
+  var paletteLC = new chartEditor.controls.LabeledControl(palette, 'Palette');
+  paletteLC.init(model, this.genKey('palette()'));
+  this.addChildControl(paletteLC);
 
-  var paletteInput = new chartEditor.input.Palette('Comma separated colors');
-  this.addChild(paletteInput, true);
-  goog.dom.classlist.add(paletteInput.getElement(), 'input-palette');
-  goog.dom.classlist.add(paletteInput.getElement(), 'anychart-chart-editor-settings-control-right');
-  this.palette_ = paletteInput;
-
-  goog.dom.appendChild(content, goog.dom.createDom(
-      goog.dom.TagName.DIV,
-      goog.getCssName('anychart-chart-editor-settings-item-gap')));
-
-  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
-  var stroke = new chartEditor.settings.Stroke(model, 'Stroke');
-  stroke.exclude(true);
-  this.addChild(stroke, true);
+  var stroke = new chartEditor.settings.Stroke(model);
+  stroke.setKey(this.genKey('stroke()'));
+  this.addChildControl(stroke);
   this.stroke_ = stroke;
-};
-
-
-/**
- * Update model keys.
- */
-chartEditor.settings.Grid.prototype.updateKeys = function() {
-  chartEditor.settings.Grid.base(this, 'updateKeys');
-  if (this.isExcluded()) return;
-
-  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
-  if (this.firstLine_) this.firstLine_.init(model, this.genKey('drawFirstLine()'));
-  if (this.lastLine_) this.lastLine_.init(model, this.genKey('drawLastLine()'));
-  if (this.palette_) this.palette_.init(model, this.genKey('palette()'));
-
-  if (this.stroke_) this.stroke_.setKey(this.genKey('stroke()'));
 };
 
 
@@ -99,52 +74,31 @@ chartEditor.settings.Grid.prototype.updateKeys = function() {
 chartEditor.settings.Grid.prototype.onChartDraw = function(evt) {
   var model = /** @type {chartEditor.EditorModel} */(this.getModel());
   this.getHandler().listenOnce(model, chartEditor.events.EventType.CHART_DRAW, this.onChartDraw);
-  if (this.isExcluded()) return;
 
-  var chart = evt.chart;
-
-  if (!this.gridExists) {
+  if (!this.isExcluded()) {
+    var chart = evt.chart;
     var stringKey = chartEditor.EditorModel.getStringKey(this.key);
     var splittedKey = stringKey.split('.');
+    var elementsStat;
 
     if (splittedKey.length === 1)
-      this.gridExists = stringKey === 'xGrid()' ? !!chart.getXGridsCount() : !!chart.getYGridsCount();
+      elementsStat = chart['getStat']('chartElements');
     else {
       // stock
       var plotKey = splittedKey[0];
       stringKey = splittedKey[1];
-      var plot = chartEditor.binding.exec(chart, plotKey);
-      this.gridExists = stringKey === 'xGrid()' ? !!plot.getXGridsCount() : !!plot.getYGridsCount();
+      var plot = /** @type {Object} */(chartEditor.binding.exec(chart, plotKey));
+      elementsStat = plot['getStat']('chartElements');
     }
+
+    this.gridExists = !!(stringKey === 'xGrid()' ? elementsStat['grids']['x'] : elementsStat['grids']['y']);
     this.stroke_.exclude(!this.gridExists);
+
+    if (this.gridExists) {
+      this.getHandler().unlisten(model, chartEditor.events.EventType.CHART_DRAW, this.onChartDraw);
+      chartEditor.settings.Grid.base(this, 'onChartDraw', evt);
+
+    } else
+      this.setContentEnabled(false);
   }
-
-  if (evt.rebuild && this.gridExists) {
-    this.enableContentCheckbox.setValueByTarget(chart);
-    this.setContentEnabled(this.enableContentCheckbox.isChecked());
-
-    if (this.firstLine_) this.firstLine_.setValueByTarget(chart);
-    this.lastLine_.setValueByTarget(chart);
-    this.palette_.setValueByTarget(chart, true);
-  } else {
-    this.setContentEnabled(false);
-  }
-};
-
-
-/** @override */
-chartEditor.settings.Grid.prototype.disposeInternal = function() {
-  goog.dispose(this.firstLine_);
-  this.firstLine_ = null;
-
-  goog.dispose(this.lastLine_);
-  this.lastLine_ = null;
-
-  goog.dispose(this.palette_);
-  this.palette_ = null;
-
-  goog.dispose(this.stroke_);
-  this.stroke_ = null;
-
-  chartEditor.settings.Grid.base(this, 'disposeInternal');
 };

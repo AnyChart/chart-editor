@@ -7,7 +7,6 @@ goog.require('chartEditor.controls.select.DataField');
 goog.require('chartEditor.controls.select.DataFieldSelectMenuCaption');
 goog.require('chartEditor.controls.select.DataFieldSelectMenuItem');
 goog.require('chartEditor.select.ChartType');
-goog.require('chartEditor.Component');
 goog.require('goog.ui.Button');
 goog.require('goog.ui.MenuItem');
 
@@ -36,7 +35,7 @@ chartEditor.ChartTypeSelector = function(model, opt_domHelper) {
 
   this.geoDataInputs_ = null;
 
-  this.addClassName('anychart-border-box');
+  this.addClassName('anychart-ce-border-box');
   this.addClassName('anychart-chart-data-settings');
 };
 goog.inherits(chartEditor.ChartTypeSelector, chartEditor.Component);
@@ -46,7 +45,7 @@ goog.inherits(chartEditor.ChartTypeSelector, chartEditor.Component);
 chartEditor.ChartTypeSelector.prototype.createDom = function() {
   chartEditor.ChartTypeSelector.base(this, 'createDom');
 
-  var caption = goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-chart-editor-section-caption anychart-chart-data-settings-caption', 'Chart Data Settings');
+  var caption = goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-ce-section-caption anychart-chart-data-settings-caption', 'Chart Data Settings');
   goog.dom.appendChild(this.getElement(), caption);
 
   var coreFieldsContainer = new chartEditor.Component();
@@ -108,7 +107,7 @@ chartEditor.ChartTypeSelector.prototype.onModelChange = function(evt) {
   this.activeAndFieldSelect_.addClassName('anychart-select-with-content');
   this.activeAndFieldSelect_.getSelect().setValueByModel({active: model.getActive()});
 
-  goog.dom.classlist.enable(this.activeAndFieldSelect_.getElement(), 'anychart-hidden', this.activeAndFieldSelect_.getSelect().getItemCount() <= 1);
+  goog.dom.classlist.enable(this.activeAndFieldSelect_.getElement(), 'anychart-ce-hidden', this.activeAndFieldSelect_.getSelect().getItemCount() <= 1);
 
   // Plots
   this.removeAllPlots_();
@@ -116,7 +115,7 @@ chartEditor.ChartTypeSelector.prototype.onModelChange = function(evt) {
   var dsSettings = model.getValue(['dataSettings']);
   for (var i = 0; i < dsSettings['mappings'].length; i++) {
     var plot = new chartEditor.PlotPanel(model, i);
-    if (i === 0) plot.addClassName('anychart-plot-panel-first');
+    if (i === 0) plot.addClassName('anychart-ce-plot-panel-first');
     this.plots_.push(plot);
     this.addChild(plot, true);
   }

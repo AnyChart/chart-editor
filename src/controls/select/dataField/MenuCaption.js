@@ -52,5 +52,5 @@ chartEditor.controls.select.DataFieldSelectMenuCaptionRenderer.prototype.createD
 
 /** @inheritDoc */
 chartEditor.controls.select.DataFieldSelectMenuCaptionRenderer.prototype.getCssClass = function() {
-    return 'anychart-control-menu-caption';
+    return 'anychart-ce-control-menu-caption';
 };

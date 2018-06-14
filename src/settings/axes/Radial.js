@@ -3,6 +3,7 @@ goog.provide('chartEditor.settings.axes.Radial');
 goog.require('chartEditor.SettingsPanelZippy');
 goog.require('chartEditor.checkbox.Base');
 goog.require('chartEditor.controls.select.DataField');
+goog.require('chartEditor.controls.select.Scales');
 goog.require('chartEditor.settings.Labels');
 goog.require('chartEditor.settings.Ticks');
 
@@ -17,8 +18,6 @@ chartEditor.settings.axes.Radial = function(model, opt_domHelper) {
   chartEditor.settings.axes.Radial.base(this, 'constructor', model, 0, 'Enabled', opt_domHelper);
 
   this.key = [['chart'], ['settings'], 'yAxis()'];
-
-  this.addClassName(goog.getCssName('anychart-settings-panel-axis-radial'));
 };
 goog.inherits(chartEditor.settings.axes.Radial, chartEditor.SettingsPanelZippy);
 
@@ -29,10 +28,9 @@ chartEditor.settings.axes.Radial.prototype.createDom = function() {
 
   var model = /** @type {chartEditor.EditorModel} */(this.getModel());
 
-  var inverted = new chartEditor.checkbox.Base();
-  inverted.setCaption('Inverted');
-  inverted.init(model, [['chart'], ['settings'], 'yScale().inverted()']);
-  this.addChildControl(inverted);
+  var scale = new chartEditor.controls.select.Scales({label: 'Scale'});
+  scale.init(model, this.genKey('scale()'));
+  this.addChildControl(scale);
 
   var overlapMode = new chartEditor.controls.select.DataField({label: 'Labels Overlap'});
   overlapMode.getControl().setOptions([

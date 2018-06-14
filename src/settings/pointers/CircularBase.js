@@ -30,7 +30,7 @@ chartEditor.settings.pointers.CircularBase = function(model, type, pointerId, pa
   this.setName(name);
 
   this.allowEnabled(false);
-  this.addClassName(goog.getCssName('anychart-settings-panel-pointer-single'));
+  this.addClassName(goog.getCssName('anychart-ce-settings-panel-pointer-single'));
 };
 goog.inherits(chartEditor.settings.pointers.CircularBase, chartEditor.SettingsPanelZippy);
 
@@ -43,7 +43,7 @@ chartEditor.settings.pointers.CircularBase.prototype.createDom = function() {
 
   // region ==== Header
   var fill = new chartEditor.colorPicker.Base();
-  fill.addClassName(goog.getCssName('anychart-chart-editor-settings-control-right'));
+  fill.addClassName(goog.getCssName('anychart-ce-settings-control-right'));
   fill.init(model, this.genKey('fill()'));
   this.addHeaderChildControl(fill);
   // endregion
@@ -69,7 +69,8 @@ chartEditor.settings.pointers.CircularBase.prototype.onChartDraw = function(evt)
     var target = evt.chart;
 
     if (this.axisIndex_) {
-      var count = target.getAxesCount();
+      var elementsStat = target['getStat']('chartElements');
+      var count = elementsStat['axes'];
       if (count > 1) {
         this.axisIndex_.show();
         var options = [];

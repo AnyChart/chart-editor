@@ -1,8 +1,8 @@
 goog.provide('chartEditor.controls.select.DataField');
 
-goog.require('chartEditor.controls.LabeledControl');
-goog.require('chartEditor.controls.select.DataFieldSelect');
-goog.require('chartEditor.Component');
+goog.require("chartEditor.Component");
+goog.require("chartEditor.controls.LabeledControl");
+goog.require("chartEditor.controls.select.DataFieldSelect");
 
 
 /**
@@ -51,8 +51,8 @@ chartEditor.controls.select.DataField.prototype.setSelect = function(select) {
 
 
 /** @inheritDoc */
-chartEditor.controls.select.DataField.prototype.init = function(model, key, opt_callback, opt_noRebuild) {
-  chartEditor.controls.select.DataField.base(this, 'init', model, key, opt_callback, opt_noRebuild);
+chartEditor.controls.select.DataField.prototype.init = function(model, key, opt_callback, opt_noRebuild, opt_noRebuildMapping) {
+  chartEditor.controls.select.DataField.base(this, 'init', model, key, opt_callback, opt_noRebuild, opt_noRebuildMapping);
 
   this.updateExclusion();
 };

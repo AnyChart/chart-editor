@@ -1,12 +1,14 @@
 goog.provide('chartEditor.settings.scales.Base');
 
-goog.require('chartEditor.SettingsPanel');
-goog.require('chartEditor.controls.select.ScaleType');
-goog.require('chartEditor.settings.scales.LinearColorSpecific');
-goog.require('chartEditor.settings.scales.LinearSpecific');
-goog.require('chartEditor.settings.scales.LogarithmicSpecific');
-goog.require('chartEditor.settings.scales.OrdinalColorSpecific');
-goog.require('chartEditor.Component');
+goog.require("chartEditor.Component");
+goog.require("chartEditor.SettingsPanel");
+goog.require("chartEditor.controls.select.ScaleType");
+goog.require("chartEditor.settings.scales.DateTime");
+goog.require("chartEditor.settings.scales.Linear");
+goog.require("chartEditor.settings.scales.LinearColor");
+goog.require("chartEditor.settings.scales.Logarithmic");
+goog.require("chartEditor.settings.scales.Ordinal");
+goog.require("chartEditor.settings.scales.OrdinalColor");
 
 
 /**
@@ -19,53 +21,70 @@ goog.require('chartEditor.Component');
 chartEditor.settings.scales.Base = function(model, types, opt_domHelper) {
   chartEditor.settings.scales.Base.base(this, 'constructor', model, null, opt_domHelper);
 
-  this.descriptors_ = {
-    'linear': {
-      name: 'Linear',
-      classFunc: chartEditor.settings.scales.LinearSpecific
-    },
-    'log': {
-      name: 'Logarithmic',
-      classFunc: chartEditor.settings.scales.LogarithmicSpecific
-    },
-    'linear-color': {
-      name: 'Linear Color',
-      classFunc: chartEditor.settings.scales.LinearColorSpecific
-    },
-    'ordinal-color': {
-      name: 'Ordinal Color',
-      classFunc: chartEditor.settings.scales.OrdinalColorSpecific
-    }
-  };
-
-  this.typeOptions_ = [];
-
-  types = goog.isString(types) ? [types] : types;
-
-  for (var i = 0; i < types.length; i++) {
-    var type = types[i];
-    this.typeOptions_.push({value: type, caption: this.descriptors_[type].name});
-  }
+  this.scaleTypes_ = types;
 
   this.scaleType_ = '';
 
-  /**
-   * Scale instance.
-   * @type {?(anychart.scales.Linear|anychart.scales.Logarithmic|anychart.colorScalesModule.Ordinal|anychart.colorScalesModule.Linear)}
-   * @private
-   */
-  this.scale_ = null;
+  this.fixedScaleType_ = void 0;
 
   this.allowEnabled(false);
-
-  this.addClassName(goog.getCssName('anychart-settings-panel-scale-single'));
 };
 goog.inherits(chartEditor.settings.scales.Base, chartEditor.SettingsPanel);
+
+
+chartEditor.settings.scales.Base.descriptors = {
+  'ordinal': {
+    name: 'Ordinal',
+    classFunc: chartEditor.settings.scales.Ordinal,
+    ctor: 'scales.ordinal()'
+  },
+  'linear': {
+    name: 'Linear',
+    classFunc: chartEditor.settings.scales.Linear,
+    ctor: 'scales.linear()'
+  },
+  'log': {
+    name: 'Logarithmic',
+    classFunc: chartEditor.settings.scales.Logarithmic,
+    ctor: 'scales.log()'
+  },
+  'date-time': {
+    name: 'DateTime',
+    classFunc: chartEditor.settings.scales.DateTime,
+    ctor: 'scales.dateTime()'
+  },
+  'linear-color': {
+    name: 'Linear Color',
+    classFunc: chartEditor.settings.scales.LinearColor
+  },
+  'ordinal-color': {
+    name: 'Ordinal Color',
+    classFunc: chartEditor.settings.scales.OrdinalColor
+  }
+};
+
+
+/**
+ * Sets scale type to fixed value. Scale type selec control will be disabled.
+ * @param {string} value
+ */
+chartEditor.settings.scales.Base.prototype.setFixedScaleType = function(value) {
+  this.fixedScaleType_ = value;
+};
 
 
 /** @override */
 chartEditor.settings.scales.Base.prototype.createDom = function() {
   chartEditor.settings.scales.Base.base(this, 'createDom');
+
+  this.typeOptions_ = [];
+
+  var types = goog.isString(this.scaleTypes_) ? [this.scaleTypes_] : this.scaleTypes_;
+
+  for (var i = 0; i < types.length; i++) {
+    var scaleType = types[i];
+    this.typeOptions_.push({value: scaleType, caption: chartEditor.settings.scales.Base.descriptors[scaleType].name});
+  }
 
   var model = /** @type {chartEditor.EditorModel} */(this.getModel());
   var type = new chartEditor.controls.select.ScaleType({
@@ -75,13 +94,13 @@ chartEditor.settings.scales.Base.prototype.createDom = function() {
   type.getControl().setOptions(this.typeOptions_);
   type.init(model, this.genKey('type', true));
   this.addChild(type, true);
-  this.scaleTypeField_ = type;
+  this.scaleTypeField = type;
 
   var specificWrapper = new chartEditor.Component();
   this.addChild(specificWrapper, true);
   this.specificWrapper_ = specificWrapper;
 
-  goog.dom.appendChild(this.getContentElement(), goog.dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-clearboth')));
+  goog.dom.appendChild(this.getContentElement(), goog.dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-ce-clearboth')));
 };
 
 
@@ -89,13 +108,7 @@ chartEditor.settings.scales.Base.prototype.createDom = function() {
 chartEditor.settings.scales.Base.prototype.enterDocument = function() {
   chartEditor.settings.scales.Base.base(this, 'enterDocument');
 
-  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
-  var scale = model.getValue(this.getKey());
-  if (scale && scale.type)
-    this.updateSpecific(true);
-
-  else if (this.specificComponent_)
-    this.specificComponent_.exclude(true);
+  this.scaleTypeField.setEnabled(!this.fixedScaleType_);
 };
 
 
@@ -103,20 +116,17 @@ chartEditor.settings.scales.Base.prototype.enterDocument = function() {
 chartEditor.settings.scales.Base.prototype.onModelChange = function(evt) {
   chartEditor.settings.scales.Base.base(this, 'onModelChange', evt);
 
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
+
   if (!this.isExcluded()) {
-    var model = /** @type {chartEditor.EditorModel} */(this.getModel());
-    var scale = model.getValue(this.getKey());
-    var scaleType = scale ? scale.type : void 0;
-
-    if (this.scaleTypeField_) {
-      if (scaleType) {
-        this.scaleTypeField_.setValue(scaleType, true);
-        if (this.specificComponent_ && scaleType !== this.scaleType_)
-          this.specificComponent_.exclude(true);
-
-      } else
-        this.scaleTypeField_.setValue(null, true);
+    var scaleType = this.fixedScaleType_;
+    if (!scaleType) {
+      var scale = model.getValue(this.getKey());
+      scaleType = scale ? scale.type : void 0;
     }
+
+    this.scaleTypeField.setValue(scaleType ? scaleType : null, true);
+    this.updateSpecific();
   }
 };
 
@@ -126,19 +136,20 @@ chartEditor.settings.scales.Base.prototype.onChartDraw = function(evt) {
   chartEditor.settings.scales.Base.base(this, 'onChartDraw', evt);
 
   if (!this.isExcluded()) {
-    var target = evt.chart;
-    var stringKey = chartEditor.EditorModel.getStringKey(this.key);
-    this.scale_ = /** @type {anychart.colorScalesModule.Ordinal|anychart.colorScalesModule.Linear} */(chartEditor.binding.exec(target, stringKey));
-
-    if (this.scale_ && this.scaleTypeField_) {
-      var type = this.scale_.getType();
-      this.scaleTypeField_.setValue(type, true);
-      if (this.updateSpecific())
-        this.specificComponent_.onChartDraw(evt);
-
-    } else if (this.specificComponent_) {
-      this.specificComponent_.exclude(true);
+    var scaleType = this.fixedScaleType_;
+    if (!scaleType) {
+      var target = evt.chart;
+      var stringKey = chartEditor.EditorModel.getStringKey(this.key);
+      var scale = /** @type {Object} */(chartEditor.binding.exec(target, stringKey));
+      scaleType = scale && scale['getType']();
     }
+
+    if (scaleType) {
+      this.scaleTypeField.setValue(scaleType, true);
+    } else
+      this.scaleTypeField.setValue(null, true);
+
+    this.updateSpecific();
   }
 };
 
@@ -149,24 +160,24 @@ chartEditor.settings.scales.Base.prototype.onChartDraw = function(evt) {
  * @return {boolean}
  */
 chartEditor.settings.scales.Base.prototype.updateSpecific = function(opt_force) {
-  var selectValue = this.scaleTypeField_.getValue();
+  var selectValue = this.scaleTypeField.getValue();
   var newScaleType = selectValue && selectValue.value;
 
   if (newScaleType && (opt_force || newScaleType !== this.scaleType_)) {
     this.scaleType_ = newScaleType;
     var model = /** @type {chartEditor.EditorModel} */(this.getModel());
 
-    if (this.specificComponent_) {
-      this.specificWrapper_.removeChild(this.specificComponent_, true);
-      goog.dispose(this.specificComponent_);
+    if (this.specificComponent) {
+      this.specificWrapper_.removeChild(this.specificComponent, true);
+      goog.dispose(this.specificComponent);
     }
 
-    this.specificComponent_ = new this.descriptors_[this.scaleType_].classFunc(model);
-    this.specificComponent_.setKey(this.getKey());
-    this.specificComponent_.allowEnabled(false);
-    this.specificComponent_.skipSettings(this.skippedSettings);
+    this.specificComponent = new chartEditor.settings.scales.Base.descriptors[this.scaleType_].classFunc(model);
+    this.specificComponent.setKey(this.getKey());
+    this.specificComponent.allowEnabled(false);
+    this.specificComponent.skipSettings(this.skippedSettings);
 
-    this.specificWrapper_.addChild(this.specificComponent_, true);
+    this.specificWrapper_.addChild(this.specificComponent, true);
 
     return true;
   }
@@ -175,15 +186,24 @@ chartEditor.settings.scales.Base.prototype.updateSpecific = function(opt_force) 
 };
 
 
+/**
+ * @return {string|null} Scale type
+ */
+chartEditor.settings.scales.Base.prototype.getScaleType = function() {
+  var value = this.scaleTypeField && this.scaleTypeField.getValue();
+  return value && value.value;
+};
+
+
 /** @override */
 chartEditor.settings.scales.Base.prototype.disposeInternal = function() {
   goog.disposeAll([
-    this.scaleTypeField_,
-    this.specificComponent_
+    this.scaleTypeField,
+    this.specificComponent
   ]);
 
-  this.scaleTypeField_ = null;
-  this.specificComponent_ = null;
+  this.scaleTypeField = null;
+  this.specificComponent = null;
 
   chartEditor.settings.scales.Base.base(this, 'disposeInternal');
 };

@@ -1,11 +1,11 @@
 goog.provide('chartEditor.settings.pointers.Led');
 
-goog.require('chartEditor.comboBox.Percent');
-goog.require('chartEditor.controls.LabeledControl');
-goog.require('chartEditor.controls.select.DataField');
-goog.require('chartEditor.input.Numbers');
-goog.require('chartEditor.settings.pointers.LinearBase');
-goog.require('chartEditor.settings.scales.Base');
+goog.require("chartEditor.comboBox.Percent");
+goog.require("chartEditor.controls.LabeledControl");
+goog.require("chartEditor.controls.input.Numbers");
+goog.require("chartEditor.controls.select.DataField");
+goog.require("chartEditor.settings.pointers.LinearBase");
+goog.require("chartEditor.settings.scales.Base");
 
 
 /**
@@ -24,7 +24,7 @@ chartEditor.settings.pointers.Led = function(model, type, pointerId, pointerInde
 
   this.skipSettings(['fill()', 'stroke()']);
 
-  this.addClassName(goog.getCssName('anychart-settings-panel-pointer-led'));
+  this.addClassName(goog.getCssName('anychart-ce-settings-panel-pointer-led'));
 };
 goog.inherits(chartEditor.settings.pointers.Led, chartEditor.settings.pointers.LinearBase);
 
@@ -37,7 +37,7 @@ chartEditor.settings.pointers.Led.prototype.createDom = function() {
 
   this.addContentSeparator();
 
-  var count = new chartEditor.input.Numbers();
+  var count = new chartEditor.controls.input.Numbers();
   var countLC = new chartEditor.controls.LabeledControl(count, 'Count');
   countLC.init(model, this.genKey('count()'));
   this.addChildControl(countLC);

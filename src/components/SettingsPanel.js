@@ -47,7 +47,7 @@ chartEditor.SettingsPanel = function(model, opt_name, opt_domHelper) {
   this.allowRemove_ = false;
 
   /**
-   * @type {Array.<chartEditor.SettingsPanel|chartEditor.controls.LabeledControl|chartEditor.checkbox.Base|chartEditor.controls.select.Base|chartEditor.comboBox.Base|chartEditor.colorPicker.Base|chartEditor.input.Base>}
+   * @type {Array.<chartEditor.SettingsPanel|chartEditor.controls.LabeledControl|chartEditor.checkbox.Base|chartEditor.controls.select.Base|chartEditor.comboBox.Base|chartEditor.colorPicker.Base|chartEditor.controls.input.Base>}
    * @private
    */
   this.childControls_ = [];
@@ -66,7 +66,7 @@ chartEditor.SettingsPanel = function(model, opt_name, opt_domHelper) {
    */
   this.labels = [];
 
-  this.addClassName(goog.getCssName('anychart-settings-panel'));
+  this.addClassName(goog.getCssName('anychart-ce-settings-panel'));
 };
 goog.inherits(chartEditor.SettingsPanel, chartEditor.ComponentWithKey);
 
@@ -125,12 +125,18 @@ chartEditor.SettingsPanel.prototype.allowEnabled = function(value) {
 };
 
 
-/** @param {boolean} value */
-chartEditor.SettingsPanel.prototype.allowRemove = function(value) {
-  this.allowRemove_ = value;
-  if (this.removeButton) {
-    goog.style.setElementShown(this.removeButton, this.allowRemove_);
+/**
+ * @param {boolean=} opt_value
+ * @return {boolean}
+ */
+chartEditor.SettingsPanel.prototype.allowRemove = function(opt_value) {
+  if (goog.isDef(opt_value)) {
+    this.allowRemove_ = opt_value;
+    if (this.removeButton) {
+      goog.style.setElementShown(this.removeButton, this.allowRemove_);
+    }
   }
+  return this.allowRemove_;
 };
 
 
@@ -164,10 +170,10 @@ chartEditor.SettingsPanel.prototype.createDom = function() {
   if (this.name) {
     this.topEl.appendChild(dom.createDom(goog.dom.TagName.DIV, 'title', this.name));
   } else
-    goog.dom.classlist.add(element, 'anychart-settings-panel-no-title');
+    goog.dom.classlist.add(element, 'anychart-ce-settings-panel-no-title');
 
   if (this.allowRemove_) {
-    var removeBtn = dom.createDom(goog.dom.TagName.DIV, 'anychart-settings-panel-remove-btn', '');
+    var removeBtn = dom.createDom(goog.dom.TagName.DIV, 'anychart-ce-settings-panel-remove-btn', '');
     goog.dom.appendChild(this.topEl, removeBtn);
     this.removeButton = removeBtn;
   }
@@ -187,11 +193,11 @@ chartEditor.SettingsPanel.prototype.createDom = function() {
     this.enableContentCheckbox = enableContentCheckbox;
     this.topEl.appendChild(this.enableContentCheckbox && !this.enabledButtonContainer_ ? this.enableContentCheckbox.getElement() : null);
   } else
-    goog.dom.classlist.add(element, 'anychart-settings-panel-no-checkbox');
+    goog.dom.classlist.add(element, 'anychart-ce-settings-panel-no-checkbox');
 
   var noTop = !this.name && !this.allowRemove_ && !(this.enableContentCheckbox && !this.enabledButtonContainer_);
   if (noTop)
-    goog.dom.classlist.add(element, 'anychart-settings-panel-no-top');
+    goog.dom.classlist.add(element, 'anychart-ce-settings-panel-no-top');
 
   this.contentEl = dom.createDom(goog.dom.TagName.DIV, 'content');
   element.appendChild(this.contentEl);
@@ -259,14 +265,34 @@ chartEditor.SettingsPanel.prototype.onChartDraw = function(evt) {
   chartEditor.SettingsPanel.base(this, 'onChartDraw', evt);
 
   if (!this.isExcluded()) {
-    if (evt.rebuild && this.enableContentCheckbox && this.canBeEnabled()) {
-      this.enableContentCheckbox.setValueByTarget(evt.chart);
-      this.setContentEnabled(this.enableContentCheckbox.isChecked());
-    }
+    var model = /** @type {chartEditor.EditorModel} */(this.getModel());
+    var target;
+    if (this.key[0] && this.key[0][0] == 'standalones') {
+      var key = [this.key[0], this.key[1], 'instance'];
 
-    for (var i = 0; i < this.childControls_.length; i++) {
-      var control = this.childControls_[i];
-      if (control && !goog.isFunction(control.addChildControl)) control.setValueByTarget(evt.chart);
+      target = model.getValue(key);
+    } else
+      target = evt.chart;
+
+    if (target) {
+      if (evt.rebuild && this.enableContentCheckbox && this.canBeEnabled()) {
+        this.enableContentCheckbox.setValueByTarget(target);
+        this.setContentEnabled(this.enableContentCheckbox.isChecked());
+      }
+
+      var modelUpdated = false;
+      for (var i = 0; i < this.childControls_.length; i++) {
+        var control = this.childControls_[i];
+        if (control && !goog.isFunction(control.addChildControl)) {
+          modelUpdated = control.setValueByTarget(target) || modelUpdated;
+        }
+      }
+      if (modelUpdated) {
+        evt.stopPropagation();
+        evt.preventDefault();
+        model.removeAllListeners(chartEditor.events.EventType.CHART_DRAW);
+        model.dispatchUpdate();
+      }
     }
   }
 };
@@ -324,13 +350,13 @@ chartEditor.SettingsPanel.prototype.setContentEnabled = function(enabled) {
   for (var j = 0; j < this.labels.length; j++) {
     goog.dom.classlist.enable(
         goog.asserts.assert(this.labels[j]),
-        goog.getCssName('anychart-control-disabled'), !this.enabledContent);
+        goog.getCssName('anychart-ce-control-disabled'), !this.enabledContent);
   }
 
   if (this.topEl) {
     goog.dom.classlist.enable(
         goog.asserts.assert(this.topEl),
-        goog.getCssName('anychart-control-disabled'), !this.enabled);
+        goog.getCssName('anychart-ce-control-disabled'), !this.enabled);
   }
 
   if (this.enableContentCheckbox)
@@ -378,7 +404,7 @@ chartEditor.SettingsPanel.prototype.registerLabel = function(labelElement) {
 
 
 /**
- * @param {chartEditor.SettingsPanel|chartEditor.controls.LabeledControl|chartEditor.checkbox.Base|chartEditor.controls.select.Base|chartEditor.comboBox.Base|chartEditor.colorPicker.Base|chartEditor.input.Base} control
+ * @param {chartEditor.SettingsPanel|chartEditor.controls.LabeledControl|chartEditor.checkbox.Base|chartEditor.controls.select.Base|chartEditor.comboBox.Base|chartEditor.colorPicker.Base|chartEditor.controls.input.Base} control
  * @param {number=} opt_index
  * @return {boolean} true if control was added.
  */
@@ -405,7 +431,7 @@ chartEditor.SettingsPanel.prototype.addChildControl = function(control, opt_inde
 chartEditor.SettingsPanel.prototype.addContentSeparator = function() {
   goog.dom.appendChild(this.getContentElement(), goog.dom.createDom(
       goog.dom.TagName.DIV,
-      goog.getCssName('anychart-chart-editor-settings-item-separator-gaps')));
+      goog.getCssName('anychart-ce-settings-item-separator-gaps')));
 };
 
 

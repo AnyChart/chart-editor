@@ -13,10 +13,15 @@ chartEditor.events.EventType = {
 
   // editor model
   EDITOR_MODEL_UPDATE: goog.events.getUniqueId('editor-model-update'),
+  EDITOR_MODEL_UPDATE_SPECIAL: goog.events.getUniqueId('editor-model-update-special'),
 
   CHART_DRAW: goog.events.getUniqueId('chart-draw'),
 
   // widgets events
   FILTER_UPDATE: goog.events.getUniqueId('filter-update'),
-  PANEL_CLOSE: goog.events.getUniqueId('panel-close')
+  PANEL_CLOSE: goog.events.getUniqueId('panel-close'),
+
+  OPEN_SAMPLE_DIALOG: goog.events.getUniqueId('open-sample-dialog'),
+
+  LOCK: goog.events.getUniqueId('lock')
 };

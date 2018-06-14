@@ -1,12 +1,11 @@
 goog.provide('chartEditor.settings.Markers');
 
-goog.require('chartEditor.SettingsPanel');
-goog.require('chartEditor.colorPicker.Base');
-goog.require('chartEditor.comboBox.Base');
-goog.require('chartEditor.controls.select.DataFieldSelect');
-goog.require('chartEditor.settings.Stroke');
-goog.require('chartEditor.enums');
-
+goog.require("chartEditor.SettingsPanel");
+goog.require("chartEditor.colorPicker.Base");
+goog.require("chartEditor.comboBox.Base");
+goog.require("chartEditor.controls.select.DataFieldSelect");
+goog.require("chartEditor.enums");
+goog.require("chartEditor.settings.Stroke");
 
 
 /**
@@ -25,7 +24,7 @@ goog.inherits(chartEditor.settings.Markers, chartEditor.SettingsPanel);
  * Default CSS class.
  * @type {string}
  */
-chartEditor.settings.Markers.CSS_CLASS = goog.getCssName('anychart-chart-editor-settings-markers');
+chartEditor.settings.Markers.CSS_CLASS = goog.getCssName('anychart-ce-settings-markers');
 
 
 /** @override */
@@ -55,11 +54,11 @@ chartEditor.settings.Markers.prototype.createDom = function() {
   this.addChildControl(fill);
   goog.dom.classlist.add(fill.getElement(), goog.getCssName('markers-fill'));
 
-  goog.dom.appendChild(content, goog.dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-clearboth')));
+  goog.dom.appendChild(content, goog.dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-ce-clearboth')));
 
   goog.dom.appendChild(this.getContentElement(), goog.dom.createDom(
       goog.dom.TagName.DIV,
-      goog.getCssName('anychart-chart-editor-settings-item-gap')));
+      goog.getCssName('anychart-ce-settings-item-gap')));
 
   var stroke = new chartEditor.settings.Stroke(model);
   stroke.setKey(this.genKey('stroke()'));

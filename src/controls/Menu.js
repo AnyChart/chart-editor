@@ -64,6 +64,6 @@ chartEditor.controls.MenuRenderer.prototype.createDom = function(container) {
 
 /** @inheritDoc */
 chartEditor.controls.MenuRenderer.prototype.getCssClass = function () {
-  return 'anychart-control-menu';
+  return 'anychart-ce-control-menu';
 };
 // endregion

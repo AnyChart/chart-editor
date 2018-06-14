@@ -29,7 +29,7 @@ goog.inherits(chartEditor.settings.specific.TreeMap, chartEditor.SettingsPanel);
  * Default CSS class.
  * @type {string}
  */
-chartEditor.settings.specific.TreeMap.CSS_CLASS = goog.getCssName('anychart-settings-panel-pie');
+chartEditor.settings.specific.TreeMap.CSS_CLASS = goog.getCssName('anychart-ce-settings-panel-pie');
 
 
 /** @override */
@@ -77,7 +77,7 @@ chartEditor.settings.specific.TreeMap.prototype.createDom = function() {
 
   goog.dom.appendChild(this.getContentElement(), goog.dom.createDom(
       goog.dom.TagName.DIV,
-      goog.getCssName('anychart-chart-editor-settings-item-gap')));
+      goog.getCssName('anychart-ce-settings-item-gap')));
 
   var headers = new chartEditor.settings.TreemapHeaders(model);
   headers.allowEnabled(true);

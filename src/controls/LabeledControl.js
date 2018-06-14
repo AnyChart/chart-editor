@@ -4,7 +4,7 @@ goog.require('chartEditor.Component');
 
 
 /**
- * @param {(chartEditor.comboBox.Base|chartEditor.controls.select.Base|chartEditor.input.Base|chartEditor.colorPicker.Base)} control
+ * @param {(chartEditor.comboBox.Base|chartEditor.controls.select.Base|chartEditor.controls.input.Base|chartEditor.colorPicker.Base)} control
  * @param {string=} opt_label
  * @param {goog.dom.DomHelper=} opt_domHelper
  * @constructor
@@ -16,7 +16,7 @@ chartEditor.controls.LabeledControl = function(control, opt_label, opt_domHelper
   this.control_ = control;
   this.labelString_ = opt_label ? opt_label : '';
 
-  this.addClassName('anychart-chart-editor-labeled-control');
+  this.addClassName('anychart-ce-labeled-control');
 };
 goog.inherits(chartEditor.controls.LabeledControl, chartEditor.Component);
 
@@ -27,22 +27,19 @@ chartEditor.controls.LabeledControl.prototype.createDom = function() {
 
   var element = this.getElement();
 
-  this.label_ = goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-chart-editor-labeled-control-label', this.labelString_);
+  this.label_ = goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-ce-labeled-control-label', this.labelString_);
   goog.dom.appendChild(element, this.label_);
 
   this.addChild(this.control_, true);
-  goog.dom.classlist.add(this.control_.getElement(), 'anychart-chart-editor-settings-control');
-  goog.dom.classlist.add(this.control_.getElement(), 'anychart-chart-editor-settings-control-right');
+  goog.dom.classlist.add(this.control_.getElement(), 'anychart-ce-settings-control');
+  goog.dom.classlist.add(this.control_.getElement(), 'anychart-ce-settings-control-right');
 
-  // var clearBoth = new chartEditor.Component();
-  // clearBoth.addClassName('anychart-clearboth');
-  // this.addChild(clearBoth, true);
-  goog.dom.appendChild(this.getElement(), goog.dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-clearboth')));
+  goog.dom.appendChild(this.getElement(), goog.dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-ce-clearboth')));
 };
 
 
 /**
- * @return {(chartEditor.comboBox.Base|chartEditor.controls.select.Base|chartEditor.input.Base|chartEditor.colorPicker.Base)}
+ * @return {(chartEditor.comboBox.Base|chartEditor.controls.select.Base|chartEditor.controls.input.Base|chartEditor.colorPicker.Base)}
  */
 chartEditor.controls.LabeledControl.prototype.getControl = function() {
   return this.control_;
@@ -50,9 +47,10 @@ chartEditor.controls.LabeledControl.prototype.getControl = function() {
 
 
 /**
- * @param {(chartEditor.comboBox.Base|chartEditor.controls.select.Base|chartEditor.input.Base|chartEditor.colorPicker.Base)} control
+ * @param {(chartEditor.comboBox.Base|chartEditor.controls.select.Base|chartEditor.controls.input.Base|chartEditor.colorPicker.Base)} control
  */
 chartEditor.controls.LabeledControl.prototype.setControl = function(control) {
+  goog.dispose(this.control_);
   this.control_ = control;
 };
 
@@ -77,9 +75,10 @@ chartEditor.controls.LabeledControl.prototype.init = function(model, key, opt_ca
 /**
  * Wrapper for control's method.
  * @param {?Object} target
+ * @return {boolean|undefined}
  */
 chartEditor.controls.LabeledControl.prototype.setValueByTarget = function(target) {
-  this.control_.setValueByTarget(target);
+  return this.control_.setValueByTarget(target);
 };
 
 
@@ -115,7 +114,7 @@ chartEditor.controls.LabeledControl.prototype.getKey = function() {
  */
 chartEditor.controls.LabeledControl.prototype.setEnabled = function(enabled) {
   if (this.label_)
-    goog.dom.classlist.enable(this.label_, goog.getCssName('anychart-control-disabled'), !enabled);
+    goog.dom.classlist.enable(this.label_, goog.getCssName('anychart-ce-control-disabled'), !enabled);
 
   if (this.control_)
     this.control_.setEnabled(enabled);

@@ -28,7 +28,7 @@ goog.inherits(chartEditor.settings.specific.GaugeCircular, chartEditor.SettingsP
  * Default CSS class.
  * @type {string}
  */
-chartEditor.settings.specific.GaugeCircular.CSS_CLASS = goog.getCssName('anychart-settings-panel-gauge-circular');
+chartEditor.settings.specific.GaugeCircular.CSS_CLASS = goog.getCssName('anychart-ce-settings-panel-gauge-circular');
 
 
 /** @override */
@@ -75,7 +75,7 @@ chartEditor.settings.specific.GaugeCircular.prototype.createDom = function() {
 
   goog.dom.appendChild(this.getContentElement(), goog.dom.createDom(
       goog.dom.TagName.DIV,
-      goog.getCssName('anychart-chart-editor-settings-item-separator-gaps')));
+      goog.getCssName('anychart-ce-settings-item-separator-gaps')));
 
   var cap = new chartEditor.settings.Cap(model);
   cap.setKey(this.genKey('cap()'));

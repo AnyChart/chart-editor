@@ -1,15 +1,13 @@
 goog.provide('chartEditor.steps.PrepareData');
 
-goog.require('chartEditor.DataDialog');
-goog.require('chartEditor.DataSetPanelList');
-goog.require('chartEditor.PredefinedDataSelector');
-goog.require('chartEditor.UserData');
-goog.require('chartEditor.events');
-goog.require('chartEditor.steps.Base');
-goog.require('chartEditor.Component');
-goog.require('goog.ui.Button');
-
-//goog.forwardDeclare('anychart.data.Mapping');
+goog.require("chartEditor.Component");
+goog.require("chartEditor.DataSetPanelList");
+goog.require("chartEditor.PresetSelector");
+goog.require("chartEditor.UserData");
+goog.require("chartEditor.dialog.Data");
+goog.require("chartEditor.events");
+goog.require("chartEditor.steps.Base");
+goog.require("goog.ui.Button");
 
 
 /**
@@ -21,14 +19,14 @@ goog.require('goog.ui.Button');
  * @extends {chartEditor.steps.Base}
  */
 chartEditor.steps.PrepareData = function(index, opt_domHelper) {
-  goog.base(this, index, opt_domHelper);
+  chartEditor.steps.PrepareData.base(this, 'constructor', index, opt_domHelper);
 
-  this.name('Prepare Data');
-  this.title('Prepare Data');
-  this.addClassName('anychart-prepare-data-step');
+  this.name(chartEditor.enums.EditorSteps.DATA);
+
+  this.title('Configure Data');
 
   /**
-   * @type {?chartEditor.DataDialog}
+   * @type {?chartEditor.dialog.Data}
    * @private
    */
   this.dataDialog_ = null;
@@ -49,17 +47,11 @@ chartEditor.steps.PrepareData.prototype.createDom = function() {
 
   // user data and predefined data sets sections wrapper
   var wrapper = new chartEditor.Component();
-  wrapper.addClassName('anychart-prepare-data-step-wrapper');
+  wrapper.addClassName('anychart-ce-data-step-wrapper');
   this.addChild(wrapper, true);
 
   // user data section
   this.userData_ = new chartEditor.UserData([
-    {
-      id: 'google-spreadsheets',
-      type: 'connect',
-      caption: 'Google Spreadsheet',
-      icon: 'https://cdn.anychart.com/images/chart_editor/google-spreadsheet.png'
-    },
     {
       id: 'string-csv',
       type: 'upload',
@@ -83,13 +75,19 @@ chartEditor.steps.PrepareData.prototype.createDom = function() {
       type: 'upload',
       caption: 'JSON File',
       icon: 'https://cdn.anychart.com/images/chart_editor/json-file.png'
+    },
+    {
+      id: 'google-spreadsheets',
+      type: 'connect',
+      caption: 'Google Spreadsheet',
+      icon: 'https://cdn.anychart.com/images/chart_editor/google-spreadsheet.png'
     }
   ]);
   wrapper.addChild(this.userData_, true);
 
 
   // predefined data set section
-  var predefinedDataSelector = new chartEditor.PredefinedDataSelector(model);
+  var predefinedDataSelector = new chartEditor.PresetSelector(model);
   wrapper.addChild(predefinedDataSelector, true);
 };
 
@@ -115,8 +113,7 @@ chartEditor.steps.PrepareData.prototype.openDataDialog = function(dialogType, op
   this.dialogDataType_ = opt_dataType;
 
   if (!this.dataDialog_) {
-    this.dataDialog_ = new chartEditor.DataDialog('data-dialog');
-    this.dataDialog_.setButtonSet(goog.ui.Dialog.ButtonSet.createOkCancel());
+    this.dataDialog_ = new chartEditor.dialog.Data();
     goog.events.listen(this.dataDialog_, goog.ui.Dialog.EventType.SELECT, this.onCloseDataDialog, void 0, this);
   }
 
@@ -130,7 +127,7 @@ chartEditor.steps.PrepareData.prototype.openDataDialog = function(dialogType, op
  * @param {Object} evt
  */
 chartEditor.steps.PrepareData.prototype.onCloseDataDialog = function(evt) {
-  var dialog = /** @type {chartEditor.DataDialog} */(evt.target);
+  var dialog = /** @type {chartEditor.dialog.Data} */(evt.target);
   var anychart = /** @type {Object} */(goog.dom.getWindow()['anychart']);
 
   if (evt.key === 'ok') {
@@ -153,7 +150,7 @@ chartEditor.steps.PrepareData.prototype.onCloseDataDialog = function(evt) {
 
           switch (dataType) {
             case 'json':
-              anychart['dataAdapterModule']['loadJsonFile'](inputValue,
+              anychart['data']['loadJsonFile'](inputValue,
                   function(data) {
                     self.onSuccessDataLoad(data, dataType);
                   }, errorCallback);
@@ -161,14 +158,14 @@ chartEditor.steps.PrepareData.prototype.onCloseDataDialog = function(evt) {
               break;
 
             case 'csv':
-              anychart['dataAdapterModule']['loadCsvFile'](inputValue,
+              anychart['data']['loadCsvFile'](inputValue,
                   function(data) {
                     self.onSuccessDataLoad(data, dataType);
                   }, errorCallback);
               break;
 
             case 'xml':
-              anychart['dataAdapterModule']['loadXmlFile'](inputValue,
+              anychart['data']['loadXmlFile'](inputValue,
                   function(data) {
                     self.onSuccessDataLoad(data, dataType);
                   }, errorCallback);
@@ -196,7 +193,7 @@ chartEditor.steps.PrepareData.prototype.onCloseDataDialog = function(evt) {
           type: chartEditor.events.EventType.WAIT,
           wait: true
         });
-        anychart['dataAdapterModule']['loadGoogleSpreadsheet'](key,
+        anychart['data']['loadGoogleSpreadsheet'](key,
             function(data) {
               self.onSuccessDataLoad(data, dataType);
             },

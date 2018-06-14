@@ -20,7 +20,7 @@ chartEditor.settings.pointers.Bar = function(model, type, pointerId, pointerInde
 
   this.pointerType_ = 'bar';
 
-  this.addClassName(goog.getCssName('anychart-settings-panel-pointer-bar'));
+  this.addClassName(goog.getCssName('anychart-ce-settings-panel-pointer-bar'));
 };
 goog.inherits(chartEditor.settings.pointers.Bar, chartEditor.settings.pointers.CircularBase);
 

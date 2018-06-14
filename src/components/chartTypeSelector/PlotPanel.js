@@ -30,7 +30,7 @@ chartEditor.PlotPanel = function (model, index, opt_domHelper) {
      */
     this.series_ = [];
 
-    this.addClassName('anychart-plot-panel');
+    this.addClassName('anychart-ce-plot-panel');
 };
 goog.inherits(chartEditor.PlotPanel, chartEditor.ComponentWithKey);
 
@@ -42,10 +42,10 @@ chartEditor.PlotPanel.prototype.createDom = function () {
     var dom = this.getDomHelper();
     var element = this.getElement();
 
-    this.title_ = dom.createDom(goog.dom.TagName.DIV, 'anychart-plot-panel-plot-title', 'Plot ' + (this.index_ + 1));
+    this.title_ = dom.createDom(goog.dom.TagName.DIV, 'anychart-ce-plot-panel-plot-title', 'Plot ' + (this.index_ + 1));
     goog.dom.appendChild(element, this.title_);
 
-    var remove = dom.createDom(goog.dom.TagName.DIV, 'anychart-plot-panel-remove-btn', '');
+    var remove = dom.createDom(goog.dom.TagName.DIV, 'anychart-ce-plot-panel-remove-btn', '');
     goog.dom.appendChild(this.getElement(), remove);
     this.getHandler().listen(remove, goog.events.EventType.CLICK, function () {
         /** @type {chartEditor.EditorModel} */(this.getModel()).dropPlot(this.index_);
@@ -62,8 +62,8 @@ chartEditor.PlotPanel.prototype.onModelChange = function (evt) {
 
     // toggle stock specific settings
     chartType === 'stock' ?
-        this.addClassName('anychart-plot-panel-stock') :
-        this.removeClassName('anychart-plot-panel-stock');
+        this.addClassName('anychart-ce-plot-panel-stock') :
+        this.removeClassName('anychart-ce-plot-panel-stock');
 
     // Series
     this.removeAllSeries_();
@@ -72,7 +72,7 @@ chartEditor.PlotPanel.prototype.onModelChange = function (evt) {
 
     for (var i = 0; i < plotModel.length; i++) {
         var series = new chartEditor.SeriesPanel(/** @type {chartEditor.EditorModel} */(this.getModel()), i);
-        if (i === 0) series.addClassName('anychart-plot-panel-series-first');
+        if (i === 0) series.addClassName('anychart-ce-plot-panel-series-first');
         this.series_.push(series);
         this.addChild(series, true);
     }
@@ -84,7 +84,7 @@ chartEditor.PlotPanel.prototype.onModelChange = function (evt) {
     if (!model.isChartSingleSeries()) {
         var addSeriesBtnRenderer = /** @type {goog.ui.ButtonRenderer} */(goog.ui.ControlRenderer.getCustomRenderer(
             goog.ui.ButtonRenderer,
-            'anychart-plot-panel-add-series-btn'));
+            'anychart-ce-plot-panel-add-series-btn'));
         this.addSeriesBtn_ = new goog.ui.Button('+ Add Series', addSeriesBtnRenderer);
         this.addChildAt(this.addSeriesBtn_, this.getChildCount(), true);
         this.getHandler().listen(this.addSeriesBtn_, goog.ui.Component.EventType.ACTION, this.onAddSeries_);

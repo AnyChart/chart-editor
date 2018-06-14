@@ -6,7 +6,7 @@ goog.require('chartEditor.controls.LabeledControl');
 
 /**
  * Labeled control with two mutually exclusive keys.
- * @param {(chartEditor.comboBox.Base|chartEditor.controls.select.Base|chartEditor.input.Base|chartEditor.colorPicker.Base)} control
+ * @param {(chartEditor.comboBox.Base|chartEditor.controls.select.Base|chartEditor.controls.input.Base|chartEditor.colorPicker.Base)} control
  * @param {string=} opt_label
  * @param {goog.dom.DomHelper=} opt_domHelper
  * @constructor
@@ -15,7 +15,7 @@ goog.require('chartEditor.controls.LabeledControl');
 chartEditor.controls.LabeledControlTwins = function(control, opt_label, opt_domHelper) {
   chartEditor.controls.LabeledControlTwins.base(this, 'constructor', control, opt_label, opt_domHelper);
 
-  this.addClassName('anychart-settings-labeled-control-twins');
+  this.addClassName('anychart-ce-settings-labeled-control-twins');
 };
 goog.inherits(chartEditor.controls.LabeledControlTwins, chartEditor.controls.LabeledControl);
 
@@ -41,7 +41,7 @@ chartEditor.controls.LabeledControlTwins.prototype.createDom = function() {
   checkbox.setCaption(this.checkboxCaption_);
   this.addChildAt(checkbox, 0, true);
   this.checkbox_ = checkbox;
-  goog.dom.classlist.add(this.checkbox_.getElement(), 'anychart-chart-editor-settings-control-right');
+  goog.dom.classlist.add(this.checkbox_.getElement(), 'anychart-ce-settings-control-right');
 
   goog.events.listen(this.checkbox_, goog.ui.Component.EventType.CHANGE, this.onChangeKey, false, this);
 };
