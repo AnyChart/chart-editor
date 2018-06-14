@@ -58,8 +58,8 @@ If you want to have any theming options on the Theming tab of Visual appearance 
 And at last include Chart Editor's binaries that you can find in a project's [dist](https://github.com/AnyChart/chart-editor/tree/develop/dist) folder.
 ```html
 <!-- anychart chart editor -->
-<link href="chart-editor.min.css" type="text/css" rel="stylesheet">
-<script src="chart-editor.min.js"></script>
+<link href="anychart-editor.min.css" type="text/css" rel="stylesheet">
+<script src="anychart-editor.min.js"></script>
 ```
 
 Now you can create Chart Editor instance and render it to dom container. 

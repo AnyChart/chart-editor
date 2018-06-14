@@ -13,7 +13,7 @@ then
       | tr -d '[[:space:]]')
 
     java -jar node_modules/google-closure-compiler/compiler.jar \
-    --js_output_file="out/chart-editor.min.js" \
+    --js_output_file="out/anychart-editor.min.js" \
     --js="node_modules/google-closure-library/closure/goog/**.js" \
     --js="src/**.js" \
     --entry_point=chartEditor \
@@ -32,8 +32,8 @@ fi
 if [ -z $1 ] || [ $1 = "css" ]
 then
     echo '  Building css'
-    lessc css/chartEditor.less out/chart-editor.css
-    lessc css/chartEditor.less out/chart-editor.min.css --clean-css="--s1 --advanced --compatibility=ie8"
+    lessc css/chartEditor.less out/anychart-editor.css
+    lessc css/chartEditor.less out/anychart-editor.min.css --clean-css="--s1 --advanced --compatibility=ie8"
 fi
 
 echo 'Build done!'

@@ -2,6 +2,6 @@
 
 sh ./bin/build.sh
 
-cp ./out/chart-editor.css ./dist/chart-editor.css
-cp ./out/chart-editor.min.css ./dist/chart-editor.min.css
-cp ./out/chart-editor.min.js ./dist/chart-editor.min.js
+cp ./out/anychart-editor.css ./dist/anychart-editor.css
+cp ./out/anychart-editor.min.css ./dist/anychart-editor.min.css
+cp ./out/anychart-editor.min.js ./dist/anychart-editor.min.js

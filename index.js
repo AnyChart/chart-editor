@@ -1,1 +1,1 @@
-module.exports = require('./dist/js/chart-editor.min.js');
+module.exports = require('./dist/js/anychart-editor.min.js');
