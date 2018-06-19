@@ -142,6 +142,8 @@ To compile chart editor from source run following command
 In this case you can find builded binaries in a *dist* folder.
 
 Or you can build by build.sh script. In this case you can find builded binaries in a *out* folder.
+
+
 Build everything
 ```bash
 ./bin/build.sh
