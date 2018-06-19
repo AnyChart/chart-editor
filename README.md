@@ -21,14 +21,14 @@ There are several ways to download/install AnyChart Chart Editor.
 
 #### Direct download
 
-All binaries are located in [dist](https://github.com/AnyChart/chart-editor/tree/develop/dist) folder.
+All binaries are located in [dist](https://github.com/AnyChart/chart-editor/tree/master/dist) folder.
 
 #### Using npm
 
 You can install AnyChart Chart Editor using **npm**:
 
 ```
-npm install anychart-chart-editor
+npm install anychart-editor
 ```
 
 ## Getting started
@@ -55,7 +55,7 @@ If you want to have any theming options on the Theming tab of Visual appearance 
 <script src="https://cdn.anychart.com/releases/v8/themes/monochrome.min.js"></script>
 ```
  
-And at last include Chart Editor's binaries that you can find in a project's [dist](https://github.com/AnyChart/chart-editor/tree/develop/dist) folder.
+And at last include Chart Editor's binaries that you can find in a project's [dist](https://github.com/AnyChart/chart-editor/tree/master/dist) folder.
 ```html
 <!-- anychart chart editor -->
 <link href="anychart-editor.min.css" type="text/css" rel="stylesheet">
@@ -72,13 +72,13 @@ anychart.onDocumentReady(function() {
   editor.render(document.getElementById("container"));
 
   // Listen 'complete' event to get result code
-  editor.listen('complete', function() {
-    console.log(editor.getChartAsJsCode());
+  editor.listen('editorComplete', function() {
+    console.log(editor.getJavascript());
   });
 });
 ```
 
-The full working example you can find in [examples](https://github.com/AnyChart/chart-editor/tree/develop/examples) folder.
+The full working example you can find in index.html and index.js from [dist](https://github.com/AnyChart/chart-editor/tree/master/dist) folder.
 
 ## Using
 
@@ -87,10 +87,10 @@ Method | Description
 --- | ---
 *render()* | Renders the component.  If a parent element is supplied, the component's element will be appended to it.  If there is no optional parent element and the element doesn't have a parentNode then it will be appended to the document body.
 *decorate()* | Decorates the element for the UI component.
-*renderAsDialog()* | Renders the Chart Editor as modal dialog. To set dialog visible or hidden use *visible(Boolean)* method.
+*dialogRender()* | Renders the Chart Editor as modal dialog. To set dialog visible or hidden use *dialogVisible(Boolean)* method.
 
 #### Data
-You can pass your data to Chart Editor using user interface ot the Prepare Data step. Or you can pass data using data() method:
+You can pass your data to Chart Editor using user interface of the Prepare Data step. Or you can pass data using data() method:
 ```javascript
 // Pass only data
 editor.data([
@@ -124,9 +124,9 @@ After all you can get the result code of a chart that you have configured. You c
 
 Method | Description | Arguments
 --- | --- | ---
-*getChartAsJsCode()* | Returns JS code string that creates a configured chart. | opt_outputOptions - object with configuration options.
-*getChartAsJson()* | Returns configured chart in JSON representation. | -
-*getChartAsXml()* | Returns configured chart in XML representation. | -
+*getJavascript()* | Returns JS code string that creates a configured chart. | opt_outputOptions - object with configuration options.
+*getJson()* | Returns configured chart in JSON representation. | -
+*getXml()* | Returns configured chart in XML representation. | -
  
 
 ## Building
@@ -142,13 +142,21 @@ To compile chart editor from source run following command
 In this case you can find builded binaries in a *dist* folder.
 
 Or you can build by build.sh script. In this case you can find builded binaries in a *out* folder.
+Build everything
+```bash
+./bin/build.sh
+
+#! or using npm
+npm run build
+```
+
 
 Build only javascript binary
 ```bash
 ./bin/build.sh compile
 
 #! or using npm 
-npm run build compile
+npm run compile
 ```
 
 
@@ -157,7 +165,7 @@ Build only css
 ./bin/build.sh css
 
 #! or using npm 
-npm run build css
+npm run css
 ```
 
 Build only dependencies 
@@ -165,7 +173,7 @@ Build only dependencies
 ./bin/build.sh deps
 
 #! or using npm 
-npm run build deps
+npm run deps
 ```
 
 ## Contacts
