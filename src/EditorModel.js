@@ -2793,7 +2793,12 @@ chartEditor.EditorModel.prototype.getChartWithJsCode_ = function(opt_options) {
       // Sort settings by keys
       chartSettings = {};
       var keys = goog.object.getKeys(settings['chart']['settings']);
-      goog.array.sort(keys);
+      goog.array.sort(keys, function(a, b) {
+        var pattern = /['"]\w+['"]/g;
+        var a1 = a.replace(pattern, '');
+        var b1 = b.replace(pattern, '');
+        return a1 > b1 ? 1 : a1 < b1 ? -1 : 0;
+      });
       for (var k = 0; k < keys.length; k++) {
         chartSettings[keys[k]] = settings['chart']['settings'][keys[k]];
       }
