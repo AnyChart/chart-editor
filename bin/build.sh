@@ -19,6 +19,23 @@ then
     --entry_point=chartEditor \
     --flagfile="bin/common.flags" \
     --define="chartEditor.Editor.VERSION='$PACKAGE_VERSION'"
+
+    DATE=`date +%Y-%m-%d`
+    HEADER=$'/**
+ * AnyChart is lightweight robust charting library with great API and Docs,
+ * that works with your stack and has tons of chart types and features.
+ *
+ * Chart Editor is an out-of-the-box chart generator and editor with intuitive user interface
+ * that can be easily embedded into any web service or web view based desktop application.
+ * AnyChart Chart Editor allows you to leverage the entire power of AnyChart with minimal integration effort.
+ *
+ * Version: '${PACKAGE_VERSION}' ('${DATE}')
+ * License: https://www.anychart.com/buy/
+ * Contact: sales@anychart.com
+ * Copyright: AnyChart.com 2018. All rights reserved.
+ */'
+
+    echo "$HEADER" | cat - out/anychart-editor.min.js > temp && mv temp out/anychart-editor.min.js
 fi
 
 if [ -z $1 ] || [ $1 = "deps" ]
