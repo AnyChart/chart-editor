@@ -15,7 +15,7 @@ chartEditor.exportTabs.Scripts = function(model, opt_name, opt_domHelper) {
 
   this.key = [];
 
-  this.cdnBaseUrl_ = 'https://cdn.anychart.com/releases/develop';
+  this.cdnBaseUrl_ = 'https://cdn.anychart.com/releases/v8';
 
   this.themesMap_ = {
     'coffee': 'coffee',
