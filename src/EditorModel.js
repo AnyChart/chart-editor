@@ -2812,8 +2812,7 @@ chartEditor.EditorModel.prototype.getChartWithJsCode_ = function(opt_options) {
       var force = false;
       var quotes = false;
       if (key === "palette()") {
-        pVal = anychartGlobal['palettes'][value];
-        //pVal = 'anychart.palettes.' + value;
+        pVal = 'anychart.palettes.' + value;
       } else if (key === "contextMenu().itemsFormatter()")
         quotes = force = true;
 
@@ -2910,9 +2909,14 @@ chartEditor.EditorModel.prototype.getChartWithJsCode_ = function(opt_options) {
 chartEditor.EditorModel.prototype.printKey_ = function(printer, prefix, key, value, opt_forceRawValue, opt_noQuotes) {
   if (goog.isDef(value)) {
     var quote = opt_noQuotes ? '' : '"';
-    var valueString = opt_forceRawValue ?
-        quote + String(value) + quote:
+    var valueString;
+    if (key === 'palette()') {
+      valueString = value;
+    } else {
+      valueString = opt_forceRawValue ?
+        quote + String(value) + quote :
         this.printValue_(printer, value);
+    }
 
     var replaceValue = valueString + ');';
     if (key.search(/[^(]\)$/) !== -1)
