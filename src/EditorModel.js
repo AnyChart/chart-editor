@@ -2808,12 +2808,11 @@ chartEditor.EditorModel.prototype.getChartWithJsCode_ = function(opt_options) {
     var markerSeriesName = '';
 
     goog.object.forEach(chartSettings, function(value, key) {
-      var pVal = value;
       var force = false;
       var quotes = false;
-      if (key === "palette()") {
-        pVal = 'anychart.palettes.' + value;
-      } else if (key === "contextMenu().itemsFormatter()")
+      if (key === "palette()")
+        value = anychartGlobal['palettes'][value];
+      else if (key === "contextMenu().itemsFormatter()")
         quotes = force = true;
 
       if (goog.isString(value) && value.indexOf('STANDALONE:') === 0) {
@@ -2834,7 +2833,7 @@ chartEditor.EditorModel.prototype.getChartWithJsCode_ = function(opt_options) {
       }
 
       if (goog.isDef(value) && chartEditor.binding.testExec(chart, key, value)) {
-        var settingString = self.printKey_(printer, 'chart', key, pVal, goog.isString(value) || force, quotes);
+        var settingString = self.printKey_(printer, 'chart', key, value, goog.isString(value) || force, quotes);
 
         if (addMarkers) {
           var pattern = /(plot\(\d\)\.)?getSeries.*\.name\(.*\)/;
@@ -2909,14 +2908,9 @@ chartEditor.EditorModel.prototype.getChartWithJsCode_ = function(opt_options) {
 chartEditor.EditorModel.prototype.printKey_ = function(printer, prefix, key, value, opt_forceRawValue, opt_noQuotes) {
   if (goog.isDef(value)) {
     var quote = opt_noQuotes ? '' : '"';
-    var valueString;
-    if (key === 'palette()') {
-      valueString = value;
-    } else {
-      valueString = opt_forceRawValue ?
-        quote + String(value) + quote :
+    var valueString = opt_forceRawValue ?
+        quote + String(value) + quote:
         this.printValue_(printer, value);
-    }
 
     var replaceValue = valueString + ');';
     if (key.search(/[^(]\)$/) !== -1)
