@@ -246,5 +246,8 @@ chartEditor.enums.EditorTabs = {
   CREDITS: 'credits',
   SOURCE_CODE: 'sourceCode',
   JSON: 'json',
-  EMBED: 'embed'
+  EMBED: 'embed',
+  NODE: 'node',
+  FLOW: 'flow',
+  DROP_OFF: 'dropOff'
 };

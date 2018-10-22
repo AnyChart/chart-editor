@@ -212,7 +212,10 @@ chartEditor.EditorModel.ChartTypes = {
       chartEditor.enums.EditorTabs.GAUGE_AXES,
       chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
       chartEditor.enums.EditorTabs.SCALE_BARS,
-      chartEditor.enums.EditorTabs.POINTERS
+      chartEditor.enums.EditorTabs.POINTERS,
+      chartEditor.enums.EditorTabs.NODE,
+      chartEditor.enums.EditorTabs.FLOW,
+      chartEditor.enums.EditorTabs.DROP_OFF
     ],
     'filters': ['common']
   },
@@ -230,7 +233,10 @@ chartEditor.EditorModel.ChartTypes = {
       chartEditor.enums.EditorTabs.GAUGE_AXES,
       chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
       chartEditor.enums.EditorTabs.SCALE_BARS,
-      chartEditor.enums.EditorTabs.POINTERS
+      chartEditor.enums.EditorTabs.POINTERS,
+      chartEditor.enums.EditorTabs.NODE,
+      chartEditor.enums.EditorTabs.FLOW,
+      chartEditor.enums.EditorTabs.DROP_OFF
     ],
     'filters': ['common']
   },
@@ -249,7 +255,10 @@ chartEditor.EditorModel.ChartTypes = {
       chartEditor.enums.EditorTabs.GAUGE_AXES,
       chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
       chartEditor.enums.EditorTabs.SCALE_BARS,
-      chartEditor.enums.EditorTabs.POINTERS
+      chartEditor.enums.EditorTabs.POINTERS,
+      chartEditor.enums.EditorTabs.NODE,
+      chartEditor.enums.EditorTabs.FLOW,
+      chartEditor.enums.EditorTabs.DROP_OFF
     ],
     'filters': ['stacked-value']
   },
@@ -268,7 +277,10 @@ chartEditor.EditorModel.ChartTypes = {
       chartEditor.enums.EditorTabs.GAUGE_AXES,
       chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
       chartEditor.enums.EditorTabs.SCALE_BARS,
-      chartEditor.enums.EditorTabs.POINTERS
+      chartEditor.enums.EditorTabs.POINTERS,
+      chartEditor.enums.EditorTabs.NODE,
+      chartEditor.enums.EditorTabs.FLOW,
+      chartEditor.enums.EditorTabs.DROP_OFF
     ],
     'filters': ['stacked-percent']
   },
@@ -286,7 +298,10 @@ chartEditor.EditorModel.ChartTypes = {
       chartEditor.enums.EditorTabs.GAUGE_AXES,
       chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
       chartEditor.enums.EditorTabs.SCALE_BARS,
-      chartEditor.enums.EditorTabs.POINTERS
+      chartEditor.enums.EditorTabs.POINTERS,
+      chartEditor.enums.EditorTabs.NODE,
+      chartEditor.enums.EditorTabs.FLOW,
+      chartEditor.enums.EditorTabs.DROP_OFF
     ],
     'filters': ['common']
   },
@@ -305,7 +320,10 @@ chartEditor.EditorModel.ChartTypes = {
       chartEditor.enums.EditorTabs.GAUGE_AXES,
       chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
       chartEditor.enums.EditorTabs.SCALE_BARS,
-      chartEditor.enums.EditorTabs.POINTERS
+      chartEditor.enums.EditorTabs.POINTERS,
+      chartEditor.enums.EditorTabs.NODE,
+      chartEditor.enums.EditorTabs.FLOW,
+      chartEditor.enums.EditorTabs.DROP_OFF
     ],
     'filters': ['stacked-value']
   },
@@ -324,7 +342,10 @@ chartEditor.EditorModel.ChartTypes = {
       chartEditor.enums.EditorTabs.GAUGE_AXES,
       chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
       chartEditor.enums.EditorTabs.SCALE_BARS,
-      chartEditor.enums.EditorTabs.POINTERS
+      chartEditor.enums.EditorTabs.POINTERS,
+      chartEditor.enums.EditorTabs.NODE,
+      chartEditor.enums.EditorTabs.FLOW,
+      chartEditor.enums.EditorTabs.DROP_OFF
     ],
     'filters': ['stacked-percent']
   },
@@ -342,7 +363,10 @@ chartEditor.EditorModel.ChartTypes = {
       chartEditor.enums.EditorTabs.GAUGE_AXES,
       chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
       chartEditor.enums.EditorTabs.SCALE_BARS,
-      chartEditor.enums.EditorTabs.POINTERS
+      chartEditor.enums.EditorTabs.POINTERS,
+      chartEditor.enums.EditorTabs.NODE,
+      chartEditor.enums.EditorTabs.FLOW,
+      chartEditor.enums.EditorTabs.DROP_OFF
     ],
     'filters': ['common']
   },
@@ -361,7 +385,10 @@ chartEditor.EditorModel.ChartTypes = {
       chartEditor.enums.EditorTabs.GAUGE_AXES,
       chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
       chartEditor.enums.EditorTabs.SCALE_BARS,
-      chartEditor.enums.EditorTabs.POINTERS
+      chartEditor.enums.EditorTabs.POINTERS,
+      chartEditor.enums.EditorTabs.NODE,
+      chartEditor.enums.EditorTabs.FLOW,
+      chartEditor.enums.EditorTabs.DROP_OFF
     ],
     'filters': ['stacked-value']
   },
@@ -380,7 +407,10 @@ chartEditor.EditorModel.ChartTypes = {
       chartEditor.enums.EditorTabs.GAUGE_AXES,
       chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
       chartEditor.enums.EditorTabs.SCALE_BARS,
-      chartEditor.enums.EditorTabs.POINTERS
+      chartEditor.enums.EditorTabs.POINTERS,
+      chartEditor.enums.EditorTabs.NODE,
+      chartEditor.enums.EditorTabs.FLOW,
+      chartEditor.enums.EditorTabs.DROP_OFF
     ],
     'filters': ['stacked-percent']
   },
@@ -398,7 +428,10 @@ chartEditor.EditorModel.ChartTypes = {
       chartEditor.enums.EditorTabs.GAUGE_AXES,
       chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
       chartEditor.enums.EditorTabs.SCALE_BARS,
-      chartEditor.enums.EditorTabs.POINTERS
+      chartEditor.enums.EditorTabs.POINTERS,
+      chartEditor.enums.EditorTabs.NODE,
+      chartEditor.enums.EditorTabs.FLOW,
+      chartEditor.enums.EditorTabs.DROP_OFF
     ],
     'filters': ['common']
   },
@@ -416,7 +449,10 @@ chartEditor.EditorModel.ChartTypes = {
       chartEditor.enums.EditorTabs.GAUGE_AXES,
       chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
       chartEditor.enums.EditorTabs.SCALE_BARS,
-      chartEditor.enums.EditorTabs.POINTERS
+      chartEditor.enums.EditorTabs.POINTERS,
+      chartEditor.enums.EditorTabs.NODE,
+      chartEditor.enums.EditorTabs.FLOW,
+      chartEditor.enums.EditorTabs.DROP_OFF
     ],
     'filters': ['common']
   },
@@ -438,7 +474,10 @@ chartEditor.EditorModel.ChartTypes = {
       chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
       chartEditor.enums.EditorTabs.SCALE_BARS,
       chartEditor.enums.EditorTabs.POINTERS,
-      chartEditor.enums.EditorTabs.SCALES
+      chartEditor.enums.EditorTabs.SCALES,
+      chartEditor.enums.EditorTabs.NODE,
+      chartEditor.enums.EditorTabs.FLOW,
+      chartEditor.enums.EditorTabs.DROP_OFF
     ],
     'filters': ['common']
   },
@@ -460,7 +499,10 @@ chartEditor.EditorModel.ChartTypes = {
       chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
       chartEditor.enums.EditorTabs.SCALE_BARS,
       chartEditor.enums.EditorTabs.POINTERS,
-      chartEditor.enums.EditorTabs.SCALES
+      chartEditor.enums.EditorTabs.SCALES,
+      chartEditor.enums.EditorTabs.NODE,
+      chartEditor.enums.EditorTabs.FLOW,
+      chartEditor.enums.EditorTabs.DROP_OFF
     ],
     'filters': ['common']
   },
@@ -479,7 +521,10 @@ chartEditor.EditorModel.ChartTypes = {
       chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
       chartEditor.enums.EditorTabs.SCALE_BARS,
       chartEditor.enums.EditorTabs.POINTERS,
-      chartEditor.enums.EditorTabs.SCALES
+      chartEditor.enums.EditorTabs.SCALES,
+      chartEditor.enums.EditorTabs.NODE,
+      chartEditor.enums.EditorTabs.FLOW,
+      chartEditor.enums.EditorTabs.DROP_OFF
     ],
     'settingsExcludes': ['animation().enabled()'],
     'filters': ['common']
@@ -500,7 +545,10 @@ chartEditor.EditorModel.ChartTypes = {
       chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
       chartEditor.enums.EditorTabs.SCALE_BARS,
       chartEditor.enums.EditorTabs.POINTERS,
-      chartEditor.enums.EditorTabs.SCALES
+      chartEditor.enums.EditorTabs.SCALES,
+      chartEditor.enums.EditorTabs.NODE,
+      chartEditor.enums.EditorTabs.FLOW,
+      chartEditor.enums.EditorTabs.DROP_OFF
     ],
     'settingsExcludes': ['palette()', 'legend().enabled()', 'animation().enabled()'],
     'filters': ['common']
@@ -519,7 +567,10 @@ chartEditor.EditorModel.ChartTypes = {
       chartEditor.enums.EditorTabs.GAUGE_AXES,
       chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
       chartEditor.enums.EditorTabs.SCALE_BARS,
-      chartEditor.enums.EditorTabs.POINTERS
+      chartEditor.enums.EditorTabs.POINTERS,
+      chartEditor.enums.EditorTabs.NODE,
+      chartEditor.enums.EditorTabs.FLOW,
+      chartEditor.enums.EditorTabs.DROP_OFF
     ],
     'filters': ['common']
   },
@@ -537,7 +588,10 @@ chartEditor.EditorModel.ChartTypes = {
       chartEditor.enums.EditorTabs.GAUGE_AXES,
       chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
       chartEditor.enums.EditorTabs.SCALE_BARS,
-      chartEditor.enums.EditorTabs.POINTERS
+      chartEditor.enums.EditorTabs.POINTERS,
+      chartEditor.enums.EditorTabs.NODE,
+      chartEditor.enums.EditorTabs.FLOW,
+      chartEditor.enums.EditorTabs.DROP_OFF
     ],
     'filters': ['common']
   },
@@ -555,7 +609,10 @@ chartEditor.EditorModel.ChartTypes = {
       chartEditor.enums.EditorTabs.GAUGE_AXES,
       chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
       chartEditor.enums.EditorTabs.SCALE_BARS,
-      chartEditor.enums.EditorTabs.POINTERS
+      chartEditor.enums.EditorTabs.POINTERS,
+      chartEditor.enums.EditorTabs.NODE,
+      chartEditor.enums.EditorTabs.FLOW,
+      chartEditor.enums.EditorTabs.DROP_OFF
     ],
     'filters': ['common']
   },
@@ -574,7 +631,10 @@ chartEditor.EditorModel.ChartTypes = {
       chartEditor.enums.EditorTabs.GAUGE_AXES,
       chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
       chartEditor.enums.EditorTabs.SCALE_BARS,
-      chartEditor.enums.EditorTabs.POINTERS
+      chartEditor.enums.EditorTabs.POINTERS,
+      chartEditor.enums.EditorTabs.NODE,
+      chartEditor.enums.EditorTabs.FLOW,
+      chartEditor.enums.EditorTabs.DROP_OFF
     ],
     'filters': ['stacked-value']
   },
@@ -593,7 +653,10 @@ chartEditor.EditorModel.ChartTypes = {
       chartEditor.enums.EditorTabs.GAUGE_AXES,
       chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
       chartEditor.enums.EditorTabs.SCALE_BARS,
-      chartEditor.enums.EditorTabs.POINTERS
+      chartEditor.enums.EditorTabs.POINTERS,
+      chartEditor.enums.EditorTabs.NODE,
+      chartEditor.enums.EditorTabs.FLOW,
+      chartEditor.enums.EditorTabs.DROP_OFF
     ],
     'filters': ['stacked-percent']
   },
@@ -612,7 +675,10 @@ chartEditor.EditorModel.ChartTypes = {
       chartEditor.enums.EditorTabs.GAUGE_AXES,
       chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
       chartEditor.enums.EditorTabs.SCALE_BARS,
-      chartEditor.enums.EditorTabs.POINTERS
+      chartEditor.enums.EditorTabs.POINTERS,
+      chartEditor.enums.EditorTabs.NODE,
+      chartEditor.enums.EditorTabs.FLOW,
+      chartEditor.enums.EditorTabs.DROP_OFF
     ],
     'filters': ['common']
   },
@@ -631,7 +697,10 @@ chartEditor.EditorModel.ChartTypes = {
       chartEditor.enums.EditorTabs.GAUGE_AXES,
       chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
       chartEditor.enums.EditorTabs.SCALE_BARS,
-      chartEditor.enums.EditorTabs.POINTERS
+      chartEditor.enums.EditorTabs.POINTERS,
+      chartEditor.enums.EditorTabs.NODE,
+      chartEditor.enums.EditorTabs.FLOW,
+      chartEditor.enums.EditorTabs.DROP_OFF
     ],
     'filters': ['common']
   },
@@ -650,7 +719,10 @@ chartEditor.EditorModel.ChartTypes = {
       chartEditor.enums.EditorTabs.GAUGE_AXES,
       chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
       chartEditor.enums.EditorTabs.SCALE_BARS,
-      chartEditor.enums.EditorTabs.POINTERS
+      chartEditor.enums.EditorTabs.POINTERS,
+      chartEditor.enums.EditorTabs.NODE,
+      chartEditor.enums.EditorTabs.FLOW,
+      chartEditor.enums.EditorTabs.DROP_OFF
     ],
     'filters': ['common']
   },
@@ -669,7 +741,10 @@ chartEditor.EditorModel.ChartTypes = {
       chartEditor.enums.EditorTabs.GAUGE_AXES,
       chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
       chartEditor.enums.EditorTabs.SCALE_BARS,
-      chartEditor.enums.EditorTabs.POINTERS
+      chartEditor.enums.EditorTabs.POINTERS,
+      chartEditor.enums.EditorTabs.NODE,
+      chartEditor.enums.EditorTabs.FLOW,
+      chartEditor.enums.EditorTabs.DROP_OFF
     ],
     'settingsExcludes': ['palette()', 'animation().enabled()'],
     'filters': ['common']
@@ -690,7 +765,10 @@ chartEditor.EditorModel.ChartTypes = {
       chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
       chartEditor.enums.EditorTabs.SCALE_BARS,
       chartEditor.enums.EditorTabs.POINTERS,
-      chartEditor.enums.EditorTabs.SCALES
+      chartEditor.enums.EditorTabs.SCALES,
+      chartEditor.enums.EditorTabs.NODE,
+      chartEditor.enums.EditorTabs.FLOW,
+      chartEditor.enums.EditorTabs.DROP_OFF
     ],
     'settingsExcludes': ['palette()', 'animation().enabled()'],
     'filters': ['common']
@@ -711,7 +789,10 @@ chartEditor.EditorModel.ChartTypes = {
       chartEditor.enums.EditorTabs.COLOR_SCALE,
       chartEditor.enums.EditorTabs.COLOR_RANGE,
       chartEditor.enums.EditorTabs.SCALE_BARS,
-      chartEditor.enums.EditorTabs.SCALES
+      chartEditor.enums.EditorTabs.SCALES,
+      chartEditor.enums.EditorTabs.NODE,
+      chartEditor.enums.EditorTabs.FLOW,
+      chartEditor.enums.EditorTabs.DROP_OFF
     ],
     'settingsExcludes': ['palette()'],
     'filters': ['common', 'gauges']
@@ -732,7 +813,10 @@ chartEditor.EditorModel.ChartTypes = {
       chartEditor.enums.EditorTabs.COLOR_RANGE,
       chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
       chartEditor.enums.EditorTabs.CARTESIAN_AXES,
-      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.NODE,
+      chartEditor.enums.EditorTabs.FLOW,
+      chartEditor.enums.EditorTabs.DROP_OFF
     ],
     'settingsExcludes': ['palette()'],
     'filters': ['common', 'gauges']
@@ -752,7 +836,10 @@ chartEditor.EditorModel.ChartTypes = {
       chartEditor.enums.EditorTabs.COLOR_RANGE,
       chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
       chartEditor.enums.EditorTabs.CARTESIAN_AXES,
-      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.NODE,
+      chartEditor.enums.EditorTabs.FLOW,
+      chartEditor.enums.EditorTabs.DROP_OFF
     ],
     'settingsExcludes': ['palette()'],
     'filters': ['common', 'gauges']
@@ -772,7 +859,10 @@ chartEditor.EditorModel.ChartTypes = {
       chartEditor.enums.EditorTabs.COLOR_RANGE,
       chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
       chartEditor.enums.EditorTabs.CARTESIAN_AXES,
-      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.NODE,
+      chartEditor.enums.EditorTabs.FLOW,
+      chartEditor.enums.EditorTabs.DROP_OFF
     ],
     'settingsExcludes': ['palette()'],
     'filters': ['common', 'gauges']
@@ -792,10 +882,37 @@ chartEditor.EditorModel.ChartTypes = {
       chartEditor.enums.EditorTabs.COLOR_RANGE,
       chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
       chartEditor.enums.EditorTabs.CARTESIAN_AXES,
-      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.NODE,
+      chartEditor.enums.EditorTabs.FLOW,
+      chartEditor.enums.EditorTabs.DROP_OFF
     ],
     'settingsExcludes': ['palette()'],
     'filters': ['common', 'gauges']
+  },
+  'sankey': {
+    'value': 'sankey',
+    'name': 'Sankey Diagram',
+    'icon': '',
+    'series': ['sankey'],
+    'dataSetCtor': 'set',
+    'singleSeries': true,
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.SERIES,
+      chartEditor.enums.EditorTabs.GRIDS,
+      chartEditor.enums.EditorTabs.CARTESIAN_AXES,
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.POINTERS,
+      chartEditor.enums.EditorTabs.SCALES,
+      chartEditor.enums.EditorTabs.LEGEND,
+      chartEditor.enums.EditorTabs.DATA_LABELS
+    ],
+    'filters': ['common']
   }
   // endregion
 };
@@ -925,6 +1042,12 @@ chartEditor.EditorModel.Series = {
   },
   'pie': {
     'fields': [{'field': 'value', 'name': 'Value'}]
+  },
+  'sankey': {
+    'fields': [
+      {'field': 'from', 'name': 'From', 'type': 'string'},
+      {'field': 'to', 'name': 'To', 'type': 'string'},
+      {'field': 'weight', 'name': 'Weight'}]
   },
   'funnel': {
     'fields': [{'field': 'value', 'name': 'Value'}]
@@ -1296,6 +1419,8 @@ chartEditor.EditorModel.prototype.createSeriesConfig = function(index, type, opt
           this.fieldsState_.coordinates[0] :
           this.fieldsState_.coordinates[1];
 
+    } else if (fields[i]['field'] === 'from') {
+      config['mapping'][fields[i]['field']] = this.fieldsState_.firstString;
     } else {
       var j = index + i + (goog.isNumber(opt_startFieldIndex) ? opt_startFieldIndex : 0);
       var numberIndex = numbers.length > j ? j : j % numbers.length;

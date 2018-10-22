@@ -9,6 +9,7 @@ goog.require('chartEditor.settings.specific.Mekko');
 goog.require('chartEditor.settings.specific.Pie');
 goog.require('chartEditor.settings.specific.Polar');
 goog.require('chartEditor.settings.specific.Radar');
+goog.require('chartEditor.settings.specific.Sankey');
 goog.require('chartEditor.settings.specific.Scatter');
 goog.require('chartEditor.settings.specific.TreeMap');
 goog.require('chartEditor.settings.specific.Waterfall');
@@ -53,6 +54,10 @@ chartEditor.SpecificPanel = function(model, opt_domHelper) {
     {
       chartType: 'treeMap',
       classFunc: chartEditor.settings.specific.TreeMap
+    },
+    {
+      chartType: 'sankey',
+      classFunc: chartEditor.settings.specific.Sankey
     },
     {
       chartType: 'gauges.circular',

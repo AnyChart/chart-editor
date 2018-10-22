@@ -222,15 +222,17 @@ chartEditor.settings.Title.prototype.createDom = function() {
   goog.dom.appendChild(content, buttonsWrapper);
 
   var boldBtn = new chartEditor.button.Bold();
-  boldBtn.addClassName(goog.getCssName('anychart-ce-settings-bold'));
+  boldBtn.addClassName(goog.getCssName('anychart-ce-font-style-buttons'));
   this.addChild(boldBtn, true);
   goog.dom.appendChild(buttonsWrapper, boldBtn.getElement());
 
   var italicBtn = new chartEditor.button.Italic();
+  italicBtn.addClassName(goog.getCssName('anychart-ce-font-style-buttons'));
   this.addChild(italicBtn, true);
   goog.dom.appendChild(buttonsWrapper, italicBtn.getElement());
 
   var underlineBtn = new chartEditor.button.Underline();
+  underlineBtn.addClassName(goog.getCssName('anychart-ce-font-style-buttons'));
   this.addChild(underlineBtn, true);
   goog.dom.appendChild(buttonsWrapper, underlineBtn.getElement());
 

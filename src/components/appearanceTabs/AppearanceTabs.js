@@ -8,11 +8,14 @@ goog.require('chartEditor.Component');
 goog.require('chartEditor.ContextMenuPanel');
 goog.require('chartEditor.CreditsPanel');
 goog.require('chartEditor.DataLabelsPanel');
+goog.require('chartEditor.DropOffPanel');
 goog.require('chartEditor.EditorModel');
+goog.require('chartEditor.FlowPanel');
 goog.require('chartEditor.GaugeAxesPanel');
 goog.require('chartEditor.GeneralTheming');
 goog.require('chartEditor.GridsPanel');
 goog.require('chartEditor.LegendPanel');
+goog.require('chartEditor.NodePanel');
 goog.require('chartEditor.PointersPanel');
 goog.require('chartEditor.RadarPolarXAxisPanel');
 goog.require('chartEditor.RadarPolarYAxisPanel');
@@ -85,6 +88,24 @@ chartEditor.AppearanceTabs = function(model, opt_buttonsWrapper, opt_domHelper) 
       name: chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
       enabled: true,
       classFunc: chartEditor.CircularRangesPanel,
+      instance: null
+    },
+    {
+      name: chartEditor.enums.EditorTabs.NODE,
+      enabled: true,
+      classFunc: chartEditor.FlowPanel,
+      instance: null
+    },
+    {
+      name: chartEditor.enums.EditorTabs.NODE,
+      enabled: true,
+      classFunc: chartEditor.NodePanel,
+      instance: null
+    },
+    {
+      name: chartEditor.enums.EditorTabs.DROP_OFF,
+      enabled: true,
+      classFunc: chartEditor.DropOffPanel,
       instance: null
     },
     {

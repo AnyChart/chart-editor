@@ -185,6 +185,10 @@
 .anychart-ce-breadcrumbs-right {
   float: right;
 }
+
+.anychart-ce-font-style-buttons {
+  margin-left: 5px;
+}
 // endregion
 
 // region ---- user data
@@ -532,6 +536,9 @@
   position: relative;
   border-top: 1px solid @color-border;
   padding: 14px 32px 14px 16px;
+  .anychart-ce-labeled-control-label {
+    text-transform: capitalize;
+  }
 }
 
 .anychart-ce-plot-panel-series-remove-btn {
@@ -811,7 +818,7 @@
 .anychart-ce-settings-panel-no-checkbox {
   > .top {
     .title {
-      padding-left: 0;
+      padding: 0 0 8px 0;
     }
   }
 }
@@ -834,8 +841,9 @@
   }
   .title-font-style-buttons {
     display: inline-block;
-    width: 94px;
+    width: 120px;
     float: right;
+    text-align: right;
   }
 
 }
@@ -855,6 +863,9 @@
     float: left;
     width: 12%;
     padding-top: 3px;
+    .title {
+      padding-left: 0;
+    }
   }
   .content {
     clear: none;

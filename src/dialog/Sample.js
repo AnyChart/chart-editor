@@ -85,6 +85,9 @@ chartEditor.dialog.Sample.prototype.updateContent = function(sampleId) {
     case "16":
       url = goog.string.Const.from("https://playground.anychart.com/quoyYTa2/iframe");
       break;
+    case "17":
+      url = goog.string.Const.from("https://playground.anychart.com/haBJcinU/iframe");
+      break;
   }
 
   if (url) {
