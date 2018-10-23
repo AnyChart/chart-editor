@@ -396,7 +396,7 @@ chartEditor.EditorModel.ChartTypes = {
     'value': 'column',
     'stackMode': 'percent',
     'name': 'Column stacked (percent)',
-    'icon': 'percent-stacked-step-line-area-chart.svg',
+    'icon': 'percent-stacked-column-chart.svg',
     'series': ['column', 'line', 'spline', 'area', 'splineArea', 'ohlc'],
     'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
@@ -707,7 +707,7 @@ chartEditor.EditorModel.ChartTypes = {
   'mosaic': {
     'value': 'mosaic',
     'name': 'Mosaic',
-    'icon': 'bar-mekko-chart.svg',
+    'icon': 'mosaic-chart.svg',
     'series': ['mekko'],
     'scales': chartEditor.EditorModel.Scales.CARTESIAN,
     'dataSetCtor': 'set',
@@ -893,7 +893,7 @@ chartEditor.EditorModel.ChartTypes = {
   'sankey': {
     'value': 'sankey',
     'name': 'Sankey Diagram',
-    'icon': '',
+    'icon': 'sankey-diagram.svg',
     'series': ['sankey'],
     'dataSetCtor': 'set',
     'singleSeries': true,
