@@ -91,7 +91,7 @@ chartEditor.AppearanceTabs = function(model, opt_buttonsWrapper, opt_domHelper) 
       instance: null
     },
     {
-      name: chartEditor.enums.EditorTabs.NODE,
+      name: chartEditor.enums.EditorTabs.FLOW,
       enabled: true,
       classFunc: chartEditor.FlowPanel,
       instance: null
