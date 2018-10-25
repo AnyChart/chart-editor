@@ -90,5 +90,5 @@ chartEditor.exportTabs.Embed.prototype.onButton_ = function() {
   var dataCode = model.getDataCode();
   values['code'] = chartCode + '\n' + dataCode + '\n';
 
-  this.form_.post(values, 'http://playground.anychart.com/export', '_blank');
+  this.form_.post(values, 'https://playground.anychart.com/export', '_blank');
 };
