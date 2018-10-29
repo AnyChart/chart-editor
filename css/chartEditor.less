@@ -813,6 +813,11 @@
       padding: 6px 10px;
     }
   }
+  .content:after {
+    display: block;
+    content: '';
+    clear: both;
+  }
 }
 
 .anychart-ce-settings-panel-no-checkbox {
@@ -826,26 +831,35 @@
 .anychart-ce-settings-title {
   .title-text {
     width: 250px;
+    margin-bottom: 0.3em;
   }
   .title-color {
     float: right;
   }
-  .title-font-family {
+}
+
+.anychart-ce-settings-font {
+  > .content >* {
+    margin-top: .3em;
+    margin-bottom: .3em;
+  }
+
+  padding: 0 0 .3em 0 !important;
+
+  .anychart-ce-settings-font-family {
     float: left;
     margin-left: 0;
-    margin-right: 10px;
-    width: 150px !important;
+    margin-right: .3em;
+
   }
-  .title-font-size {
+  .anychart-ce-settings-font-size {
     float: left;
   }
-  .title-font-style-buttons {
+  .anychart-ce-settings-font-style-buttons {
     display: inline-block;
-    width: 120px;
     float: right;
     text-align: right;
   }
-
 }
 
 .anychart-ce-settings-title,

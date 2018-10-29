@@ -190,6 +190,9 @@ chartEditor.EditorModel.Scales = {
   ],
   GAUGE_LINEAR: [
     {'type': 'linear', 'key': 'scale()', 'name': 'Default Scale'}
+  ],
+  TAG_CLOUD_LINEAR: [
+    {'type': 'linear', 'key': 'scale()', 'name': 'Default Scale'}
   ]
 };
 
@@ -913,6 +916,31 @@ chartEditor.EditorModel.ChartTypes = {
       chartEditor.enums.EditorTabs.DATA_LABELS
     ],
     'filters': ['common']
+  },
+  'tag-cloud': {
+    'value': 'tagCloud',
+    'name': 'Tag Cloud',
+    'icon': 'tag-cloud.svg',
+    'series': ['tagCloud'],
+    'scales': chartEditor.EditorModel.Scales.TAG_CLOUD_LINEAR,
+    'singleSeries': true,
+    'dataSetCtor': 'set',
+    'panelsExcludes': [
+      chartEditor.enums.EditorTabs.GRIDS,
+      chartEditor.enums.EditorTabs.SERIES,
+      chartEditor.enums.EditorTabs.CARTESIAN_AXES,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      chartEditor.enums.EditorTabs.GAUGE_AXES,
+      chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+      chartEditor.enums.EditorTabs.SCALE_BARS,
+      chartEditor.enums.EditorTabs.DATA_LABELS,
+      chartEditor.enums.EditorTabs.POINTERS,
+      chartEditor.enums.EditorTabs.SCALES,
+      chartEditor.enums.EditorTabs.NODE,
+      chartEditor.enums.EditorTabs.FLOW,
+      chartEditor.enums.EditorTabs.DROP_OFF
+    ],
+    'filters': ['common']
   }
   // endregion
 };
@@ -1106,6 +1134,18 @@ chartEditor.EditorModel.Series = {
     'fields': [
       {'field': 'low', 'name': 'Low'},
       {'field': 'high', 'name': 'High'}
+    ]
+  },
+  'tagCloud': {
+    'name': 'tagCloud',
+    'fields': [
+      {
+        'field': 'value'
+      },
+      {
+        'field': 'category',
+        'type': 'string'
+      }
     ]
   }
 };

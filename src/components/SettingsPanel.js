@@ -43,11 +43,12 @@ chartEditor.SettingsPanel = function(model, opt_name, opt_domHelper) {
 
   /**
    * @type {boolean}
+   * @private
    */
   this.allowRemove_ = false;
 
   /**
-   * @type {Array.<chartEditor.SettingsPanel|chartEditor.controls.LabeledControl|chartEditor.checkbox.Base|chartEditor.controls.select.Base|chartEditor.comboBox.Base|chartEditor.colorPicker.Base|chartEditor.controls.input.Base>}
+   * @type {Array.<chartEditor.SettingsPanel|chartEditor.controls.LabeledControl|chartEditor.checkbox.Base|chartEditor.controls.select.Base|chartEditor.comboBox.Base|chartEditor.colorPicker.Base|chartEditor.controls.input.Base|chartEditor.button.Toggle>}
    * @private
    */
   this.childControls_ = [];
@@ -404,7 +405,7 @@ chartEditor.SettingsPanel.prototype.registerLabel = function(labelElement) {
 
 
 /**
- * @param {chartEditor.SettingsPanel|chartEditor.controls.LabeledControl|chartEditor.checkbox.Base|chartEditor.controls.select.Base|chartEditor.comboBox.Base|chartEditor.colorPicker.Base|chartEditor.controls.input.Base} control
+ * @param {chartEditor.SettingsPanel|chartEditor.controls.LabeledControl|chartEditor.checkbox.Base|chartEditor.controls.select.Base|chartEditor.comboBox.Base|chartEditor.colorPicker.Base|chartEditor.controls.input.Base|chartEditor.button.Toggle} control
  * @param {number=} opt_index
  * @return {boolean} true if control was added.
  */
