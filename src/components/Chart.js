@@ -227,6 +227,7 @@ chartEditor.Chart.prototype.onModelChange = function(evt) {
   goog.object.forEach(settings['chart']['settings'], function(value, key) {
     if (goog.isString(value)) {
       value = value.replace(/(\\\\)/g, '\\');
+      value = value.replace(/(\\n)/g, '\n');
 
       if (key === 'palette()')
         value = self.anychart['palettes'][value];
