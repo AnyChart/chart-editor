@@ -2973,13 +2973,11 @@ chartEditor.EditorModel.prototype.getChartWithJsCode_ = function(opt_options) {
     var markerSeriesName = '';
 
     goog.object.forEach(chartSettings, function(value, key) {
-      var pVal = value;
       var force = false;
       var quotes = false;
-      if (key === "palette()") {
-        pVal = anychartGlobal['palettes'][value];
-        //pVal = 'anychart.palettes.' + value;
-      } else if (key === "contextMenu().itemsFormatter()")
+      if (key === "palette()")
+        value = anychartGlobal['palettes'][value];
+      else if (key === "contextMenu().itemsFormatter()")
         quotes = force = true;
 
       if (goog.isString(value) && value.indexOf('STANDALONE:') === 0) {
@@ -3000,7 +2998,7 @@ chartEditor.EditorModel.prototype.getChartWithJsCode_ = function(opt_options) {
       }
 
       if (goog.isDef(value) && chartEditor.binding.testExec(chart, key, value)) {
-        var settingString = self.printKey_(printer, 'chart', key, pVal, goog.isString(value) || force, quotes);
+        var settingString = self.printKey_(printer, 'chart', key, value, goog.isString(value) || force, quotes);
 
         if (addMarkers) {
           var pattern = /(plot\(\d\)\.)?getSeries.*\.name\(.*\)/;
