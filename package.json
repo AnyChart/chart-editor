@@ -1,6 +1,6 @@
 {
   "name": "chart-editor",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "AnyChart Chart Editor utility",
   "main": "index.js",
   "scripts": {
