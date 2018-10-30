@@ -63,7 +63,7 @@ chartEditor.select.ChartType.prototype.createDom = function() {
       caption: chartTypeOptions[i]['name'],
       value: chartTypeOptions[i]['value'],
       stackMode: chartTypeOptions[i]['stackMode'],
-      icon: 'http://www.anychart.com/_design/img/upload/charts/types/' + chartTypeOptions[i]['icon'],
+      icon: 'https://cdn.anychart.com/anydata/editor/icons/' + chartTypeOptions[i]['icon'],
       filters: chartTypeOptions[i]['filters']
     });
     this.addItem(chartTypeItem);

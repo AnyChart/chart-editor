@@ -9,9 +9,12 @@ goog.require('chartEditor.settings.specific.Mekko');
 goog.require('chartEditor.settings.specific.Pie');
 goog.require('chartEditor.settings.specific.Polar');
 goog.require('chartEditor.settings.specific.Radar');
+goog.require('chartEditor.settings.specific.Sankey');
 goog.require('chartEditor.settings.specific.Scatter');
+goog.require('chartEditor.settings.specific.TagCloud');
 goog.require('chartEditor.settings.specific.TreeMap');
 goog.require('chartEditor.settings.specific.Waterfall');
+
 
 
 /**
@@ -55,6 +58,10 @@ chartEditor.SpecificPanel = function(model, opt_domHelper) {
       classFunc: chartEditor.settings.specific.TreeMap
     },
     {
+      chartType: 'sankey',
+      classFunc: chartEditor.settings.specific.Sankey
+    },
+    {
       chartType: 'gauges.circular',
       classFunc: chartEditor.settings.specific.GaugeCircular
     },
@@ -69,7 +76,12 @@ chartEditor.SpecificPanel = function(model, opt_domHelper) {
     {
       chartType: ['line', 'area', 'bar', 'column', 'box'],
       classFunc: chartEditor.settings.specific.Cartesian
-    }];
+    },
+    {
+      chartType: ['tagCloud'],
+      classFunc: chartEditor.settings.specific.TagCloud
+    }
+  ];
 };
 goog.inherits(chartEditor.SpecificPanel, chartEditor.SettingsPanel);
 

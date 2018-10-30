@@ -6,6 +6,7 @@ goog.require('goog.ui.Button');
 goog.require('goog.ui.Component');
 
 
+
 /**
  * Plot panel on Setup chart step.
  *
@@ -15,87 +16,87 @@ goog.require('goog.ui.Component');
  * @constructor
  * @extends {chartEditor.ComponentWithKey}
  */
-chartEditor.PlotPanel = function (model, index, opt_domHelper) {
-    chartEditor.PlotPanel.base(this, 'constructor', model, opt_domHelper);
+chartEditor.PlotPanel = function(model, index, opt_domHelper) {
+  chartEditor.PlotPanel.base(this, 'constructor', model, opt_domHelper);
 
-    /**
-     * @type {number}
-     * @private
-     */
-    this.index_ = index;
+  /**
+   * @type {number}
+   * @private
+   */
+  this.index_ = index;
 
-    /**
-     * @type {Array.<chartEditor.SeriesPanel>}
-     * @private
-     */
-    this.series_ = [];
+  /**
+   * @type {Array.<chartEditor.SeriesPanel>}
+   * @private
+   */
+  this.series_ = [];
 
-    this.addClassName('anychart-ce-plot-panel');
+  this.addClassName('anychart-ce-plot-panel');
 };
 goog.inherits(chartEditor.PlotPanel, chartEditor.ComponentWithKey);
 
 
 /** @inheritDoc */
-chartEditor.PlotPanel.prototype.createDom = function () {
-    chartEditor.PlotPanel.base(this, 'createDom');
+chartEditor.PlotPanel.prototype.createDom = function() {
+  chartEditor.PlotPanel.base(this, 'createDom');
 
-    var dom = this.getDomHelper();
-    var element = this.getElement();
+  var dom = this.getDomHelper();
+  var element = this.getElement();
 
-    this.title_ = dom.createDom(goog.dom.TagName.DIV, 'anychart-ce-plot-panel-plot-title', 'Plot ' + (this.index_ + 1));
-    goog.dom.appendChild(element, this.title_);
+  this.title_ = dom.createDom(goog.dom.TagName.DIV, 'anychart-ce-plot-panel-plot-title', 'Plot ' + (this.index_ + 1));
+  goog.dom.appendChild(element, this.title_);
 
-    var remove = dom.createDom(goog.dom.TagName.DIV, 'anychart-ce-plot-panel-remove-btn', '');
-    goog.dom.appendChild(this.getElement(), remove);
-    this.getHandler().listen(remove, goog.events.EventType.CLICK, function () {
-        /** @type {chartEditor.EditorModel} */(this.getModel()).dropPlot(this.index_);
-    });
+  var remove = dom.createDom(goog.dom.TagName.DIV, 'anychart-ce-plot-panel-remove-btn', '');
+  goog.dom.appendChild(this.getElement(), remove);
+  this.getHandler().listen(remove, goog.events.EventType.CLICK, function() {
+    /** @type {chartEditor.EditorModel} */(this.getModel()).dropPlot(this.index_);
+  });
 };
 
 
 /** @inheritDoc */
-chartEditor.PlotPanel.prototype.onModelChange = function (evt) {
-    if (evt && !evt.rebuildMapping) return;
+chartEditor.PlotPanel.prototype.onModelChange = function(evt) {
+  if (evt && !evt.rebuildMapping) return;
 
-    var model = /** @type {chartEditor.EditorModel} */(this.getModel());
-    var chartType = model.getValue([['chart'], 'type']);
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
+  var chartType = model.getValue([['chart'], 'type']);
 
-    // toggle stock specific settings
-    chartType === 'stock' ?
-        this.addClassName('anychart-ce-plot-panel-stock') :
-        this.removeClassName('anychart-ce-plot-panel-stock');
+  // toggle stock specific settings
+  chartType === 'stock' ?
+      this.addClassName('anychart-ce-plot-panel-stock') :
+      this.removeClassName('anychart-ce-plot-panel-stock');
 
-    // Series
-    this.removeAllSeries_();
+  // Series
+  this.removeAllSeries_();
 
-    var plotModel = model.getValue([['dataSettings'], ['mappings', this.index_]]);
+  var plotModel = model.getValue([['dataSettings'], ['mappings', this.index_]]);
 
-    for (var i = 0; i < plotModel.length; i++) {
-        var series = new chartEditor.SeriesPanel(/** @type {chartEditor.EditorModel} */(this.getModel()), i);
-        if (i === 0) series.addClassName('anychart-ce-plot-panel-series-first');
-        this.series_.push(series);
-        this.addChild(series, true);
-    }
+  for (var i = 0; i < plotModel.length; i++) {
+    var series = new chartEditor.SeriesPanel(/** @type {chartEditor.EditorModel} */(this.getModel()), i);
+    if (i === 0) series.addClassName('anychart-ce-plot-panel-series-first');
+    this.series_.push(series);
+    this.addChild(series, true);
+  }
 
-    // TODO: Зачем диспоузить кнопки?
-    goog.dispose(this.addSeriesBtn_);
-    this.addSeriesBtn_ = null;
+  // TODO: Зачем диспоузить кнопки?
+  goog.dispose(this.addSeriesBtn_);
+  this.addSeriesBtn_ = null;
 
-    if (!model.isChartSingleSeries()) {
-        var addSeriesBtnRenderer = /** @type {goog.ui.ButtonRenderer} */(goog.ui.ControlRenderer.getCustomRenderer(
-            goog.ui.ButtonRenderer,
-            'anychart-ce-plot-panel-add-series-btn'));
-        this.addSeriesBtn_ = new goog.ui.Button('+ Add Series', addSeriesBtnRenderer);
-        this.addChildAt(this.addSeriesBtn_, this.getChildCount(), true);
-        this.getHandler().listen(this.addSeriesBtn_, goog.ui.Component.EventType.ACTION, this.onAddSeries_);
-    }
+  if (!model.isChartSingleSeries()) {
+    var addSeriesBtnRenderer = /** @type {goog.ui.ButtonRenderer} */(goog.ui.ControlRenderer.getCustomRenderer(
+      goog.ui.ButtonRenderer,
+      'anychart-ce-plot-panel-add-series-btn'));
+    this.addSeriesBtn_ = new goog.ui.Button('+ Add Series', addSeriesBtnRenderer);
+    this.addChildAt(this.addSeriesBtn_, this.getChildCount(), true);
+    this.getHandler().listen(this.addSeriesBtn_, goog.ui.Component.EventType.ACTION, this.onAddSeries_);
+  }
 };
 
 
 /** @inheritDoc */
-chartEditor.PlotPanel.prototype.exitDocument = function () {
-    this.removeAllSeries_();
-    chartEditor.PlotPanel.base(this, 'exitDocument');
+chartEditor.PlotPanel.prototype.exitDocument = function() {
+  this.removeAllSeries_();
+  chartEditor.PlotPanel.base(this, 'exitDocument');
 };
 
 
@@ -103,8 +104,8 @@ chartEditor.PlotPanel.prototype.exitDocument = function () {
  * Asks model to add series.
  * @private
  */
-chartEditor.PlotPanel.prototype.onAddSeries_ = function () {
-    /** @type {chartEditor.EditorModel} */(this.getModel()).addSeries(this.index_);
+chartEditor.PlotPanel.prototype.onAddSeries_ = function() {
+  /** @type {chartEditor.EditorModel} */(this.getModel()).addSeries(this.index_);
 };
 
 
@@ -112,12 +113,12 @@ chartEditor.PlotPanel.prototype.onAddSeries_ = function () {
  * Removes all series panels elements from panel.
  * @private
  */
-chartEditor.PlotPanel.prototype.removeAllSeries_ = function () {
-    for (var i = 0; i < this.series_.length; i++) {
-        this.removeChild(this.series_[i], true);
-        this.series_[i].dispose();
-    }
-    this.series_.length = 0;
+chartEditor.PlotPanel.prototype.removeAllSeries_ = function() {
+  for (var i = 0; i < this.series_.length; i++) {
+    this.removeChild(this.series_[i], true);
+    this.series_[i].dispose();
+  }
+  this.series_.length = 0;
 };
 
 
@@ -127,28 +128,28 @@ chartEditor.PlotPanel.prototype.removeAllSeries_ = function () {
  * @param {number=} opt_value
  * @return {number|chartEditor.PlotPanel}
  */
-chartEditor.PlotPanel.prototype.index = function (opt_value) {
-    if (goog.isDef(opt_value)) {
-        if (goog.isNumber(opt_value)) {
-            this.index_ = opt_value;
-            this.title_.innerHTML = 'Plot ' + (this.index_ + 1);
-        }
-        return this;
+chartEditor.PlotPanel.prototype.index = function(opt_value) {
+  if (goog.isDef(opt_value)) {
+    if (goog.isNumber(opt_value)) {
+      this.index_ = opt_value;
+      this.title_.innerHTML = 'Plot ' + (this.index_ + 1);
     }
-    return this.index_;
+    return this;
+  }
+  return this.index_;
 };
 
 
 /** @inheritDoc */
-chartEditor.PlotPanel.prototype.dispose = function () {
-    this.removeAllSeries_();
-    chartEditor.PlotPanel.base(this, 'dispose');
+chartEditor.PlotPanel.prototype.dispose = function() {
+  this.removeAllSeries_();
+  chartEditor.PlotPanel.base(this, 'dispose');
 };
 
 
 /** @inheritDoc */
-chartEditor.PlotPanel.prototype.getKey = function (opt_completion) {
-    if (!this.key)
-        this.key = [['plot', this.index()]];
-    return chartEditor.PlotPanel.base(this, 'getKey', opt_completion);
+chartEditor.PlotPanel.prototype.getKey = function(opt_completion) {
+  if (!this.key)
+    this.key = [['plot', this.index()]];
+  return chartEditor.PlotPanel.base(this, 'getKey', opt_completion);
 };

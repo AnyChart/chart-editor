@@ -1,10 +1,7 @@
 goog.provide('chartEditor.TooltipPanel');
 
 goog.require('chartEditor.SettingsPanel');
-goog.require('chartEditor.controls.select.DataField');
-goog.require('chartEditor.settings.Title');
-goog.require('chartEditor.settings.TooltipTitle');
-
+goog.require('chartEditor.settings.Tooltip');
 
 
 /**
@@ -29,34 +26,9 @@ chartEditor.TooltipPanel.prototype.createDom = function() {
 
   var model = /** @type {chartEditor.EditorModel} */(this.getModel());
 
-  // Display mode
-  var displayMode = new chartEditor.controls.select.DataField({label: 'Display mode'});
-  displayMode.getSelect().setOptions(['separated', 'single', 'union']);
-  displayMode.init(model, this.genKey('displayMode()'));
-  this.addChildControl(displayMode);
-
-  // Position mode
-  var positionMode = new chartEditor.controls.select.DataField({label: 'Position mode'});
-  positionMode.getSelect().setOptions(['chart', 'float', 'point']);
-  positionMode.init(model, this.genKey('positionMode()'));
-  this.addChildControl(positionMode);
-
-  this.addContentSeparator();
-
-  // Title
-  var title = new chartEditor.settings.TooltipTitle(model, 'Title');
-  title.setTitleFormatKey([['chart'], ['settings'], 'tooltip().titleFormat()']);
-  title.setKey(this.genKey('title()'));
-  this.addChildControl(title);
-
-  this.addContentSeparator();
-
-  // Content
-  var contentComponent = new chartEditor.settings.Title(model, 'Content');
-  contentComponent.allowEnabled(false);
-  contentComponent.allowEditPosition(false);
-  contentComponent.allowEditAlign(false);
-  contentComponent.setTitleKey('format()');
-  contentComponent.setKey(this.getKey());
-  this.addChildControl(contentComponent);
+  var settings = new chartEditor.settings.Tooltip(model);
+  settings.allowEnabled(false);
+  settings.setName('Tooltip');
+  settings.setKey(this.getKey());
+  this.addChild(settings, true);
 };

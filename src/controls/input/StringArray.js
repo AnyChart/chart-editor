@@ -40,6 +40,8 @@ chartEditor.controls.input.StringArray.prototype.onChange = function() {
 
   if (!this.noDispatch && value !== this.lastValue && this.editorModel) {
     value = value.split(',');
+    for (var i = 0; i < value.length; i++)
+      value[i] = value[i].trim();
     if (value.length == 1 && !value[0])
       value = null;
 

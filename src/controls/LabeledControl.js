@@ -4,7 +4,11 @@ goog.require('chartEditor.Component');
 
 
 /**
- * @param {(chartEditor.comboBox.Base|chartEditor.controls.select.Base|chartEditor.controls.input.Base|chartEditor.colorPicker.Base)} control
+ * @param {(chartEditor.comboBox.Base|
+ * chartEditor.controls.select.Base|
+ * chartEditor.controls.input.Base|
+ * chartEditor.colorPicker.Base|
+ * chartEditor.controls.select.DataField)} control
  * @param {string=} opt_label
  * @param {goog.dom.DomHelper=} opt_domHelper
  * @constructor
@@ -39,7 +43,11 @@ chartEditor.controls.LabeledControl.prototype.createDom = function() {
 
 
 /**
- * @return {(chartEditor.comboBox.Base|chartEditor.controls.select.Base|chartEditor.controls.input.Base|chartEditor.colorPicker.Base)}
+ * @return {(chartEditor.comboBox.Base|
+ * chartEditor.controls.select.Base|
+ * chartEditor.controls.input.Base|
+ * chartEditor.colorPicker.Base|
+ * chartEditor.controls.select.DataField)}
  */
 chartEditor.controls.LabeledControl.prototype.getControl = function() {
   return this.control_;
@@ -47,7 +55,12 @@ chartEditor.controls.LabeledControl.prototype.getControl = function() {
 
 
 /**
- * @param {(chartEditor.comboBox.Base|chartEditor.controls.select.Base|chartEditor.controls.input.Base|chartEditor.colorPicker.Base)} control
+ * @param {(chartEditor.comboBox.Base|
+ * chartEditor.controls.select.Base|
+ * chartEditor.controls.input.Base|
+ * chartEditor.colorPicker.Base|
+ * chartEditor.controls.select.DataField
+ * )} control
  */
 chartEditor.controls.LabeledControl.prototype.setControl = function(control) {
   goog.dispose(this.control_);

@@ -1549,6 +1549,9 @@
 .anychart-ce-breadcrumbs-right {
   float: right;
 }
+.anychart-ce-font-style-buttons {
+  margin-left: 5px;
+}
 .anychart-ce-user-data {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -1878,6 +1881,9 @@
   border-top: 1px solid #c7d8e4;
   padding: 14px 32px 14px 16px;
 }
+.anychart-ce-plot-panel-series .anychart-ce-labeled-control-label {
+  text-transform: capitalize;
+}
 .anychart-ce-plot-panel-series-remove-btn {
   top: 20px;
   right: 7px;
@@ -2122,28 +2128,40 @@
   font-size: 15px;
   padding: 6px 10px;
 }
+.anychart-ce-settings-panel .content:after {
+  display: block;
+  content: '';
+  clear: both;
+}
 .anychart-ce-settings-panel-no-checkbox > .top .title {
-  padding-left: 0;
+  padding: 0 0 8px 0;
 }
 .anychart-ce-settings-title .title-text {
   width: 250px;
+  margin-bottom: 0.3em;
 }
 .anychart-ce-settings-title .title-color {
   float: right;
 }
-.anychart-ce-settings-title .title-font-family {
+.anychart-ce-settings-font {
+  padding: 0 0 .3em 0 !important;
+}
+.anychart-ce-settings-font > .content > * {
+  margin-top: .3em;
+  margin-bottom: .3em;
+}
+.anychart-ce-settings-font .anychart-ce-settings-font-family {
   float: left;
   margin-left: 0;
-  margin-right: 10px;
-  width: 150px !important;
+  margin-right: .3em;
 }
-.anychart-ce-settings-title .title-font-size {
+.anychart-ce-settings-font .anychart-ce-settings-font-size {
   float: left;
 }
-.anychart-ce-settings-title .title-font-style-buttons {
+.anychart-ce-settings-font .anychart-ce-settings-font-style-buttons {
   display: inline-block;
-  width: 94px;
   float: right;
+  text-align: right;
 }
 .anychart-ce-settings-title .anychart-select-data-field-select,
 .anychart-ce-settings-legend-appearance .anychart-select-data-field-select {
@@ -2158,6 +2176,9 @@
   float: left;
   width: 12%;
   padding-top: 3px;
+}
+.anychart-ce-settings-stroke .top .title {
+  padding-left: 0;
 }
 .anychart-ce-settings-stroke .content {
   clear: none;

@@ -1,6 +1,6 @@
 {
   "name": "chart-editor",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "AnyChart Chart Editor utility",
   "main": "index.js",
   "scripts": {
@@ -39,10 +39,10 @@
   "devDependencies": {
     "google-closure-compiler": "^20180204.0.0",
     "google-closure-library": "^20180204.0.0",
-    "less": "^3.0.1",
+    "less": "^3.8.1",
     "less-plugin-clean-css": "^1.5.1"
   },
   "dependencies": {
-    "anychart": "8.2.x"
+    "anychart": "^8.4.1"
   }
 }

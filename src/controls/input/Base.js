@@ -119,6 +119,7 @@ chartEditor.controls.input.Base.prototype.onChange = function() {
 
   var value = this.getValue();
   value = value.replace(/(\\)/g, '\\\\');
+  value = value.replace(/(\\\\n)/g, '\\n');
 
   if (!this.noDispatch && value !== this.lastValue && this.editorModel) {
     if (this.validateFunction_(value)) {
@@ -275,6 +276,9 @@ chartEditor.controls.input.Base.prototype.validateFunction_ = function(value) {
 chartEditor.controls.input.Base.prototype.formatterFunction_ = function(value) {
   if (!goog.isDef(value) || goog.isFunction(value))
     value = '';
+
+  if (goog.isString(value) && value) ///fix ENV-918 gantt can pass a number here
+    value = value.replace(/(\n)/g, '\\n');
 
   return value ? String(value) : '';
 };

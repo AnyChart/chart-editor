@@ -102,7 +102,8 @@ chartEditor.Chart.prototype.onModelChange = function(evt) {
 
     } else if (dsCtor === 'tree') {
       mappingObj = settings['dataSettings']['mappings'][0][0]['mapping'];
-      mappingObj['id'] = settings['dataSettings']['field'];
+      if (chartType === 'treeMap')
+        mappingObj['id'] = settings['dataSettings']['field'];
       dsCtorArgs = [void 0, void 0, void 0, mappingObj];
     }
 
@@ -223,14 +224,11 @@ chartEditor.Chart.prototype.onModelChange = function(evt) {
     }
   }
 
-  // console.log(defaultInstances['scale']);
-
   // Chart settings
-  // console.log(settings['chart']['settings']);
   goog.object.forEach(settings['chart']['settings'], function(value, key) {
-    //console.log("chart settings", key, value);
     if (goog.isString(value)) {
       value = value.replace(/(\\\\)/g, '\\');
+      value = value.replace(/(\\n)/g, '\n');
 
       if (key === 'palette()')
         value = self.anychart['palettes'][value];

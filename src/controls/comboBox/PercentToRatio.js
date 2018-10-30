@@ -4,6 +4,7 @@ goog.provide('chartEditor.comboBox.PercentToRatioInput');
 goog.require('chartEditor.comboBox.Percent');
 
 
+
 /**
  * A ComboBox control.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper.
@@ -67,10 +68,4 @@ goog.inherits(chartEditor.comboBox.PercentToRatioInput, goog.ui.LabelInput);
 chartEditor.comboBox.PercentToRatioInput.prototype.setValueConvert = function(s) {
   s = (Number(s) * 100) + '%';
   this.setValue(s);
-};
-
-chartEditor.comboBox.PercentToRatioInput.prototype.getValue = function() {
-  var s =chartEditor.comboBox.PercentToRatioInput.base(this, 'getValue');
-  console.log(s);
-  return s;
 };

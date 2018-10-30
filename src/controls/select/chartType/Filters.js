@@ -24,7 +24,8 @@ chartEditor.controls.chartType.Filters.Map = {
   'common': 'Common',
   'stacked-value': 'Stacked',
   'stacked-percent': 'Percent stacked',
-  'gauges': 'Gauges'
+  'gauges': 'Gauges',
+  'gantt': 'Gantts'
 };
 
 

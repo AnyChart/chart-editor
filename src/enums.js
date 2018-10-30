@@ -246,5 +246,14 @@ chartEditor.enums.EditorTabs = {
   CREDITS: 'credits',
   SOURCE_CODE: 'sourceCode',
   JSON: 'json',
-  EMBED: 'embed'
+  EMBED: 'embed',
+  NODE: 'node',
+  FLOW: 'flow',
+  DROP_OFF: 'dropOff',
+  GANTT_TIMELINE_HEADER: 'timeLineHeader',
+  GANTT_TIMELINE: 'timeLine',
+  GANTT_DATAGRID: 'dataGrid',
+  GANTT_GRID_COLORING: 'gridColoring',
+  GANTT_TIMELINE_TOOLTIP: 'ganttTimelineTooltip',
+  GANTT_DATAGRID_TOOLTIP: 'ganttDataGridTooltip'
 };

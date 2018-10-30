@@ -17,19 +17,7 @@ Intuitive and easy to use web application that allows you to create and work wit
 
 ## Download and install
 
-There are several ways to download/install AnyChart Chart Editor.
-
-#### Direct download
-
-All binaries are located in [dist](https://github.com/AnyChart/chart-editor/tree/master/dist) folder.
-
-#### Using npm
-
-You can install AnyChart Chart Editor using **npm**:
-
-```
-npm install anychart-editor
-```
+You can download all project binaries from [dist](https://github.com/AnyChart/chart-editor/tree/master/dist) folder.
 
 ## Getting started
 
@@ -114,8 +102,11 @@ editor.data({
     title: 'Awesome Chart'
 });
 
-// You also may want to disable Prepare Data step 
-editor.steps().prepareData(false);
+// You also may want to disable one or more of the four steps
+editor.step('data', false);
+
+// Or disable some tabs on Appearance or Export steps
+editor.step('appearance').tab('contextMenu', false);
 ```
 
 
