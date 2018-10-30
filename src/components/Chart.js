@@ -102,7 +102,8 @@ chartEditor.Chart.prototype.onModelChange = function(evt) {
 
     } else if (dsCtor === 'tree') {
       mappingObj = settings['dataSettings']['mappings'][0][0]['mapping'];
-      mappingObj['id'] = settings['dataSettings']['field'];
+      if (chartType === 'treeMap')
+        mappingObj['id'] = settings['dataSettings']['field'];
       dsCtorArgs = [void 0, void 0, void 0, mappingObj];
     }
 

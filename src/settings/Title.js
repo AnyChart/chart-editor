@@ -187,7 +187,9 @@ chartEditor.settings.Title.prototype.createDom = function() {
 
   var model = /** @type {chartEditor.EditorModel} */(this.getModel());
 
-  var fontSettings = new chartEditor.settings.Font(model, null, {fontColor: !this.allowEditColor_});
+  var fontSettings = new chartEditor.settings.Font(model);
+  if (!this.allowEditColor_)
+    fontSettings.hideField('fontColor');
   fontSettings.setKey(this.getKey());
   this.addChildControl(fontSettings);
 

@@ -99,6 +99,7 @@ chartEditor.Tabs.prototype.enterDocument = function() {
 chartEditor.Tabs.prototype.updateExclusions = function() {
   var model = /** @type {chartEditor.EditorModel} */(this.getModel());
   var panelsExcludes = model.getChartTypeSettings()['panelsExcludes'];
+  var firstNonExcludedPanel = null;
 
   for (var i = 0; i < this.descriptors.length; i++) {
     var panel = /** @type {chartEditor.SettingsPanel} */(this.descriptors[i].instance);
@@ -106,15 +107,16 @@ chartEditor.Tabs.prototype.updateExclusions = function() {
 
     var excluded = !this.descriptors[i].enabled || (panelsExcludes && goog.array.indexOf(panelsExcludes, panel.getStringId()) !== -1);
     panel.exclude(excluded);
-
+    if (!excluded && goog.isNull(firstNonExcludedPanel))
+      firstNonExcludedPanel = i;
     if (panelId === 'specific' && !excluded) {
       panel.updateSpecific();
       this.getDomHelper().setTextContent(this.buttons[i], /** @type {string} */(panel.getName()));
     }
-
-    if (excluded && this.currentPanel === i)
-      this.currentPanel = 0;
   }
+
+  if (!this.descriptors[this.currentPanel].excluded)
+    this.currentPanel = firstNonExcludedPanel;
 };
 
 

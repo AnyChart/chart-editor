@@ -73,7 +73,8 @@ chartEditor.settings.specific.TagCloud.prototype.createDom = function() {
 
   this.addContentSeparator();
 
-  var fontSettings = new chartEditor.settings.Font(model, null, /**@type {chartEditor.settings.Font.forHide}*/({fontDecoration: true}));
+  var fontSettings = new chartEditor.settings.Font(model);
+  fontSettings.hideField('fontDecoration');
   fontSettings.setFontColorKey('fill()');
   fontSettings.setKey(this.getKey());
   this.addChildControl(fontSettings);

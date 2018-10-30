@@ -249,5 +249,11 @@ chartEditor.enums.EditorTabs = {
   EMBED: 'embed',
   NODE: 'node',
   FLOW: 'flow',
-  DROP_OFF: 'dropOff'
+  DROP_OFF: 'dropOff',
+  GANTT_TIMELINE_HEADER: 'timeLineHeader',
+  GANTT_TIMELINE: 'timeLine',
+  GANTT_DATAGRID: 'dataGrid',
+  GANTT_GRID_COLORING: 'gridColoring',
+  GANTT_TIMELINE_TOOLTIP: 'ganttTimelineTooltip',
+  GANTT_DATAGRID_TOOLTIP: 'ganttDataGridTooltip'
 };

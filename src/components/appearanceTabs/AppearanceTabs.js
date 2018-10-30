@@ -11,6 +11,12 @@ goog.require('chartEditor.DataLabelsPanel');
 goog.require('chartEditor.DropOffPanel');
 goog.require('chartEditor.EditorModel');
 goog.require('chartEditor.FlowPanel');
+goog.require('chartEditor.GanttDataGridPanel');
+goog.require('chartEditor.GanttDataGridTooltip');
+goog.require('chartEditor.GanttGridColoringPanel');
+goog.require('chartEditor.GanttTimeLineHeaderPanel');
+goog.require('chartEditor.GanttTimeLinePanel');
+goog.require('chartEditor.GanttTimeLineTooltip');
 goog.require('chartEditor.GaugeAxesPanel');
 goog.require('chartEditor.GeneralTheming');
 goog.require('chartEditor.GridsPanel');
@@ -20,7 +26,7 @@ goog.require('chartEditor.PointersPanel');
 goog.require('chartEditor.RadarPolarXAxisPanel');
 goog.require('chartEditor.RadarPolarYAxisPanel');
 goog.require('chartEditor.ScaleBarsPanel');
-goog.require("chartEditor.ScalesPanel");
+goog.require('chartEditor.ScalesPanel');
 goog.require('chartEditor.SeriesSettingsPanel');
 goog.require('chartEditor.SpecificPanel');
 goog.require('chartEditor.Tabs');
@@ -58,6 +64,30 @@ chartEditor.AppearanceTabs = function(model, opt_buttonsWrapper, opt_domHelper) 
       name: chartEditor.enums.EditorTabs.TITLE,
       enabled: true,
       classFunc: chartEditor.ChartTitlePanel,
+      instance: null
+    },
+    {
+      name: chartEditor.enums.EditorTabs.GANTT_TIMELINE_HEADER,
+      enabled: true,
+      classFunc: chartEditor.GanttTimeLineHeaderPanel,
+      instance: null
+    },
+    {
+      name: chartEditor.enums.EditorTabs.GANTT_TIMELINE,
+      enabled: true,
+      classFunc: chartEditor.GanttTimeLinePanel,
+      instance: null
+    },
+    {
+      name: chartEditor.enums.EditorTabs.GANTT_DATAGRID,
+      enabled: true,
+      classFunc: chartEditor.GanttDataGridPanel,
+      instance: null
+    },
+    {
+      name: chartEditor.enums.EditorTabs.GANTT_GRID_COLORING,
+      enabled: true,
+      classFunc: chartEditor.GanttGridColoringPanel,
       instance: null
     },
     {
@@ -154,6 +184,16 @@ chartEditor.AppearanceTabs = function(model, opt_buttonsWrapper, opt_domHelper) 
       name: chartEditor.enums.EditorTabs.TOOLTIP,
       enabled: true,
       classFunc: chartEditor.TooltipPanel,
+      instance: null
+    },{
+      name: chartEditor.enums.EditorTabs.GANTT_TIMELINE_TOOLTIP,
+      enabled: true,
+      classFunc: chartEditor.GanttTimeLineTooltip,
+      instance: null
+    },{
+      name: chartEditor.enums.EditorTabs.GANTT_DATAGRID_TOOLTIP,
+      enabled: true,
+      classFunc: chartEditor.GanttDataGridTooltip,
       instance: null
     },
     {

@@ -4,6 +4,7 @@ goog.require('chartEditor.dialog.Base');
 goog.require('goog.ui.Dialog');
 
 
+
 /**
  * Modal dialog for adding custom data on Prepare Data step.
  *
@@ -85,11 +86,14 @@ chartEditor.dialog.Sample.prototype.updateContent = function(sampleId) {
     case '16':
       url = goog.string.Const.from('https://playground.anychart.com/quoyYTa2/iframe');
       break;
+    case '17':
+      url = goog.string.Const.from('https://playground.anychart.com/haBJcinU/iframe');
+      break;
     case '18':
       url = goog.string.Const.from('https://playground.anychart.com/wnH672BM/iframe');
       break;
-    case "17":
-      url = goog.string.Const.from("https://playground.anychart.com/haBJcinU/iframe");
+    case '19':
+      url = goog.string.Const.from('https://playground.anychart.com/MEPMaSze/1/iframe');
       break;
   }
 

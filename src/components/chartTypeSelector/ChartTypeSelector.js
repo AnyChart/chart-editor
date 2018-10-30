@@ -83,7 +83,7 @@ chartEditor.ChartTypeSelector.prototype.onModelChange = function(evt) {
   goog.dispose(this.activeAndFieldSelect_);
   this.activeAndFieldSelect_ = null;
 
-  if (chartType === 'map' || model.chartTypeLike('gauges') || chartType === 'sankey') {
+  if (chartType === 'map' || model.chartTypeLike('gauges') || model.chartTypeLike('gantt') || chartType === 'sankey') {
     // Data Set select
     this.activeAndFieldSelect_ = new chartEditor.controls.select.DataField({
       caption: 'Select data set',

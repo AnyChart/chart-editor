@@ -277,7 +277,7 @@ chartEditor.controls.input.Base.prototype.formatterFunction_ = function(value) {
   if (!goog.isDef(value) || goog.isFunction(value))
     value = '';
 
-  if (value)
+  if (goog.isString(value) && value) ///fix ENV-918 gantt can pass a number here
     value = value.replace(/(\n)/g, '\\n');
 
   return value ? String(value) : '';

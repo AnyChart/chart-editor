@@ -16,6 +16,7 @@ goog.require('chartEditor.settings.specific.TreeMap');
 goog.require('chartEditor.settings.specific.Waterfall');
 
 
+
 /**
  * @param {chartEditor.EditorModel} model
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
