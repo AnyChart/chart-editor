@@ -43,6 +43,6 @@
     "less-plugin-clean-css": "^1.5.1"
   },
   "dependencies": {
-    "anychart": "8.4.x"
+    "anychart": "^8.4.1"
   }
 }
