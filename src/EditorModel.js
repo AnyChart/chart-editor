@@ -3040,6 +3040,9 @@ chartEditor.EditorModel.prototype.getChartWithJsCode_ = function(opt_options) {
       }
 
       if (goog.isDef(value) && chartEditor.binding.testExec(chart, key, value)) {
+        if (goog.isString(value))
+          value = value.replace(/"/g, '\\"');
+
         var settingString = self.printKey_(printer, 'chart', key, value, goog.isString(value) || force, quotes);
 
         if (addMarkers) {
