@@ -1988,10 +1988,11 @@ chartEditor.EditorModel.prototype.setSeriesType = function(input) {
  * @param {chartEditor.controls.select.Base} input
  */
 chartEditor.EditorModel.prototype.setTheme = function(input) {
+  this.suspendDispatch();
   delete this.model_['chart']['settings']['palette()'];
   var inputValue = input.getValue();
   this.setValue([['anychart'], 'theme()'], inputValue.value);
-  this.dispatchUpdate();
+  this.resumeDispatch();
 };
 
 

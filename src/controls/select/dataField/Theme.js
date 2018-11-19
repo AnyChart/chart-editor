@@ -61,17 +61,15 @@ goog.inherits(chartEditor.controls.select.ThemeDataFieldSelect, chartEditor.cont
 chartEditor.controls.select.ThemeDataFieldSelect.prototype.setValueByTarget = function(target) {
   if (this.excluded) return;
 
-  if (!this.key || !this.key.length) {
-    console.warn("Control with no key!");
-    return;
-  }
   this.target = target;
-
   var stringKey = chartEditor.EditorModel.getStringKey(this.key);
   var value = /** @type {string} */(chartEditor.binding.exec(this.target, stringKey));
-  value = goog.isArray(value) ?
-      value[0] || 'defaultTheme' :
-      value;
+
+  if (goog.isArray(value))
+    value = value[0] || 'defaultTheme';
+
+  if (goog.isObject(value) && value['stringId'])
+    value = value['stringId'];
 
   this.noDispatch = true;
   this.setValue(value);
