@@ -97,6 +97,14 @@ chartEditor.controls.select.Base.prototype.getKey = function() {
 };
 
 
+/**
+ * Removes control's value from model
+ */
+chartEditor.controls.select.Base.prototype.reset = function() {
+  this.editorModel.removeByKey(this.key);
+};
+
+
 /** @override */
 chartEditor.controls.select.Base.prototype.enterDocument = function() {
   chartEditor.controls.select.Base.base(this, 'enterDocument');

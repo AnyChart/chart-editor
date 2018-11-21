@@ -25,6 +25,8 @@ chartEditor.Chart = function(model, opt_domHelper) {
    * @private
    */
   this.containerId_ = 'anychart-ce-chart-container-' + goog.string.createUniqueString();
+
+  this.addClassName(goog.getCssName('anychart-ce-chart-container'));
 };
 goog.inherits(chartEditor.Chart, chartEditor.Component);
 
@@ -32,8 +34,6 @@ goog.inherits(chartEditor.Chart, chartEditor.Component);
 /** @inheritDoc */
 chartEditor.Chart.prototype.createDom = function() {
   chartEditor.Chart.base(this, 'createDom');
-
-  goog.dom.classlist.add(this.getElement(), 'anychart-ce-chart-container');
 
   this.getDomHelper().setProperties(this.getElement(), {'id': this.containerId_});
 };

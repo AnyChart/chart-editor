@@ -28,6 +28,10 @@ chartEditor.settings.scales.Base = function(model, types, opt_domHelper) {
   this.fixedScaleType_ = void 0;
 
   this.allowEnabled(false);
+
+  this.allowReset(true);
+
+  this.addClassName(goog.getCssName('anychart-ce-settings-scale'));
 };
 goog.inherits(chartEditor.settings.scales.Base, chartEditor.SettingsPanel);
 
@@ -95,6 +99,8 @@ chartEditor.settings.scales.Base.prototype.createDom = function() {
   type.init(model, this.genKey('type', true));
   this.addChild(type, true);
   this.scaleTypeField = type;
+
+  this.getContentElement().appendChild(this.resetButton_.getElement());
 
   var specificWrapper = new chartEditor.Component();
   this.addChild(specificWrapper, true);
@@ -175,6 +181,7 @@ chartEditor.settings.scales.Base.prototype.updateSpecific = function(opt_force) 
     this.specificComponent = new chartEditor.settings.scales.Base.descriptors[this.scaleType_].classFunc(model);
     this.specificComponent.setKey(this.getKey());
     this.specificComponent.allowEnabled(false);
+    this.specificComponent.allowReset(true);
     this.specificComponent.skipSettings(this.skippedSettings);
 
     this.specificWrapper_.addChild(this.specificComponent, true);
@@ -192,6 +199,27 @@ chartEditor.settings.scales.Base.prototype.updateSpecific = function(opt_force) 
 chartEditor.settings.scales.Base.prototype.getScaleType = function() {
   var value = this.scaleTypeField && this.scaleTypeField.getValue();
   return value && value.value;
+};
+
+
+/** @inheritDoc */
+chartEditor.settings.scales.Base.prototype.reset = function() {
+  if (this.specificComponent) {
+    this.specificComponent.reset();
+  }
+
+  if (!this.fixedScaleType_ ) {
+    this.scaleTypeField.setValue(null);
+    this.scaleType_ = '';
+
+    if (this.specificComponent) {
+      this.specificWrapper_.removeChild(this.specificComponent, true);
+      goog.dispose(this.specificComponent);
+      this.specificComponent = null;
+    }
+  }
+
+  this.updateSpecific();
 };
 
 

@@ -19,6 +19,8 @@ chartEditor.GeneralTheming = function(model, opt_domHelper) {
   this.stringId = chartEditor.enums.EditorTabs.THEMING;
 
   this.anychart_ = goog.dom.getWindow()['anychart'];
+
+  this.allowReset(true);
 };
 goog.inherits(chartEditor.GeneralTheming, chartEditor.SettingsPanel);
 
@@ -88,4 +90,14 @@ chartEditor.GeneralTheming.prototype.disposeInternal = function() {
   this.paletteSelect = null;
 
   chartEditor.GeneralTheming.base(this, 'disposeInternal');
+};
+
+
+/** @inheritDoc */
+chartEditor.GeneralTheming.prototype.reset = function() {
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
+  model.removeByKey(this.themeSelect.getKey());
+  chartEditor.binding.exec(goog.dom.getWindow()['anychart'], 'theme()', 'defaultTheme');
+
+  model.removeByKey(this.paletteSelect.getKey());
 };

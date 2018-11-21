@@ -82,6 +82,8 @@ chartEditor.SpecificPanel = function(model, opt_domHelper) {
       classFunc: chartEditor.settings.specific.TagCloud
     }
   ];
+
+  this.allowReset(true);
 };
 goog.inherits(chartEditor.SpecificPanel, chartEditor.SettingsPanel);
 
@@ -132,6 +134,12 @@ chartEditor.SpecificPanel.prototype.updateSpecific = function() {
     } else
       this.exclude(true);
   }
+};
+
+
+/** @inheritDoc */
+chartEditor.SpecificPanel.prototype.onReset = function(evt) {
+  this.specific_.reset();
 };
 
 

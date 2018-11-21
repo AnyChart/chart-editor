@@ -16,6 +16,8 @@ goog.require("chartEditor.settings.Stroke");
  */
 chartEditor.settings.Markers = function(model, opt_domHelper) {
   chartEditor.settings.Markers.base(this, 'constructor', model, 'Markers', opt_domHelper);
+
+  this.allowReset(true);
 };
 goog.inherits(chartEditor.settings.Markers, chartEditor.SettingsPanel);
 
@@ -62,5 +64,5 @@ chartEditor.settings.Markers.prototype.createDom = function() {
 
   var stroke = new chartEditor.settings.Stroke(model);
   stroke.setKey(this.genKey('stroke()'));
-  this.addChild(stroke, true);
+  this.addChildControl(stroke);
 };

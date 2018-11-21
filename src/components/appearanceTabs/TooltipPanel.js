@@ -16,6 +16,8 @@ chartEditor.TooltipPanel = function(model, opt_domHelper) {
   this.stringId = chartEditor.enums.EditorTabs.TOOLTIP;
 
   this.key = [['chart'], ['settings'], 'tooltip()'];
+
+  this.allowReset(true);
 };
 goog.inherits(chartEditor.TooltipPanel, chartEditor.SettingsPanel);
 
@@ -30,5 +32,5 @@ chartEditor.TooltipPanel.prototype.createDom = function() {
   settings.allowEnabled(false);
   settings.setName('Tooltip');
   settings.setKey(this.getKey());
-  this.addChild(settings, true);
+  this.addChildControl(settings);
 };

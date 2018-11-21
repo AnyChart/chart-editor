@@ -500,11 +500,7 @@
   display: none;
 }
 
-.anychart-ce-plot-panel-add-series-btn,
-.anychart-chart-data-settings-add-plot-btn,
-.anychart-axes-panel-add-axis-btn,
-.anychart-ce-settings-panel-add-range-btn,
-.anychart-ce-embed-button {
+.anychart-ce-blue-btn {
   .border-radius(4px);
   font-size: 14px;
   padding: 6px 10px;
@@ -520,16 +516,8 @@
   }
 }
 
-.anychart-ce-plot-panel-add-series-btn {
-  margin: 0 14px 14px 14px
-}
-
-.anychart-chart-data-settings-add-plot-btn {
-  margin-top: 20px;
-}
-
-.anychart-axes-panel-add-axis-btn {
-  margin-top: 5px;
+.anychart-ce-add-series-btn {
+  margin: 0 14px 14px 14px !important;
 }
 
 .anychart-ce-plot-panel-series {
@@ -605,6 +593,10 @@
 
 .anychart-chart-data-settings {
   padding: 18px 7px;
+
+  .anychart-ce-add-btn{
+    margin-top: 20px;
+  }
 }
 
 .anychart-geo-data-inputs {
@@ -682,6 +674,19 @@
       padding: 15px;
       background: white;
     }
+
+    .anychart-ce-settings-panel-description {
+      float: right;
+      text-align: right;
+      font-size: 13px;
+      a {
+        text-decoration: none;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+    }
   }
 }
 
@@ -722,13 +727,31 @@
   .anychart-ce-color {
     margin-right: 15px;
   }
+  .top {
+    .anychart-ce-button-reset {
+      position: absolute;
+      top: 11px;
+      right: 45px;
+    }
+  }
 }
 
 .anychart-ce-settings-panel-series-single,
 .anychart-ce-settings-panel-pointer-single,
-.anychart-ce-settings-panel-scale-bar {
+.anychart-ce-settings-panel-scale-bar,
+.anychart-ce-settings-gantt-column {
   .anychart-plus-minus {
     margin-top: 4px;
+    margin-left: 40px;
+  }
+  .anychart-ce-zippy-header {
+    .anychart-ce-button-reset {
+      position: absolute;
+      right: 47px;
+      top: 15px;
+      width: 33px;
+      height: 35px;
+    }
   }
 }
 
@@ -767,8 +790,9 @@
 
 .anychart-ce-button-disabled,
 .anychart-ce-input-label-disabled {
-  //border-color: @color-border-disabled !important;
   color: @color-text-disabled !important;
+  cursor: default;
+  background-color: unset !important;
 }
 
 .anychart-ce-settings-panel-no-top {
@@ -779,6 +803,8 @@
 }
 
 .anychart-ce-settings-panel {
+  position: relative;
+
   .top {
     font-size: 17px;
     color: @color-text;
@@ -786,10 +812,17 @@
 
     .title {
       display: inline-block;
-      padding-left: 15px;
+      padding-left: 7px;
     }
     .anychart-ce-checkbox {
       float: left;
+    }
+    .anychart-ce-button-reset {
+      float: right;
+      width: 33px;
+      height: 30px;
+      font-size: 17px;
+      line-height: 17px;
     }
   }
   .anychart-ce-settings-panel-remove-btn {
@@ -822,6 +855,7 @@
 
 .anychart-ce-settings-panel-no-checkbox {
   > .top {
+    min-height: 33px;
     .title {
       padding: 0 0 8px 0;
     }
@@ -831,33 +865,29 @@
 .anychart-ce-settings-title {
   .title-text {
     width: 250px;
-    margin-bottom: 0.3em;
+    margin-bottom: 3px;
   }
   .title-color {
     float: right;
   }
 }
 
+.anychart-ce-settings-panel-description {
+  padding: 15px 15px;
+}
+
 .anychart-ce-settings-font {
-  > .content >* {
-    margin-top: .3em;
-    margin-bottom: .3em;
-  }
+  padding: 0 !important;
 
-  padding: 0 0 .3em 0 !important;
-
-  .anychart-ce-settings-font-family {
+  .anychart-ce-settings-font-family,
+  .anychart-ce-settings-font-size,
+  .anychart-ce-settings-font-color,
+  .anychart-ce-settings-font-style-buttons {
     float: left;
-    margin-left: 0;
-    margin-right: .3em;
-
-  }
-  .anychart-ce-settings-font-size {
-    float: left;
+    display: block;
+    margin: 0 10px 6px 0;
   }
   .anychart-ce-settings-font-style-buttons {
-    display: inline-block;
-    float: right;
     text-align: right;
   }
 }
@@ -869,36 +899,35 @@
   }
 }
 
-.anychart-ce-settings-stroke {
-  margin-bottom: 13px;
-  .top {
-    font-size: 15px !important;
-    color: @color-label !important;
-    float: left;
-    width: 12%;
-    padding-top: 3px;
-    .title {
-      padding-left: 0;
-    }
-  }
+.anychart-ce-stroke {
   .content {
-    clear: none;
+    position: relative;
+    padding-right: 35px; // For clear button
+  }
+  .anychart-ce-stroke-dash,
+  .anychart-ce-stroke-thickness,
+  .anychart-ce-stroke-color {
+    display: block;
     float: left;
-    width: 88%;
-  }
-  .anychart-stroke-dash,
-  .anychart-stroke-thickness,
-  .anychart-stroke-color {
-    display: inline-block;
-    float: right;
     min-width: unset;
-    margin: 0 10px 0 0;
+    margin: 0 10px 6px 0;
   }
-  .anychart-stroke-dash {
-    width: 110px;
+  .anychart-ce-stroke-dash {
+    min-width: 150px;
   }
-  .anychart-ce-color {
+  .anychart-ce-stroke-color {
     margin-right: 0;
+  }
+  .anychart-ce-button-reset {
+    width: 32px;
+    height: 35px;
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    i {
+      font-size: 14px;
+    }
   }
 }
 
@@ -908,7 +937,7 @@
   }
 }
 
-.anychart-ce-settings-panel-multiple {
+.anychart-ce-settings-panel-mult {
   > .content {
     border: none !important;
     background: none !important;
@@ -931,7 +960,24 @@
       }
     }
   }
+  .anychart-ce-settings-panel-description {
+    position: relative;
+    top: -20px;
+  }
 }
+
+.anychart-ce-settings-panel-mult-with-btn {
+  .content {
+    position: relative;
+  }
+  .anychart-ce-add-btn {
+    margin-top: 5px;
+  }
+  .anychart-ce-settings-panel-description {
+    top: -35px;
+  }
+}
+
 
 .anychart-ce-settings-panel-legend-single,
 .anychart-ce-settings-panel-plot-grids {
@@ -962,7 +1008,7 @@
   }
   .anychart-ce-settings-title {
     .top {
-      padding: 15px 0;
+      padding: 0;
     }
   }
 }
@@ -984,7 +1030,7 @@
       position: static;
 
       .title {
-        padding: 6px 10px;
+        padding: 0 10px 6px 10px;
       }
     }
   }
@@ -1005,13 +1051,30 @@
     padding: 15px 15px 0 15px;
   }
   .anychart-ce-settings-markers {
-    .anychart-ce-settings-stroke {
+    .anychart-ce-stroke {
       padding: 0;
     }
   }
   .anychart-ce-settings-panel-remove-btn {
     top: -6px;
     right: -6px;
+  }
+}
+
+.anychart-ce-settings-scale {
+  .content {
+    position: relative;
+
+  }
+  .anychart-ce-scale-type {
+    padding-right: 35px; // For clear button
+  }
+  .anychart-ce-button-reset {
+    width: 32px;
+    height: 35px;
+    position: absolute;
+    top: 0;
+    right: 0;
   }
 }
 
@@ -1023,7 +1086,7 @@
   .anychart-ce-settings-panel {
     padding: 15px;
   }
-  .anychart-ce-settings-stroke,
+  .anychart-ce-stroke,
   .anychart-ce-settings-stagger {
     padding: 0;
   }
@@ -1103,20 +1166,6 @@
   text-align: left;
 }
 
-.anychart-colormenu {
-  padding: 10px;
-
-  .anychart-ce-palette-table {
-    margin: 3px 0 0 0;
-    padding: 0;
-  }
-
-  .anychart-ce-label-input {
-    width: 134px;
-    margin-top: 5px;
-  }
-}
-
 /* ------- SETTINGS GROUP ------- */
 .anychart-ce-settings-item-gap {
   clear: both;
@@ -1161,6 +1210,7 @@
 
 .anychart-ce-settings-control-right {
   float: right;
+  width: auto !important;
 }
 
 /* ------- CHART SETTINGS ------- */
@@ -1214,6 +1264,48 @@
 }
 // endregion
 
+.anychart-ce-button-reset {
+  margin: 0;
+  padding: 0;
+  min-width: unset;
+  background: none;
+  border: none;
+
+  i {
+    font-size: 18px;
+    line-height: 18px;
+  }
+  &:hover {
+    background-color: @color-button-hover-background;
+  }
+}
+
+.anychart-ce-input-with-function {
+  background: @color-special-value;
+  font-style: italic;
+}
+
+.anychart-ce-resetable-control {
+  position: relative;
+  margin-bottom: 10px;
+
+  .anychart-ce-input {
+    width: 100%;
+  }
+  .anychart-ce-button-reset {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 35px;
+    height: 31px;
+    color: @color-arrow;
+    border: none;
+
+    i {
+      font-size: 14px;
+    }
+  }
+}
 
 // region ---- data field select
 .anychart-ce-labeled-control {

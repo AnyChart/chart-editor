@@ -42,7 +42,7 @@ chartEditor.settings.scales.Ranges.prototype.createDom = function() {
 
   var addRangeBtnRenderer = /** @type {goog.ui.ButtonRenderer} */(goog.ui.ControlRenderer.getCustomRenderer(
       goog.ui.ButtonRenderer,
-      'anychart-ce-settings-panel-add-range-btn'));
+      'anychart-ce-blue-btn'));
   this.addRangeBtn_ = new goog.ui.Button('+ Add range', addRangeBtnRenderer);
   this.addChild(this.addRangeBtn_, true);
 };

@@ -18,6 +18,9 @@ chartEditor.settings.ganttProject.elements.MilestonesElement = function(model, o
   chartEditor.settings.ganttProject.elements.MilestonesElement.base(this, 'constructor', model, 'Milestones element', opt_domHelper);
 
   this.allowEnabled(false);
+
+  this.allowReset(true);
+
   this.addClassName(goog.getCssName('anychart-ce-settings-gantt-element-milestones'));
 };
 goog.inherits(chartEditor.settings.ganttProject.elements.MilestonesElement, chartEditor.settings.ganttProject.elements.Base);

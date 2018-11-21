@@ -2,6 +2,7 @@ goog.provide('chartEditor.colorPicker.Base');
 
 goog.require('chartEditor.colorPicker.Renderer');
 goog.require('chartEditor.events');
+goog.require('chartEditor.ui.button.Base');
 
 goog.require('goog.dom.classlist');
 goog.require('goog.dom.selection');
@@ -58,6 +59,19 @@ goog.inherits(chartEditor.colorPicker.Base, goog.ui.ColorMenuButton);
 
 
 /**
+ * @type {boolean}
+ * @private
+ */
+chartEditor.colorPicker.Base.prototype.allowReset_ = true;
+
+
+/** @param {boolean} value */
+chartEditor.colorPicker.Base.prototype.allowReset = function(value) {
+  this.allowReset_ = value;
+};
+
+
+/**
  * Opens or closes the menu.  Overrides {@link goog.ui.MenuButton#setOpen} by
  * generating a default color menu on the fly if needed.
  * @param {boolean} open Whether to open or close the menu.
@@ -74,7 +88,7 @@ chartEditor.colorPicker.Base.prototype.setOpen = function(open, opt_e) {
     menu.setAllowAutoFocus(false);
     menu.render();
 
-    goog.dom.classlist.add(menu.getElement(), goog.getCssName('anychart-colormenu'));
+    goog.dom.classlist.add(menu.getElement(), goog.getCssName('anychart-ce-menu-color'));
     // Hack for set check icon (below to don't create inherited class from goog.ui.ColorPalette)
     var colorswatches = menu.getElementsByClass(goog.getCssName('anychart-ce-palette-colorswatch'));
     for (var i = 0; i < colorswatches.length; i++) {
@@ -91,6 +105,15 @@ chartEditor.colorPicker.Base.prototype.setOpen = function(open, opt_e) {
     this.getHandler().listen(input.getElement(), goog.events.EventType.BLUR, this.onColorInputBlur_);
 
     this.setSelectedColor(/** @type {?string} */ (this.getValue()));
+
+    if (this.allowReset_) {
+      var button = new chartEditor.ui.button.Base("Reset");
+      button.addClassName('anychart-ce-button-reset');
+      button.setIcon('ac ac-clear');
+      menu.addChildAt(button, 0, true);
+      goog.events.listen(button, goog.ui.Component.EventType.ACTION, this.onReset, false, this);
+      this.resetButton_ = button;
+    }
   }
 
   chartEditor.colorPicker.Base.base(this, 'setOpen', open, opt_e);
@@ -152,6 +175,14 @@ chartEditor.colorPicker.Base.prototype.setKey = function(value) {
 };
 
 
+/**
+ * Removes control's value from model
+ */
+chartEditor.colorPicker.Base.prototype.reset = function() {
+  this.editorModel.removeByKey(this.key);
+};
+
+
 /** @override */
 chartEditor.colorPicker.Base.prototype.enterDocument = function() {
   chartEditor.colorPicker.Base.base(this, 'enterDocument');
@@ -178,11 +209,12 @@ chartEditor.colorPicker.Base.prototype.onChange_ = function(evt) {
 
   if (!this.noDispatch && this.editorModel) {
     var value = this.getSelectedColor();
-
-    if (this.callback)
-      this.editorModel.callbackByString(this.callback, this);
-    else
-      this.editorModel.setValue(this.key, value, false, this.noRebuild);
+    if (value) {
+      if (this.callback)
+        this.editorModel.callbackByString(this.callback, this);
+      else
+        this.editorModel.setValue(this.key, value, false, this.noRebuild);
+    }
   }
 };
 
@@ -266,4 +298,20 @@ chartEditor.colorPicker.Base.prototype.updateExclusion = function() {
 
   var stringKey = this.editorModel.getStringKey(this.key);
   this.exclude(this.editorModel.checkSettingForExclusion(stringKey));
+};
+
+
+/** @protected */
+chartEditor.colorPicker.Base.prototype.onReset = function() {
+  this.setValue(null);
+  this.editorModel.removeByKey(this.getKey());
+};
+
+
+/** @override */
+chartEditor.colorPicker.Base.prototype.disposeInternal = function() {
+  goog.dispose(this.resetButton_);
+  this.resetButton_ = null;
+
+  chartEditor.colorPicker.Base.base(this, 'disposeInternal');
 };

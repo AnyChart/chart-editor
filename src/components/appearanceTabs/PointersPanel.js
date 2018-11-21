@@ -76,6 +76,7 @@ chartEditor.PointersPanel.prototype.createPanels = function() {
     }
 
     pointer = new className(model, type, id, j);
+    pointer.allowReset(true);
 
     this.addPanelInstance(pointer);
   }

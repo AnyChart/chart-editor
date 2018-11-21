@@ -13,25 +13,18 @@ goog.require('chartEditor.settings.Title');
  */
 chartEditor.settings.LegendAppearance = function(model, opt_domHelper) {
   chartEditor.settings.LegendAppearance.base(this, 'constructor', model, null, opt_domHelper);
+
+  this.addClassName(goog.getCssName('anychart-ce-settings-legend-appearance'));
 };
 goog.inherits(chartEditor.settings.LegendAppearance, chartEditor.SettingsPanel);
 
-
-/**
- * Default CSS class.
- * @type {string}
- */
-chartEditor.settings.LegendAppearance.CSS_CLASS = goog.getCssName('anychart-ce-settings-legend-appearance');
 
 
 /** @override */
 chartEditor.settings.LegendAppearance.prototype.createDom = function() {
   chartEditor.settings.LegendAppearance.base(this, 'createDom');
 
-  var element = this.getElement();
   var model = /** @type {chartEditor.EditorModel} */(this.getModel());
-
-  goog.dom.classlist.add(element, chartEditor.settings.LegendAppearance.CSS_CLASS);
 
   var layout = new chartEditor.controls.select.DataField({label: 'Layout'});
   layout.getSelect().setOptions([
@@ -65,7 +58,6 @@ chartEditor.settings.LegendAppearance.prototype.createDom = function() {
   items.allowEditTitle(false);
   items.allowEditPosition(false);
   items.allowEditAlign(false);
-  items.allowEditColor(false);
   items.setKey(this.getKey());
-  this.addChild(items, true);
+  this.addChildControl(items);
 };

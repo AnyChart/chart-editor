@@ -17,22 +17,15 @@ chartEditor.settings.specific.Pie = function(model, opt_domHelper) {
   chartEditor.settings.specific.Pie.base(this, 'constructor', model, 'Pie Chart Settings', opt_domHelper);
 
   this.key = [['chart'], ['settings']];
+
+  this.addClassName(goog.getCssName('anychart-ce-settings-panel-pie'));
 };
 goog.inherits(chartEditor.settings.specific.Pie, chartEditor.SettingsPanel);
-
-
-/**
- * Default CSS class.
- * @type {string}
- */
-chartEditor.settings.specific.Pie.CSS_CLASS = goog.getCssName('anychart-ce-settings-panel-pie');
 
 
 /** @override */
 chartEditor.settings.specific.Pie.prototype.createDom = function() {
   chartEditor.settings.specific.Pie.base(this, 'createDom');
-
-  goog.dom.classlist.add(this.getElement(), chartEditor.settings.specific.Pie.CSS_CLASS);
 
   var model = /** @type {chartEditor.EditorModel} */(this.getModel());
 
@@ -44,5 +37,5 @@ chartEditor.settings.specific.Pie.prototype.createDom = function() {
 
   var connectorstroke = new chartEditor.settings.Stroke(model, 'Connectors');
   connectorstroke.setKey(this.genKey('connectorStroke()'));
-  this.addChild(connectorstroke, true);
+  this.addChildControl(connectorstroke);
 };

@@ -98,6 +98,14 @@ chartEditor.button.Toggle.prototype.setKey = function(value) {
 };
 
 
+/**
+ * Removes control's value from model
+ */
+chartEditor.button.Toggle.prototype.reset = function() {
+  this.editorModel.removeByKey(this.key);
+};
+
+
 /** @override */
 chartEditor.button.Toggle.prototype.enterDocument = function() {
   chartEditor.button.Toggle.base(this, 'enterDocument');

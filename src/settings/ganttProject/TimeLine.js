@@ -14,6 +14,7 @@ chartEditor.settings.ganttProject.TimeLine = function(model, opt_domHelper) {
   chartEditor.settings.ganttProject.TimeLine.base(this, 'constructor', model, '', opt_domHelper);
 
   this.allowEnabled(false);
+
   this.addClassName(goog.getCssName('anychart-ce-settings-gantt-timeline'));
 };
 goog.inherits(chartEditor.settings.ganttProject.TimeLine, chartEditor.SettingsPanel);

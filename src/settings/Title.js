@@ -6,6 +6,7 @@ goog.require('chartEditor.button.Italic');
 goog.require('chartEditor.button.Underline');
 goog.require('chartEditor.colorPicker.Base');
 goog.require('chartEditor.comboBox.Base');
+goog.require('chartEditor.controls.WrappedControl');
 goog.require('chartEditor.controls.input.Base');
 goog.require('chartEditor.controls.select.DataField');
 goog.require('chartEditor.controls.select.FontFamily');
@@ -22,15 +23,12 @@ goog.require('goog.ui.ButtonSide');
  */
 chartEditor.settings.Title = function(model, opt_name, opt_domHelper) {
   chartEditor.settings.Title.base(this, 'constructor', model, opt_name, opt_domHelper);
+
+  this.allowReset(true);
+
+  this.addClassName(goog.getCssName('anychart-ce-settings-title'));
 };
 goog.inherits(chartEditor.settings.Title, chartEditor.SettingsPanel);
-
-
-/**
- * Default CSS class.
- * @type {string}
- */
-chartEditor.settings.Title.CSS_CLASS = goog.getCssName('anychart-ce-settings-title');
 
 
 /**
@@ -174,96 +172,47 @@ chartEditor.settings.Title.prototype.allowEditColor = function(value) {
 chartEditor.settings.Title.prototype.createDom = function() {
   chartEditor.settings.Title.base(this, 'createDom');
 
-  var element = this.getElement();
   var content = this.getContentElement();
-  goog.dom.classlist.add(element, chartEditor.settings.Title.CSS_CLASS);
-
-  var textInput = null;
-  if (this.allowEditTitle_) {
-    textInput = new chartEditor.controls.input.Base(/*'Chart title'*/);
-    this.addChild(textInput, true);
-    goog.dom.classlist.add(textInput.getElement(), 'title-text');
-  }
-
   var model = /** @type {chartEditor.EditorModel} */(this.getModel());
 
+  if (this.allowEditTitle_) {
+    var title = new chartEditor.controls.WrappedControl(new chartEditor.controls.input.Base(), true);
+    title.init(model, this.genKey(this.titleKey_));
+    this.addChildControl(title);
+  }
+
   var fontSettings = new chartEditor.settings.Font(model);
-  if (!this.allowEditColor_)
-    fontSettings.hideField('fontColor');
   fontSettings.setKey(this.getKey());
   this.addChildControl(fontSettings);
 
   if (this.allowEditPosition_ || this.allowEditAlign_) {
     this.addContentSeparator();
   }
+
   if (this.allowEditPosition_) {
     var positionField = new chartEditor.controls.select.DataField({label: this.positionLabel_});
-
     positionField.getSelect().setOptions([
       {value: 'left', icon: 'ac ac-position-left'},
       {value: 'right', icon: 'ac ac-position-right'},
       {value: 'top', icon: 'ac ac-position-top'},
       {value: 'bottom', icon: 'ac ac-position-bottom'}
     ]);
-
-    this.addChild(positionField, true);
+    positionField.init(model, this.genKey(this.positionKey_));
+    this.addChildControl(positionField);
+    this.positionField_ = positionField;
   }
 
   if (this.allowEditAlign_) {
     var alignField = new chartEditor.controls.select.DataField({label: this.alignLabel_});
-
     alignField.getSelect().setOptions([
       {value: 'left', icon: 'ac ac-position-left'},
       {value: 'center', icon: 'ac ac-position-center'},
       {value: 'right', icon: 'ac ac-position-right'}
     ]);
-
-    this.addChild(alignField, true);
+    alignField.init(model, this.genKey(this.alignKey_));
+    this.addChildControl(alignField);
+    this.alignField_ = alignField;
   }
 
   goog.dom.appendChild(content, goog.dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-ce-clearboth')));
-
-  this.textInput_ = textInput;
-  this.positionField_ = positionField;
-  this.alignField_ = alignField;
-};
-
-
-/** @inheritDoc */
-chartEditor.settings.Title.prototype.onChartDraw = function(evt) {
-  chartEditor.settings.Title.base(this, 'onChartDraw', evt);
-
-  if (!this.isExcluded()) {
-    var target = evt.chart;
-    if (this.textInput_) this.textInput_.setValueByTarget(target, true);
-    if (this.positionField_) this.positionField_.getSelect().setValueByTarget(target);
-    if (this.alignField_) this.alignField_.getSelect().setValueByTarget(target);
-  }
-};
-
-
-/**
- * Update model keys.
- */
-chartEditor.settings.Title.prototype.updateKeys = function() {
-  chartEditor.settings.Title.base(this, 'updateKeys');
-  if (!this.isExcluded()) {
-    var model = /** @type {chartEditor.EditorModel} */(this.getModel());
-
-    if (this.textInput_) this.textInput_.init(model, this.genKey(this.titleKey_));
-    if (this.positionField_) this.positionField_.init(model, this.genKey(this.positionKey_));
-    if (this.alignField_) this.alignField_.init(model, this.genKey(this.alignKey_));
-  }
-};
-
-
-/** @override */
-chartEditor.settings.Title.prototype.disposeInternal = function() {
-  goog.disposeAll(this.positionField_, this.alignField_, this.textInput_);
-
-  this.textInput_ = null;
-  this.positionField_ = null;
-  this.alignField_ = null;
-
-  chartEditor.settings.Title.base(this, 'disposeInternal');
 };

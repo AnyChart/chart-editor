@@ -54,6 +54,7 @@ chartEditor.comboBox.Percent.prototype.allowNegative = function(value) {
     });
 
     this.setFormatterFunction(function(value) {
+      if (value == 'default') return '';
       var match = String(value).match(/^(\d{1,3})%?$/);
       return String(goog.math.clamp(Number(match[1]), 0, 100)) + "%";
     });
@@ -69,6 +70,6 @@ chartEditor.comboBox.Percent.prototype.setOptions = function(value) {
   var self = this;
   self.captions.length = 0;
   goog.array.forEach(self.options, function(item){
-    self.captions.push(item + '%');
+    self.captions.push(item == 'default' ? 'Default' : item + '%');
   });
 };

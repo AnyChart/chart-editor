@@ -29,5 +29,5 @@ chartEditor.ColorScalePanel.prototype.createDom = function() {
   var chartColorScale = new chartEditor.settings.scales.Base(model, ['linear-color', 'ordinal-color']);
   chartColorScale.setName(null);
   chartColorScale.setKey([['chart'], ['settings'], 'colorScale()']);
-  this.addChild(chartColorScale, true);
+  this.addChildControl(chartColorScale);
 };

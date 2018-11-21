@@ -14,15 +14,12 @@ goog.require('chartEditor.settings.Title');
  */
 chartEditor.settings.Labels = function(model, opt_domHelper) {
   chartEditor.settings.Labels.base(this, 'constructor', model, 'Labels', opt_domHelper);
+
+  this.allowReset(true);
+
+  this.addClassName(goog.getCssName('anychart-ce-settings-labels'));
 };
 goog.inherits(chartEditor.settings.Labels, chartEditor.SettingsPanel);
-
-
-/**
- * Default CSS class.
- * @type {string}
- */
-chartEditor.settings.Labels.CSS_CLASS = goog.getCssName('anychart-ce-settings-labels');
 
 
 /**
@@ -59,9 +56,6 @@ chartEditor.settings.Labels.prototype.allowEditAnchor = function(value) {
 chartEditor.settings.Labels.prototype.createDom = function() {
   chartEditor.settings.Labels.base(this, 'createDom');
 
-  var element = this.getElement();
-  goog.dom.classlist.add(element, chartEditor.settings.Labels.CSS_CLASS);
-
   var model = /** @type {chartEditor.EditorModel} */(this.getModel());
   var settings = new chartEditor.settings.Title(model, null);
   settings.allowEnabled(false);
@@ -75,7 +69,7 @@ chartEditor.settings.Labels.prototype.createDom = function() {
 
   settings.setTitleKey('format()');
   settings.setKey(this.getKey());
-  this.addChild(settings, true);
+  this.addChildControl(settings);
   this.settings_ = settings;
 
   var rotation = new chartEditor.comboBox.Base();
@@ -130,28 +124,10 @@ chartEditor.settings.Labels.prototype.enterDocument = function() {
 };
 
 
-/**
- * @return {chartEditor.settings.Title|null}
- */
-chartEditor.settings.Labels.prototype.getSettingsComponent = function() {
-  return this.settings_;
-};
-
-
 /** @inheritDoc */
 chartEditor.settings.Labels.prototype.updateKeys = function() {
   if (!this.isExcluded()) {
     if (this.settings_) this.settings_.setKey(this.getKey());
   }
-
   chartEditor.settings.Labels.base(this, 'updateKeys');
-};
-
-
-/** @override */
-chartEditor.settings.Labels.prototype.disposeInternal = function() {
-  goog.dispose(this.settings_);
-  this.settings_ = null;
-
-  chartEditor.settings.Labels.base(this, 'disposeInternal');
 };

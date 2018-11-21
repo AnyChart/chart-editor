@@ -19,6 +19,8 @@ chartEditor.NodePanel = function(model, opt_domHelper) {
   this.stringId = chartEditor.enums.EditorTabs.NODE;
   this.key = [['chart'], ['settings'], 'node()'];
   this.allowEnabled(false);
+
+  this.allowReset(true);
 };
 goog.inherits(chartEditor.NodePanel, chartEditor.SettingsPanel);
 
@@ -43,7 +45,7 @@ chartEditor.NodePanel.prototype.createDom = function() {
   labelSettings.allowEnabled(true);
   labelSettings.setName('Labels');
   labelSettings.setKey(this.genKey('labels()'));
-  this.addChild(labelSettings, true);
+  this.addChildControl(labelSettings);
 
   this.addContentSeparator();
 
@@ -53,5 +55,5 @@ chartEditor.NodePanel.prototype.createDom = function() {
   tooltipSettings.allowEditPositionMode(false);
   tooltipSettings.setName('Tooltip');
   tooltipSettings.setKey(this.genKey('tooltip()'));
-  this.addChild(tooltipSettings, true);
+  this.addChildControl(tooltipSettings);
 };

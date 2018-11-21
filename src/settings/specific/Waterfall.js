@@ -39,7 +39,7 @@ chartEditor.settings.specific.Waterfall.prototype.createDom = function() {
 
   var connectorStroke = new chartEditor.settings.Stroke(model, 'Connectors');
   connectorStroke.setKey(this.genKey('connectorStroke()'));
-  this.addChild(connectorStroke, true);
+  this.addChildControl(connectorStroke);
 
   var itemsSourceMode = new chartEditor.controls.select.DataField({label: 'Legend Items Source Mode'});
   itemsSourceMode.getSelect().setOptions([

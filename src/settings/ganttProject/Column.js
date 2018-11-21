@@ -22,6 +22,7 @@ chartEditor.settings.ganttProject.Column = function(model, index, opt_name, opt_
   this.setKey([['chart'], ['settings'], 'dataGrid().column(' + this.index_ + ')']);
   this.allowRemove(true);
   this.allowEnabled(true);
+  this.allowReset(true);
   this.addClassName(goog.getCssName('anychart-ce-settings-gantt-column'));
 };
 goog.inherits(chartEditor.settings.ganttProject.Column, chartEditor.SettingsPanelZippy);

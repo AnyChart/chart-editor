@@ -18,6 +18,7 @@ chartEditor.settings.ganttProject.GanttElements = function(model, opt_name, opt_
   chartEditor.settings.ganttProject.GanttElements.base(this, 'constructor', model, '', opt_domHelper);
 
   this.allowEnabled(false);
+
   this.addClassName(goog.getCssName('anychart-ce-settings-gantt-elements'));
 };
 goog.inherits(chartEditor.settings.ganttProject.GanttElements, chartEditor.SettingsPanel);

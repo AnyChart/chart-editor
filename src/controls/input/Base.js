@@ -36,13 +36,6 @@ chartEditor.controls.input.Base = function(opt_label, opt_domHelper) {
    */
   this.noRebuild = false;
 
-  /**
-   * Target object (usually it's chart)
-   * @type {?Object}
-   * @protected
-   */
-  this.target = null;
-
   this.revisionCount1 = 0;
 
   this.revisionCount2 = 0;
@@ -78,6 +71,7 @@ chartEditor.controls.input.Base.prototype.keyHandler_ = null;
  */
 chartEditor.controls.input.Base.prototype.setKey = function(key) {
   this.key = key;
+  this.stringKey = chartEditor.EditorModel.getStringKey(this.key);
 };
 
 
@@ -117,6 +111,9 @@ chartEditor.controls.input.Base.prototype.enterDocument = function() {
 chartEditor.controls.input.Base.prototype.onChange = function() {
   if (this.excluded) return;
 
+  goog.dom.classlist.enable(this.getElement(), goog.getCssName('anychart-ce-input-with-function'), false);
+  goog.dom.setProperties(this.getElement(), {'placeholder': ''});
+
   var value = this.getValue();
   value = value.replace(/(\\)/g, '\\\\');
   value = value.replace(/(\\\\n)/g, '\\n');
@@ -144,6 +141,14 @@ chartEditor.controls.input.Base.prototype.onChange = function() {
 
 
 /**
+ * Should be called to force setValueByTarget
+ */
+chartEditor.controls.input.Base.prototype.resetRevisions = function() {
+  this.revisionCount1 = 0;
+};
+
+
+/**
  * Connects control with EditorMode.
  *
  * @param {chartEditor.EditorModel} model Editor model instance to connect with.
@@ -160,7 +165,7 @@ chartEditor.controls.input.Base.prototype.init = function(model, key, opt_callba
    */
   this.editorModel = model;
 
-  this.key = key;
+  this.setKey(key);
 
   this.callback = opt_callback;
 
@@ -207,13 +212,16 @@ chartEditor.controls.input.Base.prototype.setValueByModel = function() {
  */
 chartEditor.controls.input.Base.prototype.setValueByTarget = function(target, opt_force) {
   if (this.excluded) return;
-  if (!opt_force && this.revisionCount1 - this.revisionCount2 > 1) return;
+
+  if (!opt_force && (this.revisionCount1 - this.revisionCount2) > 1) return;
   this.revisionCount2 = this.revisionCount1;
 
-  this.target = target;
+  var value = /** @type {string} */(chartEditor.binding.exec(target, this.stringKey));
 
-  var stringKey = chartEditor.EditorModel.getStringKey(this.key);
-  var value = /** @type {string} */(chartEditor.binding.exec(this.target, stringKey));
+  goog.dom.classlist.enable(this.getElement(), goog.getCssName('anychart-ce-input-with-function'), typeof value == 'function');
+  var placeholder = typeof value == 'function' ? '-- function value --' : '';
+  goog.dom.setProperties(this.getElement(), {'placeholder': placeholder});
+
   this.noDispatch = true;
   this.setValue(value);
   this.noDispatch = false;
@@ -251,8 +259,16 @@ chartEditor.controls.input.Base.prototype.isExcluded = function() {
 chartEditor.controls.input.Base.prototype.updateExclusion = function() {
   if (!this.key || !this.key.length) return;
 
-  var stringKey = this.editorModel.getStringKey(this.key);
-  this.exclude(this.editorModel.checkSettingForExclusion(stringKey));
+  this.exclude(this.editorModel.checkSettingForExclusion(this.stringKey));
+};
+
+
+/** override */
+chartEditor.controls.input.Base.prototype.reset = function() {
+  chartEditor.controls.input.Base.base(this, 'reset');
+
+  this.lastValue = '';
+  this.editorModel.removeByKey(this.key);
 };
 
 

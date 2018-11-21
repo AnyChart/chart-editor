@@ -20,22 +20,15 @@ chartEditor.settings.specific.GaugeCircular = function(model, opt_domHelper) {
   chartEditor.settings.specific.GaugeCircular.base(this, 'constructor', model, 'Circular Gauge Settings', opt_domHelper);
 
   this.key = [['chart'], ['settings']];
+
+  this.addClassName(goog.getCssName('anychart-ce-settings-panel-gauge-circular'));
 };
 goog.inherits(chartEditor.settings.specific.GaugeCircular, chartEditor.SettingsPanel);
-
-
-/**
- * Default CSS class.
- * @type {string}
- */
-chartEditor.settings.specific.GaugeCircular.CSS_CLASS = goog.getCssName('anychart-ce-settings-panel-gauge-circular');
 
 
 /** @override */
 chartEditor.settings.specific.GaugeCircular.prototype.createDom = function() {
   chartEditor.settings.specific.GaugeCircular.base(this, 'createDom');
-
-  goog.dom.classlist.add(this.getElement(), chartEditor.settings.specific.GaugeCircular.CSS_CLASS);
 
   var model = /** @type {chartEditor.EditorModel} */(this.getModel());
 
@@ -46,7 +39,7 @@ chartEditor.settings.specific.GaugeCircular.prototype.createDom = function() {
 
   var stroke = new chartEditor.settings.Stroke(model, 'Stroke');
   stroke.setKey(this.genKey('stroke()'));
-  this.addChild(stroke, true);
+  this.addChildControl(stroke);
 
   var startAngle = new chartEditor.comboBox.Base();
   startAngle.setOptions([-90, 0, 90, 180, 270]);
@@ -73,11 +66,9 @@ chartEditor.settings.specific.GaugeCircular.prototype.createDom = function() {
   encloseWithStraightLine.init(model, [['chart'], ['settings'], 'encloseWithStraightLine()']);
   this.addChildControl(encloseWithStraightLine);
 
-  goog.dom.appendChild(this.getContentElement(), goog.dom.createDom(
-      goog.dom.TagName.DIV,
-      goog.getCssName('anychart-ce-settings-item-separator-gaps')));
+  this.addContentSeparator();
 
   var cap = new chartEditor.settings.Cap(model);
   cap.setKey(this.genKey('cap()'));
-  this.addChild(cap, true);
+  this.addChildControl(cap);
 };

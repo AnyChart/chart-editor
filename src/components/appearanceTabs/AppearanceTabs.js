@@ -52,7 +52,8 @@ chartEditor.AppearanceTabs = function(model, opt_buttonsWrapper, opt_domHelper) 
       name: chartEditor.enums.EditorTabs.THEMING,
       enabled: true,
       classFunc: chartEditor.GeneralTheming,
-      instance: null
+      instance: null,
+      docsUrl: 'http://docs.anychart.stg/Appearance_Settings/Themes'
     },
     {
       name: chartEditor.enums.EditorTabs.SPECIFIC,
@@ -64,7 +65,8 @@ chartEditor.AppearanceTabs = function(model, opt_buttonsWrapper, opt_domHelper) 
       name: chartEditor.enums.EditorTabs.TITLE,
       enabled: true,
       classFunc: chartEditor.ChartTitlePanel,
-      instance: null
+      instance: null,
+      docsUrl: 'http://docs.anychart.stg/Common_Settings/Title'
     },
     {
       name: chartEditor.enums.EditorTabs.GANTT_TIMELINE_HEADER,
@@ -94,19 +96,22 @@ chartEditor.AppearanceTabs = function(model, opt_buttonsWrapper, opt_domHelper) 
       name: chartEditor.enums.EditorTabs.LEGEND,
       enabled: true,
       classFunc: chartEditor.LegendPanel,
-      instance: null
+      instance: null,
+      docsUrl: 'http://docs.anychart.stg/Common_Settings/Legend/Basic_Settings'
     },
     {
       name: chartEditor.enums.EditorTabs.DATA_LABELS,
       enabled: true,
       classFunc: chartEditor.DataLabelsPanel,
-      instance: null
+      instance: null,
+      docsUrl: 'http://docs.anychart.stg/Common_Settings/Labels'
     },
     {
       name: chartEditor.enums.EditorTabs.SERIES,
       enabled: true,
       classFunc: chartEditor.SeriesSettingsPanel,
-      instance: null
+      instance: null,
+      docsUrl: 'https://api.anychart.com/anychart.core.SeriesBase'
     },
     {
       name: chartEditor.enums.EditorTabs.POINTERS,
@@ -148,83 +153,97 @@ chartEditor.AppearanceTabs = function(model, opt_buttonsWrapper, opt_domHelper) 
       name: chartEditor.enums.EditorTabs.SCALES,
       enabled: true,
       classFunc: chartEditor.ScalesPanel,
-      instance: null
+      instance: null,
+      docsUrl: 'http://docs.anychart.stg/Axes_and_Grids/Scales'
     },
     {
       name: chartEditor.enums.EditorTabs.CARTESIAN_AXES,
       enabled: true,
       classFunc: chartEditor.XAxesPanel,
-      instance: null
+      instance: null,
+      docsUrl: 'http://docs.anychart.stg/Axes_and_Grids/Axis_Basics'
     },
     {
       name: chartEditor.enums.EditorTabs.CARTESIAN_AXES,
       enabled: true,
       classFunc: chartEditor.YAxesPanel,
-      instance: null
+      instance: null,
+      docsUrl: 'http://docs.anychart.stg/Axes_and_Grids/Axis_Basics'
     },
     {
       name: chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
       enabled: true,
       classFunc: chartEditor.RadarPolarXAxisPanel,
-      instance: null
+      instance: null,
+      docsUrl: 'http://docs.anychart.stg/Axes_and_Grids/Axis_Basics'
     },
     {
       name: chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
       enabled: true,
       classFunc: chartEditor.RadarPolarYAxisPanel,
-      instance: null
+      instance: null,
+      docsUrl: 'http://docs.anychart.stg/Axes_and_Grids/Axis_Basics'
     },
     {
       name: chartEditor.enums.EditorTabs.GAUGE_AXES,
       enabled: true,
       classFunc: chartEditor.GaugeAxesPanel,
-      instance: null
+      instance: null,
+      docsUrl: 'http://docs.anychart.stg/Gauges/Linear_Gauge#scales_and_axes'
     },
     {
       name: chartEditor.enums.EditorTabs.TOOLTIP,
       enabled: true,
       classFunc: chartEditor.TooltipPanel,
-      instance: null
+      instance: null,
+      docsUrl: 'http://docs.anychart.stg/Common_Settings/Tooltip'
     },{
       name: chartEditor.enums.EditorTabs.GANTT_TIMELINE_TOOLTIP,
       enabled: true,
       classFunc: chartEditor.GanttTimeLineTooltip,
-      instance: null
+      instance: null,
+      docsUrl: 'http://docs.anychart.stg/Common_Settings/Tooltip'
     },{
       name: chartEditor.enums.EditorTabs.GANTT_DATAGRID_TOOLTIP,
       enabled: true,
       classFunc: chartEditor.GanttDataGridTooltip,
-      instance: null
+      instance: null,
+      docsUrl: 'http://docs.anychart.stg/Common_Settings/Tooltip'
     },
     {
       name: chartEditor.enums.EditorTabs.GRIDS,
       enabled: true,
       classFunc: chartEditor.GridsPanel,
-      instance: null
+      instance: null,
+      docsUrl: 'http://docs.anychart.stg/Axes_and_Grids/Axis_Basics#grids'
     },
     {
       name: chartEditor.enums.EditorTabs.COLOR_SCALE,
       enabled: true,
       classFunc: chartEditor.ColorScalePanel,
-      instance: null
+      instance: null,
+      docsUrl: 'http://docs.anychart.stg/Basic_Charts/Heat_Map_Chart#color_scale'
     },
     {
       name: chartEditor.enums.EditorTabs.COLOR_RANGE,
       enabled: true,
       classFunc: chartEditor.ColorRangePanel,
-      instance: null
+      instance: null,
+      docsUrl: 'http://api.anychart.stg/v8/anychart.core.ui.ColorRange'
     },
     {
       name: chartEditor.enums.EditorTabs.CONTEXT_MENU,
       enabled: true,
       classFunc: chartEditor.ContextMenuPanel,
-      instance: null
+      instance: null,
+      docsUrl: 'http://docs.anychart.stg/Common_Settings/UI_Controls/Context_Menu'
     },
     {
       name: chartEditor.enums.EditorTabs.CREDITS,
       enabled: true,
       classFunc: chartEditor.CreditsPanel,
-      instance: null
+      instance: null,
+      docsUrl: 'http://docs.anychart.stg/Quick_Start/Credits'
     }
   ];
 };

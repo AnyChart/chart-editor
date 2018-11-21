@@ -43,14 +43,15 @@ chartEditor.settings.TreemapHeaders.prototype.createDom = function() {
 
   settings.setTitleKey('format()');
   settings.setKey(this.getKey()); // This is for enabled working sake!
-  this.addChild(settings, true);
+  this.addChildControl(settings);
   this.settings_ = settings;
 
   var maxHeadersHeight = new chartEditor.comboBox.Base();
   maxHeadersHeight.setOptions([0, 10, 20, 50, 100]);
   maxHeadersHeight.setRange(0, 100);
   this.maxHeadersHeight_ = new chartEditor.controls.LabeledControl(maxHeadersHeight, 'Max Headers Height');
-  this.addChild(this.maxHeadersHeight_, true);
+  this.maxHeadersHeight_.init(model, [['chart'], ['settings'], 'maxHeadersHeight()']);
+  this.addChildControl(this.maxHeadersHeight_);
 
   var headersDisplayMode = new chartEditor.controls.select.DataField({label: 'Headers Display Mode'});
   headersDisplayMode.getSelect().setOptions([
@@ -59,44 +60,6 @@ chartEditor.settings.TreemapHeaders.prototype.createDom = function() {
     {value: 'drop', caption: 'Drop'}
   ]);
   this.headersDisplayMode_ = headersDisplayMode;
-  this.addChild(this.headersDisplayMode_, true);
-};
-
-
-/** @inheritDoc */
-chartEditor.settings.TreemapHeaders.prototype.updateKeys = function() {
-  if (!this.isExcluded()) {
-    var model = /** @type {chartEditor.EditorModel} */(this.getModel());
-    if (this.settings_) this.settings_.setKey(this.getKey());
-    if (this.maxHeadersHeight_) this.maxHeadersHeight_.init(model, [['chart'], ['settings'], 'maxHeadersHeight()']);
-    if (this.headersDisplayMode_) this.headersDisplayMode_.init(model, [['chart'], ['settings'], 'headersDisplayMode()']);
-  }
-
-  chartEditor.settings.TreemapHeaders.base(this, 'updateKeys');
-};
-
-
-/** @inheritDoc */
-chartEditor.settings.TreemapHeaders.prototype.onChartDraw = function(evt) {
-  chartEditor.settings.TreemapHeaders.base(this, 'onChartDraw', evt);
-  if (!this.isExcluded()) {
-    var target = evt.chart;
-    if (this.maxHeadersHeight_) this.maxHeadersHeight_.setValueByTarget(target);
-    if (this.headersDisplayMode_) this.headersDisplayMode_.setValueByTarget(target);
-  }
-};
-
-
-/** @override */
-chartEditor.settings.TreemapHeaders.prototype.disposeInternal = function() {
-  goog.dispose(this.settings_);
-  this.settings_ = null;
-
-  goog.dispose(this.maxHeadersHeight_);
-  this.maxHeadersHeight_ = null;
-
-  goog.dispose(this.headersDisplayMode_);
-  this.headersDisplayMode_ = null;
-
-  chartEditor.settings.TreemapHeaders.base(this, 'disposeInternal');
+  this.headersDisplayMode_.init(model, [['chart'], ['settings'], 'headersDisplayMode()']);
+  this.addChildControl(this.headersDisplayMode_);
 };

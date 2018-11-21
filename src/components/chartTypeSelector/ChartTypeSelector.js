@@ -126,8 +126,9 @@ chartEditor.ChartTypeSelector.prototype.onModelChange = function(evt) {
   if (chartType === 'stock') {
     var plotButtonRenderer = /** @type {goog.ui.ButtonRenderer} */(goog.ui.ControlRenderer.getCustomRenderer(
         goog.ui.ButtonRenderer,
-        'anychart-chart-data-settings-add-plot-btn'));
+        'anychart-ce-blue-btn'));
     this.addPlotBtn_ = new goog.ui.Button('+ Add Plot', plotButtonRenderer);
+    this.addPlotBtn_.addClassName('anychart-ce-add-btn');
     this.addChildAt(this.addPlotBtn_, this.getChildCount(), true);
     this.getHandler().listen(this.addPlotBtn_, goog.ui.Component.EventType.ACTION, this.onAddPlot_);
   }

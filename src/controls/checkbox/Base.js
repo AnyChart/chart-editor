@@ -78,6 +78,14 @@ chartEditor.checkbox.Base.prototype.setKey = function(value) {
 };
 
 
+/**
+ * Removes control's value from model
+ */
+chartEditor.checkbox.Base.prototype.reset = function() {
+  this.editorModel.removeByKey(this.key);
+};
+
+
 /** @override */
 chartEditor.checkbox.Base.prototype.enterDocument = function() {
   chartEditor.checkbox.Base.base(this, 'enterDocument');

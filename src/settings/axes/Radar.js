@@ -18,6 +18,7 @@ chartEditor.settings.axes.Radar = function(model, opt_domHelper) {
   this.key = [['chart'], ['settings'], 'xAxis()'];
 
   this.allowEnabled(true);
+
   this.addClassName(goog.getCssName('anychart-ce-settings-panel-axis-radar'));
 };
 goog.inherits(chartEditor.settings.axes.Radar, chartEditor.SettingsPanelZippy);

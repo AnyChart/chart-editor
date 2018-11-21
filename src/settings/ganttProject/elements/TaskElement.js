@@ -12,6 +12,9 @@ chartEditor.settings.ganttProject.elements.TaskElement = function(model, opt_dom
   chartEditor.settings.ganttProject.elements.TaskElement.base(this, 'constructor', model, 'Task element', opt_domHelper);
 
   this.allowEnabled(false);
+
+  this.allowReset(true);
+
   this.addClassName(goog.getCssName('anychart-ce-settings-gantt-element-task'));
 };
 goog.inherits(chartEditor.settings.ganttProject.elements.TaskElement, chartEditor.settings.ganttProject.elements.Base);

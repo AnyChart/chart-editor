@@ -20,7 +20,11 @@ goog.require('chartEditor.settings.Stroke');
 chartEditor.settings.ganttProject.LevelWrapper = function(model, opt_index, opt_name, opt_domHelper) {
   chartEditor.settings.ganttProject.LevelWrapper.base(this, 'constructor', model, opt_name || 'Level ' + (opt_index + 1), opt_domHelper);
   this.index_ = opt_index;
+
   this.allowEnabled(true);
+
+  this.allowReset(true);
+
   this.addClassName(goog.getCssName('anychart-ce-settings-level-wrapper'));
 };
 goog.inherits(chartEditor.settings.ganttProject.LevelWrapper, chartEditor.SettingsPanel);
@@ -46,9 +50,10 @@ chartEditor.settings.ganttProject.LevelWrapper.prototype.createDom = function() 
   this.addChildControl(font);
 
   var format = new chartEditor.controls.input.Base();
-  var formatLC = new chartEditor.controls.LabeledControl(format, 'Format');
+  var formatLC = new chartEditor.controls.LabeledControl(format, 'Format', true);
   formatLC.init(model, this.genKey('format()'));
   this.addChildControl(formatLC);
+
   // Not implemented
   //  Advanced Text Settings
   // maxFontSize()	Maximum font size settings.

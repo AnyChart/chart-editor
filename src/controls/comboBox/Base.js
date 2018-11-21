@@ -134,9 +134,23 @@ chartEditor.comboBox.Base.prototype.options;
 chartEditor.comboBox.Base.prototype.captions;
 
 
+/**
+ * @type {boolean}
+ * @private
+ */
+chartEditor.comboBox.Base.prototype.allowReset_ = true;
+
+
+/** @param {boolean} value */
+chartEditor.comboBox.Base.prototype.allowReset = function(value) {
+  this.allowReset_ = value;
+};
+
+
 /** @param {Array.<string>} value */
 chartEditor.comboBox.Base.prototype.setOptions = function(value) {
-  this.options = value;
+  this.options = this.allowReset_ ? ['default'] : [];
+  this.options = goog.array.concat(this.options, value);
 };
 
 
@@ -149,6 +163,14 @@ chartEditor.comboBox.Base.prototype.getKey = function() {
 /** @param {chartEditor.EditorModel.Key} value */
 chartEditor.comboBox.Base.prototype.setKey = function(value) {
   this.key = value;
+};
+
+
+/**
+ * Removes control's value from model
+ */
+chartEditor.comboBox.Base.prototype.reset = function() {
+  this.editorModel.removeByKey(this.key);
 };
 
 
@@ -211,6 +233,8 @@ chartEditor.comboBox.Base.prototype.updateOptions = function() {
     if (i < optionsCount) {
       var option = this.options[i];
       var caption = this.captions[i] || option.toString();
+      if (caption == 'default')
+        caption = 'Default';
 
       if (!optionItem) {
         optionItem = new chartEditor.comboBox.ComboBoxItem(caption, option);
@@ -295,12 +319,18 @@ chartEditor.comboBox.Base.prototype.getFormatterFunction = function() {
  * @suppress {visibility}
  */
 chartEditor.comboBox.Base.prototype.setValue = function(value) {
-  if (this.lastToken_ !== value && this.validateFunction_(value)) {
-    value = this.formatterFunction_(value);
-    this.lastToken_ = value;
-    this.labelInput_.setValue(value);
-    this.handleInputChange_();
-    this.dispatchEvent(goog.ui.Component.EventType.CHANGE);
+  if (this.lastToken_ !== value) {
+    if (this.validateFunction_(value)) {
+      value = this.formatterFunction_(value);
+      this.lastToken_ = value;
+      this.labelInput_.setValue(value);
+      this.handleInputChange_();
+      this.dispatchEvent(goog.ui.Component.EventType.CHANGE);
+
+    } else if (!goog.isDef(value)) {
+      this.lastToken_ = '';
+      this.labelInput_.setValue('');
+    }
   }
 };
 
@@ -521,11 +551,14 @@ chartEditor.comboBox.Base.prototype.onChange = function(evt) {
 
   if (!this.noDispatch && this.editorModel) {
     var value = this.getToken();
-
-    if (this.callback)
-      this.editorModel.callbackByString(this.callback, this);
-    else
-      this.editorModel.setValue(this.key, value, false, this.noRebuild);
+    if (value == 'default') {
+      this.editorModel.removeByKey(this.key);
+    } else {
+      if (this.callback)
+        this.editorModel.callbackByString(this.callback, this);
+      else
+        this.editorModel.setValue(this.key, value, false, this.noRebuild);
+    }
   }
 };
 

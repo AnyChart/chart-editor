@@ -35,6 +35,9 @@ chartEditor.settings.Legend = function(model, opt_plotIndex, opt_domHelper) {
   this.key = [['chart'], ['settings'], stringKey];
 
   this.allowEnabled(true);
+
+  this.allowReset(true);
+
   this.addClassName(goog.getCssName('anychart-ce-settings-panel-legend-single'));
 };
 goog.inherits(chartEditor.settings.Legend,chartEditor.SettingsPanelIndexed);
@@ -50,16 +53,14 @@ chartEditor.settings.Legend.prototype.createDom = function() {
   var appearance = new chartEditor.settings.LegendAppearance(model);
   appearance.setKey(this.key);
   appearance.allowEnabled(false);
-  this.addChild(appearance, true);
+  this.addChildControl(appearance);
 
-  goog.dom.appendChild(content, goog.dom.createDom(
-      goog.dom.TagName.DIV,
-      goog.getCssName('anychart-ce-settings-item-separator')));
+  this.addContentSeparator();
 
   var title = new chartEditor.settings.Title(model, 'Title');
   title.setPositionKey('orientation()');
   title.setKey(this.genKey('title()'));
-  this.addChild(title, true);
+  this.addChildControl(title);
 
   this.appearance_ = appearance;
   this.title_ = title;
@@ -81,13 +82,4 @@ chartEditor.settings.Legend.prototype.updateKeys = function() {
 
   // Update key of enabled checkbox
   chartEditor.settings.Legend.base(this, 'updateKeys');
-};
-
-
-/** @override */
-chartEditor.settings.Legend.prototype.disposeInternal = function() {
-  this.appearance_.dispose();
-  this.appearance_ = null;
-  this.title_ = null;
-  chartEditor.settings.Legend.base(this, 'disposeInternal');
 };

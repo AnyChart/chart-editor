@@ -49,7 +49,7 @@ chartEditor.SettingsPanel = function(model, opt_name, opt_domHelper) {
 
   /**
    * @type {Array.<chartEditor.SettingsPanel|
-   *   chartEditor.controls.LabeledControl|
+   *   chartEditor.controls.WrappedControl|
    *   chartEditor.checkbox.Base|
    *   chartEditor.controls.select.Base|
    *   chartEditor.comboBox.Base|
@@ -135,6 +135,26 @@ chartEditor.SettingsPanel.prototype.allowEnabled = function(value) {
 
 
 /**
+ * @type {boolean}
+ * @private
+ */
+chartEditor.SettingsPanel.prototype.allowReset_ = false;
+
+
+/**
+ * @param {boolean=} opt_value
+ *
+ * @return {boolean}
+ */
+chartEditor.SettingsPanel.prototype.allowReset = function(opt_value) {
+  if (goog.isDef(opt_value))
+    this.allowReset_ = opt_value;
+
+  return this.allowReset_;
+};
+
+
+/**
  * @param {boolean=} opt_value
  * @return {boolean}
  */
@@ -180,6 +200,17 @@ chartEditor.SettingsPanel.prototype.createDom = function() {
     this.topEl.appendChild(dom.createDom(goog.dom.TagName.DIV, 'title', this.name));
   } else
     goog.dom.classlist.add(element, 'anychart-ce-settings-panel-no-title');
+
+  if (this.allowReset_) {
+    var button = new chartEditor.ui.button.Base();
+    button.setIcon('ac ac-clear');
+    button.addClassName('anychart-ce-button-reset');
+    this.addChild(button, true);
+    this.topEl.appendChild(button.getElement());
+
+    goog.events.listen(button, goog.ui.Component.EventType.ACTION, this.onReset, false, this);
+    this.resetButton_ = button;
+  }
 
   if (this.allowRemove_) {
     var removeBtn = dom.createDom(goog.dom.TagName.DIV, 'anychart-ce-settings-panel-remove-btn', '');
@@ -308,6 +339,37 @@ chartEditor.SettingsPanel.prototype.onChartDraw = function(evt) {
 
 
 /**
+ * @param {Object} evt
+ */
+chartEditor.SettingsPanel.prototype.onReset = function(evt) {
+  this.reset();
+};
+
+
+/**
+ * Removes control's value from model
+ */
+chartEditor.SettingsPanel.prototype.reset = function() {
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
+  model.suspendDispatch();
+
+  model.removeByKey(this.getKey());
+
+  if (this.enableContentCheckbox)
+    model.removeByKey(this.enableContentCheckbox.getKey());
+
+  for (var i = 0; i < this.childControls_.length; i++) {
+    var control = this.childControls_[i];
+    if (control && goog.isFunction(control.reset)) {
+      control.reset();
+    }
+  }
+
+  model.resumeDispatch();
+};
+
+
+/**
  * Checks if this panel can be enabled/disabled.
  * If panel can be enabled, the this.key property of panel should contain '*.enable()' key.
  *
@@ -414,7 +476,7 @@ chartEditor.SettingsPanel.prototype.registerLabel = function(labelElement) {
 
 /**
  * @param {chartEditor.SettingsPanel|
- * chartEditor.controls.LabeledControl|
+ * chartEditor.controls.WrappedControl|
  * chartEditor.checkbox.Base|
  * chartEditor.controls.select.Base|
  * chartEditor.comboBox.Base|
@@ -462,12 +524,28 @@ chartEditor.SettingsPanel.prototype.skipSettings = function(value) {
 };
 
 
+/**
+ * Adds description div element to the dom element of this panel
+ * @param {Element} value
+ */
+chartEditor.SettingsPanel.prototype.addDescription = function(value) {
+  var descriptionEl = goog.dom.createDom(
+      goog.dom.TagName.DIV,
+      'anychart-ce-settings-panel-description',
+      value);
+
+  goog.dom.appendChild(this.getElement(), descriptionEl);
+};
+
+
 /** @override */
 chartEditor.SettingsPanel.prototype.disposeInternal = function() {
-  goog.disposeAll(this.childControls_);
+  goog.disposeAll(this.childControls_, this.resetButton_);
   this.childControls_.length = 0;
+  this.resetButton_ = null;
 
   this.labels.length = 0;
 
   chartEditor.SettingsPanel.base(this, 'disposeInternal');
 };
+
