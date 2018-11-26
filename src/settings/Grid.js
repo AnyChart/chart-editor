@@ -22,6 +22,10 @@ chartEditor.settings.Grid = function(model, name, opt_domHelper) {
 
   var chartType = model.getModel()['chart']['type'];
   this.isPolar_ = chartType === 'radar' || chartType === 'polar';
+
+  this.allowEnabled(true);
+
+  this.allowReset(true);
 };
 goog.inherits(chartEditor.settings.Grid, chartEditor.SettingsPanel);
 
@@ -42,7 +46,6 @@ chartEditor.settings.Grid.prototype.createDom = function() {
     this.addChildControl(yScale);
 
   } else {
-
     var scale = new chartEditor.controls.select.Scales({label: 'Scale'});
     scale.init(model, this.genKey('scale()'));
     this.addChildControl(scale);
@@ -97,8 +100,11 @@ chartEditor.settings.Grid.prototype.onChartDraw = function(evt) {
     if (this.gridExists) {
       this.getHandler().unlisten(model, chartEditor.events.EventType.CHART_DRAW, this.onChartDraw);
       chartEditor.settings.Grid.base(this, 'onChartDraw', evt);
+      this.stroke_.onChartDraw(evt);
 
-    } else
+    } else {
       this.setContentEnabled(false);
+      this.enableContentCheckbox.setChecked(false);
+    }
   }
 };

@@ -20,7 +20,7 @@ chartEditor.MultiplePanelsBase = function(model, opt_name, opt_domHelper) {
 
   this.panels_ = [];
 
-  this.addClassName(goog.getCssName('anychart-ce-settings-panel-multiple'));
+  this.addClassName(goog.getCssName('anychart-ce-settings-panel-mult'));
 };
 goog.inherits(chartEditor.MultiplePanelsBase, chartEditor.SettingsPanel);
 
@@ -36,8 +36,15 @@ chartEditor.MultiplePanelsBase.prototype.allowAddPanels_ = true;
 chartEditor.MultiplePanelsBase.prototype.allowAddPanels = function(value) {
   this.allowAddPanels_ = value;
 
-  if (this.addPanelBtn_)
+  if (this.addPanelBtn_) {
     goog.style.setElementShown(this.addPanelBtn_.getElement(), this.allowAddPanels_);
+  }
+
+  var className = goog.getCssName('anychart-ce-settings-panel-mult-with-btn');
+  if (this.allowAddPanels_)
+    this.addClassName(className);
+  else
+    this.removeClassName(className);
 };
 
 
@@ -77,9 +84,11 @@ chartEditor.MultiplePanelsBase.prototype.createDom = function() {
   if (this.allowAddPanels_) {
     var addPanelBtnRenderer = /** @type {goog.ui.ButtonRenderer} */(goog.ui.ControlRenderer.getCustomRenderer(
         goog.ui.ButtonRenderer,
-        'anychart-axes-panel-add-axis-btn'));
+        'anychart-ce-blue-btn'));
+
 
     this.addPanelBtn_ = new goog.ui.Button(this.buttonLabel_, addPanelBtnRenderer);
+    this.addPanelBtn_.addClassName('anychart-ce-add-btn');
     this.addChild(this.addPanelBtn_, true);
   }
 };
@@ -203,6 +212,16 @@ chartEditor.MultiplePanelsBase.prototype.onRemovePanel = function(evt) {
         /** @type {chartEditor.SettingsPanelIndexed} */(this.panels_[panelPlotIndex][i]).allowRemove(true);
         break;
       }
+    }
+  }
+};
+
+
+/** @inheritDoc */
+chartEditor.MultiplePanelsBase.prototype.onReset = function(evt) {
+  for (var i = this.panels_.length; i--;) {
+    for (var j = this.panels_[i].length; j--;) {
+      this.panels_[i][j].reset();
     }
   }
 };

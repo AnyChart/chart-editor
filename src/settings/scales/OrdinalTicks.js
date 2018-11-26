@@ -15,6 +15,8 @@ goog.require('chartEditor.controls.input.StringArray');
  */
 chartEditor.settings.scales.OrdinalTicks = function(model, opt_name, opt_domHelper) {
   chartEditor.settings.scales.OrdinalTicks.base(this, 'constructor', model, opt_name, opt_domHelper);
+
+  this.allowReset(true);
 };
 goog.inherits(chartEditor.settings.scales.OrdinalTicks, chartEditor.SettingsPanel);
 

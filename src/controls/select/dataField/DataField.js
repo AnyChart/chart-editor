@@ -25,7 +25,7 @@ chartEditor.controls.select.DataField = function(opt_model, opt_menu, opt_render
       opt_menuAdditionalClass);
 
   var label = opt_model && opt_model.label || '';
-  chartEditor.controls.select.DataField.base(this, 'constructor', select, label, opt_domHelper);
+  chartEditor.controls.select.DataField.base(this, 'constructor', select, label, false, opt_domHelper);
 };
 goog.inherits(chartEditor.controls.select.DataField, chartEditor.controls.LabeledControl);
 

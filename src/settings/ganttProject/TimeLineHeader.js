@@ -22,6 +22,9 @@ chartEditor.settings.ganttProject.TimeLineHeader = function(model, opt_domHelper
   chartEditor.settings.ganttProject.TimeLineHeader.base(this, 'constructor', model, void 0, 'Common settings', opt_domHelper);
 
   this.allowEnabled(false);
+
+  this.allowReset(true);
+
   this.addClassName(goog.getCssName('anychart-ce-settings-timeline-header'));
 };
 goog.inherits(chartEditor.settings.ganttProject.TimeLineHeader, chartEditor.settings.ganttProject.LevelWrapper);
@@ -52,31 +55,4 @@ chartEditor.settings.ganttProject.TimeLineHeader.prototype.createDom = function(
   drawLeftLine.setCaption('drawLeftLine');
   drawLeftLine.init(model, this.genKey('drawLeftLine()'));
   this.addChildControl(drawLeftLine);
-
-  this.addContentSeparator();
-  var levelIndex = 0;
-  var level0 = new chartEditor.settings.ganttProject.LevelWrapper(model, levelIndex);
-  level0.setKey(this.genKey('level(' + levelIndex + ')'));
-  this.addChildControl(level0);
-
-  this.addContentSeparator();
-
-  levelIndex = 1;
-  var level1 = new chartEditor.settings.ganttProject.LevelWrapper(model, levelIndex);
-  level1.setKey(this.genKey('level(' + levelIndex + ')'));
-  this.addChildControl(level1);
-
-  this.addContentSeparator();
-
-  levelIndex = 2;
-  var level2 = new chartEditor.settings.ganttProject.LevelWrapper(model, levelIndex);
-  level2.setKey(this.genKey('level(' + levelIndex + ')'));
-  this.addChildControl(level2);
-
-  // Not implemented
-  // holidays()	Padding settings
-  // overlay()	Overlay element..
-  //   Coloring
-  // background()	Background settings.
-
 };

@@ -17,6 +17,8 @@ chartEditor.ChartTitlePanel = function(model, opt_domHelper) {
   this.stringId = chartEditor.enums.EditorTabs.TITLE;
 
   this.key = [['chart'], ['settings'], 'title()'];
+
+  this.allowReset(true);
 };
 goog.inherits(chartEditor.ChartTitlePanel, chartEditor.SettingsPanel);
 
@@ -30,9 +32,7 @@ chartEditor.ChartTitlePanel.prototype.createDom = function() {
   title.allowEnabled(false);
   title.setPositionKey('orientation()');
   title.setKey([['chart'], ['settings'], 'title()']);
-  this.addChild(title, true);
-
-  this.title_ = title;
+  this.addChildControl(title);
 };
 
 

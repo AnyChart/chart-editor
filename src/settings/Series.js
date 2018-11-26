@@ -39,6 +39,9 @@ chartEditor.settings.Series = function(model, seriesId, seriesIndex, opt_plotInd
   this.hasFillStroke_ = this.seriesType_ == 'waterfall' || !this.hasFallingRising_;
 
   this.allowEnabled(false);
+
+  this.allowReset(true);
+
   this.addClassName(goog.getCssName('anychart-ce-settings-panel-series-single'));
 };
 goog.inherits(chartEditor.settings.Series, chartEditor.SettingsPanelZippy);
@@ -158,6 +161,7 @@ chartEditor.settings.Series.prototype.createDom = function() {
     this.addContentSeparator();
 
     var colorScale = new chartEditor.settings.scales.Base(model, ['linear-color', 'ordinal-color']);
+    colorScale.setName('Color Scale');
     colorScale.setKey(this.genKey('colorScale()'));
     this.addChildControl(colorScale);
   }

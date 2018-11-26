@@ -16,15 +16,12 @@ goog.require('chartEditor.settings.Stroke');
  */
 chartEditor.settings.Ticks = function(model, opt_domHelper) {
   chartEditor.settings.Ticks.base(this, 'constructor', model, 'Ticks', opt_domHelper);
+
+  this.allowReset(true);
+
+  this.addClassName(goog.getCssName('anychart-ce-settings-ticks'));
 };
 goog.inherits(chartEditor.settings.Ticks, chartEditor.SettingsPanel);
-
-
-/**
- * Default CSS class.
- * @type {string}
- */
-chartEditor.settings.Ticks.CSS_CLASS = goog.getCssName('anychart-ce-settings-ticks');
 
 
 /**
@@ -61,8 +58,6 @@ chartEditor.settings.Ticks.prototype.allowEditFill = function(value) {
 chartEditor.settings.Ticks.prototype.createDom = function() {
   chartEditor.settings.Ticks.base(this, 'createDom');
 
-  goog.dom.classlist.add(this.getElement(), chartEditor.settings.Ticks.CSS_CLASS);
-
   var model = /** @type {chartEditor.EditorModel} */(this.getModel());
 
   // Position
@@ -96,5 +91,5 @@ chartEditor.settings.Ticks.prototype.createDom = function() {
   // Stroke
   var stroke = new chartEditor.settings.Stroke(model);
   stroke.setKey(this.genKey('stroke()'));
-  this.addChild(stroke, true);
+  this.addChildControl(stroke);
 };

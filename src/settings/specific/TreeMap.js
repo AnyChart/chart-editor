@@ -21,22 +21,15 @@ chartEditor.settings.specific.TreeMap = function(model, opt_domHelper) {
   chartEditor.settings.specific.TreeMap.base(this, 'constructor', model, 'Tree Map Chart Settings', opt_domHelper);
 
   this.key = [['chart'], ['settings']];
+
+  this.addClassName(goog.getCssName('anychart-ce-settings-panel-pie'));
 };
 goog.inherits(chartEditor.settings.specific.TreeMap, chartEditor.SettingsPanel);
-
-
-/**
- * Default CSS class.
- * @type {string}
- */
-chartEditor.settings.specific.TreeMap.CSS_CLASS = goog.getCssName('anychart-ce-settings-panel-pie');
 
 
 /** @override */
 chartEditor.settings.specific.TreeMap.prototype.createDom = function() {
   chartEditor.settings.specific.TreeMap.base(this, 'createDom');
-
-  goog.dom.classlist.add(this.getElement(), chartEditor.settings.specific.TreeMap.CSS_CLASS);
 
   var model = /** @type {chartEditor.EditorModel} */(this.getModel());
 
@@ -81,5 +74,5 @@ chartEditor.settings.specific.TreeMap.prototype.createDom = function() {
 
   var headers = new chartEditor.settings.TreemapHeaders(model);
   headers.allowEnabled(true);
-  this.addChild(headers, true);
+  this.addChildControl(headers);
 };

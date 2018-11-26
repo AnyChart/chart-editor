@@ -14,6 +14,8 @@ goog.require('chartEditor.controls.input.Numbers');
  */
 chartEditor.settings.scales.ScatterTicks = function(model, opt_name, opt_domHelper) {
   chartEditor.settings.scales.ScatterTicks.base(this, 'constructor', model, opt_name, opt_domHelper);
+
+  this.allowReset(true);
 };
 goog.inherits(chartEditor.settings.scales.ScatterTicks, chartEditor.SettingsPanel);
 

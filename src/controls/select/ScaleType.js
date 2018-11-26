@@ -29,6 +29,8 @@ chartEditor.controls.select.ScaleType = function(opt_model, opt_menu, opt_render
       opt_menuRenderer,
       opt_menuAdditionalClass
   ));
+
+  this.addClassName(goog.getCssName('anychart-ce-scale-type'));
 };
 goog.inherits(chartEditor.controls.select.ScaleType, chartEditor.controls.select.DataField);
 

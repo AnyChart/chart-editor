@@ -17,6 +17,8 @@ chartEditor.LegendPanel = function(model, opt_domHelper) {
   this.stringId = chartEditor.enums.EditorTabs.LEGEND;
 
   this.allowAddPanels(false);
+
+  this.allowReset(true);
 };
 goog.inherits(chartEditor.LegendPanel, chartEditor.MultiplePanelsBase);
 

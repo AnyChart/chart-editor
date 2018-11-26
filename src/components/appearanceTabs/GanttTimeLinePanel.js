@@ -14,7 +14,9 @@ goog.require('chartEditor.settings.ganttProject.TimeLine');
 chartEditor.GanttTimeLinePanel = function(model, opt_domHelper) {
   chartEditor.GanttTimeLinePanel.base(this, 'constructor', model, 'Timeline', opt_domHelper);
 
-  this.stringId = chartEditor.enums.EditorTabs.GANTT_TIMELINE_HEADER;
+  this.stringId = chartEditor.enums.EditorTabs.GANTT_TIMELINE;
+
+  this.allowReset(true);
 };
 goog.inherits(chartEditor.GanttTimeLinePanel, chartEditor.SettingsPanel);
 
@@ -27,5 +29,4 @@ chartEditor.GanttTimeLinePanel.prototype.createDom = function() {
   var timeLine = new chartEditor.settings.ganttProject.TimeLine(model);
   timeLine.setKey([['chart'], ['settings'], 'getTimeline()']);
   this.addChildControl(timeLine);
-
 };

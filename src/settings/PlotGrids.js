@@ -45,17 +45,13 @@ chartEditor.settings.PlotGrids.prototype.createDom = function() {
   var model = /** @type {chartEditor.EditorModel} */(this.getModel());
 
   var xGrid = new chartEditor.settings.Grid(model, 'X Grid');
-  xGrid.allowEnabled(true);
   xGrid.setKey(this.genKey('xGrid()'));
   this.addChild(xGrid, true);
   this.xGrid_ = xGrid;
 
-  goog.dom.appendChild(this.getContentElement(), goog.dom.createDom(
-      goog.dom.TagName.DIV,
-      goog.getCssName('anychart-ce-settings-item-separator')));
+  this.addContentSeparator();
 
   var yGrid = new chartEditor.settings.Grid(model, 'Y Grid');
-  yGrid.allowEnabled(true);
   yGrid.setKey(this.genKey('yGrid()'));
   this.addChild(yGrid, true);
   this.yGrid_ = yGrid;
@@ -81,7 +77,7 @@ chartEditor.settings.PlotGrids.prototype.updateKeys = function() {
 
 /** @override */
 chartEditor.settings.PlotGrids.prototype.disposeInternal = function() {
-  goog.disposeAll([this.xGrid_, this.yGrid_]);
+  goog.disposeAll(this.xGrid_, this.yGrid_);
   this.xGrid_ = this.yGrid_ = null;
 
   chartEditor.settings.PlotGrids.base(this, 'disposeInternal');

@@ -20,6 +20,8 @@ chartEditor.FlowPanel = function(model, opt_domHelper) {
   this.stringId = chartEditor.enums.EditorTabs.FLOW;
   this.key = [['chart'], ['settings'], 'flow()'];
   this.allowEnabled(false);
+
+  this.allowReset(true);
 };
 goog.inherits(chartEditor.FlowPanel, chartEditor.SettingsPanel);
 
@@ -45,7 +47,7 @@ chartEditor.FlowPanel.prototype.createDom = function() {
   labelSettings.setName('Labels');
   labelSettings.allowEditPosition(false);
   labelSettings.setKey(this.genKey('labels()'));
-  this.addChild(labelSettings, true);
+  this.addChildControl(labelSettings);
 
   this.addContentSeparator();
 
@@ -55,5 +57,5 @@ chartEditor.FlowPanel.prototype.createDom = function() {
   tooltipSettings.allowEditPositionMode(false);
   tooltipSettings.setName('Tooltip');
   tooltipSettings.setKey(this.genKey('tooltip()'));
-  this.addChild(tooltipSettings, true);
+  this.addChildControl(tooltipSettings);
 };

@@ -8,12 +8,13 @@ goog.require('chartEditor.controls.LabeledControl');
  * Labeled control with two mutually exclusive keys.
  * @param {(chartEditor.comboBox.Base|chartEditor.controls.select.Base|chartEditor.controls.input.Base|chartEditor.colorPicker.Base)} control
  * @param {string=} opt_label
+ * @param {boolean=} opt_allowReset
  * @param {goog.dom.DomHelper=} opt_domHelper
  * @constructor
  * @extends {chartEditor.controls.LabeledControl}
  */
-chartEditor.controls.LabeledControlTwins = function(control, opt_label, opt_domHelper) {
-  chartEditor.controls.LabeledControlTwins.base(this, 'constructor', control, opt_label, opt_domHelper);
+chartEditor.controls.LabeledControlTwins = function(control, opt_label, opt_allowReset, opt_domHelper) {
+  chartEditor.controls.LabeledControlTwins.base(this, 'constructor', control, opt_label, opt_allowReset, opt_domHelper);
 
   this.addClassName('anychart-ce-settings-labeled-control-twins');
 };
@@ -93,6 +94,17 @@ chartEditor.controls.LabeledControlTwins.prototype.onChangeKey = function(evt) {
 
   if (goog.isDef(value))
     model.setValue(this.control_.getKey(), value);
+};
+
+
+
+/** @inheritDoc */
+chartEditor.controls.LabeledControlTwins.prototype.reset = function() {
+  this.checkbox_.setChecked(false);
+
+  var model = /** @type {chartEditor.EditorModel} */(this.getModel());
+  model.removeByKey(this.key_, true);
+  model.removeByKey(this.key2_);
 };
 
 

@@ -20,6 +20,7 @@ chartEditor.ScalesPanel = function(model, opt_domHelper) {
   this.removeFromIndex(0);
 
   this.addClassName(goog.getCssName('anychart-ce-settings-panel-scales'));
+  this.addClassName(goog.getCssName('anychart-ce-settings-panel-mult-with-btn'));
 };
 goog.inherits(chartEditor.ScalesPanel, chartEditor.MultiplePanelsBase);
 

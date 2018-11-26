@@ -54,8 +54,13 @@ chartEditor.SettingsPanelZippy.prototype.createDom = function() {
   this.addChild(zippyHeader, true);
   this.zippyHeader = zippyHeader;
 
-  if (this.topEl)
+  if (this.topEl) {
     goog.dom.appendChild(this.zippyHeader.getElement(), this.topEl);
+  }
+
+  if (this.allowReset()) {
+    goog.dom.appendChild(this.zippyHeader.getElement(), this.resetButton_.getElement());
+  }
 
   var plusMinus = goog.dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-plus-minus'), [
     goog.dom.createDom(goog.dom.TagName.DIV, 'expand ac ac-chevron-circle-down'),

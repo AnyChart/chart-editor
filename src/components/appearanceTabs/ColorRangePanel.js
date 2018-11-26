@@ -26,23 +26,18 @@ chartEditor.ColorRangePanel = function(model, opt_domHelper) {
   this.stringId = chartEditor.enums.EditorTabs.COLOR_RANGE;
 
   this.key = [['chart'], ['settings'], 'colorRange()'];
+
+  this.allowReset(true);
+
+  this.addClassName(goog.getCssName('anychart-ce-settings-panel-color-range'));
 };
 goog.inherits(chartEditor.ColorRangePanel, chartEditor.SettingsPanel);
-
-
-/**
- * Default CSS class.
- * @type {string}
- */
-chartEditor.ColorRangePanel.CSS_CLASS = goog.getCssName('anychart-ce-settings-panel-color-range');
 
 
 /** @inheritDoc */
 chartEditor.ColorRangePanel.prototype.createDom = function() {
   chartEditor.ColorRangePanel.base(this, 'createDom');
 
-  var element = this.getElement();
-  goog.dom.classlist.add(element, chartEditor.ColorRangePanel.CSS_CLASS);
   var model = /** @type {chartEditor.EditorModel} */(this.getModel());
 
   // Orientation
@@ -84,7 +79,7 @@ chartEditor.ColorRangePanel.prototype.createDom = function() {
   // Stroke
   var stroke = new chartEditor.settings.Stroke(model, 'Stroke');
   stroke.setKey(this.genKey('stroke()'));
-  this.addChild(stroke, true);
+  this.addChildControl(stroke);
 
   // Overlap mode
   var overlapMode = new chartEditor.controls.select.DataField({label: 'Labels Overlap'});
@@ -100,9 +95,7 @@ chartEditor.ColorRangePanel.prototype.createDom = function() {
   staggerSettings.setKey(this.getKey());
   this.addChildControl(staggerSettings);
 
-  goog.dom.appendChild(this.getContentElement(), goog.dom.createDom(
-      goog.dom.TagName.DIV,
-      goog.getCssName('anychart-ce-settings-item-separator-gaps')));
+  this.addContentSeparator();
 
   // Marker
   var marker = new chartEditor.settings.Markers(model);
@@ -111,9 +104,7 @@ chartEditor.ColorRangePanel.prototype.createDom = function() {
   marker.setKey(this.genKey('marker()'));
   this.addChildControl(marker);
 
-  goog.dom.appendChild(this.getContentElement(), goog.dom.createDom(
-      goog.dom.TagName.DIV,
-      goog.getCssName('anychart-ce-settings-item-separator-gaps')));
+  this.addContentSeparator();
 
   // Labels
   var labels = new chartEditor.settings.Labels(model);
@@ -133,9 +124,7 @@ chartEditor.ColorRangePanel.prototype.createDom = function() {
   drawLastLabel.init(model, this.genKey('drawLastLabel()'));
   labels.addChildControl(drawLastLabel);
 
-  goog.dom.appendChild(this.getContentElement(), goog.dom.createDom(
-      goog.dom.TagName.DIV,
-      goog.getCssName('anychart-ce-settings-item-separator-gaps')));
+  this.addContentSeparator();
 
   // Ticks
   var ticks = new chartEditor.settings.Ticks(model);
@@ -143,9 +132,7 @@ chartEditor.ColorRangePanel.prototype.createDom = function() {
   ticks.setKey(this.genKey('ticks()'));
   this.addChildControl(ticks);
 
-  goog.dom.appendChild(this.getContentElement(), goog.dom.createDom(
-      goog.dom.TagName.DIV,
-      goog.getCssName('anychart-ce-settings-item-separator-gaps')));
+  this.addContentSeparator();
 
   // Minor Labels
   var minorLabels = new chartEditor.settings.Labels(model);
@@ -156,9 +143,7 @@ chartEditor.ColorRangePanel.prototype.createDom = function() {
   minorLabels.setKey(this.genKey('minorLabels()'));
   this.addChildControl(minorLabels);
 
-  goog.dom.appendChild(this.getContentElement(), goog.dom.createDom(
-      goog.dom.TagName.DIV,
-      goog.getCssName('anychart-ce-settings-item-separator-gaps')));
+  this.addContentSeparator();
 
   // Minor Ticks
   var minorTicks = new chartEditor.settings.Ticks(model);
@@ -167,9 +152,7 @@ chartEditor.ColorRangePanel.prototype.createDom = function() {
   minorTicks.setKey(this.genKey('minorTicks()'));
   this.addChildControl(minorTicks);
 
-  goog.dom.appendChild(this.getContentElement(), goog.dom.createDom(
-      goog.dom.TagName.DIV,
-      goog.getCssName('anychart-ce-settings-item-separator-gaps')));
+  this.addContentSeparator();
 
   // Title
   var title = new chartEditor.settings.Title(model, 'Title');

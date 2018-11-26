@@ -13,6 +13,9 @@ chartEditor.settings.ganttProject.elements.GroupingTasksElement = function(model
   chartEditor.settings.ganttProject.elements.GroupingTasksElement.base(this, 'constructor', model, 'Grouping task element', opt_domHelper);
 
   this.allowEnabled(false);
+
+  this.allowReset(true);
+
   this.addClassName(goog.getCssName('anychart-ce-settings-gantt-grouping-element-task'));
 };
 goog.inherits(chartEditor.settings.ganttProject.elements.GroupingTasksElement, chartEditor.settings.ganttProject.elements.Base);

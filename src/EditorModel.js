@@ -89,7 +89,6 @@ chartEditor.EditorModel = function() {
     'setChartType': this.setChartType,
     'setSeriesType': this.setSeriesType,
     'setTheme': this.setTheme,
-    'setSettingForSeries': this.setSettingForSeries,
     'setContextMenuItemEnable': this.setContextMenuItemEnable
   };
 
@@ -919,6 +918,16 @@ chartEditor.EditorModel.SpecificPanels;
 
 
 /**
+ * @typedef {(chartEditor.comboBox.Base|
+ * chartEditor.controls.select.Base|
+ * chartEditor.controls.input.Base|
+ * chartEditor.colorPicker.Base|
+ * chartEditor.controls.select.DataField)}
+ */
+chartEditor.EditorModel.Control;
+
+
+/**
  * @type {Array.<chartEditor.EditorModel.SpecificPanels>}
 */
 chartEditor.EditorModel.SpecificPanelsForCharts = [
@@ -1149,13 +1158,8 @@ chartEditor.EditorModel.Series = {
   'tagCloud': {
     'name': 'tagCloud',
     'fields': [
-      {
-        'field': 'value'
-      },
-      {
-        'field': 'category',
-        'type': 'string'
-      }
+      {'field': 'value'},
+      {'field': 'category', 'type': 'string'}
     ]
   },
   'ganttProject': {
@@ -1988,41 +1992,10 @@ chartEditor.EditorModel.prototype.setSeriesType = function(input) {
  * @param {chartEditor.controls.select.Base} input
  */
 chartEditor.EditorModel.prototype.setTheme = function(input) {
+  this.suspendDispatch();
   delete this.model_['chart']['settings']['palette()'];
   var inputValue = input.getValue();
   this.setValue([['anychart'], 'theme()'], inputValue.value);
-  this.dispatchUpdate();
-};
-
-
-/**
- * Callback function for change event of chart.labels().enabled()
- * @param {chartEditor.checkbox.Base} input
- */
-chartEditor.EditorModel.prototype.setSettingForSeries = function(input) {
-
-  var value = input.getChecked();
-  this.suspendDispatch();
-
-  if (!this.isChartSingleSeries()) {
-    var chartType = this.model_['chart']['type'];
-    var mappings = this.model_['dataSettings']['mappings'];
-    var key = input.getKey();
-    var stringKey = key[key.length - 1];
-
-    var seriesId;
-    for (var i = 0; i < mappings.length; i++) {
-      for (var j = 0; j < mappings[i].length; j++) {
-        seriesId = mappings[i][j]['id'];
-        var stringKey2 = (chartType === 'stock' ? 'plot(' + i + ').' : '') + 'getSeries(\'' + seriesId + '\').' + stringKey;
-        var key2 = [['chart'], ['settings'], stringKey2];
-        this.setValue(key2, value);
-      }
-    }
-  }
-
-  this.setValue(input.getKey(), value);
-
   this.resumeDispatch();
 };
 
@@ -3040,6 +3013,9 @@ chartEditor.EditorModel.prototype.getChartWithJsCode_ = function(opt_options) {
       }
 
       if (goog.isDef(value) && chartEditor.binding.testExec(chart, key, value)) {
+        if (goog.isString(value))
+          value = value.replace(/"/g, '\\"');
+
         var settingString = self.printKey_(printer, 'chart', key, value, goog.isString(value) || force, quotes);
 
         if (addMarkers) {

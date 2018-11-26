@@ -64,6 +64,17 @@ chartEditor.Tabs.prototype.createDom = function() {
     panel = this.descriptors[i].instance = new classFunc(model);
 
     tabContent.addChild(panel, true);
+
+    if (this.descriptors[i].docsUrl) {
+      var descriptionHtml = goog.dom.createDom(
+          goog.dom.TagName.A,
+          {'href': this.descriptors[i].docsUrl, 'target': '_blank'},
+          'Read docs');
+
+      panel.addDescription(descriptionHtml);
+    }
+
+
     goog.dom.classlist.add(panel.getElement(), 'anychart-ce-settings-panel-' + this.descriptors[i].name.toLowerCase());
     goog.dom.classlist.add(panel.getTopElement(), 'anychart-ce-section-caption');
 

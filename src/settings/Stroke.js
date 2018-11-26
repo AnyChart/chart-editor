@@ -4,6 +4,7 @@ goog.require('chartEditor.SettingsPanel');
 goog.require('chartEditor.colorPicker.Base');
 goog.require('chartEditor.comboBox.Base');
 goog.require('chartEditor.controls.select.DataFieldSelect');
+goog.require('chartEditor.ui.button.Base');
 
 
 /**
@@ -20,7 +21,9 @@ chartEditor.settings.Stroke = function(model, opt_name, opt_domHelper) {
 
   this.allowEnabled(false);
 
-  this.addClassName(goog.getCssName('anychart-ce-settings-stroke'));
+  this.allowReset(true);
+
+  this.addClassName(goog.getCssName('anychart-ce-stroke'));
 };
 goog.inherits(chartEditor.settings.Stroke, chartEditor.SettingsPanel);
 
@@ -28,22 +31,6 @@ goog.inherits(chartEditor.settings.Stroke, chartEditor.SettingsPanel);
 /** @override */
 chartEditor.settings.Stroke.prototype.createDom = function() {
   chartEditor.settings.Stroke.base(this, 'createDom');
-
-  var element = this.getElement();
-  var content = this.getContentElement();
-
-  var color = new chartEditor.colorPicker.Base();
-  color.addClassName(goog.getCssName('anychart-stroke-color'));
-  this.addChild(color, true);
-  this.color_ = color;
-
-  var thickness = new chartEditor.comboBox.Base();
-  thickness.setOptions([0, 1, 2, 3, 4, 5]);
-  thickness.setRange(0, 10);
-
-  this.addChild(thickness, true);
-  goog.dom.classlist.add(thickness.getElement(), goog.getCssName('anychart-stroke-thickness'));
-  this.thickness_ = thickness;
 
   var dash = new chartEditor.controls.select.DataFieldSelect('solid');
   dash.setOptions([
@@ -54,15 +41,30 @@ chartEditor.settings.Stroke.prototype.createDom = function() {
     {value: '15 10 5 10', icon: 'ac ac-position-bottom'},
     {value: '5 5 1 5', icon: 'ac ac-position-top'}
   ]);
-
   this.addChild(dash, true);
-  goog.dom.classlist.add(dash.getElement(), goog.getCssName('anychart-stroke-dash'));
+  goog.dom.classlist.add(dash.getElement(), goog.getCssName('anychart-ce-stroke-dash'));
   this.dash_ = dash;
 
-  goog.dom.appendChild(content, goog.dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-ce-clearboth')));
-  goog.dom.appendChild(element, goog.dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-ce-clearboth')));
-};
+  var thickness = new chartEditor.comboBox.Base();
+  thickness.allowReset(false);
+  thickness.setOptions([0, 1, 2, 3, 4, 5]);
+  thickness.setRange(0, 10);
+  this.addChild(thickness, true);
+  goog.dom.classlist.add(thickness.getElement(), goog.getCssName('anychart-ce-stroke-thickness'));
+  this.thickness_ = thickness;
 
+  var color = new chartEditor.colorPicker.Base();
+  color.allowReset(false);
+  color.addClassName(goog.getCssName('anychart-ce-stroke-color'));
+  this.addChild(color, true);
+  this.color_ = color;
+
+  // if (!this.name) { // Always draw as control
+  this.getContentElement().appendChild(this.resetButton_.getElement());
+  // }
+
+  goog.dom.appendChild(this.getElement(), goog.dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-ce-clearboth')));
+};
 
 /** @override */
 chartEditor.settings.Stroke.prototype.enterDocument = function() {
@@ -83,7 +85,7 @@ chartEditor.settings.Stroke.prototype.onChange = function() {
 
   var value = {};
   var colorValue = this.color_.getSelectedColor();
-  if (colorValue)
+  if (colorValue && colorValue != 'none')
     value['color'] = colorValue;
 
   var thicknessValue = this.thickness_.getToken();
@@ -107,8 +109,7 @@ chartEditor.settings.Stroke.prototype.onChange = function() {
 /** @inheritDoc */
 chartEditor.settings.Stroke.prototype.onChartDraw = function(evt) {
   chartEditor.settings.Stroke.base(this, 'onChartDraw', evt);
-  var target = evt.chart;
-  this.setValueByTarget(target);
+  this.setValueByTarget(evt.chart);
 };
 
 
@@ -119,29 +120,19 @@ chartEditor.settings.Stroke.prototype.onChartDraw = function(evt) {
 chartEditor.settings.Stroke.prototype.setValueByTarget = function(target) {
   if (this.excluded) return;
 
-  this.target = target;
-
   var stringKey = chartEditor.EditorModel.getStringKey(this.key);
-  var value = /** @type {string} */(chartEditor.binding.exec(this.target, stringKey));
+  var value = /** @type {string|Object|Function} */(chartEditor.binding.exec(target, stringKey));
 
-  if (goog.isObject(value)) {
-    this.colorValue_ = value['color'];
-    this.thicknessValue_ = value['thickness'];
-    this.dashValue_ = value['dash'];
-  } else
-    this.colorValue_ = value;
+  if (goog.isFunction(value))
+    value = value();
+
+  if (goog.isString(value))
+    value = {'color': value};
 
   this.noDispatch = true;
-
-  if (this.colorValue_)
-    this.color_.setSelectedColor(this.colorValue_);
-
-  if (this.thicknessValue_)
-    this.thickness_.setValue(this.thicknessValue_);
-
-  if (this.dashValue_)
-    this.dash_.setValue(this.dashValue_);
-
+  this.color_.setSelectedColor((value && value['color'] && value['color'] != 'none') ? value['color'] : null);
+  this.thickness_.setValue((value && value['thickness']) ? value['thickness'] : void 0);
+  this.dash_.setValue((value && value['dash']) ? value['dash'] : void 0);
   this.noDispatch = false;
 };
 

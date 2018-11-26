@@ -36,7 +36,7 @@ chartEditor.exportTabs.Embed.prototype.createDom = function() {
 
   goog.dom.appendChild(element, text);
 
-  var buttonRenderer = /** @type {goog.ui.ButtonRenderer} */(goog.ui.ControlRenderer.getCustomRenderer(goog.ui.ButtonRenderer, 'anychart-ce-embed-button'));
+  var buttonRenderer = /** @type {goog.ui.ButtonRenderer} */(goog.ui.ControlRenderer.getCustomRenderer(goog.ui.ButtonRenderer, 'anychart-ce-blue-btn'));
   this.button_ = new goog.ui.Button('Save To Cloud', buttonRenderer);
   this.addChild(this.button_, true);
 

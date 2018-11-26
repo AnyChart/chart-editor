@@ -26,6 +26,7 @@ chartEditor.settings.ganttProject.elements.Base = function(model, opt_name, opt_
     'height': true
   };
 
+  this.allowReset(true);
 };
 goog.inherits(chartEditor.settings.ganttProject.elements.Base, chartEditor.SettingsPanel);
 
@@ -56,7 +57,7 @@ chartEditor.settings.ganttProject.elements.Base.prototype.createDom = function()
 
   if (this.fields_['height']) {
     var height = new chartEditor.controls.input.Base();
-    var heightLC = new chartEditor.controls.LabeledControl(height, 'Height');
+    var heightLC = new chartEditor.controls.LabeledControl(height, 'Height', true);
     heightLC.init(model, this.genKey('height()'));
     this.addChildControl(heightLC);
   }

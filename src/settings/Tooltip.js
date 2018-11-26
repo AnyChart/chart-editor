@@ -16,6 +16,8 @@ chartEditor.settings.Tooltip = function(model, opt_domHelper) {
   chartEditor.settings.Tooltip.base(this, 'constructor', model, 'Tooltip', opt_domHelper);
 
   this.allowEnabled(true);
+
+  this.allowReset(true);
 };
 goog.inherits(chartEditor.settings.Tooltip, chartEditor.SettingsPanel);
 
@@ -76,7 +78,7 @@ chartEditor.settings.Tooltip.prototype.createDom = function() {
     this.addContentSeparator();
 
   // Title
-  var title = new chartEditor.settings.TooltipTitle(model, 'Title');
+  var title = new chartEditor.settings.TooltipTitle(model, 'Tooltip Title');
   title.setTitleFormatKey(this.genKey('titleFormat()'));
   title.setKey(this.genKey('title()'));
   this.addChildControl(title);
@@ -84,7 +86,7 @@ chartEditor.settings.Tooltip.prototype.createDom = function() {
   this.addContentSeparator();
 
   // Content
-  var contentComponent = new chartEditor.settings.Title(model, 'Content');
+  var contentComponent = new chartEditor.settings.Title(model, 'Tooltip Content');
   contentComponent.allowEnabled(false);
   contentComponent.allowEditPosition(false);
   contentComponent.allowEditAlign(false);

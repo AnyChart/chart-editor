@@ -85,8 +85,10 @@ chartEditor.PlotPanel.prototype.onModelChange = function(evt) {
   if (!model.isChartSingleSeries()) {
     var addSeriesBtnRenderer = /** @type {goog.ui.ButtonRenderer} */(goog.ui.ControlRenderer.getCustomRenderer(
       goog.ui.ButtonRenderer,
-      'anychart-ce-plot-panel-add-series-btn'));
+      'anychart-ce-blue-btn'));
     this.addSeriesBtn_ = new goog.ui.Button('+ Add Series', addSeriesBtnRenderer);
+    this.addSeriesBtn_.addClassName('anychart-ce-add-btn');
+    this.addSeriesBtn_.addClassName('anychart-ce-add-series-btn');
     this.addChildAt(this.addSeriesBtn_, this.getChildCount(), true);
     this.getHandler().listen(this.addSeriesBtn_, goog.ui.Component.EventType.ACTION, this.onAddSeries_);
   }
