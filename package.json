@@ -1,6 +1,6 @@
 {
   "name": "chart-editor",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "AnyChart Chart Editor utility",
   "main": "index.js",
   "scripts": {
@@ -43,6 +43,6 @@
     "less-plugin-clean-css": "^1.5.1"
   },
   "dependencies": {
-    "anychart": "^8.4.1"
+    "anychart": "^8.4.2"
   }
 }
