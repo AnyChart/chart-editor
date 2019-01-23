@@ -44,9 +44,9 @@ chartEditor.binding.exec = function(targetOrPath, pathOrValue, opt_valueOrPathAr
 
 
 /**
- * Parses settings path for exec() methods.
+ * Parses panel path for exec() methods.
  * @param {string} path
- * @return {(Array|boolean)} Array of settings with it's arguments or false in case of wrong path format.
+ * @return {(Array|boolean)} Array of panel with it's arguments or false in case of wrong path format.
  * @private
  */
 chartEditor.binding.parsePath_ = function(path) {
@@ -78,7 +78,7 @@ chartEditor.binding.parsePath_ = function(path) {
 
 
 /**
- * Tries to apply settings returned by this.parsePath_() method in chaining style starting from target object.
+ * Tries to apply panel returned by this.parsePath_() method in chaining style starting from target object.
  * @param {Object} target
  * @param {Array.<Array>} path
  * @param {Array.<(string|number)>} pathArguments

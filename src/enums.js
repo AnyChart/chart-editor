@@ -255,5 +255,7 @@ chartEditor.enums.EditorTabs = {
   GANTT_DATAGRID: 'dataGrid',
   GANTT_GRID_COLORING: 'gridColoring',
   GANTT_TIMELINE_TOOLTIP: 'ganttTimelineTooltip',
-  GANTT_DATAGRID_TOOLTIP: 'ganttDataGridTooltip'
+  GANTT_DATAGRID_TOOLTIP: 'ganttDataGridTooltip',
+  LABEL: 'label',
+  CHART_LABELS: 'chartLabels'
 };

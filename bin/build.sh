@@ -18,7 +18,7 @@ then
     --js="src/**.js" \
     --entry_point=chartEditor \
     --flagfile="bin/common.flags" \
-    --define="chartEditor.Editor.VERSION='$PACKAGE_VERSION'"
+    --define="chartEditor.editor.Base.VERSION='$PACKAGE_VERSION'"
 
     DATE=`date +%Y-%m-%d`
     HEADER=$'/**
