@@ -103,9 +103,22 @@ chartEditor.ui.Chart.prototype.onModelChange = function(evt) {
 
     } else if (dsCtor === 'tree') {
       mappingObj = settings['dataSettings']['mappings'][0][0]['mapping'];
+      if (chartType === 'ganttResource') {
+        var resourceMapping = Object.assign({}, mappingObj);
+        resourceMapping.periods = 'periods';
+        delete resourceMapping.perId;
+        delete resourceMapping.perStart;
+        delete resourceMapping.perEnd;
+        delete resourceMapping.perConnectTo;
+        delete resourceMapping.perResourceId;
+      }
+
       if (chartType === 'treeMap')
         mappingObj['id'] = settings['dataSettings']['field'];
-      dsCtorArgs = [void 0, void 0, void 0, mappingObj];
+      if (chartType === 'ganttResource')
+        dsCtorArgs = [void 0, void 0, void 0, resourceMapping];
+      else
+        dsCtorArgs = [void 0, void 0, void 0, mappingObj];
     }
 
     var dataSet = this.anychart['data'][dsCtor].apply(this.anychart['data'], dsCtorArgs);
@@ -114,7 +127,12 @@ chartEditor.ui.Chart.prototype.onModelChange = function(evt) {
     if (dsCtor === 'table')
       dataSet['addData'](rawData);
     else if (dsCtor === 'tree')
-      dataSet['addData'](rawData, 'as-table');
+      if (chartType === 'ganttResource') {
+        var preprocessedData = this.resourceDataProcessing(rawData, mappingObj);
+        dataSet['addData'](preprocessedData, 'as-table');
+      } else {
+        dataSet['addData'](rawData, 'as-table');
+      }
     else
       dataSet['data'](rawData);
 
@@ -321,6 +339,72 @@ chartEditor.ui.Chart.prototype.onModelChange = function(evt) {
 
   // todo: debug
   // window['chart'] = this.chart_;
+};
+
+
+/**
+ * Preprocess data for Gnatt Resource chart.
+ * @param {?(Array.<*>|Object)} rawData raw incoming data
+ * @param {Object} mappingObj default mapping for the current chart type
+ * @return {Array.<*>}
+ */
+chartEditor.ui.Chart.prototype.resourceDataProcessing = function(rawData, mappingObj) {
+  var preprocessedData = [];
+  // search all unique resources ID
+  var resourceIds = this.unique(rawData, mappingObj.id);
+  // add resources to preprocessed data
+  for (var i = 0; i < resourceIds.length; i++) {
+    for (var j = 0; j < rawData.length; j++) {
+      if (resourceIds[i] === rawData[j][mappingObj.id]) {
+        preprocessedData.push({
+          [mappingObj.id]: resourceIds[i],
+          [mappingObj.name]: rawData[j][mappingObj.name],
+          [mappingObj.parent]: rawData[j][mappingObj.parent],
+          periods: []
+        });
+        break;
+      }
+    }
+  }
+
+  // search all unique periods
+  var periodsIds = this.unique(rawData, mappingObj.periodId);
+  // add every unique period to its related resource
+  for (i = 0; i < periodsIds.length; i++) {
+    for (j = 0; j < rawData.length; j++) {
+      if (periodsIds[i] === rawData[j][mappingObj.periodId]) {
+        var periodObj = {
+          id: periodsIds[i],
+          start: rawData[j][mappingObj.periodStart],
+          end: rawData[j][mappingObj.periodEnd],
+          connectTo: rawData[j][mappingObj.periodConnectTo]
+        };
+        for (var l = 0; l < preprocessedData.length; l++) {
+          if (preprocessedData[l][mappingObj.id] == rawData[j][mappingObj.periodResourceId]) {
+            preprocessedData[l].periods.push(periodObj);
+          }
+        }
+        break;
+      }
+    }
+  }
+  return preprocessedData;
+};
+
+
+/**
+ * Find all unique items.
+ * @param {Array.<Object>} arr array of items
+ * @param {String} field the searching field name
+ * @return {Array.<*>}
+ */
+chartEditor.ui.Chart.prototype.unique = function(arr, field) {
+  var obj = {};
+  for (var i = 0; i < arr.length; i++) {
+    var str = arr[i][field];
+    obj[str] = true;
+  }
+  return Object.keys(obj);
 };
 
 

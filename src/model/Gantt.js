@@ -79,12 +79,16 @@ chartEditor.model.Series['ganttResource'] = {
   'ctor': 'ganttResource',
   'name': 'Gantt Resource',
   'fields': [
+    // resource specific
     {'field': 'id'},
     {'field': 'name'},
-    {'field': 'broken'},
-    {'field': 'maintenance'},
-    {'field': 'working'},
-    {'field': 'periods'}
+    {'field': 'parent'},
+    // period specific
+    {'field': 'periodId'},
+    {'field': 'periodStart'},
+    {'field': 'periodEnd'},
+    {'field': 'periodConnectTo'},
+    {'field': 'periodResourceId'}
   ]
 };
 // endregion
