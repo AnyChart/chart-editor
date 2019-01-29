@@ -105,12 +105,12 @@ chartEditor.ui.Chart.prototype.onModelChange = function(evt) {
       mappingObj = settings['dataSettings']['mappings'][0][0]['mapping'];
       if (chartType === 'ganttResource') {
         var resourceMapping = Object.assign({}, mappingObj);
-        resourceMapping.periods = 'periods';
-        delete resourceMapping.perId;
-        delete resourceMapping.perStart;
-        delete resourceMapping.perEnd;
-        delete resourceMapping.perConnectTo;
-        delete resourceMapping.perResourceId;
+        resourceMapping['periods'] = 'periods';
+        delete resourceMapping['perId'];
+        delete resourceMapping['perStart'];
+        delete resourceMapping['perEnd'];
+        delete resourceMapping['perConnectTo'];
+        delete resourceMapping['perResourceId'];
       }
 
       if (chartType === 'treeMap')
@@ -356,32 +356,32 @@ chartEditor.ui.Chart.prototype.resourceDataProcessing = function(rawData, mappin
   for (var i = 0; i < resourceIds.length; i++) {
     for (var j = 0; j < rawData.length; j++) {
       if (resourceIds[i] === rawData[j][mappingObj.id]) {
-        preprocessedData.push({
-          [mappingObj.id]: resourceIds[i],
-          [mappingObj.name]: rawData[j][mappingObj.name],
-          [mappingObj.parent]: rawData[j][mappingObj.parent],
-          periods: []
-        });
+        var resourceObj = {};
+        resourceObj[mappingObj.id] = resourceIds[i];
+        resourceObj[mappingObj.name] = rawData[j][mappingObj.name];
+        resourceObj[mappingObj.parent] = rawData[j][mappingObj.parent];
+        resourceObj['periods'] = [];
+        preprocessedData.push(resourceObj);
         break;
       }
     }
   }
 
   // search all unique periods
-  var periodsIds = this.unique(rawData, mappingObj.periodId);
+  var periodsIds = this.unique(rawData, mappingObj['periodId']);
   // add every unique period to its related resource
   for (i = 0; i < periodsIds.length; i++) {
     for (j = 0; j < rawData.length; j++) {
-      if (periodsIds[i] === rawData[j][mappingObj.periodId]) {
+      if (periodsIds[i] === rawData[j][mappingObj['periodId']]) {
         var periodObj = {
           id: periodsIds[i],
-          start: rawData[j][mappingObj.periodStart],
-          end: rawData[j][mappingObj.periodEnd],
-          connectTo: rawData[j][mappingObj.periodConnectTo]
+          start: rawData[j][mappingObj['periodStart']],
+          end: rawData[j][mappingObj['periodEnd']],
+          connectTo: rawData[j][mappingObj['periodConnectTo']]
         };
         for (var l = 0; l < preprocessedData.length; l++) {
-          if (preprocessedData[l][mappingObj.id] == rawData[j][mappingObj.periodResourceId]) {
-            preprocessedData[l].periods.push(periodObj);
+          if (preprocessedData[l][mappingObj['id']] == rawData[j][mappingObj['periodResourceId']]) {
+            preprocessedData[l]['periods'].push(periodObj);
           }
         }
         break;
@@ -394,8 +394,8 @@ chartEditor.ui.Chart.prototype.resourceDataProcessing = function(rawData, mappin
 
 /**
  * Find all unique items.
- * @param {Array.<Object>} arr array of items
- * @param {String} field the searching field name
+ * @param {?(Array.<*>|Object)} arr array of items
+ * @param {string} field the searching field name
  * @return {Array.<*>}
  */
 chartEditor.ui.Chart.prototype.unique = function(arr, field) {
