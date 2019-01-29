@@ -351,15 +351,15 @@ chartEditor.ui.Chart.prototype.onModelChange = function(evt) {
 chartEditor.ui.Chart.prototype.resourceDataProcessing = function(rawData, mappingObj) {
   var preprocessedData = [];
   // search all unique resources ID
-  var resourceIds = this.unique(rawData, mappingObj.id);
+  var resourceIds = this.unique(rawData, mappingObj['id']);
   // add resources to preprocessed data
   for (var i = 0; i < resourceIds.length; i++) {
     for (var j = 0; j < rawData.length; j++) {
-      if (resourceIds[i] === rawData[j][mappingObj.id]) {
+      if (resourceIds[i] === rawData[j][mappingObj['id']]) {
         var resourceObj = {};
-        resourceObj[mappingObj.id] = resourceIds[i];
-        resourceObj[mappingObj.name] = rawData[j][mappingObj.name];
-        resourceObj[mappingObj.parent] = rawData[j][mappingObj.parent];
+        resourceObj[mappingObj['id']] = resourceIds[i];
+        resourceObj[mappingObj['name']] = rawData[j][mappingObj['name']];
+        resourceObj[mappingObj['parent']] = rawData[j][mappingObj['parent']];
         resourceObj['periods'] = [];
         preprocessedData.push(resourceObj);
         break;
