@@ -1,0 +1,220 @@
+goog.provide('chartEditor.model.Stock');
+
+goog.require('chartEditor.model.Base');
+goog.require('chartEditor.ui.appearanceTabs.ChartTitle');
+goog.require('chartEditor.ui.appearanceTabs.ContextMenu');
+goog.require('chartEditor.ui.appearanceTabs.Credits');
+goog.require('chartEditor.ui.appearanceTabs.GeneralTheming');
+goog.require('chartEditor.ui.appearanceTabs.Grids');
+goog.require('chartEditor.ui.appearanceTabs.Legend');
+goog.require('chartEditor.ui.appearanceTabs.StockSeries');
+goog.require('chartEditor.ui.appearanceTabs.Tooltip');
+
+
+
+/**
+ * Editor Model for Stock Editor product.
+ *
+ * @constructor
+ * @extends {chartEditor.model.Base}
+ */
+chartEditor.model.Stock = function() {
+  chartEditor.model.Stock.base(this, 'constructor');
+
+  /** @inheritDoc */
+  this.appearanceTabs = [
+    {
+      name: chartEditor.enums.EditorTabs.THEMING,
+      classFunc: chartEditor.ui.appearanceTabs.GeneralTheming,
+      docsUrl: 'http://docs.anychart.stg/Appearance_Settings/Themes'
+    },
+    {
+      name: chartEditor.enums.EditorTabs.TITLE,
+      classFunc: chartEditor.ui.appearanceTabs.ChartTitle,
+      docsUrl: 'http://docs.anychart.stg/Common_Settings/Title'
+    },
+    {
+      name: chartEditor.enums.EditorTabs.LEGEND,
+      classFunc: chartEditor.ui.appearanceTabs.Legend,
+      docsUrl: 'http://docs.anychart.stg/Common_Settings/Legend/Basic_Settings'
+    },
+    {
+      name: chartEditor.enums.EditorTabs.SERIES,
+      classFunc: chartEditor.ui.appearanceTabs.StockSeries,
+      docsUrl: 'https://api.anychart.com/anychart.core.SeriesBase'
+    },
+    {
+      name: chartEditor.enums.EditorTabs.TOOLTIP,
+      classFunc: chartEditor.ui.appearanceTabs.Tooltip,
+      docsUrl: 'http://docs.anychart.stg/Common_Settings/Tooltip'
+    },
+    {
+      name: chartEditor.enums.EditorTabs.GRIDS,
+      classFunc: chartEditor.ui.appearanceTabs.Grids,
+      docsUrl: 'http://docs.anychart.stg/Axes_and_Grids/Axis_Basics#grids'
+    },
+    {
+      name: chartEditor.enums.EditorTabs.CONTEXT_MENU,
+      classFunc: chartEditor.ui.appearanceTabs.ContextMenu,
+      docsUrl: 'http://docs.anychart.stg/Common_Settings/UI_Controls/Context_Menu'
+    },
+    {
+      name: chartEditor.enums.EditorTabs.CREDITS,
+      classFunc: chartEditor.ui.appearanceTabs.Credits,
+      docsUrl: 'http://docs.anychart.stg/Quick_Start/Credits'
+    }
+  ];
+};
+goog.inherits(chartEditor.model.Stock, chartEditor.model.Base);
+
+
+// region Structures
+chartEditor.model.Series['line'] = {'fields': [{'field': 'value', 'name': 'Y Value'}]};
+chartEditor.model.Series['spline'] = {'fields': [{'field': 'value', 'name': 'Y Value'}]};
+chartEditor.model.Series['column'] = {'fields': [{'field': 'value', 'name': 'Y Value'}]};
+chartEditor.model.Series['area'] = {'fields': [{'field': 'value', 'name': 'Y Value'}]};
+chartEditor.model.Series['splineArea'] = {
+  'name': 'Spline Area',
+  'fields': [{'field': 'value', 'name': 'Y Value'}]
+};
+chartEditor.model.Series['ohlc'] = chartEditor.model.Series['candlestick'] = {
+  'fields': [
+    {'field': 'open', 'name': 'Open Value'},
+    {'field': 'high', 'name': 'High Value'},
+    {'field': 'low', 'name': 'Low Value'},
+    {'field': 'close', 'name': 'Close Value'}]
+};
+// endregion
+
+
+// region Model initialization
+/** @inheritDoc */
+chartEditor.model.Stock.prototype.chooseDefaultChartType = function() {
+  this.model['chart']['type'] = 'stock';
+};
+
+
+/** @inheritDoc */
+chartEditor.model.Stock.prototype.chooseDefaultSeriesType = function() {
+  chartEditor.model.Stock.base(this, 'chooseDefaultSeriesType');
+
+  var seriesType = this.model['chart']['seriesType'];
+  if (!seriesType) {
+    if (this.fieldsState.numbersCount < 4 || this.fieldsState.numbersCount > 5)
+      seriesType = 'line';
+    else
+      seriesType = this.getChartTypeSettings()['series'][0];
+  }
+
+  this.model['chart']['seriesType'] = seriesType;
+};
+
+
+/** @inheritDoc */
+chartEditor.model.Stock.prototype.createDefaultMappings = function() {
+  this.model['dataSettings']['mappings'] = [this.createDefaultPlotMappings()];
+
+  if (this.model['chart']['seriesType'] === 'ohlc' && this.fieldsState.numbersCount === 5) {
+    this.model['chart']['seriesType'] = 'column'; // this is for createDefaultPlotMappings() proper working
+    this.model['dataSettings']['mappings'].push(this.createDefaultPlotMappings());
+    this.model['chart']['seriesType'] = 'ohlc';
+  }
+};
+
+
+/** @inheritDoc */
+chartEditor.model.Stock.prototype.createDefaultPlotMappings = function() {
+  var result = [];
+  var seriesType = this.model['chart']['seriesType'];
+
+  var numValues;
+  if (seriesType === 'ohlc' || seriesType === 'candlestick')
+    numValues = 4;
+  else
+    numValues = 1;
+
+  var plotIndex = this.model['dataSettings']['mappings'].length;
+  var numSeries;
+  var fieldIndex;
+
+  if (seriesType === 'column' && plotIndex === 1)
+    numSeries = 1;
+  else
+    numSeries = Math.floor(this.fieldsState.numbersCount / numValues);
+
+  if (seriesType === 'column' && plotIndex === 1)
+    fieldIndex = 4; // try to set volume plot
+
+  for (var i = 0; i < numSeries; i += numValues) {
+    var seriesConfig = this.createDefaultSeriesMapping(i, /** @type {string} */(seriesType), void 0, fieldIndex);
+    result.push(seriesConfig);
+  }
+
+  return result;
+};
+
+
+/** @inheritDoc */
+chartEditor.model.Stock.prototype.createDefaultSeriesMapping = function(index, type, opt_id, opt_startFieldIndex) {
+  var config = {'ctor': type, 'mapping': {}};
+  config['id'] = goog.isDef(opt_id) ? opt_id : goog.string.createUniqueString();
+
+  var strings = goog.array.clone(this.fieldsState.strings);
+  var numbers = goog.array.clone(this.fieldsState.numbers);
+  var fields = chartEditor.model.Series[type]['fields'];
+
+  for (var i = 0; i < fields.length; i++) {
+    var j = index + i + (goog.isNumber(opt_startFieldIndex) ? opt_startFieldIndex : 0);
+    var numberIndex = numbers.length > j ? j : j % numbers.length;
+    var stringIndex = strings.length > j ? j : j % strings.length;
+
+    config['mapping'][fields[i]['field']] =
+        (fields[i]['type'] === 'string' && strings.length) ?
+            strings[stringIndex] :
+            numbers[numberIndex];
+  }
+  return config;
+};
+
+
+/** @inheritDoc */
+chartEditor.model.Stock.prototype.needResetMappings = function(prevChartType, prevSeriesType) {
+  return true;
+};
+// endregion
+
+
+// region Public and controls callback functions
+/**
+ * Adds new plot default mapping.
+ */
+chartEditor.model.Stock.prototype.addPlot = function() {
+  var mapping = this.createDefaultPlotMappings();
+  this.model['dataSettings']['mappings'].push(mapping);
+  this.dispatchUpdate();
+};
+
+
+/**
+ * Drops plot mapping by index.
+ * @param {number} index
+ */
+chartEditor.model.Stock.prototype.dropPlot = function(index) {
+  if (index > 0 && this.model['dataSettings']['mappings'].length > index) {
+    this.dropChartSettings('plot(');
+    goog.array.splice(this.model['dataSettings']['mappings'], index, 1);
+    this.dispatchUpdate();
+  }
+};
+// endregion
+
+/** @inheritDoc */
+chartEditor.model.Stock.prototype.isChartSingleSeries = function() {
+  return false;
+};
+
+
+/** @inheritDoc */
+chartEditor.model.Stock.prototype.getChartTypeSettings = function() {
+  return chartEditor.model.ChartTypes['stock'];
+};

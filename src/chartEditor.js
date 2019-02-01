@@ -1,6 +1,6 @@
 goog.provide('chartEditor');
 
-goog.require('chartEditor.Editor');
+goog.require('chartEditor.editor.Chart');
 
 /**
  * Set default css name mapping for anychart chart editor ui.
@@ -10,3 +10,5 @@ goog.setCssNameMapping({
 });
 
 chartEditor.DEVELOP = true;
+
+chartEditor.PRODUCT = chartEditor.model.Product.CHART;

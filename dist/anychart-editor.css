@@ -724,25 +724,25 @@
 .anychart-ce-dialog-file-csv {
   height: 330px;
 }
-.anychart-ce-sample-dialog {
+.anychart-ce-dialog-sample {
   width: 90%;
   height: 80%;
   min-width: auto;
   max-width: 800px;
 }
-.anychart-ce-sample-dialog .anychart-ce-dialog-content {
+.anychart-ce-dialog-sample .anychart-ce-dialog-content {
   padding-bottom: 60px;
   top: 40px;
 }
-.anychart-ce-sample-dialog iframe {
+.anychart-ce-dialog-sample iframe {
   position: relative;
   border: none;
   z-index: 10;
 }
-.anychart-ce-sample-dialog .anychart-ce-loader-rotating-cover {
+.anychart-ce-dialog-sample .anychart-ce-loader-rotating-cover {
   z-index: 1;
 }
-.anychart-ce-confirm-dialog {
+.anychart-ce-dialog-confirm {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
@@ -755,7 +755,7 @@
   min-height: auto;
   top: 15% !important;
 }
-.anychart-ce-confirm-dialog .anychart-ce-dialog-content {
+.anychart-ce-dialog-confirm .anychart-ce-dialog-content {
   top: 50px;
   font-size: 15px;
 }

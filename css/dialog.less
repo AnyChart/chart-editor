@@ -8,12 +8,16 @@
   position: absolute;
   width: 90%;
   height: 90%;
-  min-width: 780px; // 260 is a min size of a settings sidebar, total min is 260 * 3
+  min-width: 780px; // 260 is a min size of a panel sidebar, total min is 260 * 3
   min-height: 400px;
   color: @color-text;
   font-family: 'Open Sans', sans-serif;
   font-size: 13px;
   z-index: 1000;
+  p {
+    display: block;
+    margin: 1em 0;
+  }
 }
 
 .anychart-ce-dialog-bg {
@@ -174,8 +178,8 @@
 }
 // endregion
 
-// region ---- anychart-ce-sample-dialog
-.anychart-ce-sample-dialog {
+// region ---- anychart-ce-dialog-sample
+.anychart-ce-dialog-sample {
   width: 90%;
   height: 80%;
   min-width: auto;
@@ -195,11 +199,12 @@
 }
 // endregion
 
-// region ---- anychart-ce-confirm-dialog
-.anychart-ce-confirm-dialog {
+// region ---- anychart-ce-dialog-confirm
+.anychart-ce-dialog-confirm,
+.anychart-ce-dialog-crosslink {
   .border-radius(3px);
   width: 400px;
-  min-width:auto;
+  min-width: auto;
   height: 160px;
   min-height: auto;
   top: 15% !important;
@@ -208,6 +213,9 @@
     top: 50px;
     font-size: 15px;
   }
+}
+.anychart-ce-dialog-crosslink {
+  height: 295px;
 }
 // endregion
 
@@ -301,7 +309,7 @@
     bottom: 0;
   }
   .anychart-ce-dialog-title-close {
-    margin-top: 10px;
+    margin-top: -3px;
     margin-right: 3px;
   }
 }
