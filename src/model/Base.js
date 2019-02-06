@@ -58,7 +58,9 @@ chartEditor.model.Base = function() {
         //'getSeriesAt(0).name()': 'my series'
       }
     },
-    'editorSettings': {},
+    'editorSettings': {
+      'qlikMode': false
+    },
     'standalones': {}
   };
 

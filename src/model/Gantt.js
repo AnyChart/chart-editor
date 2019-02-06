@@ -76,7 +76,7 @@ chartEditor.model.Series['ganttProject'] = {
     {'field': 'connectorType', 'type': 'string'}
   ]
 };
-chartEditor.model.Series['ganttResource'] = {
+chartEditor.model.Series['ganttResourceQlik'] = {
   'ctor': 'ganttResource',
   'name': 'Gantt Resource',
   'fields': [
@@ -90,6 +90,17 @@ chartEditor.model.Series['ganttResource'] = {
     {'field': 'periodEnd'},
     {'field': 'periodConnectTo'},
     {'field': 'periodResourceId'}
+  ]
+};
+chartEditor.model.Series['ganttResource'] = {
+  'ctor': 'ganttResource',
+  'name': 'Gantt Resource',
+  'fields': [
+    // resource specific
+    {'field': 'id'},
+    {'field': 'name'},
+    {'field': 'parent'},
+    {'field': 'periods'}
   ]
 };
 // endregion
@@ -107,7 +118,16 @@ chartEditor.model.Gantt.prototype.chooseDefaultChartType = function() {
 
 /** @inheritDoc */
 chartEditor.model.Gantt.prototype.chooseDefaultSeriesType = function() {
-  this.model['chart']['seriesType'] = this.getChartTypeKey() == 'ganttProject' ? 'ganttProject' : 'ganttResource';
+  var ganttSeriesType;
+  if (this.getChartTypeKey() == 'ganttProject') {
+    ganttSeriesType = 'ganttProject';
+    // Use special mapping for Gantt Resource in Qlik environment
+  } else if (this.model['editorSettings']['qlikMode']) {
+    ganttSeriesType = 'ganttResourceQlik';
+  } else {
+    ganttSeriesType = 'ganttResource';
+  }
+  this.model['chart']['seriesType'] = ganttSeriesType;
 };
 
 

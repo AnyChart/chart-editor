@@ -95,6 +95,20 @@ chartEditor.editor.Base.prototype.version = function() {
 };
 
 
+/**
+ * Set/get the flag for qlikMode.
+ * @param {boolean=} opt_value qlikMode flag.
+ * @return {chartEditor.editor.Base|boolean}
+ */
+chartEditor.editor.Base.prototype.qlikMode = function(opt_value) {
+  if (goog.isDef(opt_value) && goog.isBoolean(opt_value)) {
+    this.getModel().setValue([['editorSettings'], 'qlikMode'], opt_value);
+    return this;
+  }
+  return this.getModel().getValue([['editorSettings'], 'qlikMode']);
+};
+
+
 /** @inheritDoc */
 chartEditor.editor.Base.prototype.render = function(opt_parentElement) {
   chartEditor.editor.Base.base(this, 'render', opt_parentElement);
@@ -596,4 +610,5 @@ window['anychart'] = window['anychart'] || {};
   proto['version'] = proto.version;
   proto['addClassName'] = proto.addClassName;
   proto['removeClassName'] = proto.removeClassName;
+  proto['qlikMode'] = proto.qlikMode;
 })();
