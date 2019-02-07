@@ -187,7 +187,6 @@ chartEditor.model.ProductDescription[chartEditor.model.Product.GANTT] = {name: '
  * @enum {string}
  */
 chartEditor.model.DataType = {
-  API: 'a', // data was loaded by calling editor.data()
   CUSTOM: 'c', // data was loaded through UI
   PREDEFINED: 'p', // preset data
   GEO: 'g' // geo data
@@ -1774,7 +1773,7 @@ chartEditor.model.Base.prototype.getRawData = function(opt_activeGeo, opt_startI
     if (goog.isArray(dataSet.data))
       return goog.array.slice(dataSet.data, opt_startIndex, opt_startIndex + opt_numRows);
     else {
-      // todo: Implement data set data preview
+      // todo: Implement data set raw data preview
       return [];
     }
   }
