@@ -187,9 +187,10 @@ chartEditor.model.ProductDescription[chartEditor.model.Product.GANTT] = {name: '
  * @enum {string}
  */
 chartEditor.model.DataType = {
-  CUSTOM: 'c',
-  PREDEFINED: 'p',
-  GEO: 'g'
+  API: 'a', // data was loaded by calling editor.data()
+  CUSTOM: 'c', // data was loaded through UI
+  PREDEFINED: 'p', // preset data
+  GEO: 'g' // geo data
 };
 
 
@@ -660,8 +661,8 @@ chartEditor.model.Base.prototype.analyzeDataBeforeChooseField = function() {
     strings: []
   };
 
-  var rawData = this.getRawData();
-  var dataRow = rawData[0];
+  var preparedData = this.getPreparedData();
+  var dataRow = preparedData[0].row;
   var fieldValue;
   var numberValue;
   var key;
@@ -703,8 +704,8 @@ chartEditor.model.Base.prototype.analyzeDataBeforeChooseField = function() {
  * @protected
  */
 chartEditor.model.Base.prototype.analyzeDataAfterChooseField = function() {
-  var rawData = this.getRawData();
-  var dataRow = rawData[0];
+  var preparedData = this.getPreparedData();
+  var dataRow = preparedData[0].row;
   var numberValue;
   var key;
 
@@ -2284,7 +2285,6 @@ chartEditor.model.Base.prototype.indentCode = function(code, opt_numSpaces, opt_
  * @private
  */
 chartEditor.model.Base.prototype.prepareData_ = function() {
-  var joinedSets = [];
   var singleSets = [];
   var geoSets = [];
   var dataSet;
@@ -2293,18 +2293,7 @@ chartEditor.model.Base.prototype.prepareData_ = function() {
     if (this.data.hasOwnProperty(i)) {
       dataSet = this.prepareDataSet_(this.data[i]);
 
-      var joined = false;
-      if (dataSet.join) {
-        /*
-         * todo: process join
-         */
-        joined = true;
-      }
-
-      if (joined) {
-        dataSet.title = 'Joined set ' + (joinedSets.length + 1);
-        joinedSets.push(dataSet);
-      } else if (dataSet.type === chartEditor.model.DataType.GEO) {
+      if (dataSet.type === chartEditor.model.DataType.GEO) {
         geoSets.push(dataSet);
       } else {
         dataSet.title = dataSet.title ? dataSet.title : 'Data set ' + (singleSets.length + 1);
@@ -2313,7 +2302,7 @@ chartEditor.model.Base.prototype.prepareData_ = function() {
     }
   }
 
-  this.preparedData_ = goog.array.concat(joinedSets, singleSets, geoSets);
+  this.preparedData_ = goog.array.concat(singleSets, geoSets);
 
   return this.preparedData_;
 };
@@ -2331,12 +2320,19 @@ chartEditor.model.Base.prototype.prepareDataSet_ = function(dataSet) {
     setFullId: dataSet.setFullId,
     title: dataSet.title,
     fieldNames: dataSet.fieldNames,
-    fields: []
+    fields: [],
+    row: void 0
   };
 
-  var row = dataSet.type === chartEditor.model.DataType.GEO ?
-      dataSet.data['features'][0]['properties'] :
-      dataSet.data[0];
+  var row;
+  if (dataSet.type === chartEditor.model.DataType.GEO)
+    row = dataSet.data['features'][0]['properties'];
+  else if (goog.isFunction(dataSet.data.row))
+    row = dataSet.data.row(0);
+  else
+    row = dataSet.data[0];
+
+  result.row = row;
 
   var settings = new goog.format.JsonPrettyPrinter.SafeHtmlDelimiters();
   settings.lineBreak = '';

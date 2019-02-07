@@ -370,6 +370,9 @@ chartEditor.editor.Base.prototype.data = function(data) {
     } else
       preparedData = {data: data};
 
+    if (!preparedData.dataType)
+      preparedData.dataType = chartEditor.model.DataType.API;
+
     this.getModel().addData(preparedData);
   }
 };
