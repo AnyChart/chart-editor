@@ -1770,8 +1770,14 @@ chartEditor.model.Base.prototype.getRawData = function(opt_activeGeo, opt_startI
   if (!dataSet)
     return null;
 
-  if (goog.isDef(opt_startIndex) && goog.isDef(opt_numRows) && goog.isArray(dataSet.data))
-    return goog.array.slice(dataSet.data, opt_startIndex, opt_startIndex + opt_numRows);
+  if (goog.isDef(opt_startIndex) && goog.isDef(opt_numRows)) {
+    if (goog.isArray(dataSet.data))
+      return goog.array.slice(dataSet.data, opt_startIndex, opt_startIndex + opt_numRows);
+    else {
+      // todo: Implement data set data preview
+      return [];
+    }
+  }
 
   return dataSet.data;
 };
@@ -1939,39 +1945,48 @@ chartEditor.model.Base.prototype.getChartWithJsCode_ = function(opt_options) {
   }
 
   // Create data set
-  var rawData = this.getRawData();
-  var dsCtor = this.getChartTypeSettings()['dataSetCtor'];
-  var dataSet = anychartGlobal['data'][dsCtor]();
-
   result.push('// Setting up data');
-
   if (addMarkers) result.push('/*=rawData*/');
 
-  var str = 'var rawData' + eq + (addData ? this.printValue_(printer, rawData) : 'getData()') + ';';
-  result.push(str);
+  var rawData = this.getRawData();
+  var dsCtor;
+  var dataSet;
+
+  if (goog.isFunction(rawData['mapAs']) || !addData) {
+    dataSet = rawData;
+    result.push('// Put your data set here');
+    result.push('var dataSet' + eq + 'null;');
+
+  } else {
+    dsCtor = this.getChartTypeSettings()['dataSetCtor'];
+    dataSet = anychartGlobal['data'][dsCtor]();
+    result.push('var rawData' + eq + this.printValue_(printer, rawData) + ';');
+  }
 
   if (addMarkers) result.push('/*rawData=*/');
 
-  if (dsCtor === 'table') {
-    result.push('var data' + eq + 'anychart.data.' + dsCtor + '(' + this.printValue_(printer, settings['dataSettings']['field']) + ');');
+  if (dsCtor) {
+    if (dsCtor === 'table') {
+      result.push('var dataSet' + eq + 'anychart.data.' + dsCtor + '(' + this.printValue_(printer, settings['dataSettings']['field']) + ');');
 
-    dataSet['addData'](rawData);
-    result.push('data.addData(rawData);');
+      dataSet['addData'](rawData);
+      result.push('dataSet.addData(rawData);');
 
-  } else if (dsCtor === 'tree') {
-    var mappingObj1 = settings['dataSettings']['mappings'][0][0]['mapping'];
-    if (chartType === 'treeMap')
-      mappingObj1['id'] = settings['dataSettings']['field'];
-    result.push('var data' + eq + 'anychart.data.' + dsCtor + '(void 0, void 0, void 0, ' + this.printValue_(printer, mappingObj1) + ');');
+    } else if (dsCtor === 'tree') {
+      var mappingObj1 = settings['dataSettings']['mappings'][0][0]['mapping'];
+      if (chartType === 'treeMap')
+        mappingObj1['id'] = settings['dataSettings']['field'];
+      result.push('var dataSet' + eq + 'anychart.data.' + dsCtor + '(void 0, void 0, void 0, ' + this.printValue_(printer, mappingObj1) + ');');
 
-    dataSet['addData'](rawData, 'as-table');
-    result.push('data.addData(rawData, "as-table");');
+      dataSet['addData'](rawData, 'as-table');
+      result.push('dataSet.addData(rawData, "as-table");');
 
-  } else {
-    result.push('var data' + eq + 'anychart.data.' + dsCtor + '();');
+    } else {
+      result.push('var dataSet' + eq + 'anychart.data.' + dsCtor + '();');
 
-    dataSet['data'](rawData);
-    result.push('data.data(rawData);');
+      dataSet['data'](rawData);
+      result.push('dataSet.data(rawData);');
+    }
   }
 
   result.push('');
@@ -2238,20 +2253,23 @@ chartEditor.model.Base.prototype.printValue_ = function(printer, value) {
  * @return {string}
  */
 chartEditor.model.Base.prototype.getDataCode = function() {
-  var printerSettings = new goog.format.JsonPrettyPrinter.TextDelimiters();
-  var printer = new goog.format.JsonPrettyPrinter(printerSettings);
   var result = [];
-
   result.push('');
   result.push('function getData() {');
 
   var rawData = this.getRawData();
+  if (goog.isFunction(rawData['mapAs'])) {
+    result.push('// Put your data here');
+    result.push('return null;');
 
-  var dataStr = 'return ' + this.printValue_(printer, rawData) + ';';
-  result.push(dataStr);
+  } else {
+    var printerSettings = new goog.format.JsonPrettyPrinter.TextDelimiters();
+    var printer = new goog.format.JsonPrettyPrinter(printerSettings);
+    var dataStr = 'return ' + this.printValue_(printer, rawData) + ';';
+    result.push(dataStr);
+  }
 
   this.indentCode(result, void 0, 2);
-
   result.push('}');
 
   return result.join('\n');

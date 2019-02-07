@@ -115,10 +115,11 @@ chartEditor.model.Gantt.prototype.createDefaultSeriesMapping = function(index, t
   var numbers = goog.array.clone(this.fieldsState.numbers);
   var fields = chartEditor.model.Series[type]['fields'];
 
-  var keys = this.getRawData()[0];
+  var preparedData = this.getPreparedData();
+  var dataRow = preparedData[0].row;
   for (var i = 0; i < fields.length; i++) {
     var field = fields[i]['field'];
-    if (field in keys) {
+    if (field in dataRow) {
       config['mapping'][field] = field;
     } else {
       var j = index + i + (goog.isNumber(opt_startFieldIndex) ? opt_startFieldIndex : 0);

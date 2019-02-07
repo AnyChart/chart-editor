@@ -472,6 +472,7 @@ chartEditor.model.Chart.prototype.chooseDefaultChartType = function() {
   if (!chartType) {
     chartType = 'line';
     var rawData = this.getRawData();
+    var dataLength = goog.isFunction(rawData.getRowsCount) ? rawData.getRowsCount() : rawData.length;
     if (this.model['dataSettings']['field'] === this.fieldsState.date_short) {
       chartType = 'column';
 
@@ -479,7 +480,7 @@ chartEditor.model.Chart.prototype.chooseDefaultChartType = function() {
         this.setStackMode('value');
 
     } else if (this.model['dataSettings']['field'] === this.fieldsState.firstString) {
-      if (rawData.length <= 5 && this.fieldsState.numbersCount === 1)
+      if (dataLength.length <= 5 && this.fieldsState.numbersCount === 1)
         chartType = 'pie';
       else if (this.fieldsState.numbersCount <= 3)
         chartType = 'bar';
