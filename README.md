@@ -5,6 +5,10 @@ AnyChart Chart Editor
 
 Intuitive and easy to use web application that allows you to create and work with [AnyChart JavaScript Charts](https://www.anychart.com).
 
+## Demo
+
+Launch [AnyChart Chart Editor Demo](https://anychart.github.io/chart-editor/)
+
 ## Table of Contents
 
 * [Download and Install](#download-and-install)
