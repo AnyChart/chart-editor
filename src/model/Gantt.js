@@ -26,7 +26,7 @@ chartEditor.model.Gantt = function() {
     {
       name: chartEditor.enums.EditorTabs.TITLE,
       classFunc: chartEditor.ui.appearanceTabs.ChartTitle,
-      docsUrl: 'http://docs.anychart.stg/Common_Settings/Title'
+      docsUrl: 'http://docs.anychart.com/Common_Settings/Title'
     }, {
       name: chartEditor.enums.EditorTabs.GANTT_TIMELINE_HEADER,
       classFunc: chartEditor.ui.appearanceTabs.GanttTimeLineHeader
@@ -42,19 +42,19 @@ chartEditor.model.Gantt = function() {
     }, {
       name: chartEditor.enums.EditorTabs.GANTT_TIMELINE_TOOLTIP,
       classFunc: chartEditor.ui.appearanceTabs.GanttTimeLineTooltip,
-      docsUrl: 'http://docs.anychart.stg/Common_Settings/Tooltip'
+      docsUrl: 'http://docs.anychart.com/Common_Settings/Tooltip'
     }, {
       name: chartEditor.enums.EditorTabs.GANTT_DATAGRID_TOOLTIP,
       classFunc: chartEditor.ui.appearanceTabs.GanttDataGridTooltip,
-      docsUrl: 'http://docs.anychart.stg/Common_Settings/Tooltip'
+      docsUrl: 'http://docs.anychart.com/Common_Settings/Tooltip'
     }, {
       name: chartEditor.enums.EditorTabs.CONTEXT_MENU,
       classFunc: chartEditor.ui.appearanceTabs.ContextMenu,
-      docsUrl: 'http://docs.anychart.stg/Common_Settings/UI_Controls/Context_Menu'
+      docsUrl: 'http://docs.anychart.com/Common_Settings/UI_Controls/Context_Menu'
     }, {
       name: chartEditor.enums.EditorTabs.CREDITS,
       classFunc: chartEditor.ui.appearanceTabs.Credits,
-      docsUrl: 'http://docs.anychart.stg/Quick_Start/Credits'
+      docsUrl: 'http://docs.anychart.com/Quick_Start/Credits'
     }];
 };
 goog.inherits(chartEditor.model.Gantt, chartEditor.model.Base);
