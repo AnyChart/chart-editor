@@ -11,6 +11,7 @@ Launch [AnyChart Chart Editor Demo](https://anychart.github.io/chart-editor/)
 
 ## Table of Contents
 
+* [Demo](#demo)
 * [Download and Install](#download-and-install)
 * [Getting started](#getting-started)
 * [Using](#using)
