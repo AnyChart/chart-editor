@@ -35,18 +35,18 @@ window['anychart'].ganttEditor = function() {
  * @param {Object} mappingObj default mapping for the current chart type
  * @return {Object}
  */
-window['anychart'].ganttEditor.preprocessResourceMapping = function(mappingObj) {
+chartEditor.editor.Gantt.preprocessResourceMapping = function(mappingObj) {
   return chartEditor.model.Gantt.preprocessResourceMapping(mappingObj);
 };
 
 
 /**
  * Wrapper function for preprocessing data for Gantt Resource chart.
- * @param {?(Array.<*>|Object)} rawData raw incoming data
+ * @param {Array.<Object>} rawData raw incoming data
  * @param {Object} mappingObj default mapping for the current chart type
- * @return {Array.<*>}
+ * @return {Array.<Object>}
  */
-window['anychart'].ganttEditor.preprocessResourceData = function(rawData, mappingObj) {
+chartEditor.editor.Gantt.preprocessResourceData = function(rawData, mappingObj) {
   return chartEditor.model.Gantt.preprocessResourceData(rawData, mappingObj);
 };
 
@@ -54,6 +54,6 @@ window['anychart'].ganttEditor.preprocessResourceData = function(rawData, mappin
 //exports
 (function() {
   goog.exportSymbol('anychart.ganttEditor', window['anychart'].ganttEditor);
-  goog.exportSymbol('anychart.ganttEditor.preprocessResourceMapping', window['anychart'].ganttEditor.preprocessResourceMapping);
-  goog.exportSymbol('anychart.ganttEditor.preprocessResourceData', window['anychart'].ganttEditor.preprocessResourceData);
+  goog.exportSymbol('chartEditor.editor.Gantt.preprocessResourceMapping', chartEditor.editor.Gantt.preprocessResourceMapping);
+  goog.exportSymbol('chartEditor.editor.Gantt.preprocessResourceData', chartEditor.editor.Gantt.preprocessResourceData);
 })();

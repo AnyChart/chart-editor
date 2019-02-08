@@ -193,9 +193,9 @@ chartEditor.model.Gantt.preprocessResourceMapping = function(mappingObj) {
 
 /**
  * Preprocess data for Gantt Resource chart.
- * @param {?(Array.<*>|Object)} rawData raw incoming data
+ * @param {Array.<Object>} rawData raw incoming data
  * @param {Object} mappingObj default mapping for the current chart type
- * @return {Array.<*>}
+ * @return {Array.<Object>}
  */
 chartEditor.model.Gantt.preprocessResourceData = function(rawData, mappingObj) {
   var preprocessedData = [];

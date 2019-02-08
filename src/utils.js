@@ -2,10 +2,10 @@ goog.provide('chartEditor.utils');
 
 
 /**
- * Find all unique items.
- * @param {?(Array.<*>|Object)} arr array of items
- * @param {string} field the searching field name
- * @return {Array.<*>}
+ * Find all unique values in array of object by a specific field name.
+ * @param {Array.<Object>} arr input array of objects
+ * @param {string} field field name of searching unique values
+ * @return {Array.<string>}
  */
 chartEditor.utils.searchUniqueValues = function(arr, field) {
   var obj = {};
