@@ -2342,12 +2342,13 @@ chartEditor.model.Base.prototype.prepareDataSet_ = function(dataSet) {
   };
 
   var row;
-  if (dataSet.type === chartEditor.model.DataType.GEO)
+  if (dataSet.type === chartEditor.model.DataType.GEO) {
     row = dataSet.data['features'][0]['properties'];
-  else if (goog.isFunction(dataSet.data['mapAs']))
-    row = dataSet.data['row'](0);
-  else
+  } else if (goog.isFunction(dataSet.data['mapAs'])) {
+    row = dataSet.data['row'](dataSet.data['getRowsCount']() - 1);
+  } else {
     row = dataSet.data[0];
+  }
 
   result.row = row;
 
