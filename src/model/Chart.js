@@ -472,7 +472,7 @@ chartEditor.model.Chart.prototype.chooseDefaultChartType = function() {
   if (!chartType) {
     chartType = 'line';
     var rawData = this.getRawData();
-    var dataLength = goog.isFunction(rawData.getRowsCount) ? rawData.getRowsCount() : rawData.length;
+    var dataLength = goog.isFunction(rawData['mapAs']) ? rawData['getRowsCount']() : rawData.length;
     if (this.model['dataSettings']['field'] === this.fieldsState.date_short) {
       chartType = 'column';
 

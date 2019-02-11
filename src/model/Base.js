@@ -916,7 +916,7 @@ chartEditor.model.Base.prototype.onChangeView = function() {
     this.generateInitialMappingsOnChangeView_ = false;
     this.getPreparedData();
 
-    if (this.preparedData_.length > 0) {
+    if (this.preparedData_.length > 0 && goog.isDef(this.preparedData_[0].row)) {
       if (this.afterSetModel_) {
         // Use predefined model
         if (this.model['chart']['type'] === 'map')
@@ -2344,8 +2344,8 @@ chartEditor.model.Base.prototype.prepareDataSet_ = function(dataSet) {
   var row;
   if (dataSet.type === chartEditor.model.DataType.GEO)
     row = dataSet.data['features'][0]['properties'];
-  else if (goog.isFunction(dataSet.data.row))
-    row = dataSet.data.row(0);
+  else if (goog.isFunction(dataSet.data['mapAs']))
+    row = dataSet.data['row'](0);
   else
     row = dataSet.data[0];
 

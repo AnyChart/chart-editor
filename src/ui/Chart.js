@@ -116,7 +116,6 @@ chartEditor.ui.Chart.prototype.onModelChange = function(evt) {
     if (goog.isFunction(rawData['mapAs'])) {
       // raw data is instance of anychart.data.Set
       dataSet = rawData;
-
     } else {
       // Create data set
       var dsCtor = model.getChartTypeSettings()['dataSetCtor'];
