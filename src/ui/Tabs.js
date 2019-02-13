@@ -69,7 +69,7 @@ chartEditor.ui.Tabs.prototype.createDom = function() {
       var descriptionHtml = goog.dom.createDom(
           goog.dom.TagName.A,
           {'href': this.descriptors[i].docsUrl, 'target': '_blank'},
-          'Read docs');
+          ' Read docs');
 
       panel.addDescription(descriptionHtml);
     }

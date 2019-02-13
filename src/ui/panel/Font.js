@@ -7,6 +7,7 @@ goog.require('chartEditor.ui.control.button.Underline');
 goog.require('chartEditor.ui.control.colorPicker.Base');
 goog.require('chartEditor.ui.control.comboBox.Base');
 goog.require('chartEditor.ui.control.select.FontFamily');
+goog.require('chartEditor.ui.control.wrapped.Labeled');
 
 
 
@@ -71,22 +72,24 @@ chartEditor.ui.panel.Font.prototype.createDom = function() {
 
   if (this.fields_['fontFamily']) {
     var fontFamily = new chartEditor.ui.control.select.FontFamily();
-    fontFamily.addClassName(goog.getCssName('anychart-ce-panel-font-family'));
-    fontFamily.init(model, this.genKey('fontFamily()'));
-    this.addChildControl(fontFamily);
+    // fontFamily.addClassName(goog.getCssName('anychart-ce-panel-font-family'));
+    var pointWidthLC = new chartEditor.ui.control.wrapped.Labeled(fontFamily, 'Family');
+    pointWidthLC.init(model, this.genKey('fontFamily()'));
+    this.addChildControl(pointWidthLC);
   }
   if (this.fields_['fontSize']) {
     var fontSizeSelect = new chartEditor.ui.control.comboBox.Base();
     fontSizeSelect.setOptions([10, 12, 14, 16, 18, 20, 22]);
-    fontSizeSelect.init(model, this.genKey('fontSize()'));
-    this.addChildControl(fontSizeSelect);
-    goog.dom.classlist.add(fontSizeSelect.getElement(), goog.getCssName('anychart-ce-panel-font-size'));
+    var pointWidthLC = new chartEditor.ui.control.wrapped.Labeled(fontSizeSelect, 'Font Size');
+    pointWidthLC.init(model, this.genKey('fontSize()'));
+    this.addChildControl(pointWidthLC);
+    // goog.dom.classlist.add(fontSizeSelect.getElement(), goog.getCssName('anychart-ce-panel-font-size'));
   }
   /**@type {Node|null}*/
   var buttonsWrapper;
 
   if (this.fields_['fontWeight'] || this.fields_['fontStyle'] || this.fields_['fontDecoration']) {
-    buttonsWrapper = goog.dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-ce-panel-font-style-buttons'));
+    buttonsWrapper = goog.dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-ce-panel-font-style-buttons-right'));
   }
 
   if (this.fields_['fontWeight']) {

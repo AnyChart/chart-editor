@@ -22,7 +22,7 @@
   .anychart-chart-preview,
   .anychart-ce-presets {
     position: absolute;
-    left: 35%;
+    left: 260px;
     top: 0;
     bottom: 0;
     right: 0;
@@ -41,7 +41,7 @@
     left: 0;
     top: 0;
     bottom: 0;
-    width: 35%;
+    width: 260px;
     overflow-x: hidden;
     overflow-y: auto;
   }
@@ -51,7 +51,7 @@
     left: 0;
     top: 0;
     bottom: 0;
-    width: 231px;
+    width: 211px;
     overflow-x: hidden;
     overflow-y: auto;
   }
@@ -67,7 +67,7 @@
 
 .anychart-ce-data-step-wrapper {
   position: absolute;
-  left: 231px;
+  left: 211px;
   top: 0;
   bottom: 0;
   right: 0;
@@ -92,7 +92,7 @@
 
   .anychart-ce-chart-container {
     position: absolute;
-    top: 55px;
+    top: 18px;
     bottom: 18px;
     left: 7px;
     right: 18px;
@@ -104,6 +104,7 @@
   color: @color-caption !important;
   margin-bottom: 4px;
   min-height: 33px;
+  display: none;
 }
 // endregion
 
@@ -117,9 +118,9 @@
 .anychart-ce-breadcrumbs-item {
   .box-sizing(content-box);
   float: left;
-  margin: 13px 30px 13px 0;
+  margin: 8px 20px 8px 0;
   cursor: pointer;
-  width: 18%;
+  width: 160px;
 
   &:hover {
     .anychart-ce-breadcrumbs-item-caption {
@@ -136,8 +137,11 @@
 }
 
 .anychart-ce-breadcrumbs-item-caption {
-  color: @color-blue-disabled;
-  font-size: 17px;
+  font-size: 14px;
+}
+.anychart-ce-breadcrumbs-item-caption > i {
+  font-size: 18px;
+  margin-right: 5px;
 }
 
 .anychart-ce-breadcrumbs-item-indicator {
@@ -163,14 +167,14 @@
 .anychart-ce-breadcrumbs-button {
   float: right;
 
-  .border-radius(40px);
-  font-size: 18px;
+  .border-radius(20px);
+  font-size: 14px;
   line-height: 20px;
   background-color: @color-blue;
   color: white;
   border: none;
-  padding: 9px 20px;
-  margin-top: 10px;
+  padding: 9px 15px;
+  margin-top: 5px;
   outline: none;
   cursor: pointer;
 
@@ -424,11 +428,13 @@
 
 .anychart-ce-data-set-item-field {
   .border-radius(4px);
-  font-size: 14px;
+  font-size: 12px;
+  font-weight: 600;
   color: @color-label;
-  padding: 8px 12px;
+  padding: 8px;
   background: @color-background;
   margin-bottom: 4px;
+  overflow: hidden;
 
   &:last-child {
     margin-bottom: 0;
@@ -453,7 +459,7 @@
   .box-shadow(@shadow-1);
   width: 100%;
   background: white;
-  padding: 14px 32px 14px 16px;
+  padding: 14px;
 }
 
 .anychart-ce-plot-panel {
@@ -524,7 +530,7 @@
 .anychart-ce-plot-panel-series {
   position: relative;
   border-top: 1px solid @color-border;
-  padding: 14px 32px 14px 16px;
+  padding: 14px;
   .anychart-ce-labeled-control-label {
     text-transform: capitalize;
   }
@@ -534,6 +540,8 @@
   top: 20px;
   right: 7px;
   display: block;
+  margin-top: -20px;
+  margin-right: -10px;
 }
 
 .anychart-ce-plot-panel-series-first {
@@ -546,7 +554,7 @@
 .anychart-ce-control-series-name {
   .anychart-ce-input {
     .box-sizing(border-box);
-    width: 150px;
+    width: 120px;
     height: 28px;
   }
   .anychart-ce-input-label-disabled {
@@ -615,18 +623,18 @@
   left: 0;
   top: 0;
   bottom: 0;
-  width: 231px;
+  width: 211px;
   overflow-x: hidden;
   overflow-y: auto;
-  padding: 56px 7px 18px 18px;
+  padding: 18px 7px 18px 18px;
 
   .anychart-ce-buttons {
     .box-shadow(@shadow-1);
   }
   .button {
     background: white;
-    padding: 23px 0 24px 15px;
-    font-size: 16px;
+    padding: 13px 0 13px 13px;
+    font-size: 14px;
     cursor: pointer;
 
     &:hover {
@@ -642,7 +650,7 @@
 
 .anychart-ce-step-right-wrapper {
   position: absolute;
-  left: 231px;
+  left: 211px;
   top: 0;
   bottom: 0;
   right: 0;
@@ -655,7 +663,7 @@
   left: 0;
   top: 0;
   bottom: 0;
-  width: 35%;
+  width: 260px;
   overflow-x: hidden;
   overflow-y: auto;
   padding: 18px 0;
@@ -696,7 +704,7 @@
 .anychart-ce-step-chart-wrapper {
   .box-sizing(border-box);
   position: absolute;
-  left: 35%;
+  left: 260px;
   top: 0;
   bottom: 0;
   right: 0;
@@ -840,14 +848,14 @@
       margin-bottom: 10px;
     }
     .anychart-ce-checkbox-element {
-      font-size: 17px;
+      font-size: 14px;
     }
     .anychart-ce-checkbox-caption {
-      font-size: 15px;
+      font-size: 13px;
     }
     .anychart-ce-input {
-      font-size: 15px;
-      padding: 6px 10px;
+      font-size: 13px;
+      padding: 6px;
     }
   }
   .content:after {
@@ -894,12 +902,15 @@
   .anychart-ce-panel-font-style-buttons {
     text-align: right;
   }
+  .anychart-ce-panel-font-style-buttons-right {
+    float: right;
+  }
 }
 
 .anychart-ce-panel-title,
 .anychart-ce-panel-legend-appearance {
   .anychart-ce-field-select-select {
-    min-width: 150px;
+    width: 120px;
   }
 }
 
@@ -914,10 +925,11 @@
     display: block;
     float: left;
     min-width: unset;
-    margin: 0 10px 6px 0;
+    margin: 1px;
   }
   .anychart-ce-stroke-dash {
-    min-width: 150px;
+    width: 60px;
+    height: 30px;
   }
   .anychart-ce-stroke-color {
     margin-right: 0;
@@ -1214,7 +1226,7 @@
 
 .anychart-ce-panel-control-right {
   float: right;
-  width: auto !important;
+  // width: auto !important;
 }
 
 /* ------- CHART SETTINGS ------- */
@@ -1303,6 +1315,7 @@
     width: 35px;
     height: 31px;
     color: @color-arrow;
+    background: rgba(236, 245, 255, 0.91);
     border: none;
 
     i {
@@ -1318,14 +1331,15 @@
 
   .anychart-ce-labeled-control-label {
     float: left;
-    font-size: 15px;
+    font-size: 14px;
     color: @color-label;
-    line-height: 34px;
+    line-height: 26px;
   }
 
   .anychart-ce-field-select-select {
     .box-sizing(border-box);
-    min-width: 150px;
+    width: 120px;
+    overflow: hidden;
     float: right;
     position: relative;
   }
@@ -1374,7 +1388,7 @@
 }
 
 .anychart-ce-field-select-select-content {
-  font-size: 15px;
+  font-size: 13px;
   color: @color-text;
   display: inline-block;
   cursor: default;
@@ -1385,7 +1399,9 @@
 .anychart-select-with-content {
   .anychart-ce-field-select-select-content {
     .border-radius(4px);
-    padding: 3px 20px;
+    padding: 3px 9px;
+    overflow: hidden;
+    max-width: 75px;
     background: @color-content-background;
   }
 }
@@ -1399,7 +1415,7 @@
   display: inline-block;
 
   float: right;
-  margin: 12px 5px @unitSize 10px;
+  margin: 12px 5px @unitSize -10px;
 
   border-right: @unitSize solid transparent;
   border-left: @unitSize solid transparent;
@@ -1451,10 +1467,14 @@
 }
 
 .anychart-ce-control-menu-item {
-  font-size: 15px;
+  font-size: 13px;
   color: @color-text;
   padding: 5px 10px;
   cursor: pointer;
+}
+
+.anychart-ce-control-menu-item-content {
+  overflow: hidden;
 }
 
 .anychart-ce-control-menu-item-highlight {
@@ -1771,6 +1791,10 @@ pre[class*=language-]>code {
 }
 pre[class*=language-]:after, pre[class*=language-]:before {
   .box-shadow(none) !important;
+}
+
+.wide-width {
+  width: 100%;
 }
 
 // endregion
