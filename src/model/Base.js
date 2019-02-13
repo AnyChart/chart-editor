@@ -31,7 +31,7 @@ chartEditor.model.Base = function() {
    */
   this.preparedData_ = [];
 
-  this.generateInitialMappingsOnChangeView_ = true;
+  this.dirtyInitialDefaults_ = true;
 
   /**
    * Model structure
@@ -909,37 +909,47 @@ chartEditor.model.Base.prototype.dropChartSettings = function(opt_pattern, opt_b
 
 
 /**
- * Initializes default values for types selects.
+ * Initializes default values for all basic setting (chart tyme, mapping etc) based on data analysis.
  */
-chartEditor.model.Base.prototype.onChangeView = function() {
-  if (this.generateInitialMappingsOnChangeView_) {
-    this.generateInitialMappingsOnChangeView_ = false;
-    this.getPreparedData();
+chartEditor.model.Base.prototype.generateInitialDefaults = function() {
+  this.getPreparedData();
 
-    if (this.preparedData_.length > 0 && goog.isDef(this.preparedData_[0].row)) {
-      if (this.afterSetModel_) {
-        // Use predefined model
-        if (this.model['chart']['type'] === 'map')
-          this.initGeoData();
+  if (this.preparedData_.length > 0 && goog.isDef(this.preparedData_[0].row)) {
+    if (this.afterSetModel_) {
+      // Use predefined model
+      if (this.model['chart']['type'] === 'map')
+        this.initGeoData();
 
-        this.applyDefaults();
+      this.applyDefaults();
+      this.analyzeDataBeforeChooseField();
+      this.analyzeDataAfterChooseField();
 
-        this.analyzeDataBeforeChooseField();
-        this.analyzeDataAfterChooseField();
+      this.afterSetModel_ = false;
 
-        this.afterSetModel_ = false;
-
-      } else {
-        this.model['chart']['type'] = null;
-        this.chooseActiveAndField();
-        this.chooseDefaultChartType();
-        this.chooseDefaultSeriesType();
-        this.createDefaultMappings();
-        this.createDefaultStandalones();
-      }
     } else {
-      console.warn("NO DATA");
+      this.model['chart']['type'] = null;
+      this.chooseActiveAndField();
+      this.chooseDefaultChartType();
+      this.chooseDefaultSeriesType();
+      this.createDefaultMappings();
+      this.createDefaultStandalones();
     }
+
+    this.dirtyInitialDefaults_ = false;
+
+  } else {
+    console.warn("NO DATA");
+  }
+};
+
+
+/**
+ * Change step event handler.
+ * @param {number} stepIndex
+ */
+chartEditor.model.Base.prototype.onChangeStep = function(stepIndex) {
+  if (this.dirtyInitialDefaults_ && stepIndex > 0) {
+    this.generateInitialDefaults();
   }
 };
 
@@ -1662,7 +1672,7 @@ chartEditor.model.Base.prototype.addData = function(data) {
     goog.events.listen(confirm, goog.ui.Dialog.EventType.SELECT, function(e) {
       if (e.key == 'ok') {
         delete self.data[existingData.setFullId];
-        this.generateInitialMappingsOnChangeView_ = true;
+        this.dirtyInitialDefaults_ = true;
         self.addDataInternal(dataSet);
       }
 
@@ -1708,7 +1718,7 @@ chartEditor.model.Base.prototype.addDataInternal = function(dataSet) {
     }
   } else {
     this.model['dataSettings']['active'] = setFullId;
-    this.generateInitialMappingsOnChangeView_ = true;
+    this.dirtyInitialDefaults_ = true;
   }
 
   this.dispatchUpdate();
@@ -1725,10 +1735,8 @@ chartEditor.model.Base.prototype.removeData = function(setFullId) {
     // Geo data should not be alone
     delete this.data[this.model['dataSettings']['activeGeo']];
   }
-
   this.preparedData_.length = 0;
-
-  this.generateInitialMappingsOnChangeView_ = true;
+  this.dirtyInitialDefaults_ = true;
 
   this.dispatchUpdate();
 };

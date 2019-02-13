@@ -162,7 +162,12 @@ chartEditor.editor.Base.prototype.dialogVisible = function(opt_value) {
  * @return {string}
  */
 chartEditor.editor.Base.prototype.getJavascript = function(opt_outputOptions) {
-  return (/** @type {chartEditor.model.Base} */(this.getModel())).getChartAsJsCode(opt_outputOptions);
+  var model = /** @type {chartEditor.model.Base} */(this.getModel());
+
+  if (!model.getValue([['chart'], 'type']))
+    model.generateInitialDefaults();
+
+  return model.getChartAsJsCode(opt_outputOptions);
 };
 
 
@@ -277,7 +282,7 @@ chartEditor.editor.Base.prototype.createDom = function() {
  */
 chartEditor.editor.Base.prototype.onBeforeChangeStep_ = function(evt) {
   this.breadcrumbs_.setStep(evt.index, this.steps_);
-  if (evt.index !== 0) this.getModel().onChangeView();
+  this.getModel().onChangeStep(evt.index);
 };
 
 
