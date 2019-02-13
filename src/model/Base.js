@@ -1959,7 +1959,7 @@ chartEditor.model.Base.prototype.getChartWithJsCode_ = function(opt_options) {
   var dsCtor;
   var dataSet;
 
-  if (goog.isFunction(rawData['mapAs']) || !addData) {
+  if (goog.isFunction(rawData['mapAs'])) {
     dataSet = rawData;
     result.push('// Put your data set here');
     result.push('var dataSet' + eq + 'null;');
@@ -1967,7 +1967,7 @@ chartEditor.model.Base.prototype.getChartWithJsCode_ = function(opt_options) {
   } else {
     dsCtor = this.getChartTypeSettings()['dataSetCtor'];
     dataSet = anychartGlobal['data'][dsCtor]();
-    result.push('var rawData' + eq + this.printValue_(printer, rawData) + ';');
+    result.push('var rawData' + eq + (addData ? this.printValue_(printer, rawData) : 'getData()') + ';');
   }
 
   if (addMarkers) result.push('/*rawData=*/');
