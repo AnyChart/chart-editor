@@ -48,8 +48,8 @@ chartEditor.ui.panel.specific.Cartesian.prototype.createDom = function() {
   minPointLengthLC.init(model, this.genKey('minPointLength()'));
   this.addChildControl(minPointLengthLC);
 
-  var columnLikeSeries = ['column', 'bar', 'stick', 'rangeBar', 'rangeColumn'];
-  if (columnLikeSeries.indexOf(model.getValue(['chart', 'type'])) !== -1) {
+  var columnLikeCharts = ['column', 'bar', 'stick', 'rangeBar', 'rangeColumn'];
+  if (columnLikeCharts.indexOf(model.getModel()['chart']['type']) !== -1) {
     var barsPadding = new chartEditor.ui.control.input.Numbers();
     var barsPaddingLC = new chartEditor.ui.control.wrapped.Labeled(barsPadding, 'Bars Padding');
     barsPaddingLC.init(model, this.genKey('barsPadding()'));
