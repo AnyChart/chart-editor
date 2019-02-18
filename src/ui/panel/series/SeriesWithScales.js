@@ -10,6 +10,7 @@ goog.require('chartEditor.ui.panel.Markers');
 goog.require('chartEditor.ui.panel.Stroke');
 goog.require('chartEditor.ui.panel.Title');
 goog.require('chartEditor.ui.panel.scales.Base');
+goog.require('chartEditor.ui.panel.Error');
 
 
 
@@ -165,6 +166,18 @@ chartEditor.ui.panel.series.SeriesWithScales.prototype.createDom = function() {
     colorScale.setName('Color Scale');
     colorScale.setKey(this.genKey('colorScale()'));
     this.addChildControl(colorScale);
+  }
+
+  this.addContentSeparator();
+
+  var seriesSupportsError = ['splineArea', 'spline', 'stepArea', 'area', 'stick', 'bar', 'column', 'jumpLine', 'stepLine', 'line', 'marker'];
+  if (seriesSupportsError.indexOf(this.seriesType_) !== -1) {
+
+    var error = new chartEditor.ui.panel.Error(model);
+    error.setName('Error');
+    error.allowEnabled(false);
+    error.setKey(this.genKey('error()'));
+    this.addChildControl(error);
   }
   // endregion
 };
