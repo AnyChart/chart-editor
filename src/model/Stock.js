@@ -26,17 +26,17 @@ chartEditor.model.Stock = function() {
     {
       name: chartEditor.enums.EditorTabs.THEMING,
       classFunc: chartEditor.ui.appearanceTabs.GeneralTheming,
-      docsUrl: 'http://docs.anychart.stg/Appearance_Settings/Themes'
+      docsUrl: 'http://docs.anychart.com/Appearance_Settings/Themes'
     },
     {
       name: chartEditor.enums.EditorTabs.TITLE,
       classFunc: chartEditor.ui.appearanceTabs.ChartTitle,
-      docsUrl: 'http://docs.anychart.stg/Common_Settings/Title'
+      docsUrl: 'http://docs.anychart.com/Common_Settings/Title'
     },
     {
       name: chartEditor.enums.EditorTabs.LEGEND,
       classFunc: chartEditor.ui.appearanceTabs.Legend,
-      docsUrl: 'http://docs.anychart.stg/Common_Settings/Legend/Basic_Settings'
+      docsUrl: 'http://docs.anychart.com/Common_Settings/Legend/Basic_Settings'
     },
     {
       name: chartEditor.enums.EditorTabs.SERIES,
@@ -46,22 +46,22 @@ chartEditor.model.Stock = function() {
     {
       name: chartEditor.enums.EditorTabs.TOOLTIP,
       classFunc: chartEditor.ui.appearanceTabs.Tooltip,
-      docsUrl: 'http://docs.anychart.stg/Common_Settings/Tooltip'
+      docsUrl: 'http://docs.anychart.com/Common_Settings/Tooltip'
     },
     {
       name: chartEditor.enums.EditorTabs.GRIDS,
       classFunc: chartEditor.ui.appearanceTabs.Grids,
-      docsUrl: 'http://docs.anychart.stg/Axes_and_Grids/Axis_Basics#grids'
+      docsUrl: 'http://docs.anychart.com/Axes_and_Grids/Axis_Basics#grids'
     },
     {
       name: chartEditor.enums.EditorTabs.CONTEXT_MENU,
       classFunc: chartEditor.ui.appearanceTabs.ContextMenu,
-      docsUrl: 'http://docs.anychart.stg/Common_Settings/UI_Controls/Context_Menu'
+      docsUrl: 'http://docs.anychart.com/Common_Settings/UI_Controls/Context_Menu'
     },
     {
       name: chartEditor.enums.EditorTabs.CREDITS,
       classFunc: chartEditor.ui.appearanceTabs.Credits,
-      docsUrl: 'http://docs.anychart.stg/Quick_Start/Credits'
+      docsUrl: 'http://docs.anychart.com/Quick_Start/Credits'
     }
   ];
 };
