@@ -5,12 +5,12 @@ goog.require('chartEditor.ui.control.colorPicker.Base');
 goog.require('chartEditor.ui.control.input.Base');
 goog.require('chartEditor.ui.control.select.Scales');
 goog.require('chartEditor.ui.control.wrapped.Labeled');
+goog.require('chartEditor.ui.panel.Error');
 goog.require('chartEditor.ui.panel.Labels');
 goog.require('chartEditor.ui.panel.Markers');
 goog.require('chartEditor.ui.panel.Stroke');
 goog.require('chartEditor.ui.panel.Title');
 goog.require('chartEditor.ui.panel.scales.Base');
-goog.require('chartEditor.ui.panel.Error');
 
 
 
@@ -168,10 +168,10 @@ chartEditor.ui.panel.series.SeriesWithScales.prototype.createDom = function() {
     this.addChildControl(colorScale);
   }
 
-  this.addContentSeparator();
-
   var seriesSupportsError = ['splineArea', 'spline', 'stepArea', 'area', 'stick', 'bar', 'column', 'jumpLine', 'stepLine', 'line', 'marker'];
   if (seriesSupportsError.indexOf(this.seriesType_) !== -1) {
+
+    this.addContentSeparator();
 
     var error = new chartEditor.ui.panel.Error(model);
     error.setName('Error');

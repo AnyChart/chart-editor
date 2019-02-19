@@ -1,12 +1,9 @@
 goog.provide('chartEditor.ui.panel.Error');
 
-goog.require('chartEditor.enums');
 goog.require('chartEditor.ui.Panel');
-goog.require('chartEditor.ui.control.colorPicker.Base');
-goog.require('chartEditor.ui.control.comboBox.Base');
 goog.require('chartEditor.ui.control.comboBox.Percent');
-goog.require('chartEditor.ui.control.fieldSelect.Select');
-goog.require('chartEditor.ui.panel.Stroke');
+goog.require('chartEditor.ui.control.input.Numbers');
+goog.require('chartEditor.ui.control.wrapped.Labeled');
 
 
 
@@ -24,13 +21,6 @@ chartEditor.ui.panel.Error = function(model, opt_domHelper) {
 goog.inherits(chartEditor.ui.panel.Error, chartEditor.ui.Panel);
 
 
-// /**
-//  * Default CSS class.
-//  * @type {string}
-//  */
-// chartEditor.ui.panel.Markers.CSS_CLASS = goog.getCssName('anychart-ce-panel-markers');
-
-
 /** @override */
 chartEditor.ui.panel.Error.prototype.createDom = function() {
   chartEditor.ui.panel.Error.base(this, 'createDom');
@@ -43,17 +33,25 @@ chartEditor.ui.panel.Error.prototype.createDom = function() {
   valueErrorLC.init(model, this.genKey(['valueError()']));
   this.addChildControl(valueErrorLC);
 
+  var valueUpperError = new chartEditor.ui.control.input.Numbers();
+  var valueUpperErrorLC = new chartEditor.ui.control.wrapped.Labeled(valueUpperError, 'Value Upper Error');
+  valueUpperErrorLC.init(model, this.genKey(['valueUpperError()']));
+  this.addChildControl(valueUpperErrorLC);
 
   var valueLowerError = new chartEditor.ui.control.input.Numbers();
-  var valueErrorLC = new chartEditor.ui.control.wrapped.Labeled(valueError, 'Value Error');
-  valueErrorLC.init(model, this.genKey(['valueError()']));
-  this.addChildControl(valueErrorLC);
+  var valueLowerErrorLC = new chartEditor.ui.control.wrapped.Labeled(valueLowerError, 'Value Lower Error');
+  valueLowerErrorLC.init(model, this.genKey(['valueLowerError()']));
+  this.addChildControl(valueLowerErrorLC);
 
+  if (model.getModel()['chart']['type'] === 'scatter') {
+    var xUpperError = new chartEditor.ui.control.input.Numbers();
+    var xUpperErrorLC = new chartEditor.ui.control.wrapped.Labeled(xUpperError, 'X Upper Error');
+    xUpperErrorLC.init(model, this.genKey(['xUpperError()']));
+    this.addChildControl(xUpperErrorLC);
 
-
-
-  // var to = new chartEditor.ui.control.input.Numbers('To value');
-  // var tolLC = new chartEditor.ui.control.wrapped.Labeled(to, 'To');
-  // tolLC.init(model, this.genKey('to', true));
-  // this.addChildControl(tolLC);
+    var xLowerError = new chartEditor.ui.control.input.Numbers();
+    var xLowerErrorLC = new chartEditor.ui.control.wrapped.Labeled(xLowerError, 'X Lower Error');
+    xLowerErrorLC.init(model, this.genKey(['xLowerError()']));
+    this.addChildControl(xLowerErrorLC);
+  }
 };
