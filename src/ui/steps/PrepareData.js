@@ -2,8 +2,9 @@ goog.provide('chartEditor.ui.steps.PrepareData');
 
 goog.require('chartEditor.events');
 goog.require('chartEditor.ui.Component');
-goog.require('chartEditor.ui.dataSets.Widget');
+goog.require('chartEditor.ui.dataSets.WidgetPreview');
 goog.require('chartEditor.ui.dialog.Data');
+goog.require('chartEditor.ui.dialog.PresetPreview');
 goog.require('chartEditor.ui.presets.Widget');
 goog.require('chartEditor.ui.steps.Step');
 goog.require('chartEditor.ui.userData.Widget');
@@ -24,7 +25,7 @@ chartEditor.ui.steps.PrepareData = function(index, opt_domHelper) {
 
   this.name(chartEditor.enums.EditorSteps.DATA);
 
-  this.title('Configure Data');
+  this.title('Data');
 
   /**
    * @type {?chartEditor.ui.dialog.Data}
@@ -43,13 +44,17 @@ chartEditor.ui.steps.PrepareData.prototype.createDom = function() {
   var model = /** @type {chartEditor.model.Base} */(editor.getModel());
 
   // connected data sets section
-  this.panelsList_ = new chartEditor.ui.dataSets.Widget(model);
+  this.panelsList_ = new chartEditor.ui.dataSets.WidgetPreview(model);
   this.addChild(this.panelsList_, true);
 
   // user data and predefined data sets sections wrapper
   var wrapper = new chartEditor.ui.Component();
   wrapper.addClassName('anychart-ce-data-step-wrapper');
   this.addChild(wrapper, true);
+
+  var element = wrapper.getElement();
+  var importDataTitle = goog.dom.createDom(goog.dom.TagName.H3, 'title-common', 'Import Data');
+  goog.dom.appendChild(element, importDataTitle);
 
   // user data section
   this.userData_ = new chartEditor.ui.userData.Widget([
@@ -87,9 +92,12 @@ chartEditor.ui.steps.PrepareData.prototype.createDom = function() {
   wrapper.addChild(this.userData_, true);
 
 
-  // predefined data set section
-  var predefinedDataSelector = new chartEditor.ui.presets.Widget(model);
-  wrapper.addChild(predefinedDataSelector, true);
+  var choosePresetTitle = goog.dom.createDom(goog.dom.TagName.H3, 'title-common', 'Choose Preset');
+  goog.dom.appendChild(element, choosePresetTitle);
+
+  var presetPreviewButton = goog.dom.createDom(goog.dom.TagName.SPAN, 'title-button ac-folder-open');
+  goog.dom.appendChild(choosePresetTitle, presetPreviewButton);
+  goog.events.listen(presetPreviewButton, goog.events.EventType.CLICK, this.onPresetPreviewClick, false, this);
 };
 
 
@@ -120,6 +128,30 @@ chartEditor.ui.steps.PrepareData.prototype.openDataDialog = function(dialogType,
 
   this.dataDialog_.updateContent(dialogType, opt_dataType);
   this.dataDialog_.setVisible(true);
+};
+
+
+/**
+ * Preset preview click handler.
+ * @param {goog.events.BrowserEvent} e - Event.
+ */
+chartEditor.ui.steps.PrepareData.prototype.onPresetPreviewClick = function(e) {
+  if (!this.presetsPreview_) {
+    this.presetsPreview_ = new chartEditor.ui.dialog.PresetPreview();
+    var editor = /** @type {chartEditor.editor.Base} */(this.getParent());
+    var model = /** @type {chartEditor.model.Base} */(editor.getModel());
+    this.presetsPreview_.setModel(model);
+    var ths = this;
+
+    //TODO (A.Kudryavtsev): Redispatching? Is it OK?
+    editor.getHandler().listen(this.presetsPreview_, chartEditor.events.EventType.WAIT, function(e) {
+      ths.dispatchEvent(e);
+    });
+    editor.getHandler().listen(this.presetsPreview_, chartEditor.events.EventType.DATA_ADD, function(e) {
+      ths.dispatchEvent(e);
+    });
+  }
+  this.presetsPreview_.setVisible(true);
 };
 
 

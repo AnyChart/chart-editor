@@ -232,10 +232,20 @@
     overflow-y: auto;
   }
 }
+
 .anychart-ce-data-preview-table {
   width: 100%;
   border-spacing: 0;
   font-size: 15px;
+
+  thead {
+    tr {
+      td {
+        height: 40px;
+        background-color: @color-background;
+      }
+    }
+  }
 
   tr {
     height: 20px;
@@ -269,7 +279,13 @@
   .odd {
     background-color: @color-background;
   }
+
+  .anychart-ce-count-row {
+    width: 30px;
+    text-align: center;
+  }
 }
+
 
 .anychart-ce-data-preview-header {
   position: absolute;

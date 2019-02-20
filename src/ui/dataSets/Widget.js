@@ -22,9 +22,17 @@ chartEditor.ui.dataSets.Widget = function(model, opt_domHelper) {
 
   this.setModel(model);
 
-  this.addClassName('anychart-ce-data-set');
+  this.initClasses();
 };
 goog.inherits(chartEditor.ui.dataSets.Widget, chartEditor.ui.Component);
+
+
+/**
+ * Initializes css classes.
+ */
+chartEditor.ui.dataSets.Widget.prototype.initClasses = function() {
+  this.addClassName('anychart-ce-data-set');
+};
 
 
 /** @inheritDoc */
@@ -44,6 +52,17 @@ chartEditor.ui.dataSets.Widget.prototype.exitDocument = function() {
 
   goog.disposeAll(this.panels_);
   this.panels_.length = 0;
+};
+
+
+/**
+ * TODO (A.Kudryavtsev):
+ * @param model
+ * @param data
+ * @return {chartEditor.ui.dataSets.DataSet}
+ */
+chartEditor.ui.dataSets.Widget.prototype.createPanel = function(model, data) {
+  return new chartEditor.ui.dataSets.DataSet(model, data);
 };
 
 
@@ -76,7 +95,8 @@ chartEditor.ui.dataSets.Widget.prototype.onModelChange = function(evt) {
   if (data.length) {
     for (var i = 0; i < data.length; i++) {
       if (step.getIndex() === 1 || data[i].type !== chartEditor.model.DataType.GEO) {
-        var panel = new chartEditor.ui.dataSets.DataSet(model, data[i]);
+        // var panel = new chartEditor.ui.dataSets.DataSetPreview(model, data[i]);
+        var panel = this.createPanel(model, data[i]);
         this.panels_.push(panel);
         this.addChild(panel, true);
 

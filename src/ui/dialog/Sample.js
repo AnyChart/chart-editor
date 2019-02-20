@@ -17,7 +17,7 @@ goog.require('goog.ui.Dialog');
 chartEditor.ui.dialog.Sample = function(opt_class, opt_useIframeMask, opt_domHelper) {
   chartEditor.ui.dialog.Sample.base(this, 'constructor', opt_class, opt_useIframeMask, opt_domHelper);
 
-  this.setButtonSet(goog.ui.Dialog.ButtonSet.createOk());
+  this.setButtonSet(null);
 };
 goog.inherits(chartEditor.ui.dialog.Sample, chartEditor.ui.dialog.Base);
 

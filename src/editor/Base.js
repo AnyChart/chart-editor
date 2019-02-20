@@ -190,8 +190,11 @@ chartEditor.editor.Base.prototype.getXml = function() {
  */
 chartEditor.editor.Base.prototype.showWaitAnimation_ = function(show) {
   if (show && !this.preloader_.isInDocument()) {
-    var element = this.getContentElement();
-    this.preloader_.render(element);
+    // var element = this.getContentElement();
+    // this.preloader_.render(element);
+
+    //TODO (A.Kudryavtsev): Get body with goog.
+    this.preloader_.render(document.body);
   }
 
   this.preloader_.visible(show);
