@@ -154,7 +154,6 @@ chartEditor.editor.Base.prototype.dialogVisible = function(opt_value, opt_extraC
   }
 
   if (goog.isDef(opt_value)) {
-  if (goog.isDef(opt_value)) {
     this.dialog_.setVisible(opt_value);
     this.waitForImages_();
     return this;
@@ -484,7 +483,13 @@ chartEditor.editor.Base.prototype.saveToCloud = function(callback, params) {
   qd.add('code', params['code'] || this.getJavascript());
   qd.add('model', params['model'] || this.serializeModel());
 
-  goog.net.XhrIo.send(chartEditor.editor.Base.CLOUD_URL, callback, 'post', qd.toString());
+  goog.net.XhrIo.send(chartEditor.editor.Base.CLOUD_URL, function(e){
+    var xhr = e.target;
+    if (xhr.getStatus() === 200)
+      callback(null, xhr.getResponse());
+    else
+      callback(xhr.getStatusText(), null);
+  }, 'post', qd.toString());
 };
 
 
