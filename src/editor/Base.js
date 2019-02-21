@@ -1,14 +1,16 @@
 goog.provide('chartEditor.editor.Base');
 goog.provide('chartEditor.editor.Base.Dialog');
 
-goog.require('chartEditor.events');
-goog.require('chartEditor.model.Base');
-goog.require('chartEditor.ui.Component');
-goog.require('chartEditor.ui.Preloader');
-goog.require('chartEditor.ui.breadcrumbs.Breadcrumbs');
-goog.require('chartEditor.ui.dialog.Base');
-goog.require('chartEditor.ui.steps.Widget');
-goog.require('goog.net.ImageLoader');
+goog.require("chartEditor.events");
+goog.require("chartEditor.model.Base");
+goog.require("chartEditor.ui.Component");
+goog.require("chartEditor.ui.Preloader");
+goog.require("chartEditor.ui.breadcrumbs.Breadcrumbs");
+goog.require("chartEditor.ui.dialog.Base");
+goog.require("chartEditor.ui.steps.Widget");
+goog.require("goog.Uri");
+goog.require("goog.net.ImageLoader");
+goog.require("goog.net.XhrIo");
 
 
 
@@ -452,6 +454,28 @@ chartEditor.editor.Base.prototype.setDefaults = function(values) {
 };
 
 
+/**
+ * Chart editor statistics service url
+ */
+chartEditor.editor.Base.CLOUD_URL = 'http://localhost:3000';
+
+
+/**
+ *
+ * @param {Function} callback Function to call when response has come
+ * @param {Object} params
+ */
+chartEditor.editor.Base.prototype.saveToCloud = function(callback, params) {
+  var qd = new goog.Uri.QueryData();
+  if (goog.isDef(params['id']))
+    qd.add('id', params['id']);
+  qd.add('code', params['code'] || this.getJavascript());
+  qd.add('model', params['model'] || this.serializeModel());
+
+  goog.net.XhrIo.send(chartEditor.editor.Base.CLOUD_URL, callback, 'post', qd.toString());
+};
+
+
 /** @override */
 chartEditor.editor.Base.prototype.disposeInternal = function() {
   goog.disposeAll(this.dialog_);
@@ -596,4 +620,5 @@ window['anychart'] = window['anychart'] || {};
   proto['version'] = proto.version;
   proto['addClassName'] = proto.addClassName;
   proto['removeClassName'] = proto.removeClassName;
+  proto['saveToCloud'] = proto.saveToCloud;
 })();
