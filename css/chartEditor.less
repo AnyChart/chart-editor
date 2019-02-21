@@ -104,7 +104,7 @@
   color: @color-caption !important;
   margin-bottom: 4px;
   min-height: 33px;
-  display: none;
+  //display: none;
 }
 // endregion
 
@@ -675,15 +675,15 @@
       .anychart-ce-checkbox .anychart-ce-checkbox-element {
         background: white;
       }
-      .title {
-        padding-left: 15px !important;
-      }
+      //.title {
+      //  padding-left: 15px !important;
+      //}
     }
 
     > .content {
-      .box-shadow(@shadow-1);
+      //.box-shadow(@shadow-1);
       padding: 15px;
-      background: white;
+      //background: white;
     }
 
     .anychart-ce-panel-description {
@@ -816,11 +816,15 @@
 
 .anychart-ce-panel {
   position: relative;
+  background-color: white;
+  //padding: 15px 15px 15px 0;
 
   .top {
     font-size: 17px;
     color: @color-text;
     position: relative;
+    padding: 15px;
+    //margin-left: 15px;
 
     .title {
       display: inline-block;
@@ -964,8 +968,8 @@
   }
 
   .anychart-ce-panel-indexed {
-    .box-shadow(@shadow-1);
-    border: 1px solid @color-border;
+    //.box-shadow(@shadow-1);
+    //border: 1px solid @color-border;
     margin-bottom: 15px;
     background: white;
 
@@ -987,7 +991,8 @@
     position: relative;
   }
   .anychart-ce-add-btn {
-    margin-top: 5px;
+    //margin-top: 5px;
+    margin: 5px;
   }
   .anychart-ce-panel-description {
     top: -35px;
@@ -997,8 +1002,8 @@
 
 .anychart-ce-panel-legend-single,
 .anychart-ce-panel-plot-grids {
-  .box-shadow(@shadow-1);
-  border: 1px solid @color-border;
+  //.box-shadow(@shadow-1);
+  //border: 1px solid @color-border;
   margin-bottom: 15px;
   background: white;
 }
@@ -1100,7 +1105,7 @@
     margin: 0 !important;
   }
   .anychart-ce-panel {
-    padding: 15px;
+    padding: 0 15px 15px 15px;
   }
   .anychart-ce-stroke,
   .anychart-ce-panel-stagger {
@@ -1793,7 +1798,7 @@ pre[class*=language-]:after, pre[class*=language-]:before {
   .box-shadow(none) !important;
 }
 
-.wide-width {
+.anychart-ce-wide-width {
   width: 100%;
 }
 

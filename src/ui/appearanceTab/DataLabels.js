@@ -28,8 +28,6 @@ chartEditor.ui.appearanceTabs.DataLabels.prototype.createDom = function() {
   chartEditor.ui.appearanceTabs.DataLabels.base(this, 'createDom');
   var model = /** @type {chartEditor.model.Base} */(this.getModel());
 
-  this.enableContentCheckbox.init(model, this.genKey('enabled()'));
-
   var settings = new chartEditor.ui.panel.Labels(model);
   settings.allowEnabled(false);
   settings.setName(null);

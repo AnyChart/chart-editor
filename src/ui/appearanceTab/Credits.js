@@ -40,7 +40,7 @@ chartEditor.ui.appearanceTabs.Credits.prototype.createDom = function() {
 
   var licenseKey = new chartEditor.ui.control.input.Base();  
   this.addChild(licenseKey, true);
-  licenseKey.addClassName('wide-width');
+  licenseKey.addClassName('anychart-ce-wide-width');
   this.licenseKey_ = licenseKey;
 
   goog.dom.appendChild(content, goog.dom.createDom(
@@ -60,7 +60,7 @@ chartEditor.ui.appearanceTabs.Credits.prototype.createDom = function() {
 
   var text = new chartEditor.ui.control.input.Base('Text');
   this.addChild(text, true);
-  text.addClassName('wide-width');
+  text.addClassName('anychart-ce-wide-width');
   this.text_ = text;
 
   goog.dom.appendChild(content, goog.dom.createDom(
@@ -80,7 +80,7 @@ chartEditor.ui.appearanceTabs.Credits.prototype.createDom = function() {
 
   var url = new chartEditor.ui.control.input.Base('Url');
   this.addChild(url, true);
-  url.addClassName('wide-width');
+  url.addClassName('anychart-ce-wide-width');
   this.url_ = url;
 
   goog.dom.appendChild(content, goog.dom.createDom(
@@ -100,7 +100,7 @@ chartEditor.ui.appearanceTabs.Credits.prototype.createDom = function() {
 
   var logoSrc = new chartEditor.ui.control.input.Base('Logo');
   this.addChild(logoSrc, true);
-  logoSrc.addClassName('wide-width');
+  logoSrc.addClassName('anychart-ce-wide-width');
   this.logoSrc_ = logoSrc;
 };
 
