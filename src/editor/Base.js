@@ -142,11 +142,18 @@ chartEditor.editor.Base.prototype.dialogRender = function(opt_class, opt_useIfra
 /**
  * Sets/gets the visibility of the dialog box.
  * @param {boolean=} opt_value Whether the dialog should be visible.
+ * @param {string=} opt_extraClassName Extra class name for dialog
  * @return {boolean|chartEditor.editor.Base} Current visibility state or self for chaining.
  */
-chartEditor.editor.Base.prototype.dialogVisible = function(opt_value) {
+chartEditor.editor.Base.prototype.dialogVisible = function(opt_value, opt_extraClassName) {
   if (!this.dialog_) return true;
 
+  var element = this.dialog_.getElement();
+  if (opt_extraClassName && element) {
+    goog.dom.classlist.add(element, opt_extraClassName);
+  }
+
+  if (goog.isDef(opt_value)) {
   if (goog.isDef(opt_value)) {
     this.dialog_.setVisible(opt_value);
     this.waitForImages_();
