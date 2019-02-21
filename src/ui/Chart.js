@@ -253,11 +253,11 @@ chartEditor.ui.Chart.prototype.onModelChange = function(evt) {
         if (tmp.length == 3) {
           // Apply only real standalones (not defaults)
           descriptor = settings['standalones'][sName][sIndex];
-          if (!descriptor['key']) {
-            value = descriptor['instance'];
-
-          } else if (descriptor['key'] == key) {
+          if (!descriptor || descriptor['key'] == key) {
             delete settings['chart']['settings'][key];
+
+          } else if(!descriptor['key']) {
+            value = descriptor['instance'];
           }
         }
       }
@@ -272,6 +272,8 @@ chartEditor.ui.Chart.prototype.onModelChange = function(evt) {
     if (settings['standalones'][sName].length) {
       for (sIndex = 0; sIndex < settings['standalones'][sName].length; sIndex++) {
         descriptor = settings['standalones'][sName][sIndex];
+        if (!descriptor)
+          continue;
 
         if (descriptor['key']) {
           if (descriptor['instance'] && goog.isFunction(descriptor['instance']['dispose'])) {
