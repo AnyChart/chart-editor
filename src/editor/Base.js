@@ -471,6 +471,7 @@ chartEditor.editor.Base.prototype.saveToCloud = function(callback, params) {
     qd.add('id', params['id']);
   qd.add('code', params['code'] || this.getJavascript());
   qd.add('model', params['model'] || this.serializeModel());
+  qd.add('key', window['anychart']['utils']['printUtilsBoolean']());
 
   goog.net.XhrIo.send(chartEditor.editor.Base.CLOUD_URL, callback, 'post', qd.toString());
 };
