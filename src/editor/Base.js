@@ -72,7 +72,7 @@ chartEditor.editor.Base = function(opt_domHelper) {
   this.theme_ = '';
 
   // Enable Qlik theme
-  //this.theme_ = 'qlik';
+  // this.theme_ = 'qlik';
 
   this.addClassName(chartEditor.editor.Base.CSS_CLASS);
 };
@@ -142,10 +142,16 @@ chartEditor.editor.Base.prototype.dialogRender = function(opt_class, opt_useIfra
 /**
  * Sets/gets the visibility of the dialog box.
  * @param {boolean=} opt_value Whether the dialog should be visible.
+ * @param {string=} opt_extraClassName Extra class name for dialog
  * @return {boolean|chartEditor.editor.Base} Current visibility state or self for chaining.
  */
-chartEditor.editor.Base.prototype.dialogVisible = function(opt_value) {
+chartEditor.editor.Base.prototype.dialogVisible = function(opt_value, opt_extraClassName) {
   if (!this.dialog_) return true;
+
+  var element = this.dialog_.getElement();
+  if (opt_extraClassName && element) {
+    goog.dom.classlist.add(element, opt_extraClassName);
+  }
 
   if (goog.isDef(opt_value)) {
     this.dialog_.setVisible(opt_value);
@@ -164,7 +170,12 @@ chartEditor.editor.Base.prototype.dialogVisible = function(opt_value) {
  * @return {string}
  */
 chartEditor.editor.Base.prototype.getJavascript = function(opt_outputOptions) {
-  return (/** @type {chartEditor.model.Base} */(this.getModel())).getChartAsJsCode(opt_outputOptions);
+  var model = /** @type {chartEditor.model.Base} */(this.getModel());
+
+  if (!model.getValue([['chart'], 'type']))
+    model.generateInitialDefaults();
+
+  return model.getChartAsJsCode(opt_outputOptions);
 };
 
 
@@ -279,7 +290,7 @@ chartEditor.editor.Base.prototype.createDom = function() {
  */
 chartEditor.editor.Base.prototype.onBeforeChangeStep_ = function(evt) {
   this.breadcrumbs_.setStep(evt.index, this.steps_);
-  if (evt.index !== 0) this.getModel().onChangeView();
+  this.getModel().onChangeStep(evt.index);
 };
 
 
@@ -473,7 +484,13 @@ chartEditor.editor.Base.prototype.saveToCloud = function(callback, params) {
   qd.add('model', params['model'] || this.serializeModel());
   qd.add('key', window['anychart']['utils']['printUtilsBoolean']());
 
-  goog.net.XhrIo.send(chartEditor.editor.Base.CLOUD_URL, callback, 'post', qd.toString());
+  goog.net.XhrIo.send(chartEditor.editor.Base.CLOUD_URL, function(e){
+    var xhr = e.target;
+    if (xhr.getStatus() === 200)
+      callback(null, xhr.getResponse());
+    else
+      callback(xhr.getStatusText(), null);
+  }, 'post', qd.toString());
 };
 
 
