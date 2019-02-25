@@ -20,6 +20,8 @@ chartEditor.ui.PanelsGroup = function(model, opt_name, opt_domHelper) {
 
   this.panels_ = [];
 
+  this.allowTopElement = false;
+
   this.addClassName(goog.getCssName('anychart-ce-panel-group'));
 };
 goog.inherits(chartEditor.ui.PanelsGroup, chartEditor.ui.Panel);
@@ -91,6 +93,8 @@ chartEditor.ui.PanelsGroup.prototype.createDom = function() {
     this.addPanelBtn_.addClassName('anychart-ce-add-btn');
     this.addChild(this.addPanelBtn_, true);
   }
+
+  goog.style.setElementShown(this.getTopElement(), this.allowTopElement);
 };
 
 

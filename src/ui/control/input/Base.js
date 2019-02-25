@@ -79,7 +79,7 @@ chartEditor.ui.control.input.Base.prototype.setKey = function(key) {
  * @param {string} name
  */
 chartEditor.ui.control.input.Base.prototype.addClassName = function(name) {
-  goog.dom.classlist.add(this.getElement(), goog.getCssName('wide-width'));
+  goog.dom.classlist.add(this.getElement(), goog.getCssName('anychart-ce-wide-width'));
 };
 
 

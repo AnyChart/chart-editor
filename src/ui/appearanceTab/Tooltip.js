@@ -30,7 +30,8 @@ chartEditor.ui.appearanceTabs.Tooltip.prototype.createDom = function() {
 
   var settings = new chartEditor.ui.panel.Tooltip(model);
   settings.allowEnabled(false);
-  settings.setName('Tooltip');
+  settings.allowReset(false);
+  settings.setName(null);
   settings.setKey(this.getKey());
   this.addChildControl(settings);
 };
