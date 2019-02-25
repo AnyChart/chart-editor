@@ -68,12 +68,12 @@ chartEditor.model.Series['ganttProject'] = {
   'fields': [
     {'field': 'id'},
     {'field': 'name', 'type': 'string'},
-    {'field': 'parent'},
-    {'field': 'progressValue', 'type': 'string'},
+    {'field': 'parent', 'isOptional': true},
+    {'field': 'progressValue', 'type': 'string', 'isOptional': true},
     {'field': 'actualStart', 'type': 'string'},
     {'field': 'actualEnd'},
-    {'field': 'connectTo'},
-    {'field': 'connectorType', 'type': 'string'}
+    {'field': 'connectTo', 'isOptional': true},
+    {'field': 'connectorType', 'type': 'string', 'isOptional': true}
   ]
 };
 chartEditor.model.Series['ganttResourceQlik'] = {
@@ -83,12 +83,12 @@ chartEditor.model.Series['ganttResourceQlik'] = {
     // resource specific
     {'field': 'id'},
     {'field': 'name'},
-    {'field': 'parent'},
+    {'field': 'parent', 'isOptional': true},
     // period specific
     {'field': 'periodId'},
     {'field': 'periodStart'},
     {'field': 'periodEnd'},
-    {'field': 'periodConnectTo'},
+    {'field': 'periodConnectTo', 'isOptional': true},
     {'field': 'periodResourceId'}
   ]
 };
@@ -99,7 +99,7 @@ chartEditor.model.Series['ganttResource'] = {
     // resource specific
     {'field': 'id'},
     {'field': 'name'},
-    {'field': 'parent'},
+    {'field': 'parent', 'isOptional': true},
     {'field': 'periods'}
   ]
 };
@@ -145,15 +145,17 @@ chartEditor.model.Gantt.prototype.createDefaultSeriesMapping = function(index, t
     var field = fields[i]['field'];
     if (field in keys) {
       config['mapping'][field] = field;
+    } else if (fields[i]['isOptional']) {
+      config['mapping'][field] = null;
     } else {
       var j = index + i + (goog.isNumber(opt_startFieldIndex) ? opt_startFieldIndex : 0);
       var numberIndex = numbers.length > j ? j : j % numbers.length;
       var stringIndex = strings.length > j ? j : j % strings.length;
 
       config['mapping'][fields[i]['field']] =
-          (fields[i]['type'] === 'string' && strings.length) ?
-              strings[stringIndex] :
-              numbers[numberIndex];
+        (fields[i]['type'] === 'string' && strings.length) ?
+          strings[stringIndex] :
+          numbers[numberIndex];
     }
   }
 

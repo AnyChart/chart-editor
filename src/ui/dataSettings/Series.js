@@ -96,8 +96,8 @@ chartEditor.ui.dataSettings.Series.prototype.onModelChange = function(evt) {
     for (var i = 0; i < seriesTypes.length; i++) {
       var type = seriesTypes[i];
       var caption = chartEditor.model.Series[type]['name'] ?
-          chartEditor.model.Series[type]['name'] :
-          goog.string.capitalize(type);
+        chartEditor.model.Series[type]['name'] :
+        goog.string.capitalize(type);
 
       var item = new chartEditor.ui.control.fieldSelect.SelectMenuItem({
         caption: caption,
@@ -156,7 +156,8 @@ chartEditor.ui.dataSettings.Series.prototype.createFields = function() {
     var fieldSelect = new chartEditor.ui.control.fieldSelect.Base({
       label: fieldLabel,
       caption: 'Select ' + fieldLabel,
-      value: item['field']
+      value: item['field'],
+      isOptional: item['isOptional']
     });
 
     fieldSelect.getSelect().init(model, this.getKey([['mapping'], item['field']]));
@@ -194,9 +195,17 @@ chartEditor.ui.dataSettings.Series.prototype.createFieldsOptions = function() {
       }
 
       var dataFields = data.fields;
+      var option;
+      if (fieldSelect.getModel()['isOptional']) {
+        option = new chartEditor.ui.control.fieldSelect.SelectMenuItem({
+          caption: '--',
+          value: null
+        });
+        fieldSelect.addItem(option);
+      }
       for (var j = 0; j < dataFields.length; j++) {
         var caption = dataFields[j].name;
-        var option = new chartEditor.ui.control.fieldSelect.SelectMenuItem({
+        option = new chartEditor.ui.control.fieldSelect.SelectMenuItem({
           caption: caption,
           value: dataFields[j].key
         });
