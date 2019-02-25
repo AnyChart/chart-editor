@@ -1609,6 +1609,14 @@ chartEditor.model.Base.prototype.applyDefaults = function() {
 
 // region Data Model
 /**
+ * Resets prepared data to recalculate it on this.getPreparedData().
+ */
+chartEditor.model.Base.prototype.resetPreparedData = function() {
+  this.preparedData_.length = 0;
+};
+
+
+/**
  * @param {string} dataType
  * @param {string} setId
  * @return {string}
