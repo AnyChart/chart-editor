@@ -2539,6 +2539,28 @@ chartEditor.model.Base.prototype.disposeInternal = function(){
 };
 
 
+// preprocessing
+/**
+ * Wrapper function for preprocessing mapping for a chart.
+ * @param {Object} mappingObj default mapping for the current chart type
+ * @return {Object}
+ */
+chartEditor.model.Base.prototype.preprocessMapping = function(mappingObj) {
+  return mappingObj;
+};
+
+
+/**
+ * Wrapper function for preprocessing data for a chart.
+ * @param {Array.<Object>} rawData raw incoming data
+ * @param {Object} mappingObj default mapping for the current chart type
+ * @return {Array.<Object>}
+ */
+chartEditor.model.Base.prototype.preprocessData = function(rawData, mappingObj) {
+  return rawData;
+};
+
+
 //exports
 (function() {
   var proto = chartEditor.model.Base.prototype;

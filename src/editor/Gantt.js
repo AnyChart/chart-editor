@@ -2,6 +2,8 @@ goog.provide('chartEditor.editor.Gantt');
 
 goog.require('chartEditor.editor.Base');
 goog.require('chartEditor.model.Gantt');
+goog.require('chartEditor.utils');
+
 
 
 /**
@@ -36,7 +38,7 @@ window['anychart'].ganttEditor = function() {
  * @return {Object}
  */
 chartEditor.editor.Gantt.preprocessResourceMapping = function(mappingObj) {
-  return chartEditor.model.Gantt.preprocessResourceMapping(mappingObj);
+  return chartEditor.utils.preprocessResourceMapping(mappingObj);
 };
 
 
@@ -47,7 +49,7 @@ chartEditor.editor.Gantt.preprocessResourceMapping = function(mappingObj) {
  * @return {Array.<Object>}
  */
 chartEditor.editor.Gantt.preprocessResourceData = function(rawData, mappingObj) {
-  return chartEditor.model.Gantt.preprocessResourceData(rawData, mappingObj);
+  return chartEditor.utils.preprocessResourceData(rawData, mappingObj);
 };
 
 

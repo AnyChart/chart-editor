@@ -106,7 +106,7 @@ chartEditor.ui.Chart.prototype.onModelChange = function(evt) {
       if (chartType === 'treeMap')
         mappingObj['id'] = settings['dataSettings']['field'];
       if (chartType === 'ganttResource' && settings['editorSettings']['qlikMode']) {
-        var resourceMapping = chartEditor.editor.Gantt.preprocessResourceMapping(mappingObj);
+        var resourceMapping = model.preprocessMapping(mappingObj);
         dsCtorArgs = [void 0, void 0, void 0, resourceMapping];
       }
       else {
@@ -121,7 +121,7 @@ chartEditor.ui.Chart.prototype.onModelChange = function(evt) {
       dataSet['addData'](rawData);
     else if (dsCtor === 'tree')
       if (chartType === 'ganttResource' && settings['editorSettings']['qlikMode']) {
-        var preprocessedData = chartEditor.editor.Gantt.preprocessResourceData(/** @type {Array<Object>} */(rawData), mappingObj);
+        var preprocessedData = model.preprocessData(/** @type {Array<Object>} */(rawData), mappingObj);
         dataSet['addData'](preprocessedData, 'as-table');
       } else {
         dataSet['addData'](rawData, 'as-table');
