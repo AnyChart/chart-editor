@@ -80,15 +80,6 @@ chartEditor.ui.dataSets.Widget.prototype.onModelChange = function(evt) {
   goog.disposeAll(this.panels_);
   this.panels_.length = 0;
 
-  // add caption
-  var caption = new chartEditor.ui.Component();
-  caption.addClassName('anychart-ce-section-caption');
-  caption.addClassName('anychart-ce-data-set-caption');
-  this.addChild(caption, true);
-
-  // todo: rework this hack!!
-  caption.getElement().innerHTML = 'Current Set';
-
   // add data sets or intro
   var model = /** @type {chartEditor.model.Base} */(this.getModel());
   var step = /** @type {chartEditor.ui.steps.Step} */(this.getParent());

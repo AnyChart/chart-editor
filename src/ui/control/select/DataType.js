@@ -44,7 +44,9 @@ chartEditor.ui.control.select.DataType = function(column, opt_caption, opt_menu,
   this.addItem(numberItem);
 
   //TODO (A.Kudryavtsev): Left for a while until more Data Types will be added.
-  if (column.type == chartEditor.ui.dataSets.edit.ColumnsController.DataType.NUMBER) {
+  if (column.type == chartEditor.ui.dataSets.edit.ColumnsController.DataType.STRING) {
+    this.setSelectedIndex(0);
+  } else if (column.type == chartEditor.ui.dataSets.edit.ColumnsController.DataType.NUMBER) {
     this.setSelectedIndex(1);
   }
 

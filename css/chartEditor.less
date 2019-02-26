@@ -1896,4 +1896,24 @@ pre[class*=language-]:after, pre[class*=language-]:before {
   width: 100%;
   margin-bottom: 1px;
   font-size: 14px;
+
+  &:focus {
+    border-color: #4d90fe;;
+  }
+}
+
+.anychart-ce-edit-key-input-error:focus {
+  border: 1px solid @color-error;
+}
+
+.anychart-ce-edit-data-input {
+  border: 1px solid @color-border;
+  background-color: #fff;
+  width: 100%;
+  height: 100%;
+  font-size: 14px;
+}
+
+.anychart-ce-edit-table {
+  overflow-x: scroll;
 }

@@ -115,14 +115,17 @@ chartEditor.ui.dataSets.edit.ColumnsController.prototype.reset = function() {
  * Adds column.
  * @param {string=} opt_key
  * @param {chartEditor.ui.dataSets.edit.ColumnsController.DataType=} opt_type
+ * @return {chartEditor.ui.dataSets.edit.ColumnsController.Column}
  */
 chartEditor.ui.dataSets.edit.ColumnsController.prototype.addColumn = function(opt_key, opt_type) {
   var l = this.columns_.length;
-  this.columns_.push({
+  var column = {
     index: l,
     type: opt_type || chartEditor.ui.dataSets.edit.ColumnsController.DataType.NUMBER,
-    key: opt_key || ('key' + l)
-  });
+    key: opt_key || ('value' + l)
+  };
+  this.columns_.push(column);
+  return column;
 };
 
 
