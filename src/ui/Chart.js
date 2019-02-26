@@ -130,63 +130,66 @@ chartEditor.ui.Chart.prototype.onModelChange = function(evt) {
       dataSet['data'](rawData);
 
     // Create mapping and series
-    var dataFields;
-    var pointersIndexes = {};
-    for (var i = 0; i < settings['dataSettings']['mappings'].length; i++) {
-      plotMapping = settings['dataSettings']['mappings'][i];
-      for (var j = 0; j < plotMapping.length; j++) {
-        seriesMapping = plotMapping[j]['mapping'];
+    if (dsCtor === 'tree') {
+      // no mappings required for tree-data charts
+      this.chart_['data'](dataSet);
+    } else {
+      var dataFields;
+      var pointersIndexes = {};
+      for (var i = 0; i < settings['dataSettings']['mappings'].length; i++) {
+        plotMapping = settings['dataSettings']['mappings'][i];
+        for (var j = 0; j < plotMapping.length; j++) {
+          seriesMapping = plotMapping[j]['mapping'];
 
-        mappingObj = dsCtor === 'table' || model.chartTypeLike('gauges') ? {} :
-            dsCtor === 'tree' ?
-                {'id': settings['dataSettings']['field']} :
-                {'x': settings['dataSettings']['field']};
+          mappingObj = dsCtor === 'table' || model.chartTypeLike('gauges') ? {} :
+            {'x': settings['dataSettings']['field']};
 
-        for (var k in seriesMapping) {
-          if (seriesMapping.hasOwnProperty(k))
-            mappingObj[k] = seriesMapping[k];
-        }
-
-        var mappingInstance = dataSet['mapAs'](mappingObj);
-
-        var singleSeriesChart = !!model.getChartTypeSettings()['singleSeries'];
-        if (singleSeriesChart) {
-          this.chart_['data'](mappingInstance);
-
-        } else {
-          var seriesCtor = plotMapping[j]['ctor'];
-          seriesCtor = chartEditor.model.Series[seriesCtor]['ctor'] || seriesCtor;
-
-          var series;
-          var stringKey = 'getSeries(\'' + plotMapping[j]['id'] + '\').name()';
-
-          if (chartType === 'stock') {
-            var plot = this.chart_['plot'](i);
-            series = plot[seriesCtor](mappingInstance);
-            stringKey = 'plot(' + i + ').' + stringKey;
-
-          } else if (chartType === 'gauges.circular') {
-            pointersIndexes[seriesCtor] = ++pointersIndexes[seriesCtor] || 0;
-            series = this.chart_[seriesCtor](pointersIndexes[seriesCtor], mappingInstance);
-
-          } else {
-            series = this.chart_[seriesCtor](mappingInstance);
+          for (var k in seriesMapping) {
+            if (seriesMapping.hasOwnProperty(k))
+              mappingObj[k] = seriesMapping[k];
           }
 
-          if (series['id']) {
-            // Set series id
-            series['id'](plotMapping[j]['id']);
+          var mappingInstance = dataSet['mapAs'](mappingObj);
 
-            if (model.getValue([['editorSettings'], ['lockSeriesName'], stringKey])) {
-              // Set forced series name
-              dataFields = dataFields || model.getPreparedData(model.getModel()['dataSettings']['active'])[0].fields;
-              var currentField = goog.array.filter(dataFields, function(item) {
-                return item.key === (goog.isDef(seriesMapping['value']) ? seriesMapping['value'] : goog.object.getAnyValue(seriesMapping));
-              })[0];
+          var singleSeriesChart = !!model.getChartTypeSettings()['singleSeries'];
+          if (singleSeriesChart) {
+            this.chart_['data'](mappingInstance);
 
-              if (currentField) {
-                settings['chart']['settings'][stringKey] = currentField.name;
-                model.setValue([['editorSettings'], ['lockSeriesName'], stringKey], currentField.key, true);
+          } else {
+            var seriesCtor = plotMapping[j]['ctor'];
+            seriesCtor = chartEditor.model.Series[seriesCtor]['ctor'] || seriesCtor;
+
+            var series;
+            var stringKey = 'getSeries(\'' + plotMapping[j]['id'] + '\').name()';
+
+            if (chartType === 'stock') {
+              var plot = this.chart_['plot'](i);
+              series = plot[seriesCtor](mappingInstance);
+              stringKey = 'plot(' + i + ').' + stringKey;
+
+            } else if (chartType === 'gauges.circular') {
+              pointersIndexes[seriesCtor] = ++pointersIndexes[seriesCtor] || 0;
+              series = this.chart_[seriesCtor](pointersIndexes[seriesCtor], mappingInstance);
+
+            } else {
+              series = this.chart_[seriesCtor](mappingInstance);
+            }
+
+            if (series['id']) {
+              // Set series id
+              series['id'](plotMapping[j]['id']);
+
+              if (model.getValue([['editorSettings'], ['lockSeriesName'], stringKey])) {
+                // Set forced series name
+                dataFields = dataFields || model.getPreparedData(model.getModel()['dataSettings']['active'])[0].fields;
+                var currentField = goog.array.filter(dataFields, function(item) {
+                  return item.key === (goog.isDef(seriesMapping['value']) ? seriesMapping['value'] : goog.object.getAnyValue(seriesMapping));
+                })[0];
+
+                if (currentField) {
+                  settings['chart']['settings'][stringKey] = currentField.name;
+                  model.setValue([['editorSettings'], ['lockSeriesName'], stringKey], currentField.key, true);
+                }
               }
             }
           }
