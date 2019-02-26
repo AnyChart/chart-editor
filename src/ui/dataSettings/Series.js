@@ -196,7 +196,7 @@ chartEditor.ui.dataSettings.Series.prototype.createFieldsOptions = function() {
 
       var dataFields = data.fields;
       var option;
-      if (fieldSelect.getModel()['isOptional']) {
+      if (fieldSelect.getModel().isOptional) {
         option = new chartEditor.ui.control.fieldSelect.SelectMenuItem({
           caption: '--',
           value: null
