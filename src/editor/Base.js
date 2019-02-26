@@ -468,7 +468,7 @@ chartEditor.editor.Base.prototype.setDefaults = function(values) {
 /**
  * Chart editor statistics service url
  */
-chartEditor.editor.Base.CLOUD_URL = 'http://localhost:3000';
+chartEditor.editor.Base.CLOUD_URL = 'https://static.anychart.com/ce-cloud/';
 
 
 /**
