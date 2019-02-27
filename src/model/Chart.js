@@ -655,3 +655,11 @@ chartEditor.model.Chart.prototype.getStandalonesJsCode = function(chart, printer
 
   return result;
 };
+
+
+/** @inheritDoc */
+chartEditor.model.Gantt.prototype.preprocessMapping = function(mappingObj) {
+  if (this.model['chart']['type'] === 'treeMap')
+    mappingObj['id'] = settings['dataSettings']['field'];
+  return mappingObj;
+};

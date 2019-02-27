@@ -176,22 +176,17 @@ chartEditor.model.Gantt.prototype.needResetMappings = function(prevChartType, pr
 };
 
 
-/**
-* Wrapper function for preprocessing mapping for Gantt Resource chart.
-* @param {Object} mappingObj default mapping for the current chart type
-* @return {Object}
-*/
+/** @inheritDoc */
 chartEditor.model.Gantt.prototype.preprocessMapping = function(mappingObj) {
-  return chartEditor.utils.preprocessResourceMapping(mappingObj);
+  if (this.model['chart']['type'] === 'ganttResource' && this.model['editorSettings']['qlikMode'])
+    return chartEditor.utils.preprocessResourceMapping(mappingObj);
+  return mappingObj;
 };
 
 
-/**
- * Wrapper function for preprocessing data for Gantt Resource chart.
- * @param {Array.<Object>} rawData raw incoming data
- * @param {Object} mappingObj default mapping for the current chart type
- * @return {Array.<Object>}
- */
+/** @inheritDoc */
 chartEditor.model.Gantt.prototype.preprocessData = function(rawData, mappingObj) {
-  return chartEditor.utils.preprocessResourceData(rawData, mappingObj);
+  if (this.model['chart']['type'] === 'ganttResource' && this.model['editorSettings']['qlikMode'])
+    return chartEditor.utils.preprocessResourceData(rawData, mappingObj);
+  return rawData;
 };
