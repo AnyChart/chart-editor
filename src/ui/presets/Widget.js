@@ -71,7 +71,7 @@ chartEditor.ui.presets.Widget.prototype.createDom = function() {
   var caption = goog.dom.createDom(
       goog.dom.TagName.DIV,
       'anychart-ce-section-caption',
-      'From Preset'
+      'Import Data'
   );
   var filter = goog.dom.createDom(
       goog.dom.TagName.INPUT, {

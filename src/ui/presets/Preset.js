@@ -41,7 +41,7 @@ chartEditor.ui.presets.Preset.prototype.init = function(json, state) {
  * @return {Element}
  */
 chartEditor.ui.presets.Preset.prototype.createLoadButton = function() {
-  return goog.dom.createDom(goog.dom.TagName.SPAN, 'anychart-ce-button-common anychart-ce-presets-button-load', 'Load');
+  return goog.dom.createDom(goog.dom.TagName.SPAN, 'anychart-ce-button-common anychart-ce-checkbox-checked', 'Load');
 };
 
 

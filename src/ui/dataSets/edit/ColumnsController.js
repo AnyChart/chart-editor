@@ -163,14 +163,14 @@ chartEditor.ui.dataSets.edit.ColumnsController.prototype.getColumnData = functio
  * TODO (A.Kudryavtsev): Descr.
  * @param {*} val - Value to normalize.
  * @param {chartEditor.ui.dataSets.edit.ColumnsController.DataType=} opt_type - Type.
- * @return {string} - String value.
+ * @return {string|number} - String value.
  */
 chartEditor.ui.dataSets.edit.ColumnsController.prototype.normalizeForType = function(val, opt_type) {
   var result;
   switch (opt_type) {
     case chartEditor.ui.dataSets.edit.ColumnsController.DataType.NUMBER:
       result = parseFloat(val);
-      result = isNaN(result) ? '' : String(result);
+      // result = isNaN(result) ? NaN : result;
       break;
     default:
       result = String(val);
@@ -183,7 +183,7 @@ chartEditor.ui.dataSets.edit.ColumnsController.prototype.normalizeForType = func
  * TODO (A.Kudryavtsev): Descr.
  * @param {*} val - Value to normalize.
  * @param {number} index - Column index.
- * @return {string}
+ * @return {string|number}
  */
 chartEditor.ui.dataSets.edit.ColumnsController.prototype.normalizeForColumnByIndex = function(val, index) {
   return (index + 1 > this.columns_.length) ? '' : this.normalizeForType(val, this.columns_[index].type);
@@ -194,7 +194,7 @@ chartEditor.ui.dataSets.edit.ColumnsController.prototype.normalizeForColumnByInd
  * TODO (A.Kudryavtsev): Descr.
  * @param {*} val - Value to normalize.
  * @param {chartEditor.ui.dataSets.edit.ColumnsController.Column} column - Column.
- * @return {string}
+ * @return {string|number}
  */
 chartEditor.ui.dataSets.edit.ColumnsController.prototype.normalizeForColumn = function(val, column) {
   return this.normalizeForColumnByIndex(val, column.index);

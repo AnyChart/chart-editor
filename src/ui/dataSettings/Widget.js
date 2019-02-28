@@ -45,12 +45,6 @@ goog.inherits(chartEditor.ui.dataSettings.Widget, chartEditor.ui.Component);
 chartEditor.ui.dataSettings.Widget.prototype.createDom = function() {
   chartEditor.ui.dataSettings.Widget.base(this, 'createDom');
 
-  var caption = goog.dom.createDom(
-      goog.dom.TagName.DIV,
-      'anychart-ce-section-caption anychart-ce-data-settings-caption',
-      'Chart Data Settings');
-  goog.dom.appendChild(this.getElement(), caption);
-
   var coreFieldsContainer = new chartEditor.ui.Component();
   coreFieldsContainer.addClassName('anychart-ce-data-settings-panel-core');
   this.addChild(coreFieldsContainer, true);
