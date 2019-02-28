@@ -37,3 +37,11 @@ chartEditor.ui.dataSets.WidgetPreview.prototype.createPanel = function(model, da
 };
 
 
+/**
+ * Updates data.
+ */
+chartEditor.ui.dataSets.WidgetPreview.prototype.updateData = function() {
+  this.dataSetPanel.updateData();
+};
+
+

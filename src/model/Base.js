@@ -114,23 +114,6 @@ chartEditor.model.Base = function() {
    * @type {Array.<Object>}
    */
   this.appearanceTabs = [];
-
-  /**
-   * Data edit meta info storage.
-   * This field is used to restore edit input focus and appearance state
-   * in PrepareData step on editing.
-   * Idea is in the face that any data change calls model.dispatchUpdate().
-   * It completely redraws content, but for interactivity purposes inputs
-   * must appear on "TAB" or "ENTER" key press.
-   * This object saves the info about which edit control must appear on
-   * content redraw.
-   * @type {Object}
-   */
-  this.edit = {
-    focusHeader: -1, // Index of header input that must be focused. -1 is 'none'.
-    focusColumn: -1, // Index of column that contains input to appear. Works in pair with focusRow.
-    focusRow: -1 // Index of row that contains input to appear. Works in pair with focusColumn.
-  }
 };
 goog.inherits(chartEditor.model.Base, goog.events.EventTarget);
 

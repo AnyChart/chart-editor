@@ -85,10 +85,10 @@ chartEditor.ui.dataSets.edit.ColumnsController.prototype.fromData = function(fie
  */
 chartEditor.ui.dataSets.edit.ColumnsController.prototype.defaultReset_ = function() {
   this.columns_.length = 0;
-  this.columns_.push(/** @type {chartEditor.ui.dataSets.edit.ColumnsController.Column} */ ({
-    index: 0,
-    type: chartEditor.ui.dataSets.edit.ColumnsController.DataType.SPECIAL //Not editable.
-  }));
+  // this.columns_.push(/** @type {chartEditor.ui.dataSets.edit.ColumnsController.Column} */ ({
+  //   index: 0,
+  //   type: chartEditor.ui.dataSets.edit.ColumnsController.DataType.SPECIAL //Not editable.
+  // }));
 };
 
 
@@ -98,11 +98,11 @@ chartEditor.ui.dataSets.edit.ColumnsController.prototype.defaultReset_ = functio
 chartEditor.ui.dataSets.edit.ColumnsController.prototype.reset = function() {
   this.defaultReset_();
   this.columns_.push(/** @type {chartEditor.ui.dataSets.edit.ColumnsController.Column} */ ({
-    index: 1,
+    index: 0,
     type: chartEditor.ui.dataSets.edit.ColumnsController.DataType.NUMBER,
     key: 'x'
   }), /** @type {chartEditor.ui.dataSets.edit.ColumnsController.Column} */ ({
-    index: 2,
+    index: 1,
     type: chartEditor.ui.dataSets.edit.ColumnsController.DataType.NUMBER,
     key: 'value'
   }));

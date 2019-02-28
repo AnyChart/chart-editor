@@ -1,12 +1,12 @@
 goog.provide('chartEditor.ui.dataSets.edit.Input');
 
 goog.require('chartEditor.events');
+goog.require('goog.Timer');
 goog.require('goog.dom');
 goog.require('goog.events.EventType');
 goog.require('goog.events.KeyHandler');
 goog.require('goog.string');
 goog.require('goog.style');
-goog.require('goog.Timer');
 goog.require('goog.ui.LabelInput');
 
 
@@ -117,7 +117,7 @@ chartEditor.ui.dataSets.edit.Input.prototype.show = function(targetOrValue) {
     if (this.isHeaderMode_ && goog.isString(targetOrValue)) {
       this.setValue(targetOrValue);
     } else if (goog.dom.isElement(targetOrValue)) {
-      this.target_ = targetOrValue;
+      this.target_ = /** @type {Element} */ (targetOrValue);
       this.targetValueBackup_ = targetOrValue.textContent;
       targetOrValue.textContent = '';
 
@@ -207,10 +207,19 @@ chartEditor.ui.dataSets.edit.Input.prototype.processValue_ = function() {
 
     if (type == chartEditor.ui.dataSets.edit.ColumnsController.DataType.NUMBER) {
       testVal = /** @type {number} */ (parseFloat(value));
-      this.hasInputError_ = isNaN(testVal);
+      if (isNaN(testVal)) {
+        if (goog.string.isEmptyOrWhitespace(value)) {
+          testVal = '';
+          this.hasInputError_ = false;
+        } else {
+          this.hasInputError_ = true;
+        }
+      } else {
+        this.hasInputError_ = false;
+      }
     } else {
       testVal = value;
-      this.hasInputError_ = goog.string.isEmptyOrWhitespace(value);
+      this.hasInputError_ = false;
     }
   }
   this.showError();
@@ -231,6 +240,8 @@ chartEditor.ui.dataSets.edit.Input.prototype.dispatchSubmit = function() {
     else
       this.target_.textContent = processed;
 
+    this.hide();
+
     //We don't need to prevent default for a while;
     this.dispatchEvent({
       'type': chartEditor.events.EventType.EDIT_DATA_SUBMIT,
@@ -241,7 +252,7 @@ chartEditor.ui.dataSets.edit.Input.prototype.dispatchSubmit = function() {
       'lastKeyCode': this.lastKeyCode_,
       'oldValue': this.targetValueBackup_
     });
-    this.hide();
+    this.lastKeyCode_ = void 0;
   }
 };
 
@@ -253,6 +264,7 @@ chartEditor.ui.dataSets.edit.Input.prototype.dispatchSubmit = function() {
 chartEditor.ui.dataSets.edit.Input.prototype.revert_ = function() {
   if (this.isHeaderMode_) {
     this.setValue(this.targetValueBackup_);
+    this.getElement().blur();
   } else {
     this.target_.textContent = this.targetValueBackup_;
     this.hide();
@@ -280,7 +292,8 @@ chartEditor.ui.dataSets.edit.Input.prototype.focusHandler_ = function(e) {
  * @private
  */
 chartEditor.ui.dataSets.edit.Input.prototype.blurHandler_ = function(e) {
-  this.dispatchSubmit();
+  if (this.lastKeyCode_ != goog.events.KeyCodes.ESC)
+    this.dispatchSubmit();
 };
 
 

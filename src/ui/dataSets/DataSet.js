@@ -135,6 +135,12 @@ chartEditor.ui.dataSets.DataSet.prototype.getSetFullId = function() {
 
 
 /**
+ * Updates data.
+ */
+chartEditor.ui.dataSets.DataSet.prototype.updateData = goog.nullFunction;
+
+
+/**
  * @param {boolean} isActiveGeo
  */
 chartEditor.ui.dataSets.DataSet.prototype.activatePanelGeo = function(isActiveGeo) {

@@ -44,8 +44,8 @@ chartEditor.ui.steps.PrepareData.prototype.createDom = function() {
   var model = /** @type {chartEditor.model.Base} */(editor.getModel());
 
   // connected data sets section
-  this.panelsList_ = new chartEditor.ui.dataSets.WidgetPreview(model);
-  this.addChild(this.panelsList_, true);
+  this.dataPreview_ = new chartEditor.ui.dataSets.WidgetPreview(model);
+  this.addChild(this.dataPreview_, true);
 
   // user data and predefined data sets sections wrapper
   var wrapper = new chartEditor.ui.Component();
@@ -98,6 +98,19 @@ chartEditor.ui.steps.PrepareData.prototype.createDom = function() {
   var presetPreviewButton = goog.dom.createDom(goog.dom.TagName.SPAN, 'title-button ac-folder-open');
   goog.dom.appendChild(choosePresetTitle, presetPreviewButton);
   goog.events.listen(presetPreviewButton, goog.events.EventType.CLICK, this.onPresetPreviewClick, false, this);
+
+  goog.events.listen(editor.getSteps(), chartEditor.ui.steps.EventType.BEFORE_CHANGE_STEP, function(e) {
+    if (e.prevIndex === this.getIndex())
+      this.updateData();
+  }, void 0, this);
+};
+
+
+/**
+ * TODO (A.Kudryavtsev): Descr.
+ */
+chartEditor.ui.steps.PrepareData.prototype.updateData = function() {
+  this.dataPreview_.updateData();
 };
 
 

@@ -179,10 +179,14 @@ chartEditor.ui.steps.Widget.prototype.setStep = function(index, doAnimation) {
   var step = this.getStepByIndex(index);
   if (!step || step.isInDocument()) return;
 
-  this.dispatchEvent({
+  var event = {
     type: chartEditor.ui.steps.EventType.BEFORE_CHANGE_STEP,
     index: index
-  });
+  };
+  if (this.currentStep_)
+    event.prevIndex = this.currentStep_.getIndex();
+
+  this.dispatchEvent(event);
 
   var animationSpeed = 150;
   if (this.currentStep_) {

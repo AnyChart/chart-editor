@@ -379,6 +379,15 @@ chartEditor.editor.Base.prototype.data = function(data) {
 
 
 /**
+ *
+ * @return {chartEditor.ui.steps.Widget}
+ */
+chartEditor.editor.Base.prototype.getSteps = function() {
+  return this.steps_;
+};
+
+
+/**
  * @param {Object} evt
  * @private
  */

@@ -87,7 +87,7 @@ chartEditor.ui.dataSets.Widget.prototype.onModelChange = function(evt) {
     for (var i = 0; i < data.length; i++) {
       if (step.getIndex() === 1 || data[i].type !== chartEditor.model.DataType.GEO) {
         // var panel = new chartEditor.ui.dataSets.DataSetPreview(model, data[i]);
-        var panel = this.createPanel(model, data[i]);
+        var panel = this.dataSetPanel = this.createPanel(model, data[i]);
         this.panels_.push(panel);
         this.addChild(panel, true);
 

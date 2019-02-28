@@ -53,15 +53,17 @@ chartEditor.ui.dataSets.DataSetPreview.prototype.initContent = function() {
  * @param {goog.events.BrowserEvent} e - Event.
  */
 chartEditor.ui.dataSets.DataSetPreview.prototype.onClearButtonClick = function(e) {
-  var model = this.getModel();
-  var active = model.getRawData();
-  active.length = 0; //Doesn't redefine data array reference.
-  active.push(
-      {'x': 0, 'value': 0},
-      {'x': 1, 'value': 0}
-  );
-  model.resetPreparedData();
-  model.dispatchUpdate();
+  this.editTable_.resetContent();
+
+  // var model = this.getModel();
+  // var active = model.getRawData();
+  // active.length = 0; //Doesn't redefine data array reference.
+  // active.push(
+  //     {'x': 0, 'value': 0},
+  //     {'x': 1, 'value': 0}
+  // );
+  // model.resetPreparedData();
+  // model.dispatchUpdate();
   // debugger;
 };
 
@@ -76,6 +78,15 @@ chartEditor.ui.dataSets.DataSetPreview.prototype.previewData = function() {
     this.addChild(this.editTable_, true);
   }
   this.editTable_.updateContent(this.dataSet_);
+};
+
+
+/**
+ * @inheritDoc
+ */
+chartEditor.ui.dataSets.DataSetPreview.prototype.updateData = function() {
+  if (this.editTable_)
+    this.editTable_.updateData();
 };
 
 
