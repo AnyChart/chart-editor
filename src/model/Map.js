@@ -319,7 +319,7 @@ chartEditor.model.Map.prototype.isChartSingleSeries = function() {
 
 /** @inheritDoc */
 chartEditor.model.Map.prototype.getChartTypeSettings = function() {
-  return chartEditor.model.ChartTypes['map'];
+  return chartEditor.model.ChartTypes[chartEditor.enums.ChartType.MAP];
 };
 
 

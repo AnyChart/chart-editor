@@ -187,17 +187,13 @@ chartEditor.enums.PyramidLabelsPosition = {
 /**
  * @enum {number}
  */
-chartEditor.enums.ErrorCode = {
-
-};
+chartEditor.enums.ErrorCode = {};
 
 
 /**
  * @enum {number}
  */
-chartEditor.enums.InfoCode = {
-
-};
+chartEditor.enums.InfoCode = {};
 
 
 /**
@@ -259,3 +255,67 @@ chartEditor.enums.EditorTabs = {
   LABEL: 'label',
   CHART_LABELS: 'chartLabels'
 };
+
+
+/**
+ * Chart types supported by editor.
+ * @enum {string}
+ */
+chartEditor.enums.ChartType = {
+  LINE: 'line',
+  AREA: 'area',
+  AREA_STACKED_VALUE: 'area-stacked-value',
+  AREA_STACKED_PERCENT: 'area-stacked-percent',
+  BAR: 'bar',
+  BAR_STACKED_VALUE: 'bar-stacked-value',
+  BAR_STACKED_PERCENT: 'bar-stacked-percent',
+  COLUMN: 'column',
+  COLUMN_STACKED_VALUE: 'column-stacked-value',
+  COLUMN_STACKED_PERCENT: 'column-stacked-percent',
+  SCATTER: 'scatter',
+  WATERFALL: 'waterfall',
+  BOX: 'box',
+  RADAR: 'radar',
+  RADAR_STACKED_VALUE: 'radar-stacked-value',
+  RADAR_STACKED_PERCENT: 'radar-stacked-percent',
+  POLAR: 'polar',
+  PIE: 'pie',
+  FUNNEL: 'funnel',
+  MEKKO: 'mekko',
+  BARMEKKO: 'barmekko',
+  MOSAIC: 'mosaic',
+  HEATMAP: 'heatMap',
+  TREEMAP: 'treeMap',
+  SANKEY: 'sankey',
+  TAG_CLOUD: 'tag-cloud',
+  GAUGES_CIRCULAR: 'gauges_circular',
+  GAUGES_LINEAR: 'gauges_linear',
+  GAUGES_LINEAR_LED: 'gauges_linear_led',
+  GAUGES_LINEAR_TANK: 'gauges_linear_tank',
+  GAUGES_LINEAR_THERMOMETER: 'gauges_linear_thermometer',
+  STOCK: 'stock',
+  MAP: 'map',
+  GANTT_PROJECT: 'ganttProject',
+  GANTT_RESOURCE: 'ganttResource'
+};
+
+
+/**
+ * Normalizes chart type.
+ * @param {string} value
+ * @param {chartEditor.enums.ChartType=} opt_default - Default value to set.
+ * @return {chartEditor.enums.ChartType}
+ */
+chartEditor.enums.normalizeChartType = function(value, opt_default) {
+  opt_default = opt_default || chartEditor.enums.ChartType.LINE;
+  for (var type in chartEditor.enums.ChartType) {
+    if (chartEditor.enums.ChartType.hasOwnProperty(type)) {
+      var val = chartEditor.enums.ChartType[type];
+      if (val === value)
+        return val;
+    }
+  }
+  return opt_default;
+};
+
+

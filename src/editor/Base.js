@@ -17,9 +17,10 @@ goog.require('goog.net.ImageLoader');
  *
  * @constructor
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
+ * @param {chartEditor.enums.ChartType=} opt_lockedChartType - Locked chart type.
  * @extends {chartEditor.ui.Component}
  */
-chartEditor.editor.Base = function(opt_domHelper) {
+chartEditor.editor.Base = function(opt_domHelper, opt_lockedChartType) {
   chartEditor.editor.Base.base(this, 'constructor', opt_domHelper);
 
   /**
@@ -27,6 +28,15 @@ chartEditor.editor.Base = function(opt_domHelper) {
    * @private
    */
   this.dialog_ = null;
+
+  /**
+   * Locked chart type.
+   * TODO (A.Kudryavtsev): Do we need default for chartEditor.enums.normalizeChartType(value, opt_default)?
+   * @type {chartEditor.enums.ChartType|undefined}
+   */
+  this.lockedChartType = goog.isDefAndNotNull(opt_lockedChartType) ?
+      chartEditor.enums.normalizeChartType(opt_lockedChartType) :
+      void 0;
 
   this.imagesLoaded_ = true;
   this.preloader_ = new chartEditor.ui.Preloader();
@@ -85,6 +95,15 @@ chartEditor.editor.Base.CSS_CLASS = goog.getCssName('anychart-ce');
  * @define {string} Replaced on compile time.
  */
 chartEditor.editor.Base.VERSION = '';
+
+
+/**
+ * @inheritDoc
+ */
+chartEditor.editor.Base.prototype.setModel = function(model) {
+  model.lockedChartType = this.lockedChartType;
+  chartEditor.editor.Base.base(this, 'setModel', model);
+};
 
 
 /**

@@ -134,12 +134,12 @@ chartEditor.model.Series['pie'] = {
 };
 
 
-chartEditor.model.ChartTypes['line'].product = chartEditor.model.Product.BASIC;
-chartEditor.model.ChartTypes['column'].product = chartEditor.model.Product.BASIC;
-chartEditor.model.ChartTypes['column-stacked-value'].product = chartEditor.model.Product.BASIC;
-chartEditor.model.ChartTypes['column-stacked-percent'].product = chartEditor.model.Product.BASIC;
-chartEditor.model.ChartTypes['pie'].product = chartEditor.model.Product.BASIC;
-chartEditor.model.ChartTypes['pie'].excludedPanels = [
+chartEditor.model.ChartTypes[chartEditor.enums.ChartType.LINE].product = chartEditor.model.Product.BASIC;
+chartEditor.model.ChartTypes[chartEditor.enums.ChartType.COLUMN].product = chartEditor.model.Product.BASIC;
+chartEditor.model.ChartTypes[chartEditor.enums.ChartType.COLUMN_STACKED_VALUE].product = chartEditor.model.Product.BASIC;
+chartEditor.model.ChartTypes[chartEditor.enums.ChartType.COLUMN_STACKED_PERCENT].product = chartEditor.model.Product.BASIC;
+chartEditor.model.ChartTypes[chartEditor.enums.ChartType.PIE].product = chartEditor.model.Product.BASIC;
+chartEditor.model.ChartTypes[chartEditor.enums.ChartType.PIE].excludedPanels = [
   chartEditor.enums.EditorTabs.SERIES,
   chartEditor.enums.EditorTabs.GRIDS,
   chartEditor.enums.EditorTabs.CARTESIAN_AXES,
