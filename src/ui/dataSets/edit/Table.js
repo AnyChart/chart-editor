@@ -124,7 +124,7 @@ chartEditor.ui.dataSets.edit.Table.prototype.createHeaderTr = function(fields) {
 
     var keyInput = new chartEditor.ui.dataSets.edit.Input(true);
     keyInput.createDom();
-    keyInput.show(field.name);
+    keyInput.show(field.key);
     keyInput.columnIndex = i;
     keyInput.listen(chartEditor.events.EventType.EDIT_DATA_SUBMIT, this.editInputHeaderSubmitHandler_, void 0, this);
     this.keyInputs_.push(keyInput);
@@ -370,37 +370,7 @@ chartEditor.ui.dataSets.edit.Table.prototype.updateContentInternal_ = function(f
   // Creating body.
   for (var i = 0; i < rawData.length; i++) {
     var raw = rawData[i];
-    tr = dom.createDom(goog.dom.TagName.TR, i % 2 ? 'odd' : 'even');
-    var td = dom.createDom(goog.dom.TagName.TD, 'anychart-ce-count-row', String(i + 1)); //First cell.
-
-    //TODO (A.Kudryavtsev):
-    // var removeButton = goog.dom.createDom(goog.dom.TagName.SPAN, 'ac-trash-o');
-    var removeButton = goog.dom.createDom(goog.dom.TagName.SPAN, 'ac-edit anychart-ce-row-icon');
-    goog.dom.insertChildAt(td, removeButton, 0);
-    goog.events.listen(removeButton, goog.events.EventType.CLICK, function(e){
-      console.log('CLEAR!!!');
-    }, false, this);
-
-    dom.appendChild(tr, td);
-    for (var j = 0; j < fields.length; j++) {
-      var field = fields[j];
-      var key = field.key;
-      var value = '';
-      var className = null;
-      if (goog.isDef(raw[key]))
-        value = String(raw[key]);
-      else {
-        value = '';
-        // className = 'empty';
-      }
-
-      td = dom.createDom(goog.dom.TagName.TD, className, value);
-
-      td.setAttribute('ac-edit-column', String(j));
-      td.setAttribute('ac-edit-row', String(i));
-
-      dom.appendChild(tr, td);
-    }
+    tr = this.addRow_(i, fields, raw);
     dom.appendChild(this.tbody_, tr);
   }
 };
@@ -414,19 +384,70 @@ chartEditor.ui.dataSets.edit.Table.prototype.appendEmptyRow_ = function() {
   var dom = this.getDomHelper();
   var fields = this.columnsToHeaders_();
   var len = this.internalData_.length;
-  var tr = dom.createDom(goog.dom.TagName.TR, len % 2 ? 'odd' : 'even');
-  var internal = [];
-  var td = dom.createDom(goog.dom.TagName.TD, 'anychart-ce-count-row', String(len + 1));
+  var tr = this.addRow_(len, fields);
+  dom.appendChild(this.tbody_, tr);
+};
+
+
+/**
+ * Creates row.
+ * @param {number} index - Index ot row to be added.
+ * @param {Array.<Object>} fields - Data fields.
+ * @param {Object=} opt_line - Data object to fill the row content. If is set, returned TR-element
+ *  will be filled with related data. Otherwise, returns empty row and adds new data to this.internalData_.
+ * @return {Element} - TR-element to be added to table.
+ * @private
+ */
+chartEditor.ui.dataSets.edit.Table.prototype.addRow_ = function(index, fields, opt_line) {
+  var dom = this.getDomHelper();
+  var tr = dom.createDom(goog.dom.TagName.TR, index % 2 ? 'odd' : 'even');
+  var td = dom.createDom(goog.dom.TagName.TD, 'anychart-ce-count-row', String(index + 1)); //First cell.
+
+  var removeButton = goog.dom.createDom(goog.dom.TagName.SPAN, 'ac-trash-o');
+  removeButton.setAttribute('ac-row-index', String(index));
+  goog.dom.insertChildAt(td, removeButton, 0);
+  goog.events.listen(removeButton, goog.events.EventType.CLICK, this.removeRowClickHandler_, false, this);
+  
   dom.appendChild(tr, td);
+
+  var isNewRow = !goog.isDefAndNotNull(opt_line);
+  var internal = isNewRow ? [] : void 0;
+
   for (var i = 0; i < fields.length; i++) {
-    internal.push(void 0);
-    td = dom.createDom(goog.dom.TagName.TD);
+    var field = fields[i];
+    var key = field.key;
+    var value = (isNewRow || !goog.isDef(opt_line[key])) ? '' : opt_line[key];
+
+    if (isNewRow) {
+      internal.push(void 0);
+    }
+
+    td = dom.createDom(goog.dom.TagName.TD, null, String(value));
+
     td.setAttribute('ac-edit-column', String(i));
-    td.setAttribute('ac-edit-row', String(len));
+    td.setAttribute('ac-edit-row', String(index));
+
     dom.appendChild(tr, td);
   }
-  this.internalData_.push(internal);
-  dom.appendChild(this.tbody_, tr);
+
+  if (isNewRow)
+    this.internalData_.push(internal);
+
+  return tr;
+};
+
+
+/**
+ *
+ * @param {goog.events.BrowserEvent} e - Event.
+ * @private
+ */
+chartEditor.ui.dataSets.edit.Table.prototype.removeRowClickHandler_ = function(e) {
+  if (this.internalData_.length > 1) {
+    var index = +e.target.getAttribute('ac-row-index');
+    goog.array.removeAt(this.internalData_, index);
+    this.syncDomTable();
+  }
 };
 
 

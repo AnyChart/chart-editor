@@ -245,6 +245,7 @@
         height: 40px;
         background-color: @color-background;
         min-width: 40px;
+        cursor: default;
       }
     }
   }
@@ -260,6 +261,8 @@
 
   td {
     padding: 5px 15px;
+    cursor: pointer;
+
     &.empty {
       font-style: italic;
       color: #7093aa;
@@ -285,6 +288,13 @@
   .anychart-ce-count-row {
     width: 30px;
     text-align: center;
+    cursor: default;
+
+    .ac-trash-o {
+      float: left;
+      margin-left: -10px;
+      cursor: pointer;
+    }
   }
 }
 
