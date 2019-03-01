@@ -2362,10 +2362,12 @@ chartEditor.model.Base.prototype.prepareDataSet_ = function(dataSet) {
         result.fieldNames[key] :
         goog.isArray(row) ? 'Field ' + key : key;
 
+    var val = row[key];
+    var type = goog.isDefAndNotNull(val) ? typeof(val) : 'number';
     var field = {
       key: key,
       name: name,
-      type: typeof(row[key])
+      type: type
     };
     result.fields.push(field);
   }

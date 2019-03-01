@@ -194,7 +194,7 @@ chartEditor.ui.dataSets.edit.Table.prototype.updateData = function() {
 chartEditor.ui.dataSets.edit.Table.prototype.containsOnlyEmptyValues_ = function(arr) {
   for (var i = 0; i < arr.length; i++) {
     var val = arr[i];
-    if (!goog.string.isEmptyOrWhitespace(val)) {
+    if (goog.isDef(val) && !goog.string.isEmptyOrWhitespace(val)) {
       return false;
     }
   }
@@ -372,6 +372,15 @@ chartEditor.ui.dataSets.edit.Table.prototype.updateContentInternal_ = function(f
     var raw = rawData[i];
     tr = dom.createDom(goog.dom.TagName.TR, i % 2 ? 'odd' : 'even');
     var td = dom.createDom(goog.dom.TagName.TD, 'anychart-ce-count-row', String(i + 1)); //First cell.
+
+    //TODO (A.Kudryavtsev):
+    // var removeButton = goog.dom.createDom(goog.dom.TagName.SPAN, 'ac-trash-o');
+    var removeButton = goog.dom.createDom(goog.dom.TagName.SPAN, 'ac-edit anychart-ce-row-icon');
+    goog.dom.insertChildAt(td, removeButton, 0);
+    goog.events.listen(removeButton, goog.events.EventType.CLICK, function(e){
+      console.log('CLEAR!!!');
+    }, false, this);
+
     dom.appendChild(tr, td);
     for (var j = 0; j < fields.length; j++) {
       var field = fields[j];
@@ -410,7 +419,7 @@ chartEditor.ui.dataSets.edit.Table.prototype.appendEmptyRow_ = function() {
   var td = dom.createDom(goog.dom.TagName.TD, 'anychart-ce-count-row', String(len + 1));
   dom.appendChild(tr, td);
   for (var i = 0; i < fields.length; i++) {
-    internal.push('');
+    internal.push(void 0);
     td = dom.createDom(goog.dom.TagName.TD);
     td.setAttribute('ac-edit-column', String(i));
     td.setAttribute('ac-edit-row', String(len));
@@ -418,9 +427,6 @@ chartEditor.ui.dataSets.edit.Table.prototype.appendEmptyRow_ = function() {
   }
   this.internalData_.push(internal);
   dom.appendChild(this.tbody_, tr);
-  var content = this.getContentElement();
-
-  // content.scrollTop = content.scrollHeight;
 };
 
 
@@ -429,7 +435,7 @@ chartEditor.ui.dataSets.edit.Table.prototype.appendEmptyRow_ = function() {
  */
 chartEditor.ui.dataSets.edit.Table.prototype.resetContent = function() {
   this.controller_.reset();
-  this.internalData_ = [['', '']];
+  this.internalData_ = [[void 0, void 0]];
   this.syncDomTable();
 };
 
