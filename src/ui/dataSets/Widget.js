@@ -56,7 +56,7 @@ chartEditor.ui.dataSets.Widget.prototype.exitDocument = function() {
 
 
 /**
- * TODO (A.Kudryavtsev):
+ * Creates panel.
  * @param model
  * @param data
  * @return {chartEditor.ui.dataSets.DataSet}

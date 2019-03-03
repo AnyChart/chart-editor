@@ -65,7 +65,7 @@ chartEditor.ui.dataSets.edit.Table = function(opt_domHelper) {
   this.editInput_ = null;
 
   /**
-   * TODO (A.Kudryavtsev): .
+   * An array of input instances.
    * @type {Array.<chartEditor.ui.dataSets.edit.Input>}
    * @private
    */
@@ -186,8 +186,8 @@ chartEditor.ui.dataSets.edit.Table.prototype.updateData = function() {
 
 
 /**
- * TODO (A.Kudryavtsev):
- * @param {Array.<string>} arr - .
+ * Checks if arr contains only empty values (undefined or empty strings).
+ * @param {Array.<string>} arr - Array to check.
  * @private
  * @return {boolean}
  */
@@ -205,7 +205,7 @@ chartEditor.ui.dataSets.edit.Table.prototype.containsOnlyEmptyValues_ = function
 //endregion
 //region -- Events handling.
 /**
- *
+ * Edit input data submit handler.
  * @param {goog.events.Event} e - Submit event.
  * @private
  */
@@ -253,7 +253,7 @@ chartEditor.ui.dataSets.edit.Table.prototype.editInputDataSubmitHandler_ = funct
 
 
 /**
- *
+ * Table click handler.
  * @param {goog.events.BrowserEvent} e - Event.
  * @private
  */
@@ -267,7 +267,7 @@ chartEditor.ui.dataSets.edit.Table.prototype.clickHandler_ = function(e) {
 
 
 /**
- *
+ * Header edit input data submit handler.
  * @param {goog.events.Event} e - Submit event.
  * @private
  */
@@ -300,7 +300,7 @@ chartEditor.ui.dataSets.edit.Table.prototype.onAddFieldButtonClick = function(e)
 
 
 /**
- *
+ * Type selection handler.
  * @param {goog.events.Event} e - Event;
  */
 chartEditor.ui.dataSets.edit.Table.prototype.typeSelectionHandler = function(e) {
@@ -314,7 +314,7 @@ chartEditor.ui.dataSets.edit.Table.prototype.typeSelectionHandler = function(e) 
 //endregion
 //region -- Live edit.
 /**
- *
+ * Fills this.internalData_ by raw data.
  * @param {Array.<Object>} rawData
  */
 chartEditor.ui.dataSets.edit.Table.prototype.internalDataFromRaw = function(rawData) {
@@ -474,7 +474,7 @@ chartEditor.ui.dataSets.edit.Table.prototype.syncDomTable = function() {
 //endregion
 //region -- Internal Data Utils.
 /**
- * TODO (A.Kudryavtsev):
+ * Turns current this.controller_ to fields-array.
  * @private
  * @return {Array.<Object>}
  */
@@ -494,7 +494,8 @@ chartEditor.ui.dataSets.edit.Table.prototype.columnsToHeaders_ = function() {
 
 
 /**
- * TODO (A.Kudryavtsev):
+ * Turns this.internalData_ to suitable data set object considering
+ *  current state of this.controller_.
  * @private
  * @return {Array.<Object>}
  */

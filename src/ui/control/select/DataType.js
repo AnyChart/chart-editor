@@ -12,7 +12,7 @@ goog.require('goog.ui.Select');
 //endregion
 //region -- Constructor.
 /**
- * TODO (A.Kudryavtsev): Describe.
+ * Data type selector.
  * @param {chartEditor.ui.dataSets.edit.ColumnsController.Column} column - Related column.
  * @param {goog.ui.ControlContent=} opt_caption Default caption or existing DOM
  *     structure to display as the button's caption when nothing is selected.

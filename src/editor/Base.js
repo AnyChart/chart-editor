@@ -70,7 +70,7 @@ chartEditor.editor.Base = function(opt_domHelper) {
   this.theme_ = '';
 
   // Enable Qlik theme
-  // this.theme_ = 'qlik';
+  //this.theme_ = 'qlik';
 
   this.addClassName(chartEditor.editor.Base.CSS_CLASS);
 };
@@ -379,7 +379,7 @@ chartEditor.editor.Base.prototype.data = function(data) {
 
 
 /**
- *
+ * Steps getter.
  * @return {chartEditor.ui.steps.Widget}
  */
 chartEditor.editor.Base.prototype.getSteps = function() {

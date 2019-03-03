@@ -38,16 +38,7 @@ chartEditor.ui.dataSets.edit.ColumnsController = function(opt_data) {
  */
 chartEditor.ui.dataSets.edit.ColumnsController.DataType = {
   NUMBER: 'number',
-  STRING: 'string',
-
-  /*
-    Special value. Literally means the column with straight
-    numbering of rows or another special columns (for future
-    implementations).
-    Columns marked as 'SPECIAL' are not editable and are not
-    related to the data.
-   */
-  SPECIAL: 'special'
+  STRING: 'string'
 };
 
 
@@ -79,16 +70,12 @@ chartEditor.ui.dataSets.edit.ColumnsController.prototype.fromData = function(fie
 
 
 /**
- * Default reset to numbering column only.
+ * Default reset. Left as separated method for future improvements.
  * Do not use outside the class.
  * @private
  */
 chartEditor.ui.dataSets.edit.ColumnsController.prototype.defaultReset_ = function() {
   this.columns_.length = 0;
-  // this.columns_.push(/** @type {chartEditor.ui.dataSets.edit.ColumnsController.Column} */ ({
-  //   index: 0,
-  //   type: chartEditor.ui.dataSets.edit.ColumnsController.DataType.SPECIAL //Not editable.
-  // }));
 };
 
 
