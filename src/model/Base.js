@@ -2357,19 +2357,36 @@ chartEditor.model.Base.prototype.prepareDataSet_ = function(dataSet) {
   var f = new goog.format.JsonPrettyPrinter(settings);
   result.sample = f.format(row);
 
-  for (var key in row) {
-    var name = goog.isDef(result.fieldNames[key]) ?
-        result.fieldNames[key] :
-        goog.isArray(row) ? 'Field ' + key : key;
+  var val, type, field, name;
+  if (goog.typeOf(row) == 'array') {
+    for (var i = 0; i < row.length; i++) {
+      name = goog.isDefAndNotNull(result.fieldNames[i]) && goog.isDefAndNotNull(result.fieldNames[i].key)?
+          result.fieldNames[i].key :
+          'value' + i;
+      val = row[i];
+      type = goog.isDefAndNotNull(val) ? typeof(val) : 'number';
+      field = {
+        key: name,
+        name: name,
+        type: type
+      };
+      result.fields.push(field);
+    }
+  } else {
+    for (var key in row) {
+      name = goog.isDef(result.fieldNames[key]) && goog.isDef(result.fieldNames[key].key) ?
+          result.fieldNames[key].key :
+          key;
 
-    var val = row[key];
-    var type = goog.isDefAndNotNull(val) ? typeof(val) : 'number';
-    var field = {
-      key: key,
-      name: name,
-      type: type
-    };
-    result.fields.push(field);
+      val = row[key];
+      type = goog.isDefAndNotNull(val) ? typeof(val) : 'number';
+      field = {
+        key: key,
+        name: name,
+        type: type
+      };
+      result.fields.push(field);
+    }
   }
 
   return result;

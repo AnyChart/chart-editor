@@ -169,8 +169,28 @@ chartEditor.ui.steps.PrepareData.prototype.onPresetPreviewClick = function(e) {
 
 
 /**
+ *
+ * @param {goog.ui.Dialog.Event} event - Related event to be prevented.
+ * @param {chartEditor.ui.dialog.Data} dialog - Related dialog.
+ * @param {chartEditor.ui.steps.PrepareData} context - Step itself.
+ * @param {string} message - Error message.
+ * @return {function(Object)}
+ */
+chartEditor.ui.steps.PrepareData.prototype.getErrorCallback = function(event, dialog, context, message) {
+  event.preventDefault();
+  return function() {
+    dialog.showError(message);
+    context.dispatchEvent({
+      type: chartEditor.events.EventType.WAIT,
+      wait: false
+    });
+  };
+};
+
+
+/**
  * Starts processing inputs from data dialog if pressed 'ok'.
- * @param {Object} evt
+ * @param {goog.ui.Dialog.Event} evt
  */
 chartEditor.ui.steps.PrepareData.prototype.onCloseDataDialog = function(evt) {
   var dialog = /** @type {chartEditor.ui.dialog.Data} */(evt.target);
@@ -185,7 +205,6 @@ chartEditor.ui.steps.PrepareData.prototype.onCloseDataDialog = function(evt) {
     if (inputValue) {
       var urlExpression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
       var urlRegex = new RegExp(urlExpression);
-      var errorCallback = goog.bind(this.onErrorDataLoad, this);
 
       if (dialogType === 'file') {
         if (inputValue.match(urlRegex)) {
@@ -199,7 +218,9 @@ chartEditor.ui.steps.PrepareData.prototype.onCloseDataDialog = function(evt) {
               anychart['data']['loadJsonFile'](inputValue,
                   function(data) {
                     self.onSuccessDataLoad(data, dataType);
-                  }, errorCallback);
+                  },
+                  this.getErrorCallback(evt, dialog, this, 'Could not receive a JSON response. Please, check the URL.')
+              );
 
               break;
 
@@ -207,23 +228,31 @@ chartEditor.ui.steps.PrepareData.prototype.onCloseDataDialog = function(evt) {
               anychart['data']['loadCsvFile'](inputValue,
                   function(data) {
                     self.onSuccessDataLoad(data, dataType);
-                  }, errorCallback);
+                  },
+                  this.getErrorCallback(evt, dialog, this, 'Could not receive a CSV response. Please, check the URL.')
+              );
               break;
 
             case 'xml':
               anychart['data']['loadXmlFile'](inputValue,
                   function(data) {
                     self.onSuccessDataLoad(data, dataType);
-                  }, errorCallback);
+                  },
+                  this.getErrorCallback(evt, dialog, this, 'Could not receive an XML response. Please, check the URL.')
+              );
               break;
           }
         } else {
-          console.warn("Invalid url!");
+          evt.preventDefault();
+          dialog.showError('Invalid URL, please check it.');
         }
 
       } else if (dialogType === 'string') {
-        this.addLoadedData(inputValue, dataType);
-
+        var result = this.addLoadedData(inputValue, dataType);
+        if (!result.status) {
+          evt.preventDefault();
+          dialog.showError(result.message);
+        }
       } else if (dialogType === 'google') {
         var key = {'key': inputValue};
         var keyRegex = new RegExp(/spreadsheets\/d\/([\w|-]+)\//);
@@ -243,8 +272,12 @@ chartEditor.ui.steps.PrepareData.prototype.onCloseDataDialog = function(evt) {
             function(data) {
               self.onSuccessDataLoad(data, dataType);
             },
-            errorCallback);
+            this.getErrorCallback(evt, dialog, this, 'Could not receive a Google Spreadsheet response. Please, make sure all inputs are filled correctly.')
+        );
       }
+    } else {
+      evt.preventDefault();
+      dialog.showError('Got empty input. Please, fill the fields to make it work.');
     }
   }
 };
@@ -254,11 +287,17 @@ chartEditor.ui.steps.PrepareData.prototype.onCloseDataDialog = function(evt) {
  * Preprocesses loaded data and adds new data set to Editor Model.
  * @param {*} data
  * @param {string} dataType
+ * @return {Object} - Object with state: true if everything is fine, false if has some data issues.
+ *  Also, if false, contains error message.
  */
 chartEditor.ui.steps.PrepareData.prototype.addLoadedData = function(data, dataType) {
   var anychart = /** @type {Object} */(goog.dom.getWindow()['anychart']);
   var result = null;
   var typeOf = goog.typeOf(data);
+  var message = null;
+  var filedNames = void 0;
+  var emptyDataMessage = 'Received empty result, please check the input data.';
+  var dataParsingMessage = 'Got data parsing error, please check the input data.';
   if (dataType !== 'spreadsheets' && (typeOf === 'object' || typeOf === 'array')) {
     result = data;
 
@@ -275,13 +314,34 @@ chartEditor.ui.steps.PrepareData.prototype.addLoadedData = function(data, dataTy
           } catch (err) {
             // parsing error
             error = true;
+            message = 'Got JSON parsing error, please check the input data.';
           }
         }
         break;
 
       case 'csv':
         var csvSettings = this.dataDialog_.getCSVSettings();
-        result = anychart['data']['parseText'](/** @type {string} */(data), csvSettings);
+        var useFirstRowAsFields = csvSettings['useFirstRowAsFields'];
+        if (useFirstRowAsFields) {
+          delete csvSettings['useFirstRowAsFields'];
+          csvSettings['ignoreFirstRow'] = false;
+        }
+        var arrResult = anychart['data']['parseText'](/** @type {string} */(data), csvSettings);
+        result = [];
+        if (useFirstRowAsFields && arrResult.length > 1) {
+          var fields = goog.array.splice(arrResult, 0, 1)[0];
+          for (var i = 0; i < arrResult.length; i++) {
+            var item = arrResult[i];
+            var res = {};
+            for (var j = 0; j < item.length; j++) {
+              var name = fields[j] || ('value' + 'j');
+              res[name] = item[j];
+            }
+            result.push(res);
+          }
+        } else {
+          result = arrResult;
+        }
         break;
 
       case 'xml':
@@ -290,12 +350,16 @@ chartEditor.ui.steps.PrepareData.prototype.addLoadedData = function(data, dataTy
         } catch (err) {
           // parsing error
           error = true;
+          message = 'Got XML parsing error, please check the input data.';
         }
         break;
     }
 
-    if (!result || error)
-      console.warn("Invalid data!");
+    if (!result)
+      return {status: false, message: message || emptyDataMessage};
+
+    if (error)
+      return {status: false, message: dataParsingMessage};
   }
 
   if (result) {
@@ -312,9 +376,13 @@ chartEditor.ui.steps.PrepareData.prototype.addLoadedData = function(data, dataTy
       dataType: type,
       setId: this.uploadedSetId_,
       setFullId: type + this.uploadedSetId_,
-      title: title
+      title: title,
+      fieldNames: filedNames
     });
+    return {status: true};
   }
+
+  return {status: false, message: emptyDataMessage};
 };
 
 

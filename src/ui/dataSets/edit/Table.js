@@ -324,10 +324,19 @@ chartEditor.ui.dataSets.edit.Table.prototype.internalDataFromRaw = function(rawD
     var rawObj = rawData[i];
     var rawArr = [];
 
-    for (var j = 0; j < columns.length; j++) {
-      var column = columns[j];
-      rawArr.push(String(rawObj[column.key]));
+    var j, column;
+    if (goog.typeOf(rawObj) == 'array') {
+      for (j = 0; j < columns.length; j++) {
+        column = columns[j];
+        rawArr.push(String(rawObj[j]));
+      }
+    } else {
+      for (j = 0; j < columns.length; j++) {
+        column = columns[j];
+        rawArr.push(String(rawObj[column.key]));
+      }
     }
+
     this.internalData_.push(rawArr);
   }
 };
@@ -347,7 +356,7 @@ chartEditor.ui.dataSets.edit.Table.prototype.updateContent = function(dataSet) {
   var rawData = /** @type {Array.<Object>} */ (model.getRawData(false));
   this.internalDataFromRaw(rawData);
 
-  this.updateContentInternal_(fields, rawData);
+  this.updateContentInternal_(fields, this.internalDataToDataSet_());
 };
 
 
