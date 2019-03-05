@@ -83,6 +83,13 @@ chartEditor.editor.Base.CSS_CLASS = goog.getCssName('anychart-ce');
 
 
 /**
+ * Chart editor statistics service url
+ * @type {string}
+ */
+chartEditor.editor.Base.CLOUD_URL = 'https://static.anychart.com/ce-cloud/';
+
+
+/**
  * Current version of the Editor.
  * @define {string} Replaced on compile time.
  */
@@ -470,13 +477,7 @@ chartEditor.editor.Base.prototype.setDefaults = function(values) {
 
 
 /**
- * Chart editor statistics service url
- */
-chartEditor.editor.Base.CLOUD_URL = 'https://static.anychart.com/ce-cloud/';
-
-
-/**
- *
+ * Sends statistics data to statistics cloud service.
  * @param {Function} callback Function to call when response has come
  * @param {Object} params
  */
