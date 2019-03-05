@@ -1,16 +1,16 @@
 goog.provide('chartEditor.editor.Base');
 goog.provide('chartEditor.editor.Base.Dialog');
 
-goog.require("chartEditor.events");
-goog.require("chartEditor.model.Base");
-goog.require("chartEditor.ui.Component");
-goog.require("chartEditor.ui.Preloader");
-goog.require("chartEditor.ui.breadcrumbs.Breadcrumbs");
-goog.require("chartEditor.ui.dialog.Base");
-goog.require("chartEditor.ui.steps.Widget");
-goog.require("goog.Uri");
-goog.require("goog.net.ImageLoader");
-goog.require("goog.net.XhrIo");
+goog.require('chartEditor.events');
+goog.require('chartEditor.model.Base');
+goog.require('chartEditor.ui.Component');
+goog.require('chartEditor.ui.Preloader');
+goog.require('chartEditor.ui.breadcrumbs.Breadcrumbs');
+goog.require('chartEditor.ui.dialog.Base');
+goog.require('chartEditor.ui.steps.Widget');
+goog.require('goog.Uri');
+goog.require('goog.net.ImageLoader');
+goog.require('goog.net.XhrIo');
 
 
 
@@ -365,26 +365,30 @@ chartEditor.editor.Base.prototype.localization = function(values) {
 
 /**
  * Add data to editor programmatically.
- * @param {Array.<Object>|Object} data Raw data.
+ * @param {Array.<Object>|Object|anychart.data.Set} dataOrConfig Raw data or config object with raw data in 'data' field.
  */
-chartEditor.editor.Base.prototype.data = function(data) {
-  if (goog.isObject(data)) {
-    var preparedData;
-    if (goog.isObject(data['data'])) {
-      preparedData = data;
-      preparedData.setId = data['setId'];
-      preparedData.dataType = data['dataType'];
-      preparedData.chartType = data['chartType'];
-      preparedData.seriesType = data['seriesType'];
-      preparedData.activeGeo = data['activeGeo'];
-      preparedData.fieldNames = data['fieldNames'];
-      preparedData.title = data['title'] || data['caption'] || data['name'];
-      preparedData.defaults = data['defaults'];
-    } else
-      preparedData = {data: data};
+chartEditor.editor.Base.prototype.data = function(dataOrConfig) {
+  var preparedData = null;
 
-    this.getModel().addData(preparedData);
+  if (goog.isArray(dataOrConfig) || goog.isFunction(dataOrConfig['mapAs'])) {
+    // Passed plain raw data or anychart.data.Set instance
+    preparedData = {data: dataOrConfig};
+
+  } else if (goog.isObject(dataOrConfig) && goog.isObject(dataOrConfig['data'])) {
+    // Passed config object with raw data in 'data' field
+    preparedData = dataOrConfig;
+    preparedData.setId = dataOrConfig['setId'];
+    preparedData.dataType = dataOrConfig['dataType'];
+    preparedData.chartType = dataOrConfig['chartType'];
+    preparedData.seriesType = dataOrConfig['seriesType'];
+    preparedData.activeGeo = dataOrConfig['activeGeo'];
+    preparedData.fieldNames = dataOrConfig['fieldNames'];
+    preparedData.title = dataOrConfig['title'] || dataOrConfig['caption'] || dataOrConfig['name'];
+    preparedData.defaults = dataOrConfig['defaults'];
   }
+
+  if (preparedData)
+    this.getModel().addData(preparedData);
 };
 
 

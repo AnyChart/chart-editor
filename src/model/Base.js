@@ -938,7 +938,7 @@ chartEditor.model.Base.prototype.generateInitialDefaults = function() {
     this.dirtyInitialDefaults_ = false;
 
   } else {
-    console.warn("NO DATA");
+    console.warn("No chart data! Please, provide data set using data() method or editor's user interface.");
   }
 };
 
