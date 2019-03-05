@@ -3,6 +3,7 @@ goog.provide('chartEditor.editor.Base.Dialog');
 
 goog.require('chartEditor.events');
 goog.require('chartEditor.model.Base');
+goog.require('chartEditor.ui.Balloon');
 goog.require('chartEditor.ui.Component');
 goog.require('chartEditor.ui.Preloader');
 goog.require('chartEditor.ui.breadcrumbs.Breadcrumbs');
@@ -53,6 +54,13 @@ chartEditor.editor.Base = function(opt_domHelper, opt_lockedChartType) {
    * @private
    */
   this.breadcrumbs_ = null;
+
+  /**
+   * @type {chartEditor.ui.Balloon}
+   * @private
+   */
+  this.balloon_ = new chartEditor.ui.Balloon();
+
 
   // var imageLoader = new goog.net.ImageLoader();
   // this.registerDisposable(imageLoader);
@@ -263,19 +271,34 @@ chartEditor.editor.Base.prototype.createDom = function() {
   this.addChild(this.breadcrumbs_, true);
 
   var self = this;
-  this.getHandler().listen(this.breadcrumbs_, BreadcrumbsEventType.NEXT, function() {
+  var handler = this.getHandler();
+
+  this.addChild(this.balloon_, true);
+  handler.listen(self, chartEditor.events.EventType.BALLOON_SHOW,
+      function(evt) {
+    console.log(evt)
+        if (evt.text)
+          self.balloon_.text(evt.text).show();
+      });
+
+  handler.listen(self, chartEditor.events.EventType.BALLOON_HIDE,
+      function(evt) {
+          self.balloon_.hide();
+      });
+
+  handler.listen(this.breadcrumbs_, BreadcrumbsEventType.NEXT, function() {
     var nextIndex = self.steps_.getStepIndex(chartEditor.ui.steps.StepRole.NEXT);
     this.setCurrentStep(nextIndex, true);
   });
-  this.getHandler().listen(this.breadcrumbs_, BreadcrumbsEventType.PREV, function() {
+  handler.listen(this.breadcrumbs_, BreadcrumbsEventType.PREV, function() {
     var nextIndex = self.steps_.getStepIndex(chartEditor.ui.steps.StepRole.PREVIOUS);
     this.setCurrentStep(nextIndex, true);
   });
 
-  this.getHandler().listen(this.breadcrumbs_, BreadcrumbsEventType.COMPLETE, function() {
+  handler.listen(this.breadcrumbs_, BreadcrumbsEventType.COMPLETE, function() {
 
   });
-  this.getHandler().listen(this.breadcrumbs_, BreadcrumbsEventType.CHANGE_STEP, function(e) {
+  handler.listen(this.breadcrumbs_, BreadcrumbsEventType.CHANGE_STEP, function(e) {
     this.setCurrentStep(e.step, true);
   });
 
@@ -286,7 +309,7 @@ chartEditor.editor.Base.prototype.createDom = function() {
     this.addChildAt(step, i); // don't render until this.setCurrentStep() call
   }
 
-  this.getHandler().listen(this.steps_, chartEditor.ui.steps.EventType.BEFORE_CHANGE_STEP, this.onBeforeChangeStep_);
+  handler.listen(this.steps_, chartEditor.ui.steps.EventType.BEFORE_CHANGE_STEP, this.onBeforeChangeStep_);
 };
 
 

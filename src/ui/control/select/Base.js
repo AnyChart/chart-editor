@@ -52,6 +52,12 @@ chartEditor.ui.control.select.Base = function(opt_caption, opt_menu, opt_rendere
    * @protected
    */
   this.target = null;
+
+  /**
+   * Text to appear in help balloon.
+   * @type {string}
+   */
+  this.balloonText = '';
 };
 goog.inherits(chartEditor.ui.control.select.Base, goog.ui.Select);
 
@@ -109,6 +115,33 @@ chartEditor.ui.control.select.Base.prototype.reset = function() {
 chartEditor.ui.control.select.Base.prototype.enterDocument = function() {
   chartEditor.ui.control.select.Base.base(this, 'enterDocument');
   goog.style.setElementShown(this.getElement(), !this.excluded);
+
+  if (!this.excluded) {
+    this.getHandler().listen(
+        this.getElement(),
+        [goog.events.EventType.MOUSEENTER, goog.events.EventType.MOUSELEAVE],
+        this.handleHover);
+  }
+};
+
+
+/**
+ * @param {Object} evt
+ */
+chartEditor.ui.control.select.Base.prototype.handleHover = function (evt) {
+  if (this.isEnabled()) {
+    if (evt.type === goog.events.EventType.MOUSEENTER) {
+      this.dispatchEvent({
+        type: chartEditor.events.EventType.BALLOON_SHOW,
+        text: this.balloonText
+      });
+    } else {
+      this.dispatchEvent({
+        type: chartEditor.events.EventType.BALLOON_HIDE,
+        text: this.balloonText
+      });
+    }
+  }
 };
 
 
@@ -164,6 +197,8 @@ chartEditor.ui.control.select.Base.prototype.init = function(model, key, opt_cal
   this.callback = opt_callback;
 
   this.noRebuild = !!opt_noRebuild;
+
+  this.balloonText = chartEditor.model.Base.getStringKey(this.key);
 
   this.updateExclusion();
 };

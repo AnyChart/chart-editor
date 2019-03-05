@@ -1,0 +1,26 @@
+@import "mixins.less";
+@import "variables.less";
+
+.anychart-ce-balloon {
+  .border-radius(5px);
+  .box-shadow(@shadow-dialog);
+
+  position: absolute;
+  z-index: 2001;
+  background: @color-background;
+  padding: 5px 10px;
+
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 200ms, opacity 200ms linear;
+
+  left: 100px;
+  top: 100px;
+  background: lightgoldenrodyellow;
+
+  &.anychart-ce-hidden {
+    display: block;
+    visibility: hidden;
+    opacity: 0;
+  }
+}

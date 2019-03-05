@@ -23,5 +23,8 @@ chartEditor.events.EventType = {
 
   OPEN_SAMPLE_DIALOG: goog.events.getUniqueId('open-sample-dialog'),
 
-  LOCK: goog.events.getUniqueId('lock')
+  LOCK: goog.events.getUniqueId('lock'),
+
+  BALLOON_SHOW: goog.events.getUniqueId('balloon-show'),
+  BALLOON_HIDE: goog.events.getUniqueId('balloon-hide')
 };
