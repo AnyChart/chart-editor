@@ -909,7 +909,7 @@ chartEditor.model.Base.prototype.dropChartSettings = function(opt_pattern, opt_b
 
 
 /**
- * Initializes default values for all basic setting (chart tyme, mapping etc) based on data analysis.
+ * Initializes default values for all basic setting (chart type, mapping etc) based on data analysis.
  */
 chartEditor.model.Base.prototype.generateInitialDefaults = function() {
   this.getPreparedData();
@@ -1780,9 +1780,14 @@ chartEditor.model.Base.prototype.getRawData = function(opt_activeGeo, opt_startI
   if (goog.isDef(opt_startIndex) && goog.isDef(opt_numRows)) {
     if (goog.isArray(dataSet.data))
       return goog.array.slice(dataSet.data, opt_startIndex, opt_startIndex + opt_numRows);
-    else {
-      // todo: Implement data set raw data preview
-      return [];
+
+    else if (goog.isFunction(dataSet.data['mapAs'])) {
+      var result = [];
+      var lastIndex = Math.min(opt_startIndex + opt_numRows, dataSet.data['getRowsCount']());
+      for (var i = opt_startIndex; i < lastIndex; i++) {
+        result.push(dataSet.data['row'](i));
+      }
+      return result;
     }
   }
 
