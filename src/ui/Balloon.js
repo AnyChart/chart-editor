@@ -28,7 +28,7 @@ chartEditor.ui.Balloon = function(opt_domHelper) {
 goog.inherits(chartEditor.ui.Balloon, chartEditor.ui.Component);
 
 
-chartEditor.ui.Balloon.INTERVAL = 300;
+chartEditor.ui.Balloon.INTERVAL = 200;
 
 
 chartEditor.ui.Balloon.CSS_HIDDEN = goog.getCssName('anychart-ce-hidden');
@@ -44,35 +44,49 @@ chartEditor.ui.Balloon.CSS_HIDDEN = goog.getCssName('anychart-ce-hidden');
 
 
 /**
- *
  * @param {string} value
+ * @return {chartEditor.ui.Balloon}
  */
 chartEditor.ui.Balloon.prototype.text = function(value) {
   var el = this.getElement();
   var dom = this.getDomHelper();
   dom.removeChildren(el);
-  dom.append(el, value);
+  dom.appendChild(el,
+      goog.dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-ce-content'), value));
   return this;
 };
 
 
-chartEditor.ui.Balloon.prototype.exclude = function(value) {};
+/**
+ * @param {goog.math.Rect} bounds
+ * @return {chartEditor.ui.Balloon}
+ */
+chartEditor.ui.Balloon.prototype.position = function(bounds) {
+  goog.style.setPosition(this.getElement(), bounds.left + bounds.width - 10, bounds.top - bounds.height + 30);
+  return this;
+};
 
+
+/**
+ * Just start timer.
+ * @override
+ */
 chartEditor.ui.Balloon.prototype.hide = function(opt_hide) {
-  console.log('hide');
   this.timer_.start();
 };
 
 
+/** @override */
 chartEditor.ui.Balloon.prototype.show = function(opt_hide) {
-  console.log('show');
   this.timer_.stop();
   goog.dom.classlist.remove(this.getElement(), chartEditor.ui.Balloon.CSS_HIDDEN);
 };
 
 
+/**
+ * Hide balloon.
+ */
 chartEditor.ui.Balloon.prototype.hideInternal = function() {
-  console.log('hideInternal');
   this.timer_.stop();
   goog.dom.classlist.add(this.getElement(), chartEditor.ui.Balloon.CSS_HIDDEN);
 };
@@ -84,3 +98,10 @@ chartEditor.ui.Balloon.prototype.disposeInternal = function() {
   this.timer_ = null;
   chartEditor.ui.Balloon.base(this, 'disposeInternal');
 };
+
+
+/**
+ * This should exist to prevet default behaviour
+ * @param {boolean} value
+ */
+chartEditor.ui.Balloon.prototype.exclude = function(value) {};

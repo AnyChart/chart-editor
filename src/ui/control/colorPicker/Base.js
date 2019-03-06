@@ -54,6 +54,12 @@ chartEditor.ui.control.colorPicker.Base = function(opt_content, opt_menu, opt_re
   this.noDispatch = false;
 
   this.excluded = false;
+
+  /**
+   * Text to appear in help balloon.
+   * @type {string}
+   */
+  this.balloonText = '';
 };
 goog.inherits(chartEditor.ui.control.colorPicker.Base, goog.ui.ColorMenuButton);
 
@@ -187,15 +193,37 @@ chartEditor.ui.control.colorPicker.Base.prototype.reset = function() {
 chartEditor.ui.control.colorPicker.Base.prototype.enterDocument = function() {
   chartEditor.ui.control.colorPicker.Base.base(this, 'enterDocument');
   goog.dom.classlist.enable(this.getElement(), 'anychart-ce-hidden', this.excluded);
-  if (!this.excluded)
+  if (!this.excluded) {
     this.getHandler().listen(this, goog.ui.Component.EventType.ACTION, this.onChange_, false);
+
+    this.getHandler().listen(
+        this.getElement(),
+        [goog.events.EventType.MOUSEENTER, goog.events.EventType.MOUSELEAVE],
+        this.handleHover);
+  }
 };
 
 
 /** @override */
 chartEditor.ui.control.colorPicker.Base.prototype.exitDocument = function() {
   this.getHandler().unlisten(this, goog.ui.Component.EventType.ACTION, this.onChange_, false);
+  this.getHandler().unlisten(this, [goog.events.EventType.MOUSEENTER, goog.events.EventType.MOUSELEAVE], this.handleHover);
   chartEditor.ui.control.colorPicker.Base.base(this, 'exitDocument');
+};
+
+
+/**
+ * @param {Object} evt
+ */
+chartEditor.ui.control.colorPicker.Base.prototype.handleHover = function (evt) {
+  if (this.isEnabled()) {
+    this.dispatchEvent({
+      type: evt.type === goog.events.EventType.MOUSEENTER ?
+          chartEditor.events.EventType.BALLOON_SHOW :
+          chartEditor.events.EventType.BALLOON_HIDE,
+      text: this.balloonText
+    });
+  }
 };
 
 
@@ -242,6 +270,8 @@ chartEditor.ui.control.colorPicker.Base.prototype.init = function(model, key, op
   this.noRebuild = !!opt_noRebuild;
 
   this.updateExclusion();
+
+  this.updateBalloonText();
 };
 
 
@@ -298,6 +328,14 @@ chartEditor.ui.control.colorPicker.Base.prototype.updateExclusion = function() {
 
   var stringKey = this.editorModel.getStringKey(this.key);
   this.exclude(this.editorModel.checkSettingForExclusion(stringKey));
+};
+
+
+/**
+ * Set up help balloon text.
+ */
+chartEditor.ui.control.colorPicker.Base.prototype.updateBalloonText = function() {
+  this.balloonText = chartEditor.model.Base.getStringKey(this.key);
 };
 
 

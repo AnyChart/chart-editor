@@ -276,9 +276,14 @@ chartEditor.editor.Base.prototype.createDom = function() {
   this.addChild(this.balloon_, true);
   handler.listen(self, chartEditor.events.EventType.BALLOON_SHOW,
       function(evt) {
-    console.log(evt)
-        if (evt.text)
-          self.balloon_.text(evt.text).show();
+        if (evt.text) {
+          self.balloon_
+              .position(goog.style.getBounds(evt.target.getElement()))
+              .text(evt.text)
+              .show();
+        } else {
+          self.balloon_.hide();
+        }
       });
 
   handler.listen(self, chartEditor.events.EventType.BALLOON_HIDE,

@@ -75,6 +75,12 @@ chartEditor.ui.control.comboBox.Base = function(opt_domHelper, opt_menu, opt_lab
    * @protected
    */
   this.noDispatch = false;
+
+  /**
+   * Text to appear in help balloon.
+   * @type {string}
+   */
+  this.balloonText = '';
 };
 goog.inherits(chartEditor.ui.control.comboBox.Base, goog.ui.ComboBox);
 
@@ -256,6 +262,28 @@ chartEditor.ui.control.comboBox.Base.prototype.enterDocument = function() {
 
   goog.style.setElementShown(this.getElement(), !this.excluded);
   goog.events.listen(this, goog.ui.Component.EventType.CHANGE, this.onChange, false, this);
+
+  if (!this.excluded) {
+    this.getHandler().listen(
+        this.getElement(),
+        [goog.events.EventType.MOUSEENTER, goog.events.EventType.MOUSELEAVE],
+        this.handleHover);
+  }
+};
+
+
+/**
+ * @param {Object} evt
+ */
+chartEditor.ui.control.comboBox.Base.prototype.handleHover = function (evt) {
+  if (this.isEnabled()) {
+    this.dispatchEvent({
+      type: evt.type === goog.events.EventType.MOUSEENTER ?
+          chartEditor.events.EventType.BALLOON_SHOW :
+          chartEditor.events.EventType.BALLOON_HIDE,
+      text: this.balloonText
+    });
+  }
 };
 
 
@@ -583,6 +611,8 @@ chartEditor.ui.control.comboBox.Base.prototype.init = function(model, key, opt_c
   this.callback = opt_callback;
 
   this.noRebuild = !!opt_noRebuild;
+
+  this.updateBalloonText();
 };
 
 
@@ -626,6 +656,14 @@ chartEditor.ui.control.comboBox.Base.prototype.exclude = function(value, opt_nee
  */
 chartEditor.ui.control.comboBox.Base.prototype.isExcluded = function() {
   return this.excluded;
+};
+
+
+/**
+ * Set up help balloon text.
+ */
+chartEditor.ui.control.comboBox.Base.prototype.updateBalloonText = function() {
+  this.balloonText = chartEditor.model.Base.getStringKey(this.key);
 };
 
 
