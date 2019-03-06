@@ -171,7 +171,7 @@ chartEditor.ui.Component.prototype.hide = function(opt_hide) {
 
 /**
  * Shows ui in DOM by removing 'display: none' style
-  @param {boolean=} opt_show default TRUE
+ * @param {boolean=} opt_show default TRUE
  */
 chartEditor.ui.Component.prototype.show = function(opt_show) {
   var hide = goog.isDef(opt_show) ? !opt_show : false;

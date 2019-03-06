@@ -298,8 +298,8 @@ chartEditor.editor.Base.prototype.createDom = function() {
       function(evt) {
         if (evt.key) {
           self.balloon_
+              .setTextByKey(evt.key)
               .position(goog.style.getBounds(evt.target.getElement()))
-              .text(evt.key)
               .show();
         } else {
           self.balloon_.hide();

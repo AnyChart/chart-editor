@@ -159,6 +159,7 @@ chartEditor.ui.dataSettings.Series.prototype.createFields = function() {
       value: item['field']
     });
 
+    fieldSelect.getSelect().allowBalloon(false);
     fieldSelect.getSelect().init(model, this.getKey([['mapping'], item['field']]));
     fieldSelect.addClassName('anychart-select-with-content');
 

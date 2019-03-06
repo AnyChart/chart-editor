@@ -52,8 +52,23 @@ chartEditor.ui.control.select.Base = function(opt_caption, opt_menu, opt_rendere
    * @protected
    */
   this.target = null;
+
+  /**
+   * @type {boolean}
+   * @private
+   */
+  this.allowBalloon_ = true;
 };
 goog.inherits(chartEditor.ui.control.select.Base, goog.ui.Select);
+
+
+/**
+ * @param value
+ */
+chartEditor.ui.control.select.Base.prototype.allowBalloon = function(value) {
+  this.allowBalloon_ = value;
+};
+
 
 
 /**
@@ -110,7 +125,7 @@ chartEditor.ui.control.select.Base.prototype.enterDocument = function() {
   chartEditor.ui.control.select.Base.base(this, 'enterDocument');
   goog.style.setElementShown(this.getElement(), !this.excluded);
 
-  if (!this.excluded) {
+  if (!this.excluded && this.allowBalloon_) {
     this.getHandler().listen(
         this.getElement(),
         [goog.events.EventType.MOUSEENTER, goog.events.EventType.MOUSELEAVE],

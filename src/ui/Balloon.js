@@ -25,6 +25,12 @@ chartEditor.ui.Balloon = function(opt_domHelper) {
 
   this.addClassName(goog.getCssName('anychart-ce-balloon'));
   this.addClassName(chartEditor.ui.Balloon.CSS_HIDDEN );
+
+  /**
+   * @type {string}
+   * @private
+   */
+  this.text_ = '';
 };
 goog.inherits(chartEditor.ui.Balloon, chartEditor.ui.Component);
 
@@ -34,49 +40,43 @@ chartEditor.ui.Balloon.INTERVAL = 200;
 
 chartEditor.ui.Balloon.CSS_HIDDEN = goog.getCssName('anychart-ce-hidden');
 
-/**
- * @param key {chartEditor.model.Base.Key}
- * @return {string}
- */
-chartEditor.ui.Balloon.getTextByKey = function(key) {
-  var result = '';
-
-  if (key.length) {
-    var stringKey = chartEditor.model.Base.getStringKey(key);
-    stringKey = stringKey.replace(/\('.+'\)/g, '()');
-    stringKey = stringKey.replace(/\(\d+\)/g, '()');
-
-    if (chartEditor.help.Hints[stringKey]) {
-      result = chartEditor.help.Hints[stringKey];
-
-      // Aliases processing
-      if (result.indexOf('a:') === 0) {
-        var realKey = result.substr(2);
-        if (chartEditor.help.Hints[realKey])
-          result = chartEditor.help.Hints[realKey];
-      }
-
-    } else
-      result = stringKey;
-  }
-
-  return result;
-};
-
 
 /**
  * @param {chartEditor.model.Base.Key} key
  * @return {chartEditor.ui.Balloon}
  */
-chartEditor.ui.Balloon.prototype.text = function(key) {
-  var value = chartEditor.ui.Balloon.getTextByKey(key);
+chartEditor.ui.Balloon.prototype.setTextByKey = function(key) {
+  var text = '';
+  if (key.length) {
+    var stringKey = chartEditor.model.Base.getStringKey(key);
+    stringKey = stringKey.replace(/\('.+'\)/g, '()');
+    stringKey = stringKey.replace(/\(\d+\)/g, '()');
+    stringKey = stringKey.replace(/scale,\d+/g, 'scale');
 
-  if (value) {
-    var el = this.getElement();
-    var dom = this.getDomHelper();
-    dom.removeChildren(el);
-    dom.appendChild(el,
-        goog.dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-ce-content'), value));
+    if (chartEditor.help.Hints[stringKey]) {
+      text = chartEditor.help.Hints[stringKey];
+
+      // Aliases processing
+      if (text.indexOf('a:') === 0) {
+        var realKey = text.substr(2);
+        if (chartEditor.help.Hints[realKey])
+          text = chartEditor.help.Hints[realKey];
+      }
+
+    } else {
+      // todo: (chernetsky) Comment this on production
+      text = stringKey;
+    }
+  }
+
+  this.text_ = text;
+
+  var el = this.getElement();
+  var dom = this.getDomHelper();
+  dom.removeChildren(el);
+
+  if (this.text_) {
+    dom.appendChild(el, goog.dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-ce-content'), this.text_));
   }
 
   return this;
@@ -88,7 +88,8 @@ chartEditor.ui.Balloon.prototype.text = function(key) {
  * @return {chartEditor.ui.Balloon}
  */
 chartEditor.ui.Balloon.prototype.position = function(bounds) {
-  goog.style.setPosition(this.getElement(), bounds.left + bounds.width - 10, bounds.top - bounds.height + 30);
+  if (this.text_)
+    goog.style.setPosition(this.getElement(), bounds.left + bounds.width - 10, bounds.top - bounds.height + 30);
   return this;
 };
 
@@ -102,7 +103,8 @@ chartEditor.ui.Balloon.prototype.hide = function(opt_hide) {
 /** @inheritDoc */
 chartEditor.ui.Balloon.prototype.show = function(opt_hide) {
   this.timer_.stop();
-  goog.dom.classlist.remove(this.getElement(), chartEditor.ui.Balloon.CSS_HIDDEN);
+  if (this.text_)
+    goog.dom.classlist.remove(this.getElement(), chartEditor.ui.Balloon.CSS_HIDDEN);
 };
 
 
@@ -124,7 +126,7 @@ chartEditor.ui.Balloon.prototype.disposeInternal = function() {
 
 
 /**
- * This should exist to prevet default behaviour
+ * This should exist to prevent default behaviour
  * @param {boolean} value
  */
 chartEditor.ui.Balloon.prototype.exclude = function(value) {};

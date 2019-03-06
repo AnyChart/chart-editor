@@ -19,5 +19,8 @@ chartEditor.help.Hints = {
   'pointWidth()': 'Text about pointWidth() setting',
 
   // Series
-  'getSeries().name()': 'Text for key getSeries(\'SERIES ID\').name()'
+  'getSeries().name()': 'Text for key getSeries(\'SERIES ID\').name()',
+
+  // Scales special fields
+  'scale.name()': 'This is the scale instance name'
 };
