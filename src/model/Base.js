@@ -31,7 +31,7 @@ chartEditor.model.Base = function() {
    */
   this.preparedData_ = [];
 
-  this.generateInitialMappingsOnChangeView_ = true;
+  this.dirtyInitialDefaults_ = true;
 
   /**
    * Model structure
@@ -187,9 +187,9 @@ chartEditor.model.ProductDescription[chartEditor.model.Product.GANTT] = {name: '
  * @enum {string}
  */
 chartEditor.model.DataType = {
-  CUSTOM: 'c',
-  PREDEFINED: 'p',
-  GEO: 'g'
+  CUSTOM: 'c', // data was loaded through UI
+  PREDEFINED: 'p', // preset data
+  GEO: 'g' // geo data
 };
 
 
@@ -686,8 +686,8 @@ chartEditor.model.Base.prototype.analyzeDataBeforeChooseField = function() {
     strings: []
   };
 
-  var rawData = this.getRawData();
-  var dataRow = rawData[0];
+  var preparedData = this.getPreparedData();
+  var dataRow = preparedData[0].row;
   var fieldValue;
   var numberValue;
   var key;
@@ -729,8 +729,8 @@ chartEditor.model.Base.prototype.analyzeDataBeforeChooseField = function() {
  * @protected
  */
 chartEditor.model.Base.prototype.analyzeDataAfterChooseField = function() {
-  var rawData = this.getRawData();
-  var dataRow = rawData[0];
+  var preparedData = this.getPreparedData();
+  var dataRow = preparedData[0].row;
   var numberValue;
   var key;
 
@@ -941,25 +941,22 @@ chartEditor.model.Base.prototype.dropChartSettings = function(opt_pattern, opt_b
 
 
 /**
- * Initializes default values for types selects.
+ * Initializes default values for all basic setting (chart type, mapping etc) based on data analysis.
  */
-chartEditor.model.Base.prototype.onChangeView = function() {
-  if (this.generateInitialMappingsOnChangeView_) {
-    this.generateInitialMappingsOnChangeView_ = false;
-    this.getPreparedData();
+chartEditor.model.Base.prototype.generateInitialDefaults = function() {
+  this.getPreparedData();
 
-    if (this.preparedData_.length > 0) {
-      if (this.afterSetModel_) {
-        // Use predefined model
-        if (this.model['chart']['type'] === 'map')
-          this.initGeoData();
+  if (this.preparedData_.length > 0 && goog.isDef(this.preparedData_[0].row)) {
+    if (this.afterSetModel_) {
+      // Use predefined model
+      if (this.model['chart']['type'] === 'map')
+        this.initGeoData();
 
-        this.applyDefaults();
+      this.applyDefaults();
+      this.analyzeDataBeforeChooseField();
+      this.analyzeDataAfterChooseField();
 
-        this.analyzeDataBeforeChooseField();
-        this.analyzeDataAfterChooseField();
-
-        this.afterSetModel_ = false;
+      this.afterSetModel_ = false;
 
       } else {
         this.model['chart']['type'] = null;
@@ -968,11 +965,19 @@ chartEditor.model.Base.prototype.onChangeView = function() {
         this.chooseDefaultSeriesType();
         this.createDefaultMappings();
         this.createDefaultStandalones();
-        this.setStackMode(this.stackMode); //ENV-1243.
-      }
-    } else {
-      console.warn("NO DATA");
-    }
+      this.setStackMode(this.stackMode); //ENV-1243.}
+  this.dirtyInitialDefaults_ = false;  } else {
+      console.warn("No chart data! Please, provide data set using data() method or editor's user interface.");
+    }};
+
+
+/**
+ * Change step event handler.
+ * @param {number} stepIndex
+ */
+chartEditor.model.Base.prototype.onChangeStep = function(stepIndex) {
+  if (this.dirtyInitialDefaults_ && stepIndex > 0) {
+    this.generateInitialDefaults();
   }
 };
 
@@ -1695,7 +1700,7 @@ chartEditor.model.Base.prototype.addData = function(data) {
     goog.events.listen(confirm, goog.ui.Dialog.EventType.SELECT, function(e) {
       if (e.key == 'ok') {
         delete self.data[existingData.setFullId];
-        this.generateInitialMappingsOnChangeView_ = true;
+        this.dirtyInitialDefaults_ = true;
         self.addDataInternal(dataSet);
       }
 
@@ -1741,7 +1746,7 @@ chartEditor.model.Base.prototype.addDataInternal = function(dataSet) {
     }
   } else {
     this.model['dataSettings']['active'] = setFullId;
-    this.generateInitialMappingsOnChangeView_ = true;
+    this.dirtyInitialDefaults_ = true;
   }
 
   this.dispatchUpdate();
@@ -1758,10 +1763,8 @@ chartEditor.model.Base.prototype.removeData = function(setFullId) {
     // Geo data should not be alone
     delete this.data[this.model['dataSettings']['activeGeo']];
   }
-
   this.preparedData_.length = 0;
-
-  this.generateInitialMappingsOnChangeView_ = true;
+  this.dirtyInitialDefaults_ = true;
 
   this.dispatchUpdate();
 };
@@ -1802,8 +1805,19 @@ chartEditor.model.Base.prototype.getRawData = function(opt_activeGeo, opt_startI
   if (!dataSet)
     return null;
 
-  if (goog.isDef(opt_startIndex) && goog.isDef(opt_numRows) && goog.isArray(dataSet.data))
-    return goog.array.slice(dataSet.data, opt_startIndex, opt_startIndex + opt_numRows);
+  if (goog.isDef(opt_startIndex) && goog.isDef(opt_numRows)) {
+    if (goog.isArray(dataSet.data))
+      return goog.array.slice(dataSet.data, opt_startIndex, opt_startIndex + opt_numRows);
+
+    else if (goog.isFunction(dataSet.data['mapAs'])) {
+      var result = [];
+      var lastIndex = Math.min(opt_startIndex + opt_numRows, dataSet.data['getRowsCount']());
+      for (var i = opt_startIndex; i < lastIndex; i++) {
+        result.push(dataSet.data['row'](i));
+      }
+      return result;
+    }
+  }
 
   return dataSet.data;
 };
@@ -1971,39 +1985,48 @@ chartEditor.model.Base.prototype.getChartWithJsCode_ = function(opt_options) {
   }
 
   // Create data set
-  var rawData = this.getRawData();
-  var dsCtor = this.getChartTypeSettings()['dataSetCtor'];
-  var dataSet = anychartGlobal['data'][dsCtor]();
-
   result.push('// Setting up data');
-
   if (addMarkers) result.push('/*=rawData*/');
 
-  var str = 'var rawData' + eq + (addData ? this.printValue_(printer, rawData) : 'getData()') + ';';
-  result.push(str);
+  var rawData = this.getRawData();
+  var dsCtor;
+  var dataSet;
+
+  if (goog.isFunction(rawData['mapAs'])) {
+    dataSet = rawData;
+    result.push('// Put your data set here');
+    result.push('var dataSet' + eq + 'null;');
+
+  } else {
+    dsCtor = this.getChartTypeSettings()['dataSetCtor'];
+    dataSet = anychartGlobal['data'][dsCtor]();
+    result.push('var rawData' + eq + (addData ? this.printValue_(printer, rawData) : 'getData()') + ';');
+  }
 
   if (addMarkers) result.push('/*rawData=*/');
 
-  if (dsCtor === 'table') {
-    result.push('var data' + eq + 'anychart.data.' + dsCtor + '(' + this.printValue_(printer, settings['dataSettings']['field']) + ');');
+  if (dsCtor) {
+    if (dsCtor === 'table') {
+      result.push('var dataSet' + eq + 'anychart.data.' + dsCtor + '(' + this.printValue_(printer, settings['dataSettings']['field']) + ');');
 
-    dataSet['addData'](rawData);
-    result.push('data.addData(rawData);');
+      dataSet['addData'](rawData);
+      result.push('dataSet.addData(rawData);');
 
-  } else if (dsCtor === 'tree') {
-    var mappingObj1 = settings['dataSettings']['mappings'][0][0]['mapping'];
-    if (chartType === 'treeMap')
-      mappingObj1['id'] = settings['dataSettings']['field'];
-    result.push('var data' + eq + 'anychart.data.' + dsCtor + '(void 0, void 0, void 0, ' + this.printValue_(printer, mappingObj1) + ');');
+    } else if (dsCtor === 'tree') {
+      var mappingObj1 = settings['dataSettings']['mappings'][0][0]['mapping'];
+      if (chartType === 'treeMap')
+        mappingObj1['id'] = settings['dataSettings']['field'];
+      result.push('var dataSet' + eq + 'anychart.data.' + dsCtor + '(void 0, void 0, void 0, ' + this.printValue_(printer, mappingObj1) + ');');
 
-    dataSet['addData'](rawData, 'as-table');
-    result.push('data.addData(rawData, "as-table");');
+      dataSet['addData'](rawData, 'as-table');
+      result.push('dataSet.addData(rawData, "as-table");');
 
-  } else {
-    result.push('var data' + eq + 'anychart.data.' + dsCtor + '();');
+    } else {
+      result.push('var dataSet' + eq + 'anychart.data.' + dsCtor + '();');
 
-    dataSet['data'](rawData);
-    result.push('data.data(rawData);');
+      dataSet['data'](rawData);
+      result.push('dataSet.data(rawData);');
+    }
   }
 
   result.push('');
@@ -2030,7 +2053,7 @@ chartEditor.model.Base.prototype.getChartWithJsCode_ = function(opt_options) {
       }
 
       mappingInstances.push(dataSet['mapAs'](mappingObj));
-      result.push('var mapping' + (isSingleSeries ? '' : ((isSinglePlot ? '' : '_' + i) + '_' + j)) + eq + 'data.mapAs(' + this.printValue_(printer, mappingObj) + ');');
+      result.push('var mapping' + (isSingleSeries ? '' : ((isSinglePlot ? '' : '_' + i) + '_' + j)) + eq + 'dataSet.mapAs(' + this.printValue_(printer, mappingObj) + ');');
     }
   }
   result.push('');
@@ -2270,20 +2293,23 @@ chartEditor.model.Base.prototype.printValue_ = function(printer, value) {
  * @return {string}
  */
 chartEditor.model.Base.prototype.getDataCode = function() {
-  var printerSettings = new goog.format.JsonPrettyPrinter.TextDelimiters();
-  var printer = new goog.format.JsonPrettyPrinter(printerSettings);
   var result = [];
-
   result.push('');
   result.push('function getData() {');
 
   var rawData = this.getRawData();
+  if (goog.isFunction(rawData['mapAs'])) {
+    result.push('// Put your data here');
+    result.push('return null;');
 
-  var dataStr = 'return ' + this.printValue_(printer, rawData) + ';';
-  result.push(dataStr);
+  } else {
+    var printerSettings = new goog.format.JsonPrettyPrinter.TextDelimiters();
+    var printer = new goog.format.JsonPrettyPrinter(printerSettings);
+    var dataStr = 'return ' + this.printValue_(printer, rawData) + ';';
+    result.push(dataStr);
+  }
 
   this.indentCode(result, void 0, 2);
-
   result.push('}');
 
   return result.join('\n');
@@ -2317,7 +2343,6 @@ chartEditor.model.Base.prototype.indentCode = function(code, opt_numSpaces, opt_
  * @private
  */
 chartEditor.model.Base.prototype.prepareData_ = function() {
-  var joinedSets = [];
   var singleSets = [];
   var geoSets = [];
   var dataSet;
@@ -2326,18 +2351,7 @@ chartEditor.model.Base.prototype.prepareData_ = function() {
     if (this.data.hasOwnProperty(i)) {
       dataSet = this.prepareDataSet_(this.data[i]);
 
-      var joined = false;
-      if (dataSet.join) {
-        /*
-         * todo: process join
-         */
-        joined = true;
-      }
-
-      if (joined) {
-        dataSet.title = 'Joined set ' + (joinedSets.length + 1);
-        joinedSets.push(dataSet);
-      } else if (dataSet.type === chartEditor.model.DataType.GEO) {
+      if (dataSet.type === chartEditor.model.DataType.GEO) {
         geoSets.push(dataSet);
       } else {
         dataSet.title = dataSet.title ? dataSet.title : 'Data set ' + (singleSets.length + 1);
@@ -2346,7 +2360,7 @@ chartEditor.model.Base.prototype.prepareData_ = function() {
     }
   }
 
-  this.preparedData_ = goog.array.concat(joinedSets, singleSets, geoSets);
+  this.preparedData_ = goog.array.concat(singleSets, geoSets);
 
   return this.preparedData_;
 };
@@ -2364,12 +2378,20 @@ chartEditor.model.Base.prototype.prepareDataSet_ = function(dataSet) {
     setFullId: dataSet.setFullId,
     title: dataSet.title,
     fieldNames: dataSet.fieldNames,
-    fields: []
+    fields: [],
+    row: void 0
   };
 
-  var row = dataSet.type === chartEditor.model.DataType.GEO ?
-      dataSet.data['features'][0]['properties'] :
-      dataSet.data[0];
+  var row;
+  if (dataSet.type === chartEditor.model.DataType.GEO) {
+    row = dataSet.data['features'][0]['properties'];
+  } else if (goog.isFunction(dataSet.data['mapAs'])) {
+    row = dataSet.data['row'](dataSet.data['getRowsCount']() - 1);
+  } else {
+    row = dataSet.data[0];
+  }
+
+  result.row = row;
 
   var settings = new goog.format.JsonPrettyPrinter.SafeHtmlDelimiters();
   settings.lineBreak = '';

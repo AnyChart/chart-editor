@@ -157,13 +157,14 @@ chartEditor.model.Basic.prototype.chooseDefaultChartType = function() {
   if (!chartType) {
     chartType = 'line';
     var rawData = this.getRawData();
+    var dataLength = goog.isFunction(rawData['mapAs']) ? rawData['getRowsCount']() : rawData.length;
     if (this.model['dataSettings']['field'] === this.fieldsState.date_short) {
       chartType = 'column';
 
       if (this.fieldsState.numbersCount > 3)
         this.setStackMode('value');
 
-    } else if (this.model['dataSettings']['field'] === this.fieldsState.firstString && rawData.length <= 5 && this.fieldsState.numbersCount === 1) {
+    } else if (this.model['dataSettings']['field'] === this.fieldsState.firstString && dataLength <= 5 && this.fieldsState.numbersCount === 1) {
       chartType = 'pie';
     }
   }

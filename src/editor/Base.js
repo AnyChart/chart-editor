@@ -8,7 +8,9 @@ goog.require('chartEditor.ui.Preloader');
 goog.require('chartEditor.ui.breadcrumbs.Breadcrumbs');
 goog.require('chartEditor.ui.dialog.Base');
 goog.require('chartEditor.ui.steps.Widget');
+goog.require('goog.Uri');
 goog.require('goog.net.ImageLoader');
+goog.require('goog.net.XhrIo');
 
 
 
@@ -91,6 +93,13 @@ chartEditor.editor.Base.CSS_CLASS = goog.getCssName('anychart-ce');
 
 
 /**
+ * Chart editor statistics service url
+ * @type {string}
+ */
+chartEditor.editor.Base.CLOUD_URL = 'https://static.anychart.com/ce-cloud/';
+
+
+/**
  * Current version of the Editor.
  * @define {string} Replaced on compile time.
  */
@@ -159,10 +168,16 @@ chartEditor.editor.Base.prototype.dialogRender = function(opt_class, opt_useIfra
 /**
  * Sets/gets the visibility of the dialog box.
  * @param {boolean=} opt_value Whether the dialog should be visible.
+ * @param {string=} opt_extraClassName Extra class name for dialog
  * @return {boolean|chartEditor.editor.Base} Current visibility state or self for chaining.
  */
-chartEditor.editor.Base.prototype.dialogVisible = function(opt_value) {
+chartEditor.editor.Base.prototype.dialogVisible = function(opt_value, opt_extraClassName) {
   if (!this.dialog_) return true;
+
+  var element = this.dialog_.getElement();
+  if (opt_extraClassName && element) {
+    goog.dom.classlist.add(element, opt_extraClassName);
+  }
 
   if (goog.isDef(opt_value)) {
     this.dialog_.setVisible(opt_value);
@@ -181,7 +196,12 @@ chartEditor.editor.Base.prototype.dialogVisible = function(opt_value) {
  * @return {string}
  */
 chartEditor.editor.Base.prototype.getJavascript = function(opt_outputOptions) {
-  return (/** @type {chartEditor.model.Base} */(this.getModel())).getChartAsJsCode(opt_outputOptions);
+  var model = /** @type {chartEditor.model.Base} */(this.getModel());
+
+  if (!model.getValue([['chart'], 'type']))
+    model.generateInitialDefaults();
+
+  return model.getChartAsJsCode(opt_outputOptions);
 };
 
 
@@ -296,7 +316,7 @@ chartEditor.editor.Base.prototype.createDom = function() {
  */
 chartEditor.editor.Base.prototype.onBeforeChangeStep_ = function(evt) {
   this.breadcrumbs_.setStep(evt.index, this.steps_);
-  if (evt.index !== 0) this.getModel().onChangeView();
+  this.getModel().onChangeStep(evt.index);
 };
 
 
@@ -371,26 +391,30 @@ chartEditor.editor.Base.prototype.localization = function(values) {
 
 /**
  * Add data to editor programmatically.
- * @param {Array.<Object>|Object} data Raw data.
+ * @param {Array.<Object>|Object|anychart.data.Set} dataOrConfig Raw data or config object with raw data in 'data' field.
  */
-chartEditor.editor.Base.prototype.data = function(data) {
-  if (goog.isObject(data)) {
-    var preparedData;
-    if (goog.isObject(data['data'])) {
-      preparedData = data;
-      preparedData.setId = data['setId'];
-      preparedData.dataType = data['dataType'];
-      preparedData.chartType = data['chartType'];
-      preparedData.seriesType = data['seriesType'];
-      preparedData.activeGeo = data['activeGeo'];
-      preparedData.fieldNames = data['fieldNames'];
-      preparedData.title = data['title'] || data['caption'] || data['name'];
-      preparedData.defaults = data['defaults'];
-    } else
-      preparedData = {data: data};
+chartEditor.editor.Base.prototype.data = function(dataOrConfig) {
+  var preparedData = null;
 
-    this.getModel().addData(preparedData);
+  if (goog.isArray(dataOrConfig) || goog.isFunction(dataOrConfig['mapAs'])) {
+    // Passed plain raw data or anychart.data.Set instance
+    preparedData = {data: dataOrConfig};
+
+  } else if (goog.isObject(dataOrConfig) && goog.isObject(dataOrConfig['data'])) {
+    // Passed config object with raw data in 'data' field
+    preparedData = dataOrConfig;
+    preparedData.setId = dataOrConfig['setId'];
+    preparedData.dataType = dataOrConfig['dataType'];
+    preparedData.chartType = dataOrConfig['chartType'];
+    preparedData.seriesType = dataOrConfig['seriesType'];
+    preparedData.activeGeo = dataOrConfig['activeGeo'];
+    preparedData.fieldNames = dataOrConfig['fieldNames'];
+    preparedData.title = dataOrConfig['title'] || dataOrConfig['caption'] || dataOrConfig['name'];
+    preparedData.defaults = dataOrConfig['defaults'];
   }
+
+  if (preparedData)
+    this.getModel().addData(preparedData);
 };
 
 
@@ -468,6 +492,29 @@ chartEditor.editor.Base.prototype.deserializeModel = function(serializedModel) {
 chartEditor.editor.Base.prototype.setDefaults = function(values) {
   var model = /** @type {chartEditor.model.Base} */(this.getModel());
   model.setDefaults(values);
+};
+
+
+/**
+ * Sends statistics data to statistics cloud service.
+ * @param {Function} callback Function to call when response has come
+ * @param {Object} params
+ */
+chartEditor.editor.Base.prototype.saveToCloud = function(callback, params) {
+  var qd = new goog.Uri.QueryData();
+  if (goog.isDef(params['id']))
+    qd.add('id', params['id']);
+  qd.add('code', params['code'] || this.getJavascript());
+  qd.add('model', params['model'] || this.serializeModel());
+  qd.add('key', window['anychart']['utils']['printUtilsBoolean']());
+
+  goog.net.XhrIo.send(chartEditor.editor.Base.CLOUD_URL, function(e){
+    var xhr = e.target;
+    if (xhr.getStatus() === 200)
+      callback(null, xhr.getResponse());
+    else
+      callback(xhr.getStatusText(), null);
+  }, 'post', qd.toString());
 };
 
 
@@ -615,4 +662,5 @@ window['anychart'] = window['anychart'] || {};
   proto['version'] = proto.version;
   proto['addClassName'] = proto.addClassName;
   proto['removeClassName'] = proto.removeClassName;
+  proto['saveToCloud'] = proto.saveToCloud;
 })();
