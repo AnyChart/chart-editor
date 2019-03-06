@@ -958,17 +958,22 @@ chartEditor.model.Base.prototype.generateInitialDefaults = function() {
 
       this.afterSetModel_ = false;
 
-      } else {
-        this.model['chart']['type'] = null;
-        this.chooseActiveAndField();
-        this.chooseDefaultChartType();
-        this.chooseDefaultSeriesType();
-        this.createDefaultMappings();
-        this.createDefaultStandalones();
+    } else {
+      this.model['chart']['type'] = null;
+      this.chooseActiveAndField();
+      this.chooseDefaultChartType();
+      this.chooseDefaultSeriesType();
+      this.createDefaultMappings();
+      this.createDefaultStandalones();
       this.setStackMode(this.stackMode); //ENV-1243.}
-  this.dirtyInitialDefaults_ = false;  } else {
-      console.warn("No chart data! Please, provide data set using data() method or editor's user interface.");
-    }};
+    }
+
+    this.dirtyInitialDefaults_ = false;
+
+  } else {
+    console.warn("No chart data! Please, provide data set using data() method or editor's user interface.");
+  }
+};
 
 
 /**
