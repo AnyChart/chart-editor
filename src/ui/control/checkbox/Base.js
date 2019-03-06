@@ -36,12 +36,6 @@ chartEditor.ui.control.checkbox.Base = function(opt_checked, opt_domHelper, opt_
   this.noDispatch = false;
 
   this.excluded = false;
-
-  /**
-   * Text to appear in help balloon.
-   * @type {string}
-   */
-  this.balloonText = '';
 };
 goog.inherits(chartEditor.ui.control.checkbox.Base, goog.ui.Checkbox);
 
@@ -124,7 +118,7 @@ chartEditor.ui.control.checkbox.Base.prototype.handleHover = function (evt) {
       type: evt.type === goog.events.EventType.MOUSEENTER ?
           chartEditor.events.EventType.BALLOON_SHOW :
           chartEditor.events.EventType.BALLOON_HIDE,
-      text: this.balloonText
+      key: this.key
     });
   }
 };
@@ -155,8 +149,6 @@ chartEditor.ui.control.checkbox.Base.prototype.init = function(model, key, opt_c
   this.noRebuild = !!opt_noRebuild;
 
   this.updateExclusion();
-
-  this.updateBalloonText();
 };
 
 
@@ -230,13 +222,4 @@ chartEditor.ui.control.checkbox.Base.prototype.updateExclusion = function() {
 
   var stringKey = this.editorModel.getStringKey(this.key);
   this.exclude(this.editorModel.checkSettingForExclusion(stringKey));
-};
-
-
-/**
- * Set up help balloon text.
- */
-chartEditor.ui.control.checkbox.Base.prototype.updateBalloonText = function() {
-  if(this.key.length)
-    this.balloonText = chartEditor.model.Base.getStringKey(this.key);
 };

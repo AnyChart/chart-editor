@@ -276,10 +276,10 @@ chartEditor.editor.Base.prototype.createDom = function() {
   this.addChild(this.balloon_, true);
   handler.listen(self, chartEditor.events.EventType.BALLOON_SHOW,
       function(evt) {
-        if (evt.text) {
+        if (evt.key) {
           self.balloon_
               .position(goog.style.getBounds(evt.target.getElement()))
-              .text(evt.text)
+              .text(evt.key)
               .show();
         } else {
           self.balloon_.hide();

@@ -52,12 +52,6 @@ chartEditor.ui.control.select.Base = function(opt_caption, opt_menu, opt_rendere
    * @protected
    */
   this.target = null;
-
-  /**
-   * Text to appear in help balloon.
-   * @type {string}
-   */
-  this.balloonText = '';
 };
 goog.inherits(chartEditor.ui.control.select.Base, goog.ui.Select);
 
@@ -134,7 +128,7 @@ chartEditor.ui.control.select.Base.prototype.handleHover = function (evt) {
       type: evt.type === goog.events.EventType.MOUSEENTER ?
           chartEditor.events.EventType.BALLOON_SHOW :
           chartEditor.events.EventType.BALLOON_HIDE,
-      text: this.balloonText
+      key: this.key
     });
   }
 };
@@ -194,8 +188,6 @@ chartEditor.ui.control.select.Base.prototype.init = function(model, key, opt_cal
   this.noRebuild = !!opt_noRebuild;
 
   this.updateExclusion();
-
-  this.updateBalloonText();
 };
 
 
@@ -313,14 +305,6 @@ chartEditor.ui.control.select.Base.prototype.exclude = function(value) {
  */
 chartEditor.ui.control.select.Base.prototype.isExcluded = function() {
   return this.excluded;
-};
-
-
-/**
- * Set up help balloon text.
- */
-chartEditor.ui.control.select.Base.prototype.updateBalloonText = function() {
-  this.balloonText = chartEditor.model.Base.getStringKey(this.key);
 };
 
 

@@ -1,5 +1,6 @@
 goog.provide('chartEditor.ui.Balloon');
 
+goog.require('chartEditor.help');
 goog.require('chartEditor.ui.Component');
 goog.require('goog.Timer');
 
@@ -33,26 +34,51 @@ chartEditor.ui.Balloon.INTERVAL = 200;
 
 chartEditor.ui.Balloon.CSS_HIDDEN = goog.getCssName('anychart-ce-hidden');
 
+/**
+ * @param key {chartEditor.model.Base.Key}
+ * @return {string}
+ */
+chartEditor.ui.Balloon.getTextByKey = function(key) {
+  var result = '';
 
-//
-// /** @inheritDoc */
-// chartEditor.ui.Balloon.prototype.createDom = function() {
-//   chartEditor.ui.Balloon.base(this, 'createDom');
-//
-//
-// };
+  if (key.length) {
+    var stringKey = chartEditor.model.Base.getStringKey(key);
+    stringKey = stringKey.replace(/\('.+'\)/g, '()');
+    stringKey = stringKey.replace(/\(\d+\)/g, '()');
+
+    if (chartEditor.help.Hints[stringKey]) {
+      result = chartEditor.help.Hints[stringKey];
+
+      // Aliases processing
+      if (result.indexOf('a:') === 0) {
+        var realKey = result.substr(2);
+        if (chartEditor.help.Hints[realKey])
+          result = chartEditor.help.Hints[realKey];
+      }
+
+    } else
+      result = stringKey;
+  }
+
+  return result;
+};
 
 
 /**
- * @param {string} value
+ * @param {chartEditor.model.Base.Key} key
  * @return {chartEditor.ui.Balloon}
  */
-chartEditor.ui.Balloon.prototype.text = function(value) {
-  var el = this.getElement();
-  var dom = this.getDomHelper();
-  dom.removeChildren(el);
-  dom.appendChild(el,
-      goog.dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-ce-content'), value));
+chartEditor.ui.Balloon.prototype.text = function(key) {
+  var value = chartEditor.ui.Balloon.getTextByKey(key);
+
+  if (value) {
+    var el = this.getElement();
+    var dom = this.getDomHelper();
+    dom.removeChildren(el);
+    dom.appendChild(el,
+        goog.dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-ce-content'), value));
+  }
+
   return this;
 };
 
@@ -67,16 +93,13 @@ chartEditor.ui.Balloon.prototype.position = function(bounds) {
 };
 
 
-/**
- * Just start timer.
- * @override
- */
+/** @inheritDoc */
 chartEditor.ui.Balloon.prototype.hide = function(opt_hide) {
   this.timer_.start();
 };
 
 
-/** @override */
+/** @inheritDoc */
 chartEditor.ui.Balloon.prototype.show = function(opt_hide) {
   this.timer_.stop();
   goog.dom.classlist.remove(this.getElement(), chartEditor.ui.Balloon.CSS_HIDDEN);
