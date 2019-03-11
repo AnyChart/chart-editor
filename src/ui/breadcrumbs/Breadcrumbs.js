@@ -110,27 +110,14 @@ chartEditor.ui.breadcrumbs.Breadcrumbs.prototype.createDom = function() {
   cancel.addClassName('anychart-ce-breadcrumbs-right');
   buttons.addChild(cancel, true);
 
-
-  var ths = this;
   this.getHandler().listen(cancel, goog.ui.Component.EventType.ACTION, function() {
-    var confirm = new chartEditor.ui.dialog.Confirm();
-    confirm.setTitle('Cancel');
-    confirm.setTextContent('Are you sure you want to discard changes?');
-
-    var self = this;
-    goog.events.listen(confirm, goog.ui.Dialog.EventType.SELECT, function(e) {
-      if (e.key == 'ok') {
-        this.dispatchEvent(chartEditor.ui.breadcrumbs.Breadcrumbs.EventType.CLOSE);
-      }
-      confirm.dispose();
-    });
-    confirm.setVisible(true);
+    this.dispatchEvent(chartEditor.ui.breadcrumbs.Breadcrumbs.EventType.CLOSE);
   });
 
   this.getHandler().listen(save, goog.ui.Component.EventType.ACTION, function() {
     this.dispatchEvent(chartEditor.ui.breadcrumbs.Breadcrumbs.EventType.COMPLETE);
   });
-  //
+
   // var prev = new goog.ui.Button('Previous', buttonsRenderer);
   // prev.addClassName('anychart-ce-breadcrumbs-left');
   // // buttons.addChild(prev, true);

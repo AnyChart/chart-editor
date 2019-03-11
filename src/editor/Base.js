@@ -70,6 +70,7 @@ chartEditor.editor.Base = function (opt_domHelper, opt_lockedChartType) {
   // imageLoader.start();
 
   goog.events.listen(this, chartEditor.ui.breadcrumbs.Breadcrumbs.EventType.COMPLETE, this.onComplete_, false, this);
+  goog.events.listen(this, chartEditor.ui.breadcrumbs.Breadcrumbs.EventType.CLOSE, this.onBeforeCloseDialog_, false, this);
 
   this.listen(chartEditor.events.EventType.DATA_ADD, this.onDataAdd_);
   this.listen(chartEditor.events.EventType.DATA_REMOVE, this.onDataRemove_);
@@ -179,6 +180,7 @@ chartEditor.editor.Base.prototype.dialogRender = function (opt_class, opt_useIfr
 
   this.dialog_.addChild(this, true);
 
+  this.getHandler().listen(this.dialog_, goog.ui.PopupBase.EventType.BEFORE_HIDE, this.onBeforeCloseDialog_);
   this.getHandler().listen(this.dialog_, goog.ui.PopupBase.EventType.HIDE, this.onCloseDialog_);
 };
 
@@ -198,6 +200,7 @@ chartEditor.editor.Base.prototype.dialogVisible = function (opt_value, opt_extra
   }
 
   if (goog.isDef(opt_value)) {
+    this.forceClose = false;
     this.dialog_.setVisible(opt_value);
     this.waitForImages_();
     return this;
@@ -277,8 +280,35 @@ chartEditor.editor.Base.prototype.waitForImages_ = function () {
  */
 chartEditor.editor.Base.prototype.onComplete_ = function (evt) {
   this.dispatchEvent('editorcomplete');
-  if (this.dialog_)
+  if (this.dialog_) {
+    this.forceClose = true;
     this.dialog_.setVisible(false);
+  }
+};
+
+
+/**
+ * @param {Object} evt
+ * @private
+ */
+chartEditor.editor.Base.prototype.onBeforeCloseDialog_ = function (evt) {
+  if (this.forceClose)
+    return true;
+  var confirm = new chartEditor.ui.dialog.Confirm();
+  confirm.setTitle('Cancel');
+  confirm.setTextContent('Are you sure you want to discard changes?');
+
+  var self = this;
+  goog.events.listen(confirm, goog.ui.Dialog.EventType.SELECT, function(e) {
+    if (e.key == 'ok') {
+      self.forceClose = true;
+      self.dialog_.setVisible(false);
+    }
+    confirm.dispose();
+  });
+  confirm.setVisible(true);
+
+  return false;
 };
 
 
@@ -315,17 +345,8 @@ chartEditor.editor.Base.prototype.createDom = function () {
     this.setCurrentStep(nextIndex, true);
   });
 
-  this.getHandler().listen(this.breadcrumbs_, BreadcrumbsEventType.COMPLETE, function () {
-
-  });
   this.getHandler().listen(this.breadcrumbs_, BreadcrumbsEventType.CHANGE_STEP, function (e) {
     this.setCurrentStep(e.step, true);
-  });
-
-  this.getHandler().listen(this.breadcrumbs_, BreadcrumbsEventType.CLOSE, function() {
-    if (this.dialog_) {
-
-    }
   });
 
   // Add steps
