@@ -10,6 +10,7 @@ goog.require('chartEditor.ui.appearanceTabs.GanttGridColoring');
 goog.require('chartEditor.ui.appearanceTabs.GanttTimeLine');
 goog.require('chartEditor.ui.appearanceTabs.GanttTimeLineHeader');
 goog.require('chartEditor.ui.appearanceTabs.GanttTimeLineTooltip');
+goog.require('chartEditor.utils');
 
 
 /**
@@ -67,23 +68,38 @@ chartEditor.model.Series['ganttProject'] = {
   'fields': [
     {'field': 'id'},
     {'field': 'name', 'type': 'string'},
-    {'field': 'parent'},
-    {'field': 'progressValue', 'type': 'string'},
+    {'field': 'parent', 'isOptional': true},
+    {'field': 'progressValue', 'type': 'string', 'isOptional': true},
     {'field': 'actualStart', 'type': 'string'},
     {'field': 'actualEnd'},
-    {'field': 'connectTo'},
-    {'field': 'connectorType', 'type': 'string'}
+    {'field': 'connectTo', 'isOptional': true},
+    {'field': 'connectorType', 'type': 'string', 'isOptional': true}
+  ]
+};
+chartEditor.model.Series['ganttResourceQlik'] = {
+  'ctor': 'ganttResource',
+  'name': 'Gantt Resource',
+  'fields': [
+    // resource specific
+    {'field': 'id'},
+    {'field': 'name'},
+    {'field': 'parent', 'isOptional': true},
+    // period specific
+    {'field': 'periodId'},
+    {'field': 'periodStart'},
+    {'field': 'periodEnd'},
+    {'field': 'periodConnectTo', 'isOptional': true},
+    {'field': 'periodResourceId'}
   ]
 };
 chartEditor.model.Series['ganttResource'] = {
   'ctor': 'ganttResource',
   'name': 'Gantt Resource',
   'fields': [
+    // resource specific
     {'field': 'id'},
     {'field': 'name'},
-    {'field': 'broken'},
-    {'field': 'maintenance'},
-    {'field': 'working'},
+    {'field': 'parent', 'isOptional': true},
     {'field': 'periods'}
   ]
 };
@@ -102,7 +118,16 @@ chartEditor.model.Gantt.prototype.chooseDefaultChartType = function() {
 
 /** @inheritDoc */
 chartEditor.model.Gantt.prototype.chooseDefaultSeriesType = function() {
-  this.model['chart']['seriesType'] = this.getChartTypeKey() == 'ganttProject' ? 'ganttProject' : 'ganttResource';
+  var ganttSeriesType;
+  if (this.getChartTypeKey() == 'ganttProject') {
+    ganttSeriesType = 'ganttProject';
+    // Use special mapping for Gantt Resource in Qlik environment
+  } else if (this.model['editorSettings']['qlikMode']) {
+    ganttSeriesType = 'ganttResourceQlik';
+  } else {
+    ganttSeriesType = 'ganttResource';
+  }
+  this.model['chart']['seriesType'] = ganttSeriesType;
 };
 
 
@@ -121,15 +146,17 @@ chartEditor.model.Gantt.prototype.createDefaultSeriesMapping = function(index, t
     var field = fields[i]['field'];
     if (field in dataRow) {
       config['mapping'][field] = field;
+    } else if (fields[i]['isOptional']) {
+      config['mapping'][field] = null;
     } else {
       var j = index + i + (goog.isNumber(opt_startFieldIndex) ? opt_startFieldIndex : 0);
       var numberIndex = numbers.length > j ? j : j % numbers.length;
       var stringIndex = strings.length > j ? j : j % strings.length;
 
       config['mapping'][fields[i]['field']] =
-          (fields[i]['type'] === 'string' && strings.length) ?
-              strings[stringIndex] :
-              numbers[numberIndex];
+        (fields[i]['type'] === 'string' && strings.length) ?
+          strings[stringIndex] :
+          numbers[numberIndex];
     }
   }
 
@@ -147,4 +174,20 @@ chartEditor.model.Gantt.prototype.isChartSingleSeries = function() {
 /** @inheritDoc */
 chartEditor.model.Gantt.prototype.needResetMappings = function(prevChartType, prevSeriesType) {
   return true;
+};
+
+
+/** @inheritDoc */
+chartEditor.model.Gantt.prototype.preprocessMapping = function(mappingObj) {
+  if (this.model['chart']['type'] === 'ganttResource' && this.model['editorSettings']['qlikMode'])
+    return chartEditor.utils.preprocessResourceMapping(mappingObj);
+  return mappingObj;
+};
+
+
+/** @inheritDoc */
+chartEditor.model.Gantt.prototype.preprocessData = function(rawData, mappingObj) {
+  if (this.model['chart']['type'] === 'ganttResource' && this.model['editorSettings']['qlikMode'])
+    return chartEditor.utils.preprocessResourceData(rawData, mappingObj);
+  return rawData;
 };
