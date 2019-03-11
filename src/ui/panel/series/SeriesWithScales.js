@@ -64,25 +64,17 @@ chartEditor.ui.panel.series.SeriesWithScales.prototype.createDom = function() {
 
   goog.dom.classlist.add(name.getElement(), goog.getCssName('anychart-ce-series-name-input'));
 
-  var fill;
-  if (this.hasFillStroke_) {
-    fill = new chartEditor.ui.control.colorPicker.Base();
-    fill.init(model, this.genKey('color()'));
-
-    if (!this.hasFallingRising_) {
-      this.addHeaderChildControl(fill);
-      fill.addClassName(goog.getCssName('anychart-ce-panel-control-right'));
-    }
-  }
   // endregion
 
   // region ==== Content
   if (this.hasFillStroke_) {
-    if (this.hasFallingRising_) {
-      var totalFillLC = new chartEditor.ui.control.wrapped.Labeled(/** @type {chartEditor.ui.control.colorPicker.Base} */(fill), 'Total Fill');
-      totalFillLC.init(model, this.genKey('fill()'));
-      this.addChildControl(totalFillLC);
-    }
+    var fill = new chartEditor.ui.control.colorPicker.Base();
+    var totalFillLC = new chartEditor.ui.control.wrapped.Labeled(/** @type {chartEditor.ui.control.colorPicker.Base} */(fill),
+        this.hasFallingRising_ ? 'Total Fill' : 'Fill');
+
+    totalFillLC.init(model, this.genKey(this.hasFallingRising_ ? 'fill()' : 'color()'));
+    this.addChildControl(totalFillLC);
+    fill.addClassName(goog.getCssName('anychart-ce-panel-control-right'));
 
     var stroke = new chartEditor.ui.panel.Stroke(model, this.hasFallingRising_ ? 'Total Stroke' : 'Stroke');
     stroke.setKey(this.genKey('stroke()'));

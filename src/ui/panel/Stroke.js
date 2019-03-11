@@ -38,9 +38,7 @@ chartEditor.ui.panel.Stroke.prototype.createDom = function() {
     {value: '0', icon: 'ac ac-position-bottom'},
     {value: '5 5', icon: 'ac ac-position-top'},
     {value: '5 10', icon: 'ac ac-position-bottom'},
-    {value: '10 5', icon: 'ac ac-position-top'},
-    {value: '15 10 5 10', icon: 'ac ac-position-bottom'},
-    {value: '5 5 1 5', icon: 'ac ac-position-top'}
+    {value: '10 5', icon: 'ac ac-position-top'}
   ]);
   this.addChild(dash, true);
   goog.dom.classlist.add(dash.getElement(), goog.getCssName('anychart-ce-stroke-dash'));

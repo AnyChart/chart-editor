@@ -36,6 +36,52 @@ chartEditor.ui.presets.Preset.prototype.init = function(json, state) {
 };
 
 
+/**
+ * Creates 'Load' button.
+ * @return {Element}
+ */
+chartEditor.ui.presets.Preset.prototype.createLoadButton = function() {
+  return goog.dom.createDom(goog.dom.TagName.SPAN, 'anychart-ce-button-common anychart-ce-checkbox-checked', 'Load');
+};
+
+
+/**
+ * Creates 'Preview' button.
+ * @return {Element}
+ */
+chartEditor.ui.presets.Preset.prototype.createPreviewButton = function() {
+  return goog.dom.createDom(goog.dom.TagName.SPAN, 'anychart-ce-button-common anychart-ce-button-preview', 'Preview');
+};
+
+
+/**
+ * Creates image.
+ * @param {string} url - Image URL.
+ * @return {Element}
+ */
+chartEditor.ui.presets.Preset.prototype.createImage = function(url) {
+  return goog.dom.createDom(
+      goog.dom.TagName.DIV,
+      'anychart-ce-presets-item-image',
+      goog.dom.createDom(goog.dom.TagName.IMG, {'src': url})
+  );
+};
+
+
+/**
+ * Creates caption.
+ * @param {string} text - Caption text.
+ * @return {Element}
+ */
+chartEditor.ui.presets.Preset.prototype.createCaption = function(text) {
+  return goog.dom.createDom(
+      goog.dom.TagName.DIV,
+      'anychart-ce-presets-item-caption',
+      text
+  );
+};
+
+
 /** @inheritDoc */
 chartEditor.ui.presets.Preset.prototype.createDom = function() {
   chartEditor.ui.presets.Preset.base(this, 'createDom');
@@ -44,38 +90,15 @@ chartEditor.ui.presets.Preset.prototype.createDom = function() {
   var dom = this.getDomHelper();
   var imgUrl = this.json_['logo'].replace('./', 'https://cdn.anychart.com/anydata/common/');
 
-  var image = goog.dom.createDom(
-      goog.dom.TagName.DIV,
-      'anychart-ce-presets-item-image',
-      goog.dom.createDom(goog.dom.TagName.IMG, {'src': imgUrl})
-  );
-  var caption = dom.createDom(
-      goog.dom.TagName.DIV,
-      'anychart-ce-presets-item-caption',
-      this.json_['name']
-  );
-  var buttons = dom.createDom(
-      goog.dom.TagName.DIV,
-      'anychart-ce-presets-item-buttons'
-  );
-  var buttonsRenderer = /** @type {goog.ui.ButtonRenderer} */(goog.ui.ControlRenderer.getCustomRenderer(
-          goog.ui.ButtonRenderer,
-          'anychart-ce-presets-item-btn')
-  );
-  var useBtn = new goog.ui.Button('+ Use Preset', buttonsRenderer);
-  useBtn.addClassName('anychart-ce-presets-button-use');
-  useBtn.render(buttons);
-  this.useBtn_ = useBtn;
-
-  var viewBtn = new goog.ui.Button('', buttonsRenderer);
-  viewBtn.addClassName('ac-preview');
-  viewBtn.addClassName('anychart-ce-button-view-sample');
-  viewBtn.render(buttons);
-  this.viewBtn_ = viewBtn;
+  var image = this.createImage(imgUrl);
+  // var caption = this.createCaption(this.json_['name']);
+  this.loadButton_ = this.createLoadButton();
+  this.previewButton_ = this.createPreviewButton();
 
   dom.appendChild(element, image);
-  dom.appendChild(element, caption);
-  dom.appendChild(element, buttons);
+  // dom.appendChild(element, caption);
+  dom.appendChild(element, this.loadButton_);
+  dom.appendChild(element, this.previewButton_);
 
   this.addClassName('data-set');
   this.addClassName('data-set-' + this.json_['id']);
@@ -86,8 +109,8 @@ chartEditor.ui.presets.Preset.prototype.createDom = function() {
 chartEditor.ui.presets.Preset.prototype.enterDocument = function() {
   chartEditor.ui.presets.Preset.base(this, 'enterDocument');
 
-  this.getHandler().listen(this.useBtn_, goog.ui.Component.EventType.ACTION, this.onUse_);
-  this.getHandler().listen(this.viewBtn_, goog.ui.Component.EventType.ACTION, this.onView_);
+  goog.events.listen(this.loadButton_, goog.events.EventType.CLICK, this.onLoad_, false, this);
+  goog.events.listen(this.previewButton_, goog.events.EventType.CLICK, this.onPreview_, false, this);
 
   var model = /** @type {chartEditor.model.Base} */(this.getModel());
   this.getHandler().listen(model, chartEditor.events.EventType.EDITOR_MODEL_UPDATE, this.onModelUpdate);
@@ -101,6 +124,8 @@ chartEditor.ui.presets.Preset.prototype.onModelUpdate = function() {
   var model = /** @type {chartEditor.model.Base} */(this.getModel());
   var loaded = Boolean(model.getPreparedData(this.dataType + this.json_['id']).length);
   goog.dom.classlist.enable(this.getElement(), 'loaded', loaded);
+  goog.dom.classlist.enable(this.loadButton_, 'ac-check', loaded);
+  this.loadButton_.innerHTML = loaded ? '' : 'Load';
   this.state_ = loaded ?
       chartEditor.ui.presets.Widget.DatasetState.LOADED :
       chartEditor.ui.presets.Widget.DatasetState.NOT_LOADED;
@@ -111,7 +136,7 @@ chartEditor.ui.presets.Preset.prototype.onModelUpdate = function() {
  * Loads data set.
  * @private
  */
-chartEditor.ui.presets.Preset.prototype.onUse_ = function() {
+chartEditor.ui.presets.Preset.prototype.onLoad_ = function() {
   if (this.state_ == chartEditor.ui.presets.Widget.DatasetState.LOADED)
     return;
 
@@ -146,7 +171,7 @@ chartEditor.ui.presets.Preset.prototype.onUse_ = function() {
 
 
 /** @private */
-chartEditor.ui.presets.Preset.prototype.onView_ = function() {
+chartEditor.ui.presets.Preset.prototype.onPreview_ = function() {
   this.dispatchEvent({
     type: chartEditor.events.EventType.OPEN_SAMPLE_DIALOG,
     sampleUrl: this.json_['sample'],
@@ -181,9 +206,9 @@ chartEditor.ui.presets.Preset.prototype.dispatchLoadData = function(json, setId,
 
 /** @inheritDoc */
 chartEditor.ui.presets.Preset.prototype.disposeInternal = function () {
-  goog.disposeAll([this.useBtn_, this.viewBtn_]);
-  this.useBtn_ = null;
-  this.viewBtn_ = null;
+  goog.disposeAll(this.loadButton_, this.previewButton_);
+  this.loadButton_ = null;
+  this.previewButton_ = null;
 
   chartEditor.ui.presets.Preset.base(this, 'disposeInternal');
 };

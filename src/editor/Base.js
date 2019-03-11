@@ -82,7 +82,7 @@ chartEditor.editor.Base = function(opt_domHelper, opt_lockedChartType) {
   this.theme_ = '';
 
   // Enable Qlik theme
-  this.theme_ = 'qlik';
+  // this.theme_ = 'qlik';
 
   this.addClassName(chartEditor.editor.Base.CSS_CLASS);
 };
@@ -243,8 +243,11 @@ chartEditor.editor.Base.prototype.getXml = function() {
  */
 chartEditor.editor.Base.prototype.showWaitAnimation_ = function(show) {
   if (show && !this.preloader_.isInDocument()) {
-    var element = this.getContentElement();
-    this.preloader_.render(element);
+    // var element = this.getContentElement();
+    // this.preloader_.render(element);
+
+    //TODO (A.Kudryavtsev): Get body with goog.
+    this.preloader_.render(document.body);
   }
 
   this.preloader_.visible(show);
@@ -429,6 +432,15 @@ chartEditor.editor.Base.prototype.data = function(dataOrConfig) {
 
   if (preparedData)
     this.getModel().addData(preparedData);
+};
+
+
+/**
+ *
+ * @return {chartEditor.ui.steps.Widget}
+ */
+chartEditor.editor.Base.prototype.getSteps = function() {
+  return this.steps_;
 };
 
 

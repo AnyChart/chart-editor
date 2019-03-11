@@ -54,6 +54,14 @@ chartEditor.ui.presets.Widget.DatasetState = {
   LOADED: 2
 };
 
+/**
+ * Creates presets container.
+ * @return {Element} - Container element.
+ */
+chartEditor.ui.presets.Widget.prototype.createContainer = function() {
+  return goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-ce-presets-container');
+};
+
 
 /** @inheritDoc */
 chartEditor.ui.presets.Widget.prototype.createDom = function() {
@@ -63,7 +71,7 @@ chartEditor.ui.presets.Widget.prototype.createDom = function() {
   var caption = goog.dom.createDom(
       goog.dom.TagName.DIV,
       'anychart-ce-section-caption',
-      'From Preset'
+      'Import Data'
   );
   var filter = goog.dom.createDom(
       goog.dom.TagName.INPUT, {
@@ -76,16 +84,12 @@ chartEditor.ui.presets.Widget.prototype.createDom = function() {
       'anychart-ce-presets-header',
       [caption]
   );
-  var container = goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-ce-presets-container');
+  this.setsContainer = this.createContainer();
 
   goog.dom.appendChild(element, header);
-  goog.dom.appendChild(element, container);
+  goog.dom.appendChild(element, this.setsContainer);
 
   this.dataSets_ = [];
-
-  this.setsContainer_ = container;
-
-  // this.filterInput_ = filter;
 };
 
 
@@ -126,11 +130,21 @@ chartEditor.ui.presets.Widget.prototype.enterDocument = function() {
 
 
 /**
+ * Creates preset.
+ * @param {chartEditor.model.Base} model - Related model.
+ * @return {chartEditor.ui.presets.Preset} - Preset instance. //TODO (A.Kudryavtsev): Repalce with older parent?
+ */
+chartEditor.ui.presets.Widget.prototype.createPreset = function(model) {
+  return new chartEditor.ui.presets.Preset(model);
+};
+
+
+/**
  * @param {Array=} opt_ids
  * @private
  */
 chartEditor.ui.presets.Widget.prototype.showDataSets_ = function(opt_ids) {
-  var createItems = !this.setsContainer_.hasChildNodes() && this.dataIndex.length;
+  var createItems = !this.setsContainer.hasChildNodes() && this.dataIndex.length;
   for (var i = 0; i < this.dataIndex.length; i++) {
     var dataSetJson = this.dataIndex[i];
     if (!dataSetJson)
@@ -139,17 +153,18 @@ chartEditor.ui.presets.Widget.prototype.showDataSets_ = function(opt_ids) {
     if (createItems) {
       dataSetJson['state'] = chartEditor.ui.presets.Widget.DatasetState.NOT_LOADED;
       var model = /** @type {chartEditor.model.Base} */(this.getModel());
-      var itemComponent = new chartEditor.ui.presets.Preset(model);
+      var itemComponent = this.createPreset(model);
       itemComponent.init(dataSetJson, dataSetJson['state']);
       this.addChild(itemComponent, true);
-      this.setsContainer_.appendChild(itemComponent.getElement());
+      this.setsContainer.appendChild(itemComponent.getElement());
+
       this.dataSets_.push(itemComponent);
 
       // For filter
       item = itemComponent.getElement();
     } else {
       var className = 'data-set-' + dataSetJson['id'];
-      item = /** @type {Element} */(goog.dom.findNode(this.setsContainer_, function(el) {
+      item = /** @type {Element} */(goog.dom.findNode(this.setsContainer, function(el) {
         return goog.dom.classlist.contains(/** @type {Element} */(el), className);
       }));
     }
@@ -161,7 +176,7 @@ chartEditor.ui.presets.Widget.prototype.showDataSets_ = function(opt_ids) {
   }
 
   if (createItems) {
-    this.setsContainer_.appendChild(this.dom_.createDom(goog.dom.TagName.DIV, 'anychart-ce-clearboth'));
+    this.setsContainer.appendChild(this.dom_.createDom(goog.dom.TagName.DIV, 'anychart-ce-clearboth'));
   }
 };
 
@@ -189,44 +204,3 @@ chartEditor.ui.presets.Widget.prototype.onViewSample_ = function(evt) {
   this.sampleDialog_.setVisible(true);
 };
 
-
-/**
- * Filters list of data sets on change of filter input value.
- *
- * @param {?Object} evt
- * @private
- */
-// chartEditor.ui.presets.Widget.prototype.onFilterChange_ = function(evt) {
-//   var searchValue = evt && goog.isDef(evt.currentTarget.value) ? evt.currentTarget.value : this.filterInput_.value;
-//   searchValue = searchValue.toLowerCase();
-//
-//   var model = /** @type {chartEditor.model.Base} */(this.getModel());
-//   var loadedDataIds = model.getDataKeys();
-//   var ids = [];
-//   if (searchValue && this.dataIndex.length) {
-//     for (var i = 0; i < this.dataIndex.length; i++) {
-//       var set = this.dataIndex[i];
-//       var setFullId = this.dataType + set['id'];
-//       for (var j = 0; j < this.searchFields.length; j++) {
-//         var field = this.searchFields[j];
-//         if (set[field]) {
-//           var fieldValue = set[field];
-//           if ((goog.isString(fieldValue) && fieldValue.toLowerCase().indexOf(searchValue) !== -1) ||
-//               goog.array.indexOf(loadedDataIds, setFullId) !== -1) {
-//             ids.push(set['id']);
-//           } else if (goog.isArray(fieldValue)) {
-//             var result = fieldValue.filter(function(item) {
-//               return item.toLowerCase().indexOf(searchValue) !== -1;
-//             });
-//             if (result.length)
-//               ids.push(set['id']);
-//           }
-//         }
-//       }
-//     }
-//     this.showDataSets_(ids);
-//   } else {
-//     // Show everything
-//     this.showDataSets_();
-//   }
-// };

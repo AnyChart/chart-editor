@@ -1654,6 +1654,14 @@ chartEditor.model.Base.prototype.applyDefaults = function() {
 
 // region Data Model
 /**
+ * Resets prepared data to recalculate it on this.getPreparedData().
+ */
+chartEditor.model.Base.prototype.resetPreparedData = function() {
+  this.preparedData_.length = 0;
+};
+
+
+/**
  * @param {string} dataType
  * @param {string} setId
  * @return {string}
@@ -2423,10 +2431,12 @@ chartEditor.model.Base.prototype.prepareDataSet_ = function(dataSet) {
         result.fieldNames[key] :
         goog.isArray(row) ? 'Field ' + key : key;
 
+    var val = row[key];
+    var type = goog.isDefAndNotNull(val) ? typeof(val) : 'number';
     var field = {
       key: key,
       name: name,
-      type: typeof(row[key])
+      type: type
     };
     result.fields.push(field);
   }

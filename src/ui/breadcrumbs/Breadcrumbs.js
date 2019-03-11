@@ -69,16 +69,16 @@ chartEditor.ui.breadcrumbs.Breadcrumbs.prototype.createDom = function() {
   items.addClassName('anychart-ce-breadcrumbs-items');
   this.addChild(items, true);
 
-  var prepareData = new chartEditor.ui.breadcrumbs.Item('Configure Data');
+  var prepareData = new chartEditor.ui.breadcrumbs.Item('Data','ac-chart-database-o');
   items.addChild(prepareData, true);
 
-  var setupChart = new chartEditor.ui.breadcrumbs.Item('Setup Chart');
+  var setupChart = new chartEditor.ui.breadcrumbs.Item('Set Up Chart', 'ac-cog');
   items.addChild(setupChart, true);
 
-  var visualAppearance = new chartEditor.ui.breadcrumbs.Item('Visual Appearance');
+  var visualAppearance = new chartEditor.ui.breadcrumbs.Item('Tune', 'ac-ruler-paint-brush-o');
   items.addChild(visualAppearance, true);
 
-  var exportStep = new chartEditor.ui.breadcrumbs.Item('Export');
+  var exportStep = new chartEditor.ui.breadcrumbs.Item('Export', 'ac-cloud-upload');
   items.addChild(exportStep, true);
 
   var buttons = new chartEditor.ui.Component();
@@ -91,7 +91,7 @@ chartEditor.ui.breadcrumbs.Breadcrumbs.prototype.createDom = function() {
 
   var next = new goog.ui.Button('Next', buttonsRenderer);
   next.addClassName('anychart-ce-breadcrumbs-right');
-  buttons.addChild(next, true);
+  // buttons.addChild(next, true);
 
   var complete = new goog.ui.Button('Complete', buttonsRenderer);
   complete.addClassName('anychart-ce-breadcrumbs-right');
@@ -99,7 +99,7 @@ chartEditor.ui.breadcrumbs.Breadcrumbs.prototype.createDom = function() {
 
   var prev = new goog.ui.Button('Previous', buttonsRenderer);
   prev.addClassName('anychart-ce-breadcrumbs-left');
-  buttons.addChild(prev, true);
+  // buttons.addChild(prev, true);
 
   var clear = new chartEditor.ui.Component();
   clear.addClassName('anychart-ce-clear');

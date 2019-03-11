@@ -536,6 +536,9 @@ chartEditor.ui.Panel.prototype.addDescription = function(value) {
       value);
 
   goog.dom.appendChild(this.getElement(), descriptionEl);
+  
+  var icon = goog.dom.createDom('i', 'ac ac-book');
+  goog.dom.insertChildAt(descriptionEl, icon, 0);
 };
 
 

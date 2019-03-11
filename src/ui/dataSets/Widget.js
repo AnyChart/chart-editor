@@ -22,9 +22,17 @@ chartEditor.ui.dataSets.Widget = function(model, opt_domHelper) {
 
   this.setModel(model);
 
-  this.addClassName('anychart-ce-data-set');
+  this.initClasses();
 };
 goog.inherits(chartEditor.ui.dataSets.Widget, chartEditor.ui.Component);
+
+
+/**
+ * Initializes css classes.
+ */
+chartEditor.ui.dataSets.Widget.prototype.initClasses = function() {
+  this.addClassName('anychart-ce-data-set');
+};
 
 
 /** @inheritDoc */
@@ -48,6 +56,17 @@ chartEditor.ui.dataSets.Widget.prototype.exitDocument = function() {
 
 
 /**
+ * TODO (A.Kudryavtsev):
+ * @param model
+ * @param data
+ * @return {chartEditor.ui.dataSets.DataSet}
+ */
+chartEditor.ui.dataSets.Widget.prototype.createPanel = function(model, data) {
+  return new chartEditor.ui.dataSets.DataSet(model, data);
+};
+
+
+/**
  * Updates ui on model change.
  * @param {?Object} evt
  */
@@ -61,22 +80,14 @@ chartEditor.ui.dataSets.Widget.prototype.onModelChange = function(evt) {
   goog.disposeAll(this.panels_);
   this.panels_.length = 0;
 
-  // add caption
-  var caption = new chartEditor.ui.Component();
-  caption.addClassName('anychart-ce-section-caption');
-  caption.addClassName('anychart-ce-data-set-caption');
-  this.addChild(caption, true);
-
-  // todo: rework this hack!!
-  caption.getElement().innerHTML = 'Current Set';
-
   // add data sets or intro
   var model = /** @type {chartEditor.model.Base} */(this.getModel());
   var step = /** @type {chartEditor.ui.steps.Step} */(this.getParent());
   if (data.length) {
     for (var i = 0; i < data.length; i++) {
       if (step.getIndex() === 1 || data[i].type !== chartEditor.model.DataType.GEO) {
-        var panel = new chartEditor.ui.dataSets.DataSet(model, data[i]);
+        // var panel = new chartEditor.ui.dataSets.DataSetPreview(model, data[i]);
+        var panel = this.dataSetPanel = this.createPanel(model, data[i]);
         this.panels_.push(panel);
         this.addChild(panel, true);
 

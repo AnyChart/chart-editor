@@ -11,37 +11,54 @@
 
 // region ---- global layout
 .anychart-ce {
-  position: relative;
+  position: fixed;
   background: @color-background;
   color: @color-label;
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
   width: 100%;
   height: 100%;
+  bottom: 0;
+  overflow-x: scroll;
 
-  .anychart-chart-preview,
-  .anychart-ce-presets {
+  .anychart-chart-preview {
     position: absolute;
-    left: 35%;
+    left: 260px;
     top: 0;
     bottom: 0;
     right: 0;
     overflow-x: hidden;
     overflow-y: auto;
+    padding-bottom: 60px;
+  }
+
+  .anychart-ce-presets {
+    //position: absolute;
+    //left: 260px;
+    //top: 0;
+    //bottom: 0;
+    //right: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding-bottom: 60px;
   }
 
   .anychart-ce-user-data {
-    width: 200px;
-    float: left;
+    //width: 200px;
+    //float: left;
   }
 
-  .anychart-ce-user-data,
+  .anychart-ce-user-data {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
   .anychart-ce-chart-data-panel {
     position: absolute;
     left: 0;
     top: 0;
     bottom: 0;
-    width: 35%;
+    width: 260px;
     overflow-x: hidden;
     overflow-y: auto;
   }
@@ -51,34 +68,95 @@
     left: 0;
     top: 0;
     bottom: 0;
-    width: 231px;
+    width: 211px;
     overflow-x: hidden;
     overflow-y: auto;
   }
 
   .anychart-ce-breadcrumbs {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
     z-index: 2;
   }
+
+  .title-common {
+    padding-left: 18px;
+    padding-bottom: 0;
+  }
+}
+
+.title-button {
+  font-size: 20px;
+  color: @color-arrow;
+  padding: 3px;
+  margin: 5px;
+  border-radius: 4px;
+  border: 1px solid @color-border;
+  cursor: pointer;
+  //background-color: @color-background;
+}
+
+.title-button:hover {
+  background-color: @color-border;
+}
+
+.anychart-ce-button-common {
+  //font-size: 20px;
+  color: @color-arrow;
+  padding: 3px;
+  margin: 5px;
+  border-radius: 4px;
+  border: 1px solid @color-border;
+  cursor: pointer;
+}
+
+.anychart-ce-button-common:hover {
+  background-color: @color-border;
+}
+
+.loaded {
+  .anychart-ce-presets-button-load {
+    background-color: @color-checked;
+    color: #fff;
+  }
+}
+
+.anychart-ce-input-data {
+  //position: absolute;
+  //left: 0;
+  //top: 0;
+  //bottom: 0;
+  //right: 0;
+  overflow: scroll;
+  min-width: 300px;
+  max-width: 1200px;
+  width: 60%;
+  //border: 1px solid red;
+  float: left;
+  height: 100%;
+  //position: fixed;
 }
 
 .anychart-ce-data-step-wrapper {
-  position: absolute;
-  left: 231px;
-  top: 0;
-  bottom: 0;
-  right: 0;
+  //position: absolute;
+  //left: 211px;
+  //top: 0;
+  //bottom: 0;
+  //right: 0;
   overflow: hidden;
+  //float: right;
+  width: 40%;
+  position: fixed;
+  right: 0px;
 }
 
 .anychart-ce-step {
   position: absolute;
   //top: 35px; /* for title */
   top: 0;
-  bottom: 62px; /*for breadcrumbs*/
+  bottom: 50px; /*for breadcrumbs*/
   left: 0;
   right: 0;
   z-index: 1;
@@ -91,8 +169,10 @@
   }
 
   .anychart-ce-chart-container {
+    .box-sizing(border-box);
+    .box-shadow(@shadow-1);
     position: absolute;
-    top: 55px;
+    top: 18px;
     bottom: 18px;
     left: 7px;
     right: 18px;
@@ -104,6 +184,7 @@
   color: @color-caption !important;
   margin-bottom: 4px;
   min-height: 33px;
+  //display: none;
 }
 // endregion
 
@@ -117,9 +198,9 @@
 .anychart-ce-breadcrumbs-item {
   .box-sizing(content-box);
   float: left;
-  margin: 13px 30px 13px 0;
+  margin: 8px 20px 8px 0;
   cursor: pointer;
-  width: 18%;
+  width: 160px;
 
   &:hover {
     .anychart-ce-breadcrumbs-item-caption {
@@ -136,8 +217,11 @@
 }
 
 .anychart-ce-breadcrumbs-item-caption {
-  color: @color-blue-disabled;
-  font-size: 17px;
+  font-size: 14px;
+}
+.anychart-ce-breadcrumbs-item-caption > i {
+  font-size: 18px;
+  margin-right: 5px;
 }
 
 .anychart-ce-breadcrumbs-item-indicator {
@@ -163,14 +247,14 @@
 .anychart-ce-breadcrumbs-button {
   float: right;
 
-  .border-radius(40px);
-  font-size: 18px;
+  .border-radius(20px);
+  font-size: 14px;
   line-height: 20px;
   background-color: @color-blue;
   color: white;
   border: none;
-  padding: 9px 20px;
-  margin-top: 10px;
+  padding: 9px 15px;
+  margin-top: 5px;
   outline: none;
   cursor: pointer;
 
@@ -208,16 +292,19 @@
 
 .anychart-ce-user-data-item {
   overflow: hidden;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   cursor: pointer;
+  float: left;
+  min-width: 30%;
 
   img {
     float: left;
+    height: 40px;
   }
 }
 
 .anychart-ce-user-data-item-caption {
-  margin: 22px 0 0 65px;
+  margin: 10px 10px 0 45px;
   color: @color-blue;
   font-size: 16px;
 }
@@ -233,11 +320,11 @@
   .loaded {
     border-color: @color-blue;
     .anychart-ce-presets-button-use {
-      background: @color-blue-disabled;
+      background: @color-green-loaded;
       border-color: @color-border-disabled;
       cursor: default;
       &:hover {
-        background-color: @color-blue-disabled;
+        background-color: @color-green-loaded;
         border-color: @color-border-disabled;
       }
     }
@@ -267,6 +354,7 @@
   height: 90px;
   width: 100%;
   text-align: center;
+  margin-bottom: 20px;
 
   img {
     height: 100%;
@@ -355,8 +443,9 @@
   width: 100%;
   overflow-x: hidden;
   background: white;
-  padding: 14px;
+  padding: 0 14px 14px 14px;
   margin-bottom: 14px;
+  height: 100%;
 }
 
 .anychart-ce-data-set-item-menu-item {
@@ -420,15 +509,18 @@
   font-size: 14px;
   margin-right: 30px;
   margin-bottom: 14px;
+  margin-top: 14px;
 }
 
 .anychart-ce-data-set-item-field {
   .border-radius(4px);
-  font-size: 14px;
+  font-size: 12px;
+  font-weight: 600;
   color: @color-label;
-  padding: 8px 12px;
+  padding: 8px;
   background: @color-background;
   margin-bottom: 4px;
+  overflow: hidden;
 
   &:last-child {
     margin-bottom: 0;
@@ -453,7 +545,7 @@
   .box-shadow(@shadow-1);
   width: 100%;
   background: white;
-  padding: 14px 32px 14px 16px;
+  padding: 14px;
 }
 
 .anychart-ce-plot-panel {
@@ -524,7 +616,7 @@
 .anychart-ce-plot-panel-series {
   position: relative;
   border-top: 1px solid @color-border;
-  padding: 14px 32px 14px 16px;
+  padding: 14px;
   .anychart-ce-labeled-control-label {
     text-transform: capitalize;
   }
@@ -534,6 +626,8 @@
   top: 20px;
   right: 7px;
   display: block;
+  margin-top: -20px;
+  margin-right: -10px;
 }
 
 .anychart-ce-plot-panel-series-first {
@@ -546,7 +640,7 @@
 .anychart-ce-control-series-name {
   .anychart-ce-input {
     .box-sizing(border-box);
-    width: 150px;
+    width: 120px;
     height: 28px;
   }
   .anychart-ce-input-label-disabled {
@@ -620,18 +714,18 @@
   left: 0;
   top: 0;
   bottom: 0;
-  width: 231px;
+  width: 211px;
   overflow-x: hidden;
   overflow-y: auto;
-  padding: 56px 7px 18px 18px;
+  padding: 18px 7px 18px 18px;
 
   .anychart-ce-buttons {
     .box-shadow(@shadow-1);
   }
   .button {
     background: white;
-    padding: 23px 0 24px 15px;
-    font-size: 16px;
+    padding: 13px 0 13px 13px;
+    font-size: 14px;
     cursor: pointer;
 
     &:hover {
@@ -647,7 +741,7 @@
 
 .anychart-ce-step-right-wrapper {
   position: absolute;
-  left: 231px;
+  left: 211px;
   top: 0;
   bottom: 0;
   right: 0;
@@ -660,7 +754,7 @@
   left: 0;
   top: 0;
   bottom: 0;
-  width: 35%;
+  width: 300px;
   overflow-x: hidden;
   overflow-y: auto;
   padding: 18px 0;
@@ -672,15 +766,15 @@
       .anychart-ce-checkbox .anychart-ce-checkbox-element {
         background: white;
       }
-      .title {
-        padding-left: 15px !important;
-      }
+      //.title {
+      //  padding-left: 15px !important;
+      //}
     }
 
     > .content {
-      .box-shadow(@shadow-1);
-      padding: 15px;
-      background: white;
+      //.box-shadow(@shadow-1);
+      padding: 0 15px 15px 15px;
+      //background: white;
     }
 
     .anychart-ce-panel-description {
@@ -701,7 +795,7 @@
 .anychart-ce-step-chart-wrapper {
   .box-sizing(border-box);
   position: absolute;
-  left: 35%;
+  left: 300px;
   top: 0;
   bottom: 0;
   right: 0;
@@ -813,11 +907,15 @@
 
 .anychart-ce-panel {
   position: relative;
+  background-color: white;
+  //padding: 15px 15px 15px 0;
 
   .top {
     font-size: 17px;
     color: @color-text;
     position: relative;
+    padding: 15px 15px 0 15px;
+    //margin-left: 15px;
 
     .title {
       display: inline-block;
@@ -840,6 +938,7 @@
 
   .content {
     clear: both;
+    padding-top: 15px;
     .anychart-ce-checkbox {
       display: block;
       margin-bottom: 10px;
@@ -848,11 +947,11 @@
       font-size: 17px;
     }
     .anychart-ce-checkbox-caption {
-      font-size: 15px;
+      font-size: 13px;
     }
     .anychart-ce-input {
-      font-size: 15px;
-      padding: 6px 10px;
+      font-size: 13px;
+      padding: 6px;
     }
   }
   .content:after {
@@ -899,12 +998,15 @@
   .anychart-ce-panel-font-style-buttons {
     text-align: right;
   }
+  .anychart-ce-panel-font-style-buttons-right {
+    float: right;
+  }
 }
 
 .anychart-ce-panel-title,
 .anychart-ce-panel-legend-appearance {
   .anychart-ce-field-select-select {
-    min-width: 150px;
+    width: 120px;
   }
 }
 
@@ -912,6 +1014,7 @@
   .content {
     position: relative;
     padding-right: 35px; // For clear button
+    padding-top: 0;
   }
   .anychart-ce-stroke-dash,
   .anychart-ce-stroke-thickness,
@@ -919,10 +1022,11 @@
     display: block;
     float: left;
     min-width: unset;
-    margin: 0 10px 6px 0;
+    margin: 1px;
   }
   .anychart-ce-stroke-dash {
-    min-width: 150px;
+    width: 60px;
+    height: 30px;
   }
   .anychart-ce-stroke-color {
     margin-right: 0;
@@ -957,8 +1061,8 @@
   }
 
   .anychart-ce-panel-indexed {
-    .box-shadow(@shadow-1);
-    border: 1px solid @color-border;
+    //.box-shadow(@shadow-1);
+    //border: 1px solid @color-border;
     margin-bottom: 15px;
     background: white;
 
@@ -980,7 +1084,8 @@
     position: relative;
   }
   .anychart-ce-add-btn {
-    margin-top: 5px;
+    //margin-top: 5px;
+    margin: 5px;
   }
   .anychart-ce-panel-description {
     top: -35px;
@@ -990,8 +1095,8 @@
 
 .anychart-ce-panel-legend-single,
 .anychart-ce-panel-plot-grids {
-  .box-shadow(@shadow-1);
-  border: 1px solid @color-border;
+  //.box-shadow(@shadow-1);
+  //border: 1px solid @color-border;
   margin-bottom: 15px;
   background: white;
 }
@@ -1093,7 +1198,7 @@
     margin: 0 !important;
   }
   .anychart-ce-panel {
-    padding: 15px;
+    padding: 0 15px 15px 15px;
   }
   .anychart-ce-stroke,
   .anychart-ce-panel-stagger {
@@ -1112,7 +1217,7 @@
   }
   .markers-type {
     min-width: 150px;
-    margin-right: 10px;
+    //margin-right: 10px;
   }
 }
 
@@ -1219,7 +1324,7 @@
 
 .anychart-ce-panel-control-right {
   float: right;
-  width: auto !important;
+  // width: auto !important;
 }
 
 /* ------- CHART SETTINGS ------- */
@@ -1308,6 +1413,7 @@
     width: 35px;
     height: 31px;
     color: @color-arrow;
+    background: rgba(236, 245, 255, 0.91);
     border: none;
 
     i {
@@ -1323,14 +1429,15 @@
 
   .anychart-ce-labeled-control-label {
     float: left;
-    font-size: 15px;
+    font-size: 14px;
     color: @color-label;
-    line-height: 34px;
+    line-height: 26px;
   }
 
   .anychart-ce-field-select-select {
     .box-sizing(border-box);
-    min-width: 150px;
+    width: 120px;
+    overflow: hidden;
     float: right;
     position: relative;
   }
@@ -1360,6 +1467,7 @@
   outline: none;
   background: @color-background;
   border: 1px solid @color-background;
+  cursor: pointer;
 
   &:focus {
     border-color: @color-shadow;
@@ -1371,7 +1479,7 @@
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
   border: 1px solid @color-border;
-  border-bottom: none;
+  border-bottom: 1px solid transparent;
 
   .anychart-ui-select-indicator {
     .rotate(180deg);
@@ -1379,7 +1487,7 @@
 }
 
 .anychart-ce-field-select-select-content {
-  font-size: 15px;
+  font-size: 13px;
   color: @color-text;
   display: inline-block;
   cursor: default;
@@ -1390,7 +1498,9 @@
 .anychart-select-with-content {
   .anychart-ce-field-select-select-content {
     .border-radius(4px);
-    padding: 3px 20px;
+    padding: 3px 9px;
+    overflow: hidden;
+    max-width: 75px;
     background: @color-content-background;
   }
 }
@@ -1404,7 +1514,7 @@
   display: inline-block;
 
   float: right;
-  margin: 12px 5px @unitSize 10px;
+  margin: 12px 5px @unitSize -10px;
 
   border-right: @unitSize solid transparent;
   border-left: @unitSize solid transparent;
@@ -1456,10 +1566,14 @@
 }
 
 .anychart-ce-control-menu-item {
-  font-size: 15px;
+  font-size: 13px;
   color: @color-text;
   padding: 5px 10px;
   cursor: pointer;
+}
+
+.anychart-ce-control-menu-item-content {
+  overflow: hidden;
 }
 
 .anychart-ce-control-menu-item-highlight {
@@ -1804,4 +1918,57 @@ pre[class*=language-]:after, pre[class*=language-]:before {
   input[type="text"]:focus {
   }
 }
+
+.anychart-ce-wide-width {
+  width: 100%;
+}
 // endregion
+
+
+.anychart-ce-edit-key-input {
+  border: 1px solid @color-border;
+  background-color: #fff;
+  width: 100%;
+  //margin-bottom: 1px;
+  //padding: 0;
+  font-size: 12px;
+  margin: -5px 0;
+  height: 22px;
+
+  &:focus {
+    border-color: #4d90fe;;
+  }
+}
+
+
+.anychart-ce-edit-key-input-header {
+  //padding: 0;
+  font-size: 12px;
+  margin: 0 0 1px 0;
+  height: 22px;
+
+  &:focus {
+    border-color: #4d90fe;
+  }
+}
+
+.anychart-ce-edit-key-input-error:focus {
+  border: 1px solid @color-error;
+}
+
+.anychart-ce-edit-data-input {
+  border: 1px solid @color-border;
+  background-color: #fff;
+  width: 100%;
+  height: 100%;
+  font-size: 14px;
+}
+
+.anychart-ce-edit-table {
+  overflow-x: scroll;
+  height: 100%
+}
+
+.anychart-ce-row-icon {
+
+}

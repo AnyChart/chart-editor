@@ -5,6 +5,7 @@ goog.require('chartEditor.ui.Panel');
 goog.require('chartEditor.ui.control.colorPicker.Base');
 goog.require('chartEditor.ui.control.comboBox.Base');
 goog.require('chartEditor.ui.control.fieldSelect.Select');
+goog.require('chartEditor.ui.control.wrapped.Labeled');
 goog.require('chartEditor.ui.panel.Stroke');
 
 
@@ -42,19 +43,22 @@ chartEditor.ui.panel.Markers.prototype.createDom = function() {
 
   var type = new chartEditor.ui.control.fieldSelect.Select('Type');
   type.setOptions(goog.object.getValues(chartEditor.enums.MarkerType));
-  type.init(model, this.genKey('type()'));
   type.addClassName(goog.getCssName('markers-type'));
-  this.addChildControl(type);
+  var pointWidthLC = new chartEditor.ui.control.wrapped.Labeled(type, 'Type');
+  pointWidthLC.init(model, this.genKey('type()'));
+  this.addChildControl(pointWidthLC);
 
   var size = new chartEditor.ui.control.comboBox.Base();
   size.setOptions([6, 10, 12, 15]);
-  size.init(model, this.genKey('size()'));
-  this.addChildControl(size);
+  pointWidthLC = new chartEditor.ui.control.wrapped.Labeled(size, 'Size');
+  pointWidthLC.init(model, this.genKey('size()'));
+  this.addChildControl(pointWidthLC);
   goog.dom.classlist.add(size.getElement(), goog.getCssName('markers-size'));
 
   var fill = new chartEditor.ui.control.colorPicker.Base();
-  fill.init(model, this.genKey('fill()'));
-  this.addChildControl(fill);
+  pointWidthLC = new chartEditor.ui.control.wrapped.Labeled(fill, 'Fill');
+  pointWidthLC.init(model, this.genKey('fill()'));
+  this.addChildControl(pointWidthLC);
   goog.dom.classlist.add(fill.getElement(), goog.getCssName('markers-fill'));
 
   goog.dom.appendChild(content, goog.dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-ce-clearboth')));

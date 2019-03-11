@@ -35,13 +35,40 @@ chartEditor.ui.dataSets.DataSet = function(model, dataSet, opt_domHelper) {
 goog.inherits(chartEditor.ui.dataSets.DataSet, chartEditor.ui.Component);
 
 
+/**
+ * Initializes specific DOM-structure.
+ */
+chartEditor.ui.dataSets.DataSet.prototype.initContent = function() {
+  var element = /** @type {Element} */(this.getElement());
+
+  var caption = goog.dom.createDom(
+      goog.dom.TagName.DIV,
+      'anychart-ce-data-set-item-caption',
+      this.dataSet_['title']
+  );
+  goog.dom.appendChild(element, caption);
+
+  if (goog.isArray(this.dataSet_.fields)) {
+    for (var i = 0; i < this.dataSet_.fields.length; i++) {
+      var field = goog.dom.createDom(
+          goog.dom.TagName.DIV,
+          'anychart-ce-data-set-item-field',
+          this.dataSet_.fields[i].name,
+          goog.dom.createDom(
+              goog.dom.TagName.SPAN,
+              'anychart-ce-data-set-item-token',
+              '{%' + this.dataSet_.fields[i].key+ '}'));
+
+      goog.dom.appendChild(element, field);
+    }
+  }
+
+};
+
 /** @inheritDoc */
 chartEditor.ui.dataSets.DataSet.prototype.createDom = function() {
   chartEditor.ui.dataSets.DataSet.base(this, 'createDom');
 
-  var element = /** @type {Element} */(this.getElement());
-
-  // region ----  menu and menu button
   var menu = new goog.ui.Menu();
   goog.array.forEach(['Preview', 'Remove'], function(label) {
     var item = new chartEditor.ui.dataSets.DataSetMenuItem(label, {icon: label == 'Preview' ? 'ac-preview' : 'ac-remove'});
@@ -65,35 +92,9 @@ chartEditor.ui.dataSets.DataSet.prototype.createDom = function() {
   }, false, this);
 
   this.addChild(menuBtn, true);
-  // endregion
-
-  // region ---- caption
-  var caption = goog.dom.createDom(
-      goog.dom.TagName.DIV,
-      'anychart-ce-data-set-item-caption',
-      this.dataSet_['title']
-  );
-  goog.dom.appendChild(element, caption);
-  // endregion
-
-  // region ---- fields
-  if (goog.isArray(this.dataSet_.fields)) {
-    for (var i = 0; i < this.dataSet_.fields.length; i++) {
-      var field = goog.dom.createDom(
-          goog.dom.TagName.DIV,
-          'anychart-ce-data-set-item-field',
-          this.dataSet_.fields[i].name,
-          goog.dom.createDom(
-              goog.dom.TagName.SPAN,
-              'anychart-ce-data-set-item-token',
-              '{%' + this.dataSet_.fields[i].key+ '}'));
-
-      goog.dom.appendChild(element, field);
-    }
-  }
-  // endregion
-
-  this.menuBtn_ = menuBtn;
+  this.menuButton = menuBtn;
+  
+  this.initContent();
 };
 
 
@@ -134,6 +135,12 @@ chartEditor.ui.dataSets.DataSet.prototype.getSetFullId = function() {
 
 
 /**
+ * Updates data.
+ */
+chartEditor.ui.dataSets.DataSet.prototype.updateData = goog.nullFunction;
+
+
+/**
  * @param {boolean} isActiveGeo
  */
 chartEditor.ui.dataSets.DataSet.prototype.activatePanelGeo = function(isActiveGeo) {
@@ -160,10 +167,10 @@ chartEditor.ui.dataSets.DataSet.prototype.setDisabled = function(value) {
 
 /** @inheritDoc */
 chartEditor.ui.dataSets.DataSet.prototype.disposeInternal = function() {
-  goog.disposeAll([this.menu_, this.menuBtn_, this.previewDialog_]);
+  goog.disposeAll(this.menu_, this.menuButton, this.previewDialog_);
 
   this.menu_ = null;
-  this.menuBtn_ = null;
+  this.menuButton = null;
   this.previewDialog_ = null;
 
   chartEditor.ui.dataSets.DataSet.base(this, 'disposeInternal');

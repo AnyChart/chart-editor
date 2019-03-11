@@ -92,7 +92,7 @@ chartEditor.ui.panel.scales.Base.prototype.createDom = function() {
 
   var model = /** @type {chartEditor.model.Base} */(this.getModel());
   var type = new chartEditor.ui.control.select.ScaleType({
-    label: 'Scale Type',
+    label: 'Type',
     caption: 'Choose scale type'
   });
   type.getControl().setOptions(this.typeOptions_);

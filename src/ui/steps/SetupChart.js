@@ -39,7 +39,7 @@ chartEditor.ui.steps.SetupChart.prototype.createDom = function () {
 
     // user data and predefined data sets sections wrapper
     var wrapper = new chartEditor.ui.Component();
-    wrapper.addClassName('anychart-ce-data-step-wrapper');
+    wrapper.addClassName('anychart-ce-step-right-wrapper');
     this.addChild(wrapper, true);
 
     var chartDataSettings = new chartEditor.ui.dataSettings.Widget(model);

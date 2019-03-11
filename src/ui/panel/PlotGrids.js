@@ -28,7 +28,7 @@ chartEditor.ui.panel.PlotGrids = function(model, opt_plotIndex, opt_domHelper) {
     this.key.push('plot(' + this.plotIndex_ + ')');
 
   } else {
-    this.name = 'Grids';
+    // this.name = 'Grids';
   }
 
   this.allowEnabled(false);

@@ -33,9 +33,6 @@ chartEditor.ui.userData.Widget.prototype.createDom = function() {
   var element = this.getElement();
   var model = /** @type {Array.<{id: string, caption: string, icon:string}>} */(this.getModel());
 
-  var connectCaption = goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-ce-section-caption anychart-ce-user-data-caption', 'User Data');
-  goog.dom.appendChild(element, connectCaption);
-
   if (model) {
     for (var i = 0, count = model.length; i < count; i++) {
       var item = model[i];
