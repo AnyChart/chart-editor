@@ -7,6 +7,7 @@ goog.require('chartEditor.ui.Component');
 goog.require('chartEditor.ui.Preloader');
 goog.require('chartEditor.ui.breadcrumbs.Breadcrumbs');
 goog.require('chartEditor.ui.dialog.Base');
+goog.require('chartEditor.ui.dialog.Confirm');
 goog.require('chartEditor.ui.steps.Widget');
 goog.require('goog.Uri');
 goog.require('goog.net.ImageLoader');
@@ -289,6 +290,7 @@ chartEditor.editor.Base.prototype.onComplete_ = function (evt) {
 
 /**
  * @param {Object} evt
+ * @return {boolean}
  * @private
  */
 chartEditor.editor.Base.prototype.onBeforeCloseDialog_ = function (evt) {
