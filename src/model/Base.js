@@ -2074,7 +2074,7 @@ chartEditor.model.Base.prototype.getChartWithJsCode_ = function(opt_options) {
         }
 
         mappingInstances.push(dataSet['mapAs'](mappingObj));
-        result.push('var mapping' + (isSingleSeries ? '' : ((isSinglePlot ? '' : '_' + i) + '_' + j)) + eq + 'data.mapAs(' + this.printValue_(printer, mappingObj) + ');');
+        result.push('var mapping' + (isSingleSeries ? '' : ((isSinglePlot ? '' : '_' + i) + '_' + j)) + eq + 'dataSet.mapAs(' + this.printValue_(printer, mappingObj) + ');');
       }
     }
     result.push('');
