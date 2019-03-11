@@ -1,5 +1,4 @@
 @import "variables.less";
-
 @import "common.less";
 @import "button.less";
 @import "checkbox.less";
@@ -54,12 +53,6 @@
   }
 
   .anychart-ce-chart-data-panel {
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 260px;
-    overflow-x: hidden;
     overflow-y: auto;
   }
 
@@ -186,6 +179,7 @@
   min-height: 33px;
   //display: none;
 }
+
 // endregion
 
 // region ---- breadcrumbs
@@ -219,6 +213,7 @@
 .anychart-ce-breadcrumbs-item-caption {
   font-size: 14px;
 }
+
 .anychart-ce-breadcrumbs-item-caption > i {
   font-size: 18px;
   margin-right: 5px;
@@ -275,6 +270,7 @@
 .anychart-ce-font-style-buttons {
   margin-left: 5px;
 }
+
 // endregion
 
 // region ---- user data
@@ -309,6 +305,7 @@
   color: @color-blue;
   font-size: 16px;
 }
+
 // endregion
 
 // region ---- predefined data sets
@@ -460,6 +457,7 @@
     color: @color-label;
   }
 }
+
 .anychart-setup-chart-step {
   .anychart-ce-data-set-item-disabled {
     background: @color-background;
@@ -534,6 +532,7 @@
     padding-top: 5px;
   }
 }
+
 // endregion
 
 // region ---- Step 2
@@ -649,7 +648,7 @@
   }
   .anychart-ce-button-toggle {
     .box-sizing(border-box);
-    .border-radiuses (4px, 4px, 0,0);
+    .border-radiuses (4px, 4px, 0, 0);
     position: absolute;
     right: 0;
     top: 0;
@@ -687,6 +686,7 @@
 
 .anychart-ce-select-chart-type-locked {
   cursor: not-allowed;
+  display: none;
 }
 
 .anychart-chart-preview {
@@ -694,10 +694,15 @@
   padding: 18px 18px 18px 7px;
 }
 
-.anychart-ce-chart-data-panel {
-  padding: 18px 7px;
+.anychart-ce-panel-data {
+  .top {
+    display: none;
+  }
+}
 
-  .anychart-ce-add-btn{
+.anychart-ce-chart-data-panel {
+
+  .anychart-ce-add-btn {
     margin-top: 20px;
   }
 }
@@ -1093,7 +1098,6 @@
   }
 }
 
-
 .anychart-ce-panel-legend-single,
 .anychart-ce-panel-plot-grids {
   //.box-shadow(@shadow-1);
@@ -1248,6 +1252,7 @@
   }
 
 }
+
 .anychart-ce-icon {
   margin-top: 1px;
   font-size: 14px;
@@ -1256,6 +1261,7 @@
 .anychart-ce-buttonset-default {
   font-weight: bold;
 }
+
 // endregion
 
 // region ---- Export step
@@ -1377,6 +1383,7 @@
     line-height: 24px;
   }
 }
+
 // endregion
 
 .anychart-ce-button-reset {
@@ -1589,7 +1596,6 @@
   cursor: default;
 }
 
-
 .anychart-ce-select-chart-type-menu {
   font-family: Arial, sans-serif;
 
@@ -1730,17 +1736,11 @@
     }
   }
 }
+
 // endregion
 
 // region ---- Qlik theme
 .anychart-qlik-theme {
-  .anychart-ce-chart-container,
-  .anychart-ce-data-set-item,
-  .anychart-ce-buttons,
-  .anychart-ce-tabs-tab-content > .anychart-ce-panel > .content {
-    border: 1px solid @color-border;
-    background-color: white;
-  }
   .anychart-ce-data-set-item-disabled {
     border-color: @color-border-disabled;
   }
@@ -1810,10 +1810,9 @@
       background: white;
     }
   }
-  .anychart-ce-data-settings-panel-core,
-  .anychart-ce-plot-panel {
-    border: 1px solid @color-border;
-  }
+  //.anychart-ce-plot-panel {
+  //  //border: 1px solid @color-border;
+  //}
   .anychart-ce-plot-panel {
     border-top: none;
   }
@@ -1866,19 +1865,21 @@
     background: @color-special-value;
   }
 }
+
 // endregion
 
 // region ---- Export step
 .anychart-ce-panel-json {
 
 }
+
 .anychart-ce-panel-sourcecode,
 .anychart-ce-panel-json {
   > .content {
     padding: 0 !important;
   }
 
-  div.code-toolbar>.toolbar {
+  div.code-toolbar > .toolbar {
     right: 22px;
   }
   pre.language-html,
@@ -1887,12 +1888,14 @@
   }
 }
 
-pre[class*=language-]>code {
+pre[class*=language-] > code {
   border-left-color: @color-blue !important;
 }
+
 pre[class*=language-]:after, pre[class*=language-]:before {
   .box-shadow(none) !important;
 }
+
 // endregion
 
 // ---- region Freeboard specific
@@ -1924,8 +1927,8 @@ pre[class*=language-]:after, pre[class*=language-]:before {
 .anychart-ce-wide-width {
   width: 100%;
 }
-// endregion
 
+// endregion
 
 .anychart-ce-edit-key-input {
   border: 1px solid @color-border;
@@ -1941,7 +1944,6 @@ pre[class*=language-]:after, pre[class*=language-]:before {
     border-color: #4d90fe;;
   }
 }
-
 
 .anychart-ce-edit-key-input-header {
   //padding: 0;

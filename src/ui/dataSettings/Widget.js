@@ -35,8 +35,8 @@ chartEditor.ui.dataSettings.Widget = function(model, opt_domHelper) {
 
   this.geoDataInputs_ = null;
 
-  this.addClassName('anychart-ce-border-box');
-  this.addClassName('anychart-ce-chart-data-panel');
+  // this.addClassName('anychart-ce-border-box');
+  // this.addClassName('anychart-ce-chart-data-panel');
 };
 goog.inherits(chartEditor.ui.dataSettings.Widget, chartEditor.ui.Component);
 
@@ -55,8 +55,11 @@ chartEditor.ui.dataSettings.Widget.prototype.createDom = function() {
   this.chartTypeSelect_.init(model, [['chart'], 'type'], 'setChartType');
   coreFieldsContainer.addChild(this.chartTypeSelect_, true);
 
-  this.geoDataInputs_ = new chartEditor.ui.dataSettings.GeoDataInputs(model);
-  coreFieldsContainer.addChild(this.geoDataInputs_, true);
+  var chartType = model.getValue([['chart'], 'type']);
+  if (chartType == 'map') {
+    this.geoDataInputs_ = new chartEditor.ui.dataSettings.GeoDataInputs(model);
+    coreFieldsContainer.addChild(this.geoDataInputs_, true);
+  }
 
   this.coreFieldsContainer_ = coreFieldsContainer;
 };
@@ -75,7 +78,8 @@ chartEditor.ui.dataSettings.Widget.prototype.onModelChange = function(evt) {
 
   this.chartTypeSelect_.setValueByModel({stackMode: stackMode});
 
-  this.geoDataInputs_.exclude(chartType !== 'map');
+  if (this.geoDataInputs_)
+    this.geoDataInputs_.exclude(chartType !== 'map');
 
   goog.dispose(this.activeAndFieldSelect_);
   this.activeAndFieldSelect_ = null;
@@ -122,8 +126,8 @@ chartEditor.ui.dataSettings.Widget.prototype.onModelChange = function(evt) {
 
   if (chartType === 'stock') {
     var plotButtonRenderer = /** @type {goog.ui.ButtonRenderer} */(goog.ui.ControlRenderer.getCustomRenderer(
-        goog.ui.ButtonRenderer,
-        'anychart-ce-blue-btn'));
+      goog.ui.ButtonRenderer,
+      'anychart-ce-blue-btn'));
     this.addPlotBtn_ = new goog.ui.Button('+ Add Plot', plotButtonRenderer);
     this.addPlotBtn_.addClassName('anychart-ce-add-btn');
     this.addChildAt(this.addPlotBtn_, this.getChildCount(), true);
@@ -140,7 +144,7 @@ chartEditor.ui.dataSettings.Widget.prototype.enterDocument = function() {
     this.getHandler().listen(this.addPlotBtn_, goog.ui.Component.EventType.ACTION, this.onAddPlot_);
 
   this.getHandler().listen(/** @type {chartEditor.model.Base} */(this.getModel()),
-      chartEditor.events.EventType.EDITOR_MODEL_UPDATE, this.onModelChange);
+    chartEditor.events.EventType.EDITOR_MODEL_UPDATE, this.onModelChange);
 
   chartEditor.ui.dataSettings.Widget.base(this, 'enterDocument');
 };
@@ -169,7 +173,7 @@ chartEditor.ui.dataSettings.Widget.prototype.createDataSetsOptions_ = function()
       continue;
 
     this.activeAndFieldSelect_.getSelect().addItem(new chartEditor.ui.control.fieldSelect.SelectMenuItem({
-      caption:  data[i].title,
+      caption: data[i].title,
       value: field,
       active: data[i].setFullId
     }));

@@ -225,6 +225,7 @@ chartEditor.enums.EditorTabs = {
   SPECIFIC: 'specific',
   TITLE: 'title',
   LEGEND: 'legend',
+  DATA: 'data',
   DATA_LABELS: 'dataLabels',
   SERIES: 'series',
   POINTERS: 'pointers',
