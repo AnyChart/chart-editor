@@ -124,8 +124,11 @@ chartEditor.ui.panel.Stroke.prototype.setValueByTarget = function(target) {
   var stringKey = chartEditor.model.Base.getStringKey(this.key);
   var value = /** @type {string|Object|Function} */(chartEditor.binding.exec(target, stringKey));
 
-  if (goog.isFunction(value))
-    value = value();
+  if (goog.isFunction(value)) {
+    // Should not call this function because of barmekko series stroke
+    // value = value();
+    value = {};
+  }
 
   if (goog.isString(value))
     value = {'color': value};

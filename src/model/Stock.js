@@ -216,5 +216,5 @@ chartEditor.model.Stock.prototype.isChartSingleSeries = function() {
 
 /** @inheritDoc */
 chartEditor.model.Stock.prototype.getChartTypeSettings = function() {
-  return chartEditor.model.ChartTypes['stock'];
+  return chartEditor.model.ChartTypes[chartEditor.enums.ChartType.STOCK];
 };

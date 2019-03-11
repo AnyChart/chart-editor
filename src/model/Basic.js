@@ -134,12 +134,12 @@ chartEditor.model.Series['pie'] = {
 };
 
 
-chartEditor.model.ChartTypes['line'].product = chartEditor.model.Product.BASIC;
-chartEditor.model.ChartTypes['column'].product = chartEditor.model.Product.BASIC;
-chartEditor.model.ChartTypes['column-stacked-value'].product = chartEditor.model.Product.BASIC;
-chartEditor.model.ChartTypes['column-stacked-percent'].product = chartEditor.model.Product.BASIC;
-chartEditor.model.ChartTypes['pie'].product = chartEditor.model.Product.BASIC;
-chartEditor.model.ChartTypes['pie'].excludedPanels = [
+chartEditor.model.ChartTypes[chartEditor.enums.ChartType.LINE].product = chartEditor.model.Product.BASIC;
+chartEditor.model.ChartTypes[chartEditor.enums.ChartType.COLUMN].product = chartEditor.model.Product.BASIC;
+chartEditor.model.ChartTypes[chartEditor.enums.ChartType.COLUMN_STACKED_VALUE].product = chartEditor.model.Product.BASIC;
+chartEditor.model.ChartTypes[chartEditor.enums.ChartType.COLUMN_STACKED_PERCENT].product = chartEditor.model.Product.BASIC;
+chartEditor.model.ChartTypes[chartEditor.enums.ChartType.PIE].product = chartEditor.model.Product.BASIC;
+chartEditor.model.ChartTypes[chartEditor.enums.ChartType.PIE].excludedPanels = [
   chartEditor.enums.EditorTabs.SERIES,
   chartEditor.enums.EditorTabs.GRIDS,
   chartEditor.enums.EditorTabs.CARTESIAN_AXES,
@@ -157,13 +157,14 @@ chartEditor.model.Basic.prototype.chooseDefaultChartType = function() {
   if (!chartType) {
     chartType = 'line';
     var rawData = this.getRawData();
+    var dataLength = goog.isFunction(rawData['mapAs']) ? rawData['getRowsCount']() : rawData.length;
     if (this.model['dataSettings']['field'] === this.fieldsState.date_short) {
       chartType = 'column';
 
       if (this.fieldsState.numbersCount > 3)
         this.setStackMode('value');
 
-    } else if (this.model['dataSettings']['field'] === this.fieldsState.firstString && rawData.length <= 5 && this.fieldsState.numbersCount === 1) {
+    } else if (this.model['dataSettings']['field'] === this.fieldsState.firstString && dataLength <= 5 && this.fieldsState.numbersCount === 1) {
       chartType = 'pie';
     }
   }

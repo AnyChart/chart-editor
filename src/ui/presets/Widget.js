@@ -102,7 +102,9 @@ chartEditor.ui.presets.Widget.prototype.loadDataIndex_ = function() {
           var indexJson = xhr.getResponseJson();
           if (indexJson['sets']) {
             for (var i in indexJson['sets']) {
-              self.dataIndex[indexJson['sets'][i]['id']] = indexJson['sets'][i];
+              if (indexJson['sets'][i]['products'] && goog.array.indexOf(indexJson['sets'][i]['products'], chartEditor.PRODUCT) >= 0) {
+                self.dataIndex[indexJson['sets'][i]['id']] = indexJson['sets'][i];
+              }
             }
           }
           self.showDataSets_();
@@ -131,6 +133,8 @@ chartEditor.ui.presets.Widget.prototype.showDataSets_ = function(opt_ids) {
   var createItems = !this.setsContainer_.hasChildNodes() && this.dataIndex.length;
   for (var i = 0; i < this.dataIndex.length; i++) {
     var dataSetJson = this.dataIndex[i];
+    if (!dataSetJson)
+      continue;
     var item;
     if (createItems) {
       dataSetJson['state'] = chartEditor.ui.presets.Widget.DatasetState.NOT_LOADED;
@@ -139,7 +143,6 @@ chartEditor.ui.presets.Widget.prototype.showDataSets_ = function(opt_ids) {
       itemComponent.init(dataSetJson, dataSetJson['state']);
       this.addChild(itemComponent, true);
       this.setsContainer_.appendChild(itemComponent.getElement());
-
       this.dataSets_.push(itemComponent);
 
       // For filter

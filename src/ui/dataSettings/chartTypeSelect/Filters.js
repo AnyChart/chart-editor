@@ -38,8 +38,9 @@ chartEditor.ui.dataSettings.chartTypeSelect.Filters.prototype.createDom = functi
     checkbox.setModel(key);
     checkbox.setCaption(map[key]);
     if ((chartEditor.PRODUCT != chartEditor.model.Product.GANTT && key === 'common') ||
-        (chartEditor.PRODUCT == chartEditor.model.Product.GANTT && key === 'gantt') )
+        (chartEditor.PRODUCT == chartEditor.model.Product.GANTT && key === 'gantt') ) {
       checkbox.setChecked(true);
+    }
 
     this.addChild(checkbox, true);
   }

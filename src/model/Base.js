@@ -31,7 +31,7 @@ chartEditor.model.Base = function() {
    */
   this.preparedData_ = [];
 
-  this.generateInitialMappingsOnChangeView_ = true;
+  this.dirtyInitialDefaults_ = true;
 
   /**
    * Model structure
@@ -187,9 +187,9 @@ chartEditor.model.ProductDescription[chartEditor.model.Product.GANTT] = {name: '
  * @enum {string}
  */
 chartEditor.model.DataType = {
-  CUSTOM: 'c',
-  PREDEFINED: 'p',
-  GEO: 'g'
+  CUSTOM: 'c', // data was loaded through UI
+  PREDEFINED: 'p', // preset data
+  GEO: 'g' // geo data
 };
 
 
@@ -219,10 +219,15 @@ chartEditor.model.Scales = {
 
 
 /**
- * @type {Object}
+ * @type {Object.<chartEditor.enums.ChartType, Object>}
  */
-chartEditor.model.ChartTypes = {
-  'line': {
+chartEditor.model.ChartTypes = (function() {
+  /**
+   * @type {Object.<chartEditor.enums.ChartType, Object>}}
+   */
+  var types = {};
+
+  types[chartEditor.enums.ChartType.LINE] = {
     'value': 'line',
     'name': 'Line',
     'icon': 'line-chart-1.svg', // 'http://www.anychart.com/_design/img/upload/charts/types/'
@@ -231,9 +236,9 @@ chartEditor.model.ChartTypes = {
     'dataSetCtor': 'set',
     // filters: ['common'], Default chart type filter is 'common'
     product: chartEditor.model.Product.CHART
-  },
+  };
 
-  'area': {
+  types[chartEditor.enums.ChartType.AREA] = {
     'value': 'area',
     'name': 'Area',
     'icon': 'area-chart.svg',
@@ -241,8 +246,9 @@ chartEditor.model.ChartTypes = {
     'scales': chartEditor.model.Scales.CARTESIAN,
     'dataSetCtor': 'set',
     product: chartEditor.model.Product.CHART
-  },
-  'area-stacked-value': {
+  };
+
+  types[chartEditor.enums.ChartType.AREA_STACKED_VALUE] = {
     'value': 'area',
     'stackMode': 'value',
     'name': 'Area stacked (value)',
@@ -252,8 +258,9 @@ chartEditor.model.ChartTypes = {
     'dataSetCtor': 'set',
     filters: ['stacked-value'],
     product: chartEditor.model.Product.CHART
-  },
-  'area-stacked-percent': {
+  };
+
+  types[chartEditor.enums.ChartType.AREA_STACKED_PERCENT] = {
     'value': 'area',
     'stackMode': 'percent',
     'name': 'Area stacked (percent)',
@@ -263,9 +270,9 @@ chartEditor.model.ChartTypes = {
     'dataSetCtor': 'set',
     filters: ['stacked-percent'],
     product: chartEditor.model.Product.CHART
-  },
+  };
 
-  'bar': {
+  types[chartEditor.enums.ChartType.BAR] = {
     'value': 'bar',
     'name': 'Bar',
     'icon': 'bar-chart.svg',
@@ -273,8 +280,9 @@ chartEditor.model.ChartTypes = {
     'scales': chartEditor.model.Scales.CARTESIAN,
     'dataSetCtor': 'set',
     product: chartEditor.model.Product.CHART
-  },
-  'bar-stacked-value': {
+  };
+
+  types[chartEditor.enums.ChartType.BAR_STACKED_VALUE] = {
     'value': 'bar',
     'stackMode': 'value',
     'name': 'Bar stacked (value)',
@@ -284,8 +292,9 @@ chartEditor.model.ChartTypes = {
     'dataSetCtor': 'set',
     filters: ['stacked-value'],
     product: chartEditor.model.Product.CHART
-  },
-  'bar-stacked-percent': {
+  };
+
+  types[chartEditor.enums.ChartType.BAR_STACKED_PERCENT] = {
     'value': 'bar',
     'stackMode': 'percent',
     'name': 'Bar stacked (percent)',
@@ -295,9 +304,9 @@ chartEditor.model.ChartTypes = {
     'dataSetCtor': 'set',
     filters: ['stacked-percent'],
     product: chartEditor.model.Product.CHART
-  },
+  };
 
-  'column': {
+  types[chartEditor.enums.ChartType.COLUMN] = {
     'value': 'column',
     'name': 'Column',
     'icon': 'column-chart.svg',
@@ -305,8 +314,9 @@ chartEditor.model.ChartTypes = {
     'scales': chartEditor.model.Scales.CARTESIAN,
     'dataSetCtor': 'set',
     product: chartEditor.model.Product.CHART
-  },
-  'column-stacked-value': {
+  };
+
+  types[chartEditor.enums.ChartType.COLUMN_STACKED_VALUE] = {
     'value': 'column',
     'stackMode': 'value',
     'name': 'Column stacked (value)',
@@ -316,8 +326,9 @@ chartEditor.model.ChartTypes = {
     'dataSetCtor': 'set',
     filters: ['stacked-value'],
     product: chartEditor.model.Product.CHART
-  },
-  'column-stacked-percent': {
+  };
+
+  types[chartEditor.enums.ChartType.COLUMN_STACKED_PERCENT] = {
     'value': 'column',
     'stackMode': 'percent',
     'name': 'Column stacked (percent)',
@@ -327,9 +338,9 @@ chartEditor.model.ChartTypes = {
     'dataSetCtor': 'set',
     filters: ['stacked-percent'],
     product: chartEditor.model.Product.CHART
-  },
+  };
 
-  'scatter': {
+  types[chartEditor.enums.ChartType.SCATTER] = {
     'value': 'scatter',
     'name': 'Scatter',
     'icon': 'scatter-chart.svg',
@@ -337,8 +348,9 @@ chartEditor.model.ChartTypes = {
     'scales': chartEditor.model.Scales.SCATTER,
     'dataSetCtor': 'set',
     product: chartEditor.model.Product.CHART
-  },
-  'waterfall': {
+  };
+
+  types[chartEditor.enums.ChartType.WATERFALL] = {
     'value': 'waterfall',
     'name': 'Waterfall',
     'icon': 'waterfall-chart.svg',
@@ -346,8 +358,9 @@ chartEditor.model.ChartTypes = {
     'scales': chartEditor.model.Scales.CARTESIAN,
     'dataSetCtor': 'set',
     product: chartEditor.model.Product.CHART
-  },
-  'box': {
+  };
+
+  types[chartEditor.enums.ChartType.BOX] = {
     'value': 'box',
     'name': 'Box',
     'icon': 'box-chart.svg',
@@ -355,9 +368,9 @@ chartEditor.model.ChartTypes = {
     'scales': chartEditor.model.Scales.CARTESIAN,
     'dataSetCtor': 'set',
     product: chartEditor.model.Product.CHART
-  },
+  };
 
-  'radar': {
+  types[chartEditor.enums.ChartType.RADAR] = {
     'value': 'radar',
     'name': 'Radar',
     'icon': 'radar-chart-1.svg',
@@ -365,8 +378,9 @@ chartEditor.model.ChartTypes = {
     'scales': chartEditor.model.Scales.CARTESIAN,
     'dataSetCtor': 'set',
     product: chartEditor.model.Product.CHART
-  },
-  'radar-stacked-value': {
+  };
+
+  types[chartEditor.enums.ChartType.RADAR_STACKED_VALUE] = {
     'value': 'radar',
     'stackMode': 'value',
     'name': 'Radar stacked (value)',
@@ -376,8 +390,9 @@ chartEditor.model.ChartTypes = {
     'dataSetCtor': 'set',
     filters: ['stacked-value'],
     product: chartEditor.model.Product.CHART
-  },
-  'radar-stacked-percent': {
+  };
+
+  types[chartEditor.enums.ChartType.RADAR_STACKED_PERCENT] = {
     'value': 'radar',
     'stackMode': 'percent',
     'name': 'Radar stacked (percent)',
@@ -387,9 +402,9 @@ chartEditor.model.ChartTypes = {
     'dataSetCtor': 'set',
     filters: ['stacked-percent'],
     product: chartEditor.model.Product.CHART
-  },
+  };
 
-  'polar': {
+  types[chartEditor.enums.ChartType.POLAR] = {
     'value': 'polar',
     'name': 'Polar',
     'icon': 'polar-column-chart.svg',
@@ -397,9 +412,9 @@ chartEditor.model.ChartTypes = {
     'scales': chartEditor.model.Scales.SCATTER,
     'dataSetCtor': 'set',
     product: chartEditor.model.Product.CHART
-  },
+  };
 
-  'pie': {
+  types[chartEditor.enums.ChartType.PIE] = {
     'value': 'pie',
     'name': 'Pie',
     'icon': 'pie-chart.svg',
@@ -407,8 +422,9 @@ chartEditor.model.ChartTypes = {
     'dataSetCtor': 'set',
     'singleSeries': true,
     product: chartEditor.model.Product.CHART
-  },
-  'funnel': {
+  };
+
+  types[chartEditor.enums.ChartType.FUNNEL] = {
     'value': 'funnel',
     'name': 'Funnel',
     'icon': 'funnel-chart.svg',
@@ -416,9 +432,9 @@ chartEditor.model.ChartTypes = {
     'dataSetCtor': 'set',
     'singleSeries': true,
     product: chartEditor.model.Product.CHART
-  },
+  };
 
-  'mekko': {
+  types[chartEditor.enums.ChartType.MEKKO] = {
     'value': 'mekko',
     'name': 'Mekko',
     'icon': 'bar-mekko-chart.svg',
@@ -426,8 +442,9 @@ chartEditor.model.ChartTypes = {
     'scales': chartEditor.model.Scales.CARTESIAN,
     'dataSetCtor': 'set',
     product: chartEditor.model.Product.CHART
-  },
-  'barmekko': {
+  };
+
+  types[chartEditor.enums.ChartType.BARMEKKO] = {
     'value': 'barmekko',
     'name': 'Bar Mekko',
     'icon': 'bar-mekko-chart.svg',
@@ -435,8 +452,9 @@ chartEditor.model.ChartTypes = {
     'scales': chartEditor.model.Scales.CARTESIAN,
     'dataSetCtor': 'set',
     product: chartEditor.model.Product.CHART
-  },
-  'mosaic': {
+  };
+
+  types[chartEditor.enums.ChartType.MOSAIC] = {
     'value': 'mosaic',
     'name': 'Mosaic',
     'icon': 'mosaic-chart.svg',
@@ -444,9 +462,9 @@ chartEditor.model.ChartTypes = {
     'scales': chartEditor.model.Scales.CARTESIAN,
     'dataSetCtor': 'set',
     product: chartEditor.model.Product.CHART
-  },
+  };
 
-  'heatMap': {
+  types[chartEditor.enums.ChartType.HEATMAP] = {
     'value': 'heatMap',
     'name': 'Heat Map',
     'icon': 'heatmap-chart.svg',
@@ -461,8 +479,9 @@ chartEditor.model.ChartTypes = {
     ],
     'settingsExcludes': ['palette()', 'animation().enabled()'],
     product: chartEditor.model.Product.CHART
-  },
-  'treeMap': {
+  };
+
+  types[chartEditor.enums.ChartType.TREEMAP] = {
     'value': 'treeMap',
     'name': 'Tree Map',
     'icon': 'treemap-chart.svg',
@@ -474,9 +493,9 @@ chartEditor.model.ChartTypes = {
     ],
     'settingsExcludes': ['palette()', 'animation().enabled()'],
     product: chartEditor.model.Product.CHART
-  },
+  };
 
-  'sankey': {
+  types[chartEditor.enums.ChartType.SANKEY] = {
     'value': 'sankey',
     'name': 'Sankey Diagram',
     'icon': 'sankey-diagram.svg',
@@ -488,8 +507,9 @@ chartEditor.model.ChartTypes = {
       chartEditor.enums.EditorTabs.DATA_LABELS
     ],
     product: chartEditor.model.Product.CHART
-  },
-  'tag-cloud': {
+  };
+
+  types[chartEditor.enums.ChartType.TAG_CLOUD] = {
     'value': 'tagCloud',
     'name': 'Tag Cloud',
     'icon': 'tag-cloud.svg',
@@ -502,9 +522,9 @@ chartEditor.model.ChartTypes = {
       chartEditor.enums.EditorTabs.DATA_LABELS
     ],
     product: chartEditor.model.Product.CHART
-  },
+  };
 
-  'gauges.circular': {
+  types[chartEditor.enums.ChartType.GAUGES_CIRCULAR] = {
     'value': 'gauges.circular',
     'name': 'Circular Gauge',
     'icon': 'circular-gauge.svg',
@@ -518,9 +538,9 @@ chartEditor.model.ChartTypes = {
     'settingsExcludes': ['palette()'],
     filters: ['common', 'gauges'],
     product: chartEditor.model.Product.CHART
-  },
+  };
 
-  'gauges.linear': {
+  types[chartEditor.enums.ChartType.GAUGES_LINEAR] = {
     'value': 'gauges.linear',
     'name': 'Linear Gauge',
     'icon': 'vertical-gauge-1.svg',
@@ -530,8 +550,9 @@ chartEditor.model.ChartTypes = {
     'settingsExcludes': ['palette()'],
     filters: ['common', 'gauges'],
     product: chartEditor.model.Product.CHART
-  },
-  'gauges.linear.led': {
+  };
+
+  types[chartEditor.enums.ChartType.GAUGES_LINEAR_LED] = {
     'value': 'gauges.led',
     'name': 'Led Gauge',
     'icon': 'vertical-gauge-1.svg',
@@ -541,8 +562,9 @@ chartEditor.model.ChartTypes = {
     'settingsExcludes': ['palette()'],
     filters: ['common', 'gauges'],
     product: chartEditor.model.Product.CHART
-  },
-  'gauges.linear.tank': {
+  };
+
+  types[chartEditor.enums.ChartType.GAUGES_LINEAR_TANK] = {
     'value': 'gauges.tank',
     'name': 'Tank Gauge',
     'icon': 'tank-gauge-1.svg',
@@ -552,8 +574,9 @@ chartEditor.model.ChartTypes = {
     'settingsExcludes': ['palette()'],
     filters: ['common', 'gauges'],
     product: chartEditor.model.Product.CHART
-  },
-  'gauges.linear.thermometer': {
+  };
+
+  types[chartEditor.enums.ChartType.GAUGES_LINEAR_THERMOMETER] = {
     'value': 'gauges.thermometer',
     'name': 'Thermometer',
     'icon': 'thermometer-gauge.svg',
@@ -563,9 +586,9 @@ chartEditor.model.ChartTypes = {
     'settingsExcludes': ['palette()'],
     filters: ['common', 'gauges'],
     product: chartEditor.model.Product.CHART
-  },
+  };
 
-  'stock': {
+  types[chartEditor.enums.ChartType.STOCK] = {
     'value': 'stock',
     'name': 'Stock',
     'icon': 'stock-chart.svg',
@@ -573,9 +596,9 @@ chartEditor.model.ChartTypes = {
     'dataSetCtor': 'table',
     'settingsExcludes': ['palette()', 'legend().enabled()', 'animation().enabled()'],
     product: chartEditor.model.Product.STOCK
-  },
+  };
 
-  'map': {
+  types[chartEditor.enums.ChartType.MAP] = {
     'value': 'map',
     'name': 'Map',
     'icon': 'choropleth-map.svg',
@@ -583,9 +606,9 @@ chartEditor.model.ChartTypes = {
     'dataSetCtor': 'set',
     'settingsExcludes': ['animation().enabled()'],
     product: chartEditor.model.Product.MAP
-  },
+  };
 
-  'ganttProject': {
+  types[chartEditor.enums.ChartType.GANTT_PROJECT] = {
     'value': 'ganttProject',
     'name': 'Gantt Project',
     'icon': 'gantt-chart.svg',
@@ -595,8 +618,9 @@ chartEditor.model.ChartTypes = {
     'settingsExcludes': ['palette()'],
     filters: ['gantt'],
     product: chartEditor.model.Product.GANTT
-  },
-  'ganttResource': {
+  };
+
+  types[chartEditor.enums.ChartType.GANTT_RESOURCE] = {
     'value': 'ganttResource',
     'name': 'Gantt Resource',
     'icon': 'gantt-chart.svg',
@@ -606,8 +630,10 @@ chartEditor.model.ChartTypes = {
     'settingsExcludes': ['palette()'],
     filters: ['gantt'],
     product: chartEditor.model.Product.GANTT
-  }
-};
+  };
+
+  return types;
+}());
 
 
 /**
@@ -660,8 +686,8 @@ chartEditor.model.Base.prototype.analyzeDataBeforeChooseField = function() {
     strings: []
   };
 
-  var rawData = this.getRawData();
-  var dataRow = rawData[0];
+  var preparedData = this.getPreparedData();
+  var dataRow = preparedData[0].row;
   var fieldValue;
   var numberValue;
   var key;
@@ -703,8 +729,8 @@ chartEditor.model.Base.prototype.analyzeDataBeforeChooseField = function() {
  * @protected
  */
 chartEditor.model.Base.prototype.analyzeDataAfterChooseField = function() {
-  var rawData = this.getRawData();
-  var dataRow = rawData[0];
+  var preparedData = this.getPreparedData();
+  var dataRow = preparedData[0].row;
   var numberValue;
   var key;
 
@@ -772,7 +798,13 @@ chartEditor.model.Base.prototype.chooseDefaultChartType = function() {
   this.model['chart']['type'] = null;
 
   var availableChartTypes = chartEditor.model.ChartTypes;
-  var desiredChartType = this.data[this.getActive()].chartType;
+
+  //ENV-1243
+  var locked = availableChartTypes[this.lockedChartType];
+  var type = locked ? locked['value'] : void 0;
+  var desiredChartType = type || this.data[this.getActive()].chartType;
+  this.stackMode = locked ? locked['stackMode'] : false;
+
   if (desiredChartType) {
     var result = goog.object.filter(availableChartTypes, function(item, key){
       return item['value'] === desiredChartType || key === desiredChartType;
@@ -909,37 +941,48 @@ chartEditor.model.Base.prototype.dropChartSettings = function(opt_pattern, opt_b
 
 
 /**
- * Initializes default values for types selects.
+ * Initializes default values for all basic setting (chart type, mapping etc) based on data analysis.
  */
-chartEditor.model.Base.prototype.onChangeView = function() {
-  if (this.generateInitialMappingsOnChangeView_) {
-    this.generateInitialMappingsOnChangeView_ = false;
-    this.getPreparedData();
+chartEditor.model.Base.prototype.generateInitialDefaults = function() {
+  this.getPreparedData();
 
-    if (this.preparedData_.length > 0) {
-      if (this.afterSetModel_) {
-        // Use predefined model
-        if (this.model['chart']['type'] === 'map')
-          this.initGeoData();
+  if (this.preparedData_.length > 0 && goog.isDef(this.preparedData_[0].row)) {
+    if (this.afterSetModel_) {
+      // Use predefined model
+      if (this.model['chart']['type'] === 'map')
+        this.initGeoData();
 
-        this.applyDefaults();
+      this.applyDefaults();
+      this.analyzeDataBeforeChooseField();
+      this.analyzeDataAfterChooseField();
 
-        this.analyzeDataBeforeChooseField();
-        this.analyzeDataAfterChooseField();
+      this.afterSetModel_ = false;
 
-        this.afterSetModel_ = false;
-
-      } else {
-        this.model['chart']['type'] = null;
-        this.chooseActiveAndField();
-        this.chooseDefaultChartType();
-        this.chooseDefaultSeriesType();
-        this.createDefaultMappings();
-        this.createDefaultStandalones();
-      }
     } else {
-      console.warn("NO DATA");
+      this.model['chart']['type'] = null;
+      this.chooseActiveAndField();
+      this.chooseDefaultChartType();
+      this.chooseDefaultSeriesType();
+      this.createDefaultMappings();
+      this.createDefaultStandalones();
+      this.setStackMode(this.stackMode); //ENV-1243.}
     }
+
+    this.dirtyInitialDefaults_ = false;
+
+  } else {
+    console.warn("No chart data! Please, provide data set using data() method or editor's user interface.");
+  }
+};
+
+
+/**
+ * Change step event handler.
+ * @param {number} stepIndex
+ */
+chartEditor.model.Base.prototype.onChangeStep = function(stepIndex) {
+  if (this.dirtyInitialDefaults_ && stepIndex > 0) {
+    this.generateInitialDefaults();
   }
 };
 
@@ -1662,7 +1705,7 @@ chartEditor.model.Base.prototype.addData = function(data) {
     goog.events.listen(confirm, goog.ui.Dialog.EventType.SELECT, function(e) {
       if (e.key == 'ok') {
         delete self.data[existingData.setFullId];
-        this.generateInitialMappingsOnChangeView_ = true;
+        this.dirtyInitialDefaults_ = true;
         self.addDataInternal(dataSet);
       }
 
@@ -1708,7 +1751,7 @@ chartEditor.model.Base.prototype.addDataInternal = function(dataSet) {
     }
   } else {
     this.model['dataSettings']['active'] = setFullId;
-    this.generateInitialMappingsOnChangeView_ = true;
+    this.dirtyInitialDefaults_ = true;
   }
 
   this.dispatchUpdate();
@@ -1725,10 +1768,8 @@ chartEditor.model.Base.prototype.removeData = function(setFullId) {
     // Geo data should not be alone
     delete this.data[this.model['dataSettings']['activeGeo']];
   }
-
   this.preparedData_.length = 0;
-
-  this.generateInitialMappingsOnChangeView_ = true;
+  this.dirtyInitialDefaults_ = true;
 
   this.dispatchUpdate();
 };
@@ -1769,8 +1810,19 @@ chartEditor.model.Base.prototype.getRawData = function(opt_activeGeo, opt_startI
   if (!dataSet)
     return null;
 
-  if (goog.isDef(opt_startIndex) && goog.isDef(opt_numRows) && goog.isArray(dataSet.data))
-    return goog.array.slice(dataSet.data, opt_startIndex, opt_startIndex + opt_numRows);
+  if (goog.isDef(opt_startIndex) && goog.isDef(opt_numRows)) {
+    if (goog.isArray(dataSet.data))
+      return goog.array.slice(dataSet.data, opt_startIndex, opt_startIndex + opt_numRows);
+
+    else if (goog.isFunction(dataSet.data['mapAs'])) {
+      var result = [];
+      var lastIndex = Math.min(opt_startIndex + opt_numRows, dataSet.data['getRowsCount']());
+      for (var i = opt_startIndex; i < lastIndex; i++) {
+        result.push(dataSet.data['row'](i));
+      }
+      return result;
+    }
+  }
 
   return dataSet.data;
 };
@@ -1938,39 +1990,48 @@ chartEditor.model.Base.prototype.getChartWithJsCode_ = function(opt_options) {
   }
 
   // Create data set
-  var rawData = this.getRawData();
-  var dsCtor = this.getChartTypeSettings()['dataSetCtor'];
-  var dataSet = anychartGlobal['data'][dsCtor]();
-
   result.push('// Setting up data');
-
   if (addMarkers) result.push('/*=rawData*/');
 
-  var str = 'var rawData' + eq + (addData ? this.printValue_(printer, rawData) : 'getData()') + ';';
-  result.push(str);
+  var rawData = this.getRawData();
+  var dsCtor;
+  var dataSet;
+
+  if (goog.isFunction(rawData['mapAs'])) {
+    dataSet = rawData;
+    result.push('// Put your data set here');
+    result.push('var dataSet' + eq + 'null;');
+
+  } else {
+    dsCtor = this.getChartTypeSettings()['dataSetCtor'];
+    dataSet = anychartGlobal['data'][dsCtor]();
+    result.push('var rawData' + eq + (addData ? this.printValue_(printer, rawData) : 'getData()') + ';');
+  }
 
   if (addMarkers) result.push('/*rawData=*/');
 
-  if (dsCtor === 'table') {
-    result.push('var data' + eq + 'anychart.data.' + dsCtor + '(' + this.printValue_(printer, settings['dataSettings']['field']) + ');');
+  if (dsCtor) {
+    if (dsCtor === 'table') {
+      result.push('var dataSet' + eq + 'anychart.data.' + dsCtor + '(' + this.printValue_(printer, settings['dataSettings']['field']) + ');');
 
-    dataSet['addData'](rawData);
-    result.push('data.addData(rawData);');
+      dataSet['addData'](rawData);
+      result.push('dataSet.addData(rawData);');
 
-  } else if (dsCtor === 'tree') {
-    var mappingObj1 = settings['dataSettings']['mappings'][0][0]['mapping'];
-    if (chartType === 'treeMap')
-      mappingObj1['id'] = settings['dataSettings']['field'];
-    result.push('var data' + eq + 'anychart.data.' + dsCtor + '(void 0, void 0, void 0, ' + this.printValue_(printer, mappingObj1) + ');');
+    } else if (dsCtor === 'tree') {
+      var mappingObj1 = settings['dataSettings']['mappings'][0][0]['mapping'];
+      if (chartType === 'treeMap')
+        mappingObj1['id'] = settings['dataSettings']['field'];
+      result.push('var dataSet' + eq + 'anychart.data.' + dsCtor + '(void 0, void 0, void 0, ' + this.printValue_(printer, mappingObj1) + ');');
 
-    dataSet['addData'](rawData, 'as-table');
-    result.push('data.addData(rawData, "as-table");');
+      dataSet['addData'](rawData, 'as-table');
+      result.push('dataSet.addData(rawData, "as-table");');
 
-  } else {
-    result.push('var data' + eq + 'anychart.data.' + dsCtor + '();');
+    } else {
+      result.push('var dataSet' + eq + 'anychart.data.' + dsCtor + '();');
 
-    dataSet['data'](rawData);
-    result.push('data.data(rawData);');
+      dataSet['data'](rawData);
+      result.push('dataSet.data(rawData);');
+    }
   }
 
   result.push('');
@@ -1997,7 +2058,7 @@ chartEditor.model.Base.prototype.getChartWithJsCode_ = function(opt_options) {
       }
 
       mappingInstances.push(dataSet['mapAs'](mappingObj));
-      result.push('var mapping' + (isSingleSeries ? '' : ((isSinglePlot ? '' : '_' + i) + '_' + j)) + eq + 'data.mapAs(' + this.printValue_(printer, mappingObj) + ');');
+      result.push('var mapping' + (isSingleSeries ? '' : ((isSinglePlot ? '' : '_' + i) + '_' + j)) + eq + 'dataSet.mapAs(' + this.printValue_(printer, mappingObj) + ');');
     }
   }
   result.push('');
@@ -2237,20 +2298,23 @@ chartEditor.model.Base.prototype.printValue_ = function(printer, value) {
  * @return {string}
  */
 chartEditor.model.Base.prototype.getDataCode = function() {
-  var printerSettings = new goog.format.JsonPrettyPrinter.TextDelimiters();
-  var printer = new goog.format.JsonPrettyPrinter(printerSettings);
   var result = [];
-
   result.push('');
   result.push('function getData() {');
 
   var rawData = this.getRawData();
+  if (goog.isFunction(rawData['mapAs'])) {
+    result.push('// Put your data here');
+    result.push('return null;');
 
-  var dataStr = 'return ' + this.printValue_(printer, rawData) + ';';
-  result.push(dataStr);
+  } else {
+    var printerSettings = new goog.format.JsonPrettyPrinter.TextDelimiters();
+    var printer = new goog.format.JsonPrettyPrinter(printerSettings);
+    var dataStr = 'return ' + this.printValue_(printer, rawData) + ';';
+    result.push(dataStr);
+  }
 
   this.indentCode(result, void 0, 2);
-
   result.push('}');
 
   return result.join('\n');
@@ -2284,7 +2348,6 @@ chartEditor.model.Base.prototype.indentCode = function(code, opt_numSpaces, opt_
  * @private
  */
 chartEditor.model.Base.prototype.prepareData_ = function() {
-  var joinedSets = [];
   var singleSets = [];
   var geoSets = [];
   var dataSet;
@@ -2293,18 +2356,7 @@ chartEditor.model.Base.prototype.prepareData_ = function() {
     if (this.data.hasOwnProperty(i)) {
       dataSet = this.prepareDataSet_(this.data[i]);
 
-      var joined = false;
-      if (dataSet.join) {
-        /*
-         * todo: process join
-         */
-        joined = true;
-      }
-
-      if (joined) {
-        dataSet.title = 'Joined set ' + (joinedSets.length + 1);
-        joinedSets.push(dataSet);
-      } else if (dataSet.type === chartEditor.model.DataType.GEO) {
+      if (dataSet.type === chartEditor.model.DataType.GEO) {
         geoSets.push(dataSet);
       } else {
         dataSet.title = dataSet.title ? dataSet.title : 'Data set ' + (singleSets.length + 1);
@@ -2313,7 +2365,7 @@ chartEditor.model.Base.prototype.prepareData_ = function() {
     }
   }
 
-  this.preparedData_ = goog.array.concat(joinedSets, singleSets, geoSets);
+  this.preparedData_ = goog.array.concat(singleSets, geoSets);
 
   return this.preparedData_;
 };
@@ -2331,12 +2383,20 @@ chartEditor.model.Base.prototype.prepareDataSet_ = function(dataSet) {
     setFullId: dataSet.setFullId,
     title: dataSet.title,
     fieldNames: dataSet.fieldNames,
-    fields: []
+    fields: [],
+    row: void 0
   };
 
-  var row = dataSet.type === chartEditor.model.DataType.GEO ?
-      dataSet.data['features'][0]['properties'] :
-      dataSet.data[0];
+  var row;
+  if (dataSet.type === chartEditor.model.DataType.GEO) {
+    row = dataSet.data['features'][0]['properties'];
+  } else if (goog.isFunction(dataSet.data['mapAs'])) {
+    row = dataSet.data['row'](dataSet.data['getRowsCount']() - 1);
+  } else {
+    row = dataSet.data[0];
+  }
+
+  result.row = row;
 
   var settings = new goog.format.JsonPrettyPrinter.SafeHtmlDelimiters();
   settings.lineBreak = '';
@@ -2440,7 +2500,7 @@ chartEditor.model.Base.prototype.isChartSingleSeries = function() {
 
 
 /**
- * @return {string}
+ * @return {chartEditor.enums.ChartType}
  */
 chartEditor.model.Base.prototype.getChartTypeKey = function() {
   var chartType = this.model['chart']['type'];
@@ -2461,7 +2521,7 @@ chartEditor.model.Base.prototype.getChartTypeKey = function() {
     this.model['chart']['typeKey'] = chartTypeKey;
   }
 
-  return chartTypeKey;
+  return /** @type {chartEditor.enums.ChartType} */ (chartTypeKey);
 };
 
 

@@ -322,24 +322,36 @@ chartEditor.model.Series['tagCloud'] = {
 
 chartEditor.model.ExcludedPanelsForCharts.push({
   chartTypes: [
-    'line',
-    'area', 'area-stacked-value', 'area-stacked-percent',
-    'bar', 'bar-stacked-value', 'bar-stacked-percent',
-    'column', 'column-stacked-value', 'column-stacked-percent',
-    'scatter',
-    'waterfall',
-    'pie',
-    'funnel',
-    'box',
-    'mekko',
-    'barmekko',
-    'mosaic',
-    'sankey',
-    'gauges.circular',
-    'gauges.linear',
-    'gauges.linear.led',
-    'gauges.linear.tank',
-    'gauges.linear.thermometer'
+    chartEditor.enums.ChartType.LINE,
+    chartEditor.enums.ChartType.AREA,
+    chartEditor.enums.ChartType.AREA_STACKED_VALUE,
+    chartEditor.enums.ChartType.AREA_STACKED_PERCENT,
+
+    chartEditor.enums.ChartType.BAR,
+    chartEditor.enums.ChartType.BAR_STACKED_VALUE,
+    chartEditor.enums.ChartType.BAR_STACKED_PERCENT,
+
+    chartEditor.enums.ChartType.COLUMN,
+    chartEditor.enums.ChartType.COLUMN_STACKED_VALUE,
+    chartEditor.enums.ChartType.COLUMN_STACKED_PERCENT,
+
+    chartEditor.enums.ChartType.SCATTER,
+    chartEditor.enums.ChartType.WATERFALL,
+    chartEditor.enums.ChartType.PIE,
+    chartEditor.enums.ChartType.FUNNEL,
+    chartEditor.enums.ChartType.BOX,
+
+    chartEditor.enums.ChartType.MEKKO,
+    chartEditor.enums.ChartType.BARMEKKO,
+    chartEditor.enums.ChartType.MOSAIC,
+
+    chartEditor.enums.ChartType.SANKEY,
+
+    chartEditor.enums.ChartType.GAUGES_CIRCULAR,
+    chartEditor.enums.ChartType.GAUGES_LINEAR,
+    chartEditor.enums.ChartType.GAUGES_LINEAR_LED,
+    chartEditor.enums.ChartType.GAUGES_LINEAR_TANK,
+    chartEditor.enums.ChartType.GAUGES_LINEAR_THERMOMETER
   ],
   panels: [
     chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
@@ -349,10 +361,10 @@ chartEditor.model.ExcludedPanelsForCharts.push({
 });
 chartEditor.model.ExcludedPanelsForCharts.push({
   chartTypes: [
-    'polar',
-    'radar',
-    'radar-stacked-value',
-    'radar-stacked-percent'
+    chartEditor.enums.ChartType.POLAR,
+    chartEditor.enums.ChartType.RADAR,
+    chartEditor.enums.ChartType.RADAR_STACKED_VALUE,
+    chartEditor.enums.ChartType.RADAR_STACKED_PERCENT
   ],
   panels: [
     chartEditor.enums.EditorTabs.CARTESIAN_AXES,
@@ -362,12 +374,12 @@ chartEditor.model.ExcludedPanelsForCharts.push({
 });
 chartEditor.model.ExcludedPanelsForCharts.push({
   chartTypes: [
-    'pie',
-    'funnel',
-    'treeMap',
-    'sankey',
-    'tag-cloud',
-    'gauges.circular'
+    chartEditor.enums.ChartType.PIE,
+    chartEditor.enums.ChartType.FUNNEL,
+    chartEditor.enums.ChartType.TREEMAP,
+    chartEditor.enums.ChartType.SANKEY,
+    chartEditor.enums.ChartType.TAG_CLOUD,
+    chartEditor.enums.ChartType.GAUGES_CIRCULAR
   ],
   panels: [
     chartEditor.enums.EditorTabs.SERIES,
@@ -378,10 +390,10 @@ chartEditor.model.ExcludedPanelsForCharts.push({
 });
 chartEditor.model.ExcludedPanelsForCharts.push({
   chartTypes: [
-    'gauges.linear',
-    'gauges.linear.led',
-    'gauges.linear.tank',
-    'gauges.linear.thermometer'
+    chartEditor.enums.ChartType.GAUGES_LINEAR,
+    chartEditor.enums.ChartType.GAUGES_LINEAR_LED,
+    chartEditor.enums.ChartType.GAUGES_LINEAR_TANK,
+    chartEditor.enums.ChartType.GAUGES_LINEAR_THERMOMETER
   ],
   panels: [
     chartEditor.enums.EditorTabs.SERIES,
@@ -393,9 +405,9 @@ chartEditor.model.ExcludedPanelsForCharts.push({
 });
 chartEditor.model.ExcludedPanelsForCharts.push({
   chartTypes: [
-    'mekko',
-    'barmekko',
-    'mosaic'
+    chartEditor.enums.ChartType.MEKKO,
+    chartEditor.enums.ChartType.BARMEKKO,
+    chartEditor.enums.ChartType.MOSAIC
   ],
   panels: [
     chartEditor.enums.EditorTabs.GRIDS
@@ -419,25 +431,25 @@ chartEditor.model.ExcludedPanelsForCharts.push({
 
 
 chartEditor.model.SpecificPanelsForCharts.push({
-  chartTypes: ['sankey'],
+  chartTypes: [chartEditor.enums.ChartType.SANKEY],
   panels: [
     chartEditor.enums.EditorTabs.NODE,
     chartEditor.enums.EditorTabs.FLOW,
     chartEditor.enums.EditorTabs.DROP_OFF
   ]
 }, {
-  chartTypes: ['gauges.circular'],
+  chartTypes: [chartEditor.enums.ChartType.GAUGES_CIRCULAR],
   panels: [
     chartEditor.enums.EditorTabs.CHART_LABELS
   ]
 });
 chartEditor.model.SpecificPanelsForCharts.push({
   chartTypes: [
-    'gauges.linear.thermometer',
-    'gauges.linear.tank',
-    'gauges.linear.led',
-    'gauges.linear',
-    'gauges.circular'],
+    chartEditor.enums.ChartType.GAUGES_LINEAR,
+    chartEditor.enums.ChartType.GAUGES_LINEAR_LED,
+    chartEditor.enums.ChartType.GAUGES_LINEAR_TANK,
+    chartEditor.enums.ChartType.GAUGES_LINEAR_THERMOMETER,
+    chartEditor.enums.ChartType.GAUGES_CIRCULAR],
   panels: [
     chartEditor.enums.EditorTabs.GAUGE_AXES,
     chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
@@ -472,6 +484,7 @@ chartEditor.model.Chart.prototype.chooseDefaultChartType = function() {
   if (!chartType) {
     chartType = 'line';
     var rawData = this.getRawData();
+    var dataLength = goog.isFunction(rawData['mapAs']) ? rawData['getRowsCount']() : rawData.length;
     if (this.model['dataSettings']['field'] === this.fieldsState.date_short) {
       chartType = 'column';
 
@@ -479,7 +492,7 @@ chartEditor.model.Chart.prototype.chooseDefaultChartType = function() {
         this.setStackMode('value');
 
     } else if (this.model['dataSettings']['field'] === this.fieldsState.firstString) {
-      if (rawData.length <= 5 && this.fieldsState.numbersCount === 1)
+      if (dataLength.length <= 5 && this.fieldsState.numbersCount === 1)
         chartType = 'pie';
       else if (this.fieldsState.numbersCount <= 3)
         chartType = 'bar';

@@ -147,6 +147,16 @@ chartEditor.ui.dataSettings.chartTypeSelect.Widget.prototype.onSelectUnavailable
   this.crossLinkDialog_.setVisible(true);
 };
 
+
+/**
+ * @inheritDoc
+ */
+chartEditor.ui.dataSettings.chartTypeSelect.Widget.prototype.init = function(model, key, opt_callback, opt_noRebuild) {
+  chartEditor.ui.dataSettings.chartTypeSelect.Widget.base(this, 'init', model, key, opt_callback, opt_noRebuild);
+  this.setEnabled(!goog.isDefAndNotNull(model.lockedChartType));
+  this.addClassName('anychart-ce-select-chart-type-locked');
+};
+
 // region ---- SelectWithIconRenderer
 /**
  * @constructor

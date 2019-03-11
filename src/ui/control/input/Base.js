@@ -219,7 +219,7 @@ chartEditor.ui.control.input.Base.prototype.setValueByTarget = function(target, 
   var value = /** @type {string} */(chartEditor.binding.exec(target, this.stringKey));
 
   goog.dom.classlist.enable(this.getElement(), goog.getCssName('anychart-ce-input-with-function'), typeof value == 'function');
-  var placeholder = typeof value == 'function' ? '-- function value --' : '';
+  var placeholder = typeof value == 'function' ? '-- default value --' : '';
   goog.dom.setProperties(this.getElement(), {'placeholder': placeholder});
 
   this.noDispatch = true;
