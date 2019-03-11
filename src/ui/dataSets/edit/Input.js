@@ -21,7 +21,8 @@ chartEditor.ui.dataSets.edit.Input = function(opt_headerMode) {
   chartEditor.ui.dataSets.edit.Input.base(this, 'constructor');
 
   /**
-   * TODO (A.Kudryavtsev): Descr.
+   * Flag whether input is used as key modifier.
+   * Has behaviour that differs from regular input mode.
    * @type {boolean}
    * @private
    */
@@ -90,7 +91,7 @@ chartEditor.ui.dataSets.edit.Input.prototype.createDom = function() {
 
 
 /**
- *
+ * Sets column controller.
  * @param {chartEditor.ui.dataSets.edit.ColumnsController} controller - .
  */
 chartEditor.ui.dataSets.edit.Input.prototype.setColumnsController = function(controller) {
@@ -108,8 +109,10 @@ chartEditor.ui.dataSets.edit.Input.prototype.isHeaderMode = function() {
 
 
 /**
- *
- * @param {Element|string} targetOrValue - Target element.
+ * Shows input. Has the different behaviour depending on whether this.isHeaderMode_ is set.
+ * @param {Element|string} targetOrValue - Target element or value to set.
+ *  If this.isHeaderMode_ is true, targetOrValue should be a string that will be set as input value.
+ *  Otherwise, targetOrValue must be the TD-element that input belongs to.
  */
 chartEditor.ui.dataSets.edit.Input.prototype.show = function(targetOrValue) {
   var element = this.getElement();
@@ -169,7 +172,7 @@ chartEditor.ui.dataSets.edit.Input.prototype.keyPressHandler_ = function(e) {
 
 
 /**
- * TODO (A.Kudryavtsev): Describe.
+ * Decorates input if current value contains some incorrect value not suitable to input type.
  * @param {boolean=} opt_forceValue - .
  */
 chartEditor.ui.dataSets.edit.Input.prototype.showError = function(opt_forceValue) {

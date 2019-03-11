@@ -72,7 +72,7 @@ chartEditor.ui.breadcrumbs.Breadcrumbs.prototype.createDom = function() {
   var prepareData = new chartEditor.ui.breadcrumbs.Item('Data','ac-chart-database-o');
   items.addChild(prepareData, true);
 
-  var setupChart = new chartEditor.ui.breadcrumbs.Item('Set Up Chart', 'ac-cog');
+  var setupChart = new chartEditor.ui.breadcrumbs.Item('Setup Chart', 'ac-cog');
   items.addChild(setupChart, true);
 
   var visualAppearance = new chartEditor.ui.breadcrumbs.Item('Tune', 'ac-ruler-paint-brush-o');

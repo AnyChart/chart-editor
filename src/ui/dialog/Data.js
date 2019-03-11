@@ -2,6 +2,7 @@ goog.provide('chartEditor.ui.dialog.Data');
 
 goog.require('chartEditor.ui.control.checkbox.Base');
 goog.require('chartEditor.ui.dialog.Base');
+goog.require('chartEditor.ui.dialog.Confirm');
 goog.require('goog.ui.Dialog');
 
 
@@ -105,6 +106,10 @@ chartEditor.ui.dialog.Data.prototype.updateContent = function(dialogType, opt_da
     this.addChild(this.csvIgnoreFirstRow_, true);
     contentEl.appendChild(dom.createDom(goog.dom.TagName.LABEL, null, ['Ignore First Row', this.csvIgnoreFirstRow_.getElement()]));
 
+    this.csvUseFirstRowAsFields_ = new chartEditor.ui.control.checkbox.Base();
+    this.addChild(this.csvUseFirstRowAsFields_, true);
+    contentEl.appendChild(dom.createDom(goog.dom.TagName.LABEL, null, ['Use First Row As Fields', this.csvUseFirstRowAsFields_.getElement()]));
+
     this.csvTrailingSpaces_ = new chartEditor.ui.control.checkbox.Base();
     this.addChild(this.csvTrailingSpaces_, true);
     contentEl.appendChild(dom.createDom(goog.dom.TagName.LABEL, null, ['Ignore Trailing Spaces', this.csvTrailingSpaces_.getElement()]));
@@ -113,10 +118,31 @@ chartEditor.ui.dialog.Data.prototype.updateContent = function(dialogType, opt_da
 
   } else if (this.csvIgnoreFirstRow_) {
     this.removeChild(this.csvIgnoreFirstRow_, true);
+    this.removeChild(this.csvUseFirstRowAsFields_, true);
     this.removeChild(this.csvTrailingSpaces_, true);
-    goog.disposeAll([this.csvIgnoreFirstRow_, this.csvTrailingSpaces_]);
-    this.csvIgnoreFirstRow_ = this.csvTrailingSpaces_ = null;
+    goog.disposeAll([this.csvIgnoreFirstRow_, this.csvTrailingSpaces_, this.csvUseFirstRowAsFields_]);
+    this.csvIgnoreFirstRow_ = this.csvTrailingSpaces_ = this.csvUseFirstRowAsFields_ = null;
   }
+};
+
+
+/**
+ * Shows error dialog.
+ * @param {string} message - Error message.
+ */
+chartEditor.ui.dialog.Data.prototype.showError = function(message) {
+  var confirm = new chartEditor.ui.dialog.Confirm();
+  confirm.setTitle('Data Input Error');
+  confirm.setTextContent(message);
+  confirm.setButtonSet(goog.ui.Dialog.ButtonSet.createOk());
+  confirm.getTitleElement().style.color = '#ff5f7f';
+
+  goog.events.listen(confirm, goog.ui.Dialog.EventType.SELECT, function(e) {
+    if (e.key == 'ok') {
+      confirm.dispose();
+    }
+  });
+  confirm.setVisible(true);
 };
 
 
@@ -154,7 +180,8 @@ chartEditor.ui.dialog.Data.prototype.getCSVSettings = function() {
     'rowsSeparator': this.processSpecialChars_(this.csvRSeparator_.value),
     'columnsSeparator': this.processSpecialChars_(this.csvCSeparator_.value),
     'ignoreFirstRow': this.csvIgnoreFirstRow_.isChecked(),
-    'ignoreTrailingSpaces': this.csvTrailingSpaces_.isChecked()
+    'ignoreTrailingSpaces': this.csvTrailingSpaces_.isChecked(),
+    'useFirstRowAsFields': this.csvUseFirstRowAsFields_.isChecked()
   };
 };
 
