@@ -671,8 +671,8 @@ chartEditor.model.Chart.prototype.getStandalonesJsCode = function(chart, printer
 
 
 /** @inheritDoc */
-chartEditor.model.Gantt.prototype.preprocessMapping = function(mappingObj) {
+chartEditor.model.Chart.prototype.preprocessMapping = function(mappingObj) {
   if (this.model['chart']['type'] === 'treeMap')
-    mappingObj['id'] = settings['dataSettings']['field'];
+    mappingObj['id'] = this.model['dataSettings']['field'];
   return mappingObj;
 };

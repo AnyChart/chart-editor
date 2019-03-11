@@ -436,15 +436,6 @@ chartEditor.editor.Base.prototype.data = function(dataOrConfig) {
 
 
 /**
- *
- * @return {chartEditor.ui.steps.Widget}
- */
-chartEditor.editor.Base.prototype.getSteps = function() {
-  return this.steps_;
-};
-
-
-/**
  * Steps getter.
  * @return {chartEditor.ui.steps.Widget}
  */
