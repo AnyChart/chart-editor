@@ -102,19 +102,20 @@ chartEditor.ui.breadcrumbs.Breadcrumbs.prototype.createDom = function() {
       goog.ui.ButtonRenderer,
       'anychart-ce-breadcrumbs-button'));
 
-  var cancel = new goog.ui.Button('Cancel', buttonsRenderer);
-  cancel.addClassName('anychart-ce-breadcrumbs-right');
-  buttons.addChild(cancel, true);
-
   var save = new goog.ui.Button('Save', buttonsRenderer);
   save.addClassName('anychart-ce-breadcrumbs-right');
   buttons.addChild(save, true);
 
+  var cancel = new goog.ui.Button('Cancel', buttonsRenderer);
+  cancel.addClassName('anychart-ce-breadcrumbs-right');
+  buttons.addChild(cancel, true);
+
+
   var ths = this;
   this.getHandler().listen(cancel, goog.ui.Component.EventType.ACTION, function() {
     var confirm = new chartEditor.ui.dialog.Confirm();
-    confirm.setTitle('Close?');
-    confirm.setTextContent('Close it?');
+    confirm.setTitle('Cancel');
+    confirm.setTextContent('Are you sure you want to discard changes?');
 
     var self = this;
     goog.events.listen(confirm, goog.ui.Dialog.EventType.SELECT, function(e) {
