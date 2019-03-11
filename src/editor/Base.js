@@ -531,7 +531,13 @@ chartEditor.editor.Base.prototype.setDefaults = function(values) {
 
 
 /**
- * Sends statistics data to statistics cloud service.
+ * Chart editor statistics service url
+ */
+chartEditor.editor.Base.CLOUD_URL = 'http://localhost:3000';
+
+
+/**
+ *
  * @param {Function} callback Function to call when response has come
  * @param {Object} params
  */

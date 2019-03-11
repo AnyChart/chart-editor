@@ -2,6 +2,7 @@
 out/*
 node_modules/
 demos-local
+tmp
 *___jb_old___
 .DS_Store
 tmp
