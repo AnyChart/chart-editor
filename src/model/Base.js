@@ -2211,6 +2211,8 @@ chartEditor.model.Base.prototype.getChartWithJsCode_ = function(opt_options) {
         this.printKey(printer, 'chart', 'container()', containerId),
         'chart.draw();'
     );
+    if (chartType === 'ganttProject' || chartType === 'ganttResource')
+      result.push('chart.fitAll();');
   }
 
   if (minify) {

@@ -343,6 +343,8 @@ chartEditor.ui.Chart.prototype.onModelChange = function(evt) {
   if (rebuild) {
     this.chart_['container'](this.containerId_);
     this.chart_['draw']();
+    if (chartType === 'ganttProject' || chartType === 'ganttResource')
+      this.chart_['fitAll']();
   }
 
   // todo: debug
