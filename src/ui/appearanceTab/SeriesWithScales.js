@@ -4,7 +4,6 @@ goog.require('chartEditor.ui.PanelsGroup');
 goog.require('chartEditor.ui.panel.series.SeriesWithScales');
 
 
-
 /**
  * @param {chartEditor.model.Base} model
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
@@ -34,6 +33,20 @@ chartEditor.ui.appearanceTabs.SeriesWithScales.prototype.createPanels = function
       var seriesId = mappings[0][j]['id'] ? mappings[0][j]['id'] : j;
       var series = new chartEditor.ui.panel.series.SeriesWithScales(model, seriesId, j);
       this.addPanelInstance(series);
+    }
+  }
+};
+
+
+/** @inheritDoc */
+chartEditor.ui.appearanceTabs.SeriesWithScales.prototype.onModelChange = function(evt) {
+  if (evt) {
+    var panelsCount = this.getPanelsCount();
+    var model = /** @type {chartEditor.model.Base} */(this.getModel());
+    var mappings = model.getValue([['dataSettings'], 'mappings']);
+    if (mappings[0].length !== panelsCount) {
+      this.removeAllPanels();
+      this.createPanels();
     }
   }
 };
