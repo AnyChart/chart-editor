@@ -322,6 +322,12 @@ chartEditor.editor.Base.prototype.createDom = function () {
     this.setCurrentStep(e.step, true);
   });
 
+  this.getHandler().listen(this.breadcrumbs_, BreadcrumbsEventType.CLOSE, function() {
+    if (this.dialog_) {
+
+    }
+  });
+
   // Add steps
   var stepsCount = this.steps_.getStepsCount();
   for (var i = 0; i < stepsCount; i++) {
