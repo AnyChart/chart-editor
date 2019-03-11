@@ -180,6 +180,10 @@
   //display: none;
 }
 
+.anychart-ce-section-caption > .title {
+  font-weight: normal !important;
+}
+
 // endregion
 
 // region ---- breadcrumbs
@@ -730,7 +734,7 @@
   }
   .button {
     background: white;
-    padding: 13px 0 13px 13px;
+    padding: 12px 0 12px 15px;
     font-size: 14px;
     cursor: pointer;
 
@@ -866,6 +870,7 @@
 
 .anychart-ce-series-name-input {
   width: 50%;
+  font-size: 15px;
 }
 
 .anychart-ce-input {
@@ -910,6 +915,11 @@
     display: none;
   }
 }
+//
+//.anychart-ce-panel-no-top {
+//  padding-top: 15px;
+//}
+
 
 .anychart-ce-panel {
   position: relative;
@@ -917,15 +927,16 @@
   //padding: 15px 15px 15px 0;
 
   .top {
-    font-size: 17px;
+    //font-size: 17px;
     color: @color-text;
     position: relative;
-    padding: 15px 15px 0 15px;
+    //padding: 15px 15px 0 15px;
     //margin-left: 15px;
 
     .title {
       display: inline-block;
       padding-left: 7px;
+      font-weight: bold;
     }
     .anychart-ce-checkbox {
       float: left;
@@ -944,7 +955,7 @@
 
   .content {
     clear: both;
-    padding-top: 15px;
+    //padding-top: 15px;
     .anychart-ce-checkbox {
       display: block;
       margin-bottom: 10px;
@@ -971,7 +982,7 @@
   > .top {
     min-height: 33px;
     .title {
-      padding: 0 0 8px 0;
+      //padding: 0 0 8px 0;
     }
   }
 }
@@ -1141,7 +1152,7 @@
 .anychart-ce-panel-zippy {
   .zippy-header {
     padding: 15px;
-    font-size: 17px;
+    font-size: 15px;
     outline: none;
     position: relative;
     .top {
@@ -1149,7 +1160,7 @@
       position: static;
 
       .title {
-        padding: 0 10px 6px 10px;
+        //padding: 0 10px 6px 10px;
       }
     }
   }
@@ -1203,7 +1214,7 @@
     margin: 0 !important;
   }
   .anychart-ce-panel {
-    padding: 0 15px 15px 15px;
+    padding: 15px;
   }
   .anychart-ce-stroke,
   .anychart-ce-panel-stagger {
@@ -1741,6 +1752,14 @@
 
 // region ---- Qlik theme
 .anychart-qlik-theme {
+  .anychart-ce-chart-container,
+  .anychart-ce-data-set-item,
+  //.anychart-ce-buttons,
+  .anychart-ce-tabs-tab-content > .anychart-ce-panel > .content {
+    //border: 1px solid @color-border;
+    padding: 12px;
+    background-color: white;
+  }
   .anychart-ce-data-set-item-disabled {
     border-color: @color-border-disabled;
   }
