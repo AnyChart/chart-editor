@@ -35,8 +35,8 @@ chartEditor.ui.dataSettings.Widget = function(model, opt_domHelper) {
 
   this.geoDataInputs_ = null;
 
-  this.addClassName('anychart-ce-border-box');
-  this.addClassName('anychart-ce-chart-data-panel');
+  // this.addClassName('anychart-ce-border-box');
+  // this.addClassName('anychart-ce-chart-data-panel');
 };
 goog.inherits(chartEditor.ui.dataSettings.Widget, chartEditor.ui.Component);
 
