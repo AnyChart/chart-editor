@@ -312,6 +312,13 @@ chartEditor.editor.Base.prototype.createDom = function() {
   this.getHandler().listen(this.breadcrumbs_, BreadcrumbsEventType.COMPLETE, function() {
 
   });
+
+  this.getHandler().listen(this.breadcrumbs_, BreadcrumbsEventType.CLOSE, function() {
+    if (this.dialog_) {
+
+    }
+  });
+
   this.getHandler().listen(this.breadcrumbs_, BreadcrumbsEventType.CHANGE_STEP, function(e) {
     this.setCurrentStep(e.step, true);
   });
