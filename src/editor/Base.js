@@ -641,7 +641,7 @@ chartEditor.editor.Base.Dialog.prototype.initTitleElements_ = function () {
   this.titleLogoEl_ = dom.createDom(
     goog.dom.TagName.A, {
       'class': goog.getCssName(this.getCssClass(), 'title-logo'),
-      'href': 'https://www.anychart.com/technical-integrations/samples/qlik-charts/overview/',
+      'href': 'https://www.anychart.com/technical-integrations/samples/qlik-charts/overview/?utm_source=qlik-extension',
       'target': '_blank'
     });
   goog.dom.insertSiblingBefore(this.titleLogoEl_, goog.dom.getFirstElementChild(titleElement));
