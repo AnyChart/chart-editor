@@ -2,6 +2,7 @@ goog.provide('chartEditor.model.Map');
 
 goog.require('chartEditor.model.Base');
 goog.require('chartEditor.ui.appearanceTabs.ChartTitle');
+goog.require('chartEditor.ui.appearanceTabs.Data');
 goog.require('chartEditor.ui.appearanceTabs.ColorRange');
 goog.require('chartEditor.ui.appearanceTabs.DataLabels');
 goog.require('chartEditor.ui.appearanceTabs.GeneralTheming');
@@ -22,6 +23,11 @@ chartEditor.model.Map = function() {
 
   /** @inheritDoc */
   this.appearanceTabs = [
+    {
+      name: chartEditor.enums.EditorTabs.DATA,
+      classFunc: chartEditor.ui.appearanceTabs.Data,
+      docsUrl: 'https://docs.anychart.com/Working_with_Data/Overview'
+    },
     {
       name: chartEditor.enums.EditorTabs.THEMING,
       classFunc: chartEditor.ui.appearanceTabs.GeneralTheming,

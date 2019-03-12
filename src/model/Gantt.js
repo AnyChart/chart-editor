@@ -2,6 +2,7 @@ goog.provide('chartEditor.model.Gantt');
 
 goog.require('chartEditor.model.Base');
 goog.require('chartEditor.ui.appearanceTabs.ChartTitle');
+goog.require('chartEditor.ui.appearanceTabs.Data');
 goog.require('chartEditor.ui.appearanceTabs.GanttDataGrid');
 goog.require('chartEditor.ui.appearanceTabs.GanttDataGridTooltip');
 goog.require('chartEditor.ui.appearanceTabs.GanttGridColoring');
@@ -22,6 +23,11 @@ chartEditor.model.Gantt = function() {
 
   /** @inheritDoc */
   this.appearanceTabs = [
+    {
+      name: chartEditor.enums.EditorTabs.DATA,
+      classFunc: chartEditor.ui.appearanceTabs.Data,
+      docsUrl: 'https://docs.anychart.com/Working_with_Data/Overview'
+    },
     {
       name: chartEditor.enums.EditorTabs.TITLE,
       classFunc: chartEditor.ui.appearanceTabs.ChartTitle,

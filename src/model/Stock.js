@@ -2,6 +2,7 @@ goog.provide('chartEditor.model.Stock');
 
 goog.require('chartEditor.model.Base');
 goog.require('chartEditor.ui.appearanceTabs.ChartTitle');
+goog.require('chartEditor.ui.appearanceTabs.Data');
 goog.require('chartEditor.ui.appearanceTabs.GeneralTheming');
 goog.require('chartEditor.ui.appearanceTabs.Grids');
 goog.require('chartEditor.ui.appearanceTabs.Legend');
@@ -21,6 +22,11 @@ chartEditor.model.Stock = function() {
 
   /** @inheritDoc */
   this.appearanceTabs = [
+    {
+      name: chartEditor.enums.EditorTabs.DATA,
+      classFunc: chartEditor.ui.appearanceTabs.Data,
+      docsUrl: 'https://docs.anychart.com/Working_with_Data/Overview'
+    },
     {
       name: chartEditor.enums.EditorTabs.THEMING,
       classFunc: chartEditor.ui.appearanceTabs.GeneralTheming,
