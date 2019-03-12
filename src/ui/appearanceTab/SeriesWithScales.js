@@ -40,7 +40,7 @@ chartEditor.ui.appearanceTabs.SeriesWithScales.prototype.createPanels = function
 
 /** @inheritDoc */
 chartEditor.ui.appearanceTabs.SeriesWithScales.prototype.onModelChange = function(evt) {
-  if (evt) {
+  if (evt && !this.isExcluded()) {
     var panelsCount = this.getPanelsCount();
     var model = /** @type {chartEditor.model.Base} */(this.getModel());
     var mappings = model.getValue([['dataSettings'], 'mappings']);
