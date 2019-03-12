@@ -20,7 +20,7 @@ goog.inherits(chartEditor.ui.breadcrumbs.Breadcrumbs, chartEditor.ui.Component);
 /** @enum {string} */
 chartEditor.ui.breadcrumbs.Breadcrumbs.EventType = {
   COMPLETE: goog.events.getUniqueId('complete'),
-  CLOSE: goog.events.getUniqueId('close'),
+  CANCEL: goog.events.getUniqueId('cancel'),
   NEXT: goog.events.getUniqueId('next'),
   PREV: goog.events.getUniqueId('prev'),
   CHANGE_STEP: goog.events.getUniqueId('changestep')
@@ -111,7 +111,7 @@ chartEditor.ui.breadcrumbs.Breadcrumbs.prototype.createDom = function() {
   buttons.addChild(cancel, true);
 
   this.getHandler().listen(cancel, goog.ui.Component.EventType.ACTION, function() {
-    this.dispatchEvent(chartEditor.ui.breadcrumbs.Breadcrumbs.EventType.CLOSE);
+    this.dispatchEvent(chartEditor.ui.breadcrumbs.Breadcrumbs.EventType.CANCEL);
   });
 
   this.getHandler().listen(save, goog.ui.Component.EventType.ACTION, function() {
@@ -203,33 +203,6 @@ chartEditor.ui.breadcrumbs.Breadcrumbs.prototype.setStep = function(index, steps
   //     }
   //   }
   // }
-};
-
-
-/**
- * @param {goog.events.Event} e
- * @private
- */
-chartEditor.ui.breadcrumbs.Breadcrumbs.prototype.onItemAction_ = function(e) {
-  this.dispatchEvent({
-    type: chartEditor.ui.breadcrumbs.Breadcrumbs.EventType.CHANGE_STEP,
-    step: goog.array.indexOf(this.items_, e.target)
-  });
-};
-
-
-/**
- * @param {goog.events.Event} e
- * @private
- */
-chartEditor.ui.breadcrumbs.Breadcrumbs.prototype.onButtonAction_ = function(e) {
-  if (e.currentTarget === this.next_) {
-    this.dispatchEvent(chartEditor.ui.breadcrumbs.Breadcrumbs.EventType.NEXT);
-  } else if (e.currentTarget === this.prev_) {
-    this.dispatchEvent(chartEditor.ui.breadcrumbs.Breadcrumbs.EventType.PREV);
-  } else if (e.currentTarget === this.complete_) {
-    this.dispatchEvent(chartEditor.ui.breadcrumbs.Breadcrumbs.EventType.COMPLETE);
-  }
 };
 
 

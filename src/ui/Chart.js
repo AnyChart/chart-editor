@@ -113,6 +113,9 @@ chartEditor.ui.Chart.prototype.onModelChange = function(evt) {
     var seriesMapping;
     var mappingObj;
 
+    console.log(rawData);
+    console.log("chart", this.chart_);
+
     if (goog.isFunction(rawData['mapAs'])) {
       // raw data is instance of anychart.data.Set
       dataSet = rawData;
@@ -342,6 +345,7 @@ chartEditor.ui.Chart.prototype.onModelChange = function(evt) {
   });
 
   if (rebuild) {
+    console.log("draw chart into", this.containerId_);
     this.chart_['container'](this.containerId_);
     this.chart_['draw']();
     if (chartType === 'ganttProject' || chartType === 'ganttResource')

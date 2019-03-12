@@ -70,8 +70,8 @@ chartEditor.editor.Base = function (opt_domHelper, opt_lockedChartType) {
   // });
   // imageLoader.start();
 
+  goog.events.listen(this, chartEditor.ui.breadcrumbs.Breadcrumbs.EventType.CANCEL, this.onCancel_, false, this);
   goog.events.listen(this, chartEditor.ui.breadcrumbs.Breadcrumbs.EventType.COMPLETE, this.onComplete_, false, this);
-  goog.events.listen(this, chartEditor.ui.breadcrumbs.Breadcrumbs.EventType.CLOSE, this.onBeforeCloseDialog_, false, this);
 
   this.listen(chartEditor.events.EventType.DATA_ADD, this.onDataAdd_);
   this.listen(chartEditor.events.EventType.DATA_REMOVE, this.onDataRemove_);
@@ -201,7 +201,6 @@ chartEditor.editor.Base.prototype.dialogVisible = function (opt_value, opt_extra
   }
 
   if (goog.isDef(opt_value)) {
-    this.forceClose = false;
     this.dialog_.setVisible(opt_value);
     this.waitForImages_();
     return this;
@@ -275,11 +274,24 @@ chartEditor.editor.Base.prototype.waitForImages_ = function () {
 
 
 /**
+ * Close dialog (if exists) on Cancel button press.
+ * @param {Object} evt
+ * @private
+ */
+chartEditor.editor.Base.prototype.onCancel_ = function (evt) {
+  if (this.dialog_) {
+    this.dialog_.setVisible(false);
+  }
+};
+
+
+/**
  * Close dialog (if exists) on complete button press.
  * @param {Object} evt
  * @private
  */
 chartEditor.editor.Base.prototype.onComplete_ = function (evt) {
+  console.log("dispatch 'editorcomplete'");
   this.dispatchEvent('editorcomplete');
   if (this.dialog_) {
     this.forceClose = true;
@@ -294,8 +306,10 @@ chartEditor.editor.Base.prototype.onComplete_ = function (evt) {
  * @private
  */
 chartEditor.editor.Base.prototype.onBeforeCloseDialog_ = function (evt) {
+  console.log("onBeforeCloseDialog_ force:", this.forceClose);
   if (this.forceClose)
     return true;
+
   var confirm = new chartEditor.ui.dialog.Confirm();
   confirm.setTitle('Cancel');
   confirm.setTextContent('Are you sure you want to discard changes?');
@@ -320,7 +334,8 @@ chartEditor.editor.Base.prototype.onBeforeCloseDialog_ = function (evt) {
  */
 chartEditor.editor.Base.prototype.onCloseDialog_ = function (evt) {
   if (evt.target === this.dialog_) {
-    this.dispatchEvent('close');
+    console.log("oncloseDialog_(), dispatch 'editorclose'");
+    this.dispatchEvent('editorclose');
   }
 };
 
