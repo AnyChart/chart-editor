@@ -239,8 +239,6 @@ chartEditor.enums.EditorTabs = {
   GRIDS: 'grids',
   COLOR_SCALE: 'colorScale',
   COLOR_RANGE: 'colorRange',
-  CONTEXT_MENU: 'contextMenu',
-  CREDITS: 'credits',
   SOURCE_CODE: 'sourceCode',
   JSON: 'json',
   EMBED: 'embed',

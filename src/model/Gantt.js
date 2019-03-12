@@ -2,8 +2,6 @@ goog.provide('chartEditor.model.Gantt');
 
 goog.require('chartEditor.model.Base');
 goog.require('chartEditor.ui.appearanceTabs.ChartTitle');
-goog.require('chartEditor.ui.appearanceTabs.ContextMenu');
-goog.require('chartEditor.ui.appearanceTabs.Credits');
 goog.require('chartEditor.ui.appearanceTabs.GanttDataGrid');
 goog.require('chartEditor.ui.appearanceTabs.GanttDataGridTooltip');
 goog.require('chartEditor.ui.appearanceTabs.GanttGridColoring');
@@ -48,14 +46,6 @@ chartEditor.model.Gantt = function() {
       name: chartEditor.enums.EditorTabs.GANTT_DATAGRID_TOOLTIP,
       classFunc: chartEditor.ui.appearanceTabs.GanttDataGridTooltip,
       docsUrl: 'http://docs.anychart.com/Common_Settings/Tooltip'
-    }, {
-      name: chartEditor.enums.EditorTabs.CONTEXT_MENU,
-      classFunc: chartEditor.ui.appearanceTabs.ContextMenu,
-      docsUrl: 'http://docs.anychart.com/Common_Settings/UI_Controls/Context_Menu'
-    }, {
-      name: chartEditor.enums.EditorTabs.CREDITS,
-      classFunc: chartEditor.ui.appearanceTabs.Credits,
-      docsUrl: 'http://docs.anychart.com/Quick_Start/Credits'
     }];
 };
 goog.inherits(chartEditor.model.Gantt, chartEditor.model.Base);
