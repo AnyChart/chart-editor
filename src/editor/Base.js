@@ -70,8 +70,8 @@ chartEditor.editor.Base = function (opt_domHelper, opt_lockedChartType) {
   // });
   // imageLoader.start();
 
+  goog.events.listen(this, chartEditor.ui.breadcrumbs.Breadcrumbs.EventType.CANCEL, this.onCancel_, false, this);
   goog.events.listen(this, chartEditor.ui.breadcrumbs.Breadcrumbs.EventType.COMPLETE, this.onComplete_, false, this);
-  goog.events.listen(this, chartEditor.ui.breadcrumbs.Breadcrumbs.EventType.CLOSE, this.onBeforeCloseDialog_, false, this);
 
   this.listen(chartEditor.events.EventType.DATA_ADD, this.onDataAdd_);
   this.listen(chartEditor.events.EventType.DATA_REMOVE, this.onDataRemove_);
@@ -189,21 +189,18 @@ chartEditor.editor.Base.prototype.dialogRender = function (opt_class, opt_useIfr
 /**
  * Sets/gets the visibility of the dialog box.
  * @param {boolean=} opt_value Whether the dialog should be visible.
- * @param {string=} opt_extraClassName Extra class name for dialog
+ * @param {boolean=} opt_forceClose
  * @return {boolean|chartEditor.editor.Base} Current visibility state or self for chaining.
  */
-chartEditor.editor.Base.prototype.dialogVisible = function (opt_value, opt_extraClassName) {
+chartEditor.editor.Base.prototype.dialogVisible = function (opt_value, opt_forceClose) {
   if (!this.dialog_) return true;
 
-  var element = this.dialog_.getElement();
-  if (opt_extraClassName && element) {
-    goog.dom.classlist.add(element, opt_extraClassName);
-  }
-
   if (goog.isDef(opt_value)) {
-    this.forceClose = false;
-    this.dialog_.setVisible(opt_value);
-    this.waitForImages_();
+    if (this.dialog_.isVisible() !== opt_value) {
+      this.forceClose = !!opt_forceClose;
+      this.dialog_.setVisible(opt_value);
+      this.waitForImages_();
+    }
     return this;
   }
 
@@ -275,16 +272,28 @@ chartEditor.editor.Base.prototype.waitForImages_ = function () {
 
 
 /**
+ * Close dialog (if exists) on Cancel button press.
+ * @param {Object} evt
+ * @private
+ */
+chartEditor.editor.Base.prototype.onCancel_ = function (evt) {
+  if (this.dialog_) {
+    this.dialog_.setVisible(false);
+  }
+};
+
+
+/**
  * Close dialog (if exists) on complete button press.
  * @param {Object} evt
  * @private
  */
 chartEditor.editor.Base.prototype.onComplete_ = function (evt) {
   this.dispatchEvent('editorcomplete');
-  if (this.dialog_) {
-    this.forceClose = true;
-    this.dialog_.setVisible(false);
-  }
+  // if (this.dialog_ && this.dialog_.isVisible()) {
+  //   this.forceClose = true;
+  //   this.dialog_.setVisible(false);
+  // }
 };
 
 
@@ -296,6 +305,7 @@ chartEditor.editor.Base.prototype.onComplete_ = function (evt) {
 chartEditor.editor.Base.prototype.onBeforeCloseDialog_ = function (evt) {
   if (this.forceClose)
     return true;
+
   var confirm = new chartEditor.ui.dialog.Confirm();
   confirm.setTitle('Cancel');
   confirm.setTextContent('Are you sure you want to discard changes?');
@@ -320,7 +330,7 @@ chartEditor.editor.Base.prototype.onBeforeCloseDialog_ = function (evt) {
  */
 chartEditor.editor.Base.prototype.onCloseDialog_ = function (evt) {
   if (evt.target === this.dialog_) {
-    this.dispatchEvent('close');
+    this.dispatchEvent('editorclose');
   }
 };
 

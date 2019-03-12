@@ -95,6 +95,9 @@ chartEditor.ui.Chart.prototype.onModelChange = function(evt) {
 
     this.chart_ = /** @type {Object} */(chartEditor.binding.exec(this.anychart, chartType + '()'));
 
+    // Hardcode for Qlik
+    this.chart_['contextMenu']()['enabled'](false);
+
     if (chartType === 'map') {
       var geoData = model.getRawData(true);
       if (geoData) {
