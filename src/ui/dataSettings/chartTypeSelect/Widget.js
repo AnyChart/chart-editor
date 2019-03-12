@@ -64,7 +64,7 @@ chartEditor.ui.dataSettings.chartTypeSelect.Widget.prototype.createDom = functio
   var enabledItemCount = 0;
 
   for (var i = 0; i < chartTypeOptions.length; i++) {
-    var itemUnavailable = chartTypeOptions[i].product != chartEditor.PRODUCT;
+    var itemUnavailable = chartTypeOptions[i].product != chartEditor.PRODUCT || !(chartEditor.PRODUCT == chartEditor.model.Product.BUNDLE);
     var item = new chartEditor.ui.control.select.MenuItem({
       caption: chartTypeOptions[i]['name'],
       value: chartTypeOptions[i]['value'],

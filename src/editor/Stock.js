@@ -9,10 +9,11 @@ goog.require('chartEditor.model.Stock');
  * 
  * @constructor
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
+ * @param {chartEditor.enums.ChartType=} opt_lockedChartType - Locked chart type.
  * @extends {chartEditor.editor.Base}
  */
-chartEditor.editor.Stock = function(opt_domHelper) {
-  chartEditor.editor.Stock.base(this, 'constructor', opt_domHelper);
+chartEditor.editor.Stock = function(opt_domHelper, opt_lockedChartType) {
+  chartEditor.editor.Stock.base(this, 'constructor', opt_domHelper, opt_lockedChartType);
 
   this.setModel(new chartEditor.model.Stock());
   
@@ -23,10 +24,11 @@ goog.inherits(chartEditor.editor.Stock, chartEditor.editor.Base);
 
 /**
  * Constructor function for Stock Editor.
+ * @param {chartEditor.enums.ChartType=} opt_lockedChartType - Locked chart type.
  * @return {chartEditor.editor.Stock}
  */
-window['anychart'].stockEditor = function() {
-  return new chartEditor.editor.Stock();
+window['anychart'].stockEditor = function(opt_lockedChartType) {
+  return new chartEditor.editor.Stock(void 0, opt_lockedChartType);
 };
 
 

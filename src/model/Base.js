@@ -170,7 +170,8 @@ chartEditor.model.Product = {
   CHART: 1,
   STOCK: 2,
   MAP: 3,
-  GANTT: 4
+  GANTT: 4,
+  BUNDLE: 5
 };
 
 
@@ -183,6 +184,7 @@ chartEditor.model.ProductDescription[chartEditor.model.Product.CHART] = {name: '
 chartEditor.model.ProductDescription[chartEditor.model.Product.STOCK] = {name: 'AnyChart Qlik Stock Charts', url: 'https://market.qlik.com/solutions/AnyChart_Qlik_Stock_Charts'};
 chartEditor.model.ProductDescription[chartEditor.model.Product.MAP] = {name: 'AnyChart Qlik Geo Maps', url: 'https://market.qlik.com/solutions/AnyChart_Qlik_Geo_Maps'};
 chartEditor.model.ProductDescription[chartEditor.model.Product.GANTT] = {name: 'AnyChart Qlik Gantt Chart', url: 'https://market.qlik.com/solutions/AnyChart_Qlik_Gantt_Chart'};
+chartEditor.model.ProductDescription[chartEditor.model.Product.BUNDLE] = {name: 'AnyChart Qlik Bundle', url: 'https://github.com/AnyChart/anychart-qlik-basic'};
 
 
 /**

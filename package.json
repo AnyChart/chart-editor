@@ -13,7 +13,8 @@
     "buildMap": "sh ./bin/buildMap.sh",
     "buildGantt": "sh ./bin/buildGantt.sh",
     "buildBasic": "sh ./bin/buildBasic.sh",
-    "buildQlik": "sh ./bin/build_release_qlik.sh"
+    "buildQlik": "sh ./bin/build_release_qlik.sh",
+    "bundle": "sh ./bin/bundle.sh"
   },
   "repository": {
     "type": "git",
