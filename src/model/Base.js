@@ -90,27 +90,9 @@ chartEditor.model.Base = function() {
     'setActiveGeo': this.setActiveGeo,
     'setChartType': this.setChartType,
     'setSeriesType': this.setSeriesType,
-    'setTheme': this.setTheme,
-    'setContextMenuItemEnable': this.setContextMenuItemEnable
+    'setTheme': this.setTheme
   };
 
-  /**
-   * @type {Object}
-   * @private
-   */
-  this.contextMenuItems_ = {
-    'exclude': {
-      'items': ['exclude-points-point', 'exclude-points-list', 'exclude-points-keep-only', 'exclude-points-separator'],
-      'enabled': true
-    },
-    'marquee': {'items': ['select-marquee-start', 'zoom-marquee-start', 'select-marquee-separator'], 'enabled': true},
-    'saveAs': {'items': 'save-chart-as', 'enabled': true},
-    'saveDataAs': {'items': 'save-data-as', 'enabled': true},
-    'shareWith': {'items': 'share-with', 'enabled': true},
-    'printChart': {'items': 'print-chart', 'enabled': true},
-    'about': {'items': ['about', 'exporting-separator'], 'enabled': true},
-    'fullScreen': {'items': ['full-screen-enter', 'full-screen-exit', 'full-screen-separator'], 'enabled': true}
-  };
 
   /**
    * @type {Array.<Object>}
@@ -935,7 +917,6 @@ chartEditor.model.Base.prototype.dropChartSettings = function(opt_pattern, opt_b
     this.model['standalones'] = {};
     this.model['editorSettings']['lockSeriesName'] = {};
     this.stackMode = false;
-    this.resetContextMenuItems();
 
     this.applyDefaults();
   }
@@ -1186,64 +1167,6 @@ chartEditor.model.Base.prototype.setTheme = function(input) {
   var inputValue = input.getValue();
   this.setValue([['anychart'], 'theme()'], inputValue.value);
   this.resumeDispatch();
-};
-
-
-/**
- * Reset this.contextMenuItems_ structure.
- */
-chartEditor.model.Base.prototype.resetContextMenuItems = function() {
-  goog.object.map(this.contextMenuItems_, function(item) {
-    item.enabled = true;
-  });
-};
-
-
-/** @return {Object} */
-chartEditor.model.Base.prototype.contextMenuItems = function() {
-  return this.contextMenuItems_;
-};
-
-
-/**
- * Callback function for contextMenu().itemsFormatter() setting
- * @param {chartEditor.ui.control.checkbox.Base} input
- */
-chartEditor.model.Base.prototype.setContextMenuItemEnable = function(input) {
-  var stringId = input.getModel();
-  this.contextMenuItems_[stringId]['enabled'] = input.getChecked();
-
-  var key;
-  var disabledItems = [];
-  var exportingItems = ['saveAs', 'saveDataAs', 'shareWith', 'printChart'];
-  var count = 0;
-  for (key in this.contextMenuItems_) {
-    if (!this.contextMenuItems_[key]['enabled']) {
-      disabledItems = goog.array.concat(disabledItems, this.contextMenuItems_[key]['items']);
-      if (goog.array.indexOf(exportingItems, key) !== -1)
-        count++;
-    }
-  }
-
-  if (count === exportingItems.length)
-    disabledItems = goog.array.concat(disabledItems, 'exporting-separator');
-  var disabledItemsStr = disabledItems.toString();
-
-  if (disabledItems.length) {
-    this.model['chart']['settings']['contextMenu().itemsFormatter()'] = 'function(items){\n' +
-        '\tvar res = {};\n' +
-        '\tvar disabledItems = "' + disabledItemsStr + '".split(",");\n' +
-        '\tfor (var key in items) {\n' +
-        '\t\tif (disabledItems.indexOf(key) == -1) {\n' +
-        '\t\t\tres[key] = items[key];\n' +
-        '\t\t}\n' +
-        '\t}\n' +
-        '\treturn res;\n' +
-        '}';
-  } else
-    this.removeByKey([['chart'], ['settings'], 'contextMenu().itemsFormatter()']);
-
-  this.dispatchUpdate();
 };
 
 
@@ -2158,8 +2081,6 @@ chartEditor.model.Base.prototype.getChartWithJsCode_ = function(opt_options) {
       var quotes = false;
       if (key === "palette()")
         value = anychartGlobal['palettes'][value];
-      else if (key === "contextMenu().itemsFormatter()")
-        quotes = force = true;
 
       if (goog.isString(value) && value.indexOf('STANDALONE:') === 0) {
         var tmp = value.split(':');

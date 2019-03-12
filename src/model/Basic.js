@@ -3,8 +3,6 @@ goog.provide('chartEditor.model.Basic');
 goog.require('chartEditor.model.Base');
 goog.require('chartEditor.ui.appearanceTabs.ChartSpecific');
 goog.require('chartEditor.ui.appearanceTabs.ChartTitle');
-goog.require('chartEditor.ui.appearanceTabs.ContextMenu');
-goog.require('chartEditor.ui.appearanceTabs.Credits');
 goog.require('chartEditor.ui.appearanceTabs.DataLabels');
 goog.require('chartEditor.ui.appearanceTabs.GeneralTheming');
 goog.require('chartEditor.ui.appearanceTabs.Grids');
@@ -82,16 +80,6 @@ chartEditor.model.Basic = function() {
       name: chartEditor.enums.EditorTabs.GRIDS,
       classFunc: chartEditor.ui.appearanceTabs.Grids,
       docsUrl: 'http://docs.anychart.com/Axes_and_Grids/Axis_Basics#grids'
-    },
-    {
-      name: chartEditor.enums.EditorTabs.CONTEXT_MENU,
-      classFunc: chartEditor.ui.appearanceTabs.ContextMenu,
-      docsUrl: 'http://docs.anychart.com/Common_Settings/UI_Controls/Context_Menu'
-    },
-    {
-      name: chartEditor.enums.EditorTabs.CREDITS,
-      classFunc: chartEditor.ui.appearanceTabs.Credits,
-      docsUrl: 'http://docs.anychart.com/Quick_Start/Credits'
     }
   ];
 };

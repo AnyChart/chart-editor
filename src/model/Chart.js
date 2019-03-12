@@ -7,8 +7,6 @@ goog.require('chartEditor.ui.appearanceTabs.ChartTitle');
 goog.require('chartEditor.ui.appearanceTabs.CircularRanges');
 goog.require('chartEditor.ui.appearanceTabs.ColorRange');
 goog.require('chartEditor.ui.appearanceTabs.ColorScale');
-goog.require('chartEditor.ui.appearanceTabs.ContextMenu');
-goog.require('chartEditor.ui.appearanceTabs.Credits');
 goog.require('chartEditor.ui.appearanceTabs.Data');
 goog.require('chartEditor.ui.appearanceTabs.DataLabels');
 goog.require('chartEditor.ui.appearanceTabs.DropOff');
@@ -153,16 +151,6 @@ chartEditor.model.Chart = function() {
       name: chartEditor.enums.EditorTabs.COLOR_RANGE,
       classFunc: chartEditor.ui.appearanceTabs.ColorRange,
       docsUrl: 'http://api.anychart.com/v8/anychart.core.ui.ColorRange'
-    },
-    {
-      name: chartEditor.enums.EditorTabs.CONTEXT_MENU,
-      classFunc: chartEditor.ui.appearanceTabs.ContextMenu,
-      docsUrl: 'http://docs.anychart.com/Common_Settings/UI_Controls/Context_Menu'
-    },
-    {
-      name: chartEditor.enums.EditorTabs.CREDITS,
-      classFunc: chartEditor.ui.appearanceTabs.Credits,
-      docsUrl: 'http://docs.anychart.com/Quick_Start/Credits'
     }
   ];
 };
