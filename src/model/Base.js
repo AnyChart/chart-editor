@@ -1629,26 +1629,7 @@ chartEditor.model.Base.prototype.addData = function(data) {
     defaults: data.defaults || []
   };
 
-  if (existingData) {
-    var confirm = new chartEditor.ui.dialog.Confirm();
-    confirm.setTitle('Remove previous data set?');
-    confirm.setTextContent('You already have added data set. Remove it?');
-
-    var self = this;
-    goog.events.listen(confirm, goog.ui.Dialog.EventType.SELECT, function(e) {
-      if (e.key == 'ok') {
-        delete self.data[existingData.setFullId];
-        this.dirtyInitialDefaults_ = true;
-        self.addDataInternal(dataSet);
-      }
-
-      confirm.dispose();
-    });
-    confirm.setVisible(true);
-
-  } else {
-    this.addDataInternal(dataSet);
-  }
+  this.addDataInternal(dataSet);
 };
 
 
@@ -2575,4 +2556,6 @@ chartEditor.model.Base.prototype.preprocessData = function(rawData, mappingObj) 
 (function() {
   var proto = chartEditor.model.Base.prototype;
   proto['getValue'] = proto.getValue;
+  proto['setValue'] = proto.setValue;
+  proto['getModel'] = proto.getModel;
 })();
