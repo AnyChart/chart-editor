@@ -2,8 +2,8 @@ goog.provide('chartEditor.model.Map');
 
 goog.require('chartEditor.model.Base');
 goog.require('chartEditor.ui.appearanceTabs.ChartTitle');
-goog.require('chartEditor.ui.appearanceTabs.Data');
 goog.require('chartEditor.ui.appearanceTabs.ColorRange');
+goog.require('chartEditor.ui.appearanceTabs.Data');
 goog.require('chartEditor.ui.appearanceTabs.DataLabels');
 goog.require('chartEditor.ui.appearanceTabs.GeneralTheming');
 goog.require('chartEditor.ui.appearanceTabs.Legend');
