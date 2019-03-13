@@ -46,11 +46,6 @@ chartEditor.model.Chart = function() {
       docsUrl: 'https://docs.anychart.com/Working_with_Data/Overview'
     },
     {
-      name: chartEditor.enums.EditorTabs.THEMING,
-      classFunc: chartEditor.ui.appearanceTabs.GeneralTheming,
-      docsUrl: 'http://docs.anychart.com/Appearance_Settings/Themes'
-    },
-    {
       name: chartEditor.enums.EditorTabs.SPECIFIC,
       classFunc: chartEditor.ui.appearanceTabs.ChartSpecific
     },
@@ -117,16 +112,19 @@ chartEditor.model.Chart = function() {
       classFunc: chartEditor.ui.appearanceTabs.axes.CartesianYAxes,
       docsUrl: 'http://docs.anychart.com/Axes_and_Grids/Axis_Basics'
     },
-    {
-      name: chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
-      classFunc: chartEditor.ui.appearanceTabs.axes.RadarPolarXAxis,
-      docsUrl: 'http://docs.anychart.com/Axes_and_Grids/Axis_Basics'
-    },
-    {
-      name: chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
-      classFunc: chartEditor.ui.appearanceTabs.axes.RadarPolarYAxis,
-      docsUrl: 'http://docs.anychart.com/Axes_and_Grids/Axis_Basics'
-    },
+
+    // { // todo: ломает radar
+    //   name: chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+    //   classFunc: chartEditor.ui.appearanceTabs.axes.RadarPolarXAxis,
+    //   docsUrl: 'http://docs.anychart.com/Axes_and_Grids/Axis_Basics'
+    // },
+    // {
+    //   name: chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+    //   classFunc: chartEditor.ui.appearanceTabs.axes.RadarPolarYAxis,
+    //   docsUrl: 'http://docs.anychart.com/Axes_and_Grids/Axis_Basics'
+    // },
+
+
     {
       name: chartEditor.enums.EditorTabs.GAUGE_AXES,
       classFunc: chartEditor.ui.appearanceTabs.axes.GaugeAxes,
@@ -137,11 +135,12 @@ chartEditor.model.Chart = function() {
       classFunc: chartEditor.ui.appearanceTabs.Tooltip,
       docsUrl: 'http://docs.anychart.com/Common_Settings/Tooltip'
     },
-    {
-      name: chartEditor.enums.EditorTabs.GRIDS,
-      classFunc: chartEditor.ui.appearanceTabs.Grids,
-      docsUrl: 'http://docs.anychart.com/Axes_and_Grids/Axis_Basics#grids'
-    },
+
+    // {// todo: ломает cartesian
+    //   name: chartEditor.enums.EditorTabs.GRIDS,
+    //   classFunc: chartEditor.ui.appearanceTabs.Grids,
+    //   docsUrl: 'http://docs.anychart.com/Axes_and_Grids/Axis_Basics#grids'
+    // },
     {
       name: chartEditor.enums.EditorTabs.COLOR_SCALE,
       classFunc: chartEditor.ui.appearanceTabs.ColorScale,
