@@ -2556,6 +2556,4 @@ chartEditor.model.Base.prototype.preprocessData = function(rawData, mappingObj) 
 (function() {
   var proto = chartEditor.model.Base.prototype;
   proto['getValue'] = proto.getValue;
-  proto['setValue'] = proto.setValue;
-  proto['getModel'] = proto.getModel;
 })();

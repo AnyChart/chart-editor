@@ -212,16 +212,21 @@ chartEditor.editor.Base.prototype.dialogVisible = function (opt_value, opt_force
 /**
  * Returns JS code string that creates a configured chart.
  * @param {chartEditor.model.Base.JavascriptOptions=} opt_outputOptions Output options object.
+ * @param {Array.<{key: {chartEditor.model.Base.Key}, value: *}>=} opt_overrides
  * @return {string}
  */
-chartEditor.editor.Base.prototype.getJavascript = function (opt_outputOptions) {
+chartEditor.editor.Base.prototype.getJavascript = function (opt_outputOptions, opt_overrides) {
   var model = /** @type {chartEditor.model.Base} */ (this.getModel());
 
-  if (!model.getValue([
-      ['chart'], 'type'
-    ]))
+  if (!model.getValue([['chart'], 'type']))
     model.generateInitialDefaults();
 
+  if (opt_overrides) {
+    // todo: (chernetsky) Портит подель оверрайдами
+    for (var i = 0; i < opt_overrides.length; i++) {
+      model.setValue(opt_overrides[i]['key'], opt_overrides[i]['value'], true);
+    }
+  }
   return model.getChartAsJsCode(opt_outputOptions);
 };
 
