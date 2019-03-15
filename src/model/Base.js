@@ -1377,7 +1377,12 @@ chartEditor.model.Base.prototype.loadLocales_ = function(locales) {
  * @param {boolean=} opt_noRebuildMapping
  * @param {boolean=} opt_noOverride Write value only if key not exists.
  */
-chartEditor.model.Base.prototype.setValue = function(key, value, opt_noDispatch, opt_noRebuildChart, opt_noRebuildMapping, opt_noOverride) {
+chartEditor.model.Base.prototype.setValue = function(key,
+                                                     value,
+                                                     opt_noDispatch,
+                                                     opt_noRebuildChart,
+                                                     opt_noRebuildMapping,
+                                                     opt_noOverride) {
   var target = this.model;
   for (var i = 0; i < key.length; i++) {
     var level = key[i];

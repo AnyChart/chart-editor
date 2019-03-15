@@ -212,19 +212,28 @@ chartEditor.editor.Base.prototype.dialogVisible = function (opt_value, opt_force
 /**
  * Returns JS code string that creates a configured chart.
  * @param {chartEditor.model.Base.JavascriptOptions=} opt_outputOptions Output options object.
- * @param {Array.<{key: {chartEditor.model.Base.Key}, value: *}>=} opt_overrides
+ * @param {Array.<{key: {chartEditor.model.Base.Key}, value: *}>=} opt_overrides Model values to override. Will be applied anyway.
+ * @param {Array.<{key: {chartEditor.model.Base.Key}, value: *}>=} opt_defaults Default model values. Will be applied if these settings are empty.
  * @return {string}
  */
-chartEditor.editor.Base.prototype.getJavascript = function (opt_outputOptions, opt_overrides) {
+chartEditor.editor.Base.prototype.getJavascript = function (
+    opt_outputOptions,
+    opt_overrides,
+    opt_defaults) {
   var model = /** @type {chartEditor.model.Base} */ (this.getModel());
 
   if (!model.getValue([['chart'], 'type']))
     model.generateInitialDefaults();
 
   if (opt_overrides) {
-    // todo: (chernetsky) Портит подель оверрайдами
+    // todo: (chernetsky) Портит модель оверрайдами
     for (var i = 0; i < opt_overrides.length; i++) {
       model.setValue(opt_overrides[i]['key'], opt_overrides[i]['value'], true);
+    }
+  }
+  if (opt_defaults) {
+    for (var j = 0; j < opt_defaults.length; j++) {
+      model.setValue(opt_defaults[i]['key'], opt_defaults[i]['value'], true, void 0, void 0, true);
     }
   }
   return model.getChartAsJsCode(opt_outputOptions);

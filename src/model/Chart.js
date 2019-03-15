@@ -141,6 +141,7 @@ chartEditor.model.Chart = function() {
     //   classFunc: chartEditor.ui.appearanceTabs.Grids,
     //   docsUrl: 'http://docs.anychart.com/Axes_and_Grids/Axis_Basics#grids'
     // },
+
     {
       name: chartEditor.enums.EditorTabs.COLOR_SCALE,
       classFunc: chartEditor.ui.appearanceTabs.ColorScale,
