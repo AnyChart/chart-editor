@@ -442,7 +442,15 @@ chartEditor.model.SpecificPanelsForCharts.push({
     chartEditor.enums.ChartType.GAUGES_LINEAR,
     chartEditor.enums.ChartType.GAUGES_LINEAR_LED,
     chartEditor.enums.ChartType.GAUGES_LINEAR_TANK,
-    chartEditor.enums.ChartType.GAUGES_LINEAR_THERMOMETER,
+    chartEditor.enums.ChartType.GAUGES_LINEAR_THERMOMETER],
+  panels: [
+    chartEditor.enums.EditorTabs.GAUGE_AXES,
+    chartEditor.enums.EditorTabs.SCALE_BARS,
+    chartEditor.enums.EditorTabs.POINTERS
+  ]
+});
+chartEditor.model.SpecificPanelsForCharts.push({
+  chartTypes: [
     chartEditor.enums.ChartType.GAUGES_CIRCULAR],
   panels: [
     chartEditor.enums.EditorTabs.GAUGE_AXES,
