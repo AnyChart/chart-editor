@@ -233,7 +233,7 @@ chartEditor.editor.Base.prototype.getJavascript = function (
   }
   if (opt_defaults) {
     for (var j = 0; j < opt_defaults.length; j++) {
-      model.setValue(opt_defaults[i]['key'], opt_defaults[i]['value'], true, void 0, void 0, true);
+      model.setValue(opt_defaults[j]['key'], opt_defaults[j]['value'], true, void 0, void 0, true);
     }
   }
   return model.getChartAsJsCode(opt_outputOptions);
