@@ -59,7 +59,7 @@ chartEditor.model.Base = function() {
       }
     },
     'editorSettings': {
-      'qlikMode': false
+      'qlikMode': true
     },
     'standalones': {}
   };
