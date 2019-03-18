@@ -1,6 +1,7 @@
 goog.provide('chartEditor.ui.panel.specific.Cartesian');
 
 goog.require('chartEditor.ui.Panel');
+goog.require('chartEditor.ui.control.checkbox.Base');
 goog.require('chartEditor.ui.control.comboBox.Percent');
 goog.require('chartEditor.ui.control.select.Scales');
 goog.require('chartEditor.ui.control.wrapped.Labeled');
@@ -46,6 +47,11 @@ chartEditor.ui.panel.specific.Cartesian.prototype.createDom = function() {
   var minPointLengthLC = new chartEditor.ui.control.wrapped.Labeled(minPointLength, 'Min Point Length');
   minPointLengthLC.init(model, this.genKey('minPointLength()'));
   this.addChildControl(minPointLengthLC);
+
+  var categorizedBySeries = new chartEditor.ui.control.checkbox.Base();
+  categorizedBySeries.setCaption('Categorized by series');
+  categorizedBySeries.init(model, this.genKey('categorizedBySeries()'));
+  this.addChildControl(categorizedBySeries);
 
   var xScale = new chartEditor.ui.control.select.Scales({
     label: 'X Scale',
