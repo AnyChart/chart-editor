@@ -237,7 +237,7 @@ chartEditor.ui.PanelsGroup.prototype.onReset = function(evt) {
  * @return {number}
  */
 chartEditor.ui.PanelsGroup.prototype.getPanelsCount = function() {
-  return this.panels_[0].length;
+  return this.panels_[0] && this.panels_[0].length;
 };
 
 

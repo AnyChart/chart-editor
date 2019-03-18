@@ -81,3 +81,18 @@ chartEditor.ui.appearanceTabs.Pointers.prototype.createPanels = function() {
     this.addPanelInstance(pointer);
   }
 };
+
+
+/** @inheritDoc */
+chartEditor.ui.appearanceTabs.Pointers.prototype.onModelChange = function(evt) {
+  chartEditor.ui.appearanceTabs.Pointers.base(this, 'onModelChange', evt);
+  if (evt && !this.isExcluded()) {
+    var panelsCount = this.getPanelsCount();
+    var model = /** @type {chartEditor.model.Base} */(this.getModel());
+    var mappings = model.getValue([['dataSettings'], 'mappings']);
+    if (mappings[0].length !== panelsCount) {
+      this.removeAllPanels();
+      this.createPanels();
+    }
+  }
+};
