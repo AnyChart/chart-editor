@@ -3,6 +3,7 @@ goog.provide('chartEditor.ui.panel.specific.Cartesian');
 goog.require('chartEditor.ui.Panel');
 goog.require('chartEditor.ui.control.checkbox.Base');
 goog.require('chartEditor.ui.control.comboBox.Percent');
+goog.require('chartEditor.ui.control.input.Numbers');
 goog.require('chartEditor.ui.control.select.Scales');
 goog.require('chartEditor.ui.control.wrapped.Labeled');
 
@@ -52,6 +53,19 @@ chartEditor.ui.panel.specific.Cartesian.prototype.createDom = function() {
   categorizedBySeries.setCaption('Categorized by series');
   categorizedBySeries.init(model, this.genKey('categorizedBySeries()'));
   this.addChildControl(categorizedBySeries);
+
+  var columnLikeCharts = ['column', 'bar', 'stick', 'rangeBar', 'rangeColumn'];
+  if (columnLikeCharts.indexOf(model.getModel()['chart']['type']) !== -1) {
+    var barsPadding = new chartEditor.ui.control.input.Numbers();
+    var barsPaddingLC = new chartEditor.ui.control.wrapped.Labeled(barsPadding, 'Bars Padding');
+    barsPaddingLC.init(model, this.genKey('barsPadding()'));
+    this.addChildControl(barsPaddingLC);
+
+    var barGroupsPadding = new chartEditor.ui.control.input.Numbers();
+    var barGroupsPaddingLC = new chartEditor.ui.control.wrapped.Labeled(barGroupsPadding, 'Bar Groups Padding');
+    barGroupsPaddingLC.init(model, this.genKey('barGroupsPadding()'));
+    this.addChildControl(barGroupsPaddingLC);
+  }
 
   var xScale = new chartEditor.ui.control.select.Scales({
     label: 'X Scale',

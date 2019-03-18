@@ -2,7 +2,9 @@ goog.provide('chartEditor.ui.panel.series.SeriesWithScales');
 
 goog.require('chartEditor.ui.PanelZippy');
 goog.require('chartEditor.ui.control.colorPicker.Base');
+goog.require('chartEditor.ui.control.comboBox.Percent');
 goog.require('chartEditor.ui.control.input.Base');
+goog.require('chartEditor.ui.control.input.Numbers');
 goog.require('chartEditor.ui.control.select.Scales');
 goog.require('chartEditor.ui.control.wrapped.Labeled');
 goog.require('chartEditor.ui.panel.Error');
@@ -158,6 +160,24 @@ chartEditor.ui.panel.series.SeriesWithScales.prototype.createDom = function() {
     colorScale.setName('Color Scale');
     colorScale.setKey(this.genKey('colorScale()'));
     this.addChildControl(colorScale);
+  }
+
+  // column like series specific settings
+  // series support xPointPosition() method, some oof them supports pointWidth()
+  var xPointPositionSeries = ['box', 'splineArea', 'spline', 'area', 'stick', 'bubble', 'bar', 'ohlc', 'candlestick', 'column', 'line', 'marker'];
+
+  if (xPointPositionSeries.indexOf(this.seriesType_) !== -1) {
+    this.addContentSeparator();
+    var xPointPosition = new chartEditor.ui.control.input.Numbers();
+    var xPointPositionLC = new chartEditor.ui.control.wrapped.Labeled(xPointPosition, 'X Point Position');
+    xPointPositionLC.init(model, this.genKey('xPointPosition()'));
+    this.addChildControl(xPointPositionLC);
+
+    var pointWidth = new chartEditor.ui.control.comboBox.Percent();
+    pointWidth.setOptions([10, 30, 50, 70, 90, 100]);
+    var pointWidthLC = new chartEditor.ui.control.wrapped.Labeled(pointWidth, 'Point width');
+    pointWidthLC.init(model, this.genKey('pointWidth()'));
+    this.addChildControl(pointWidthLC);
   }
 
   var seriesSupportsError = ['splineArea', 'spline', 'stepArea', 'area', 'stick', 'bar', 'column', 'jumpLine', 'stepLine', 'line', 'marker'];
