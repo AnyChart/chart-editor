@@ -11,7 +11,6 @@ goog.require('chartEditor.ui.appearanceTabs.Data');
 goog.require('chartEditor.ui.appearanceTabs.DataLabels');
 goog.require('chartEditor.ui.appearanceTabs.DropOff');
 goog.require('chartEditor.ui.appearanceTabs.Flow');
-goog.require('chartEditor.ui.appearanceTabs.GeneralTheming');
 goog.require('chartEditor.ui.appearanceTabs.Grids');
 goog.require('chartEditor.ui.appearanceTabs.Legend');
 goog.require('chartEditor.ui.appearanceTabs.Node');
@@ -441,7 +440,8 @@ chartEditor.model.SpecificPanelsForCharts.push({
     chartEditor.enums.ChartType.GAUGES_LINEAR,
     chartEditor.enums.ChartType.GAUGES_LINEAR_LED,
     chartEditor.enums.ChartType.GAUGES_LINEAR_TANK,
-    chartEditor.enums.ChartType.GAUGES_LINEAR_THERMOMETER],
+    chartEditor.enums.ChartType.GAUGES_LINEAR_THERMOMETER,
+    chartEditor.enums.ChartType.GAUGES_CIRCULAR],
   panels: [
     chartEditor.enums.EditorTabs.GAUGE_AXES,
     chartEditor.enums.EditorTabs.SCALE_BARS,
@@ -452,10 +452,7 @@ chartEditor.model.SpecificPanelsForCharts.push({
   chartTypes: [
     chartEditor.enums.ChartType.GAUGES_CIRCULAR],
   panels: [
-    chartEditor.enums.EditorTabs.GAUGE_AXES,
-    chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
-    chartEditor.enums.EditorTabs.SCALE_BARS,
-    chartEditor.enums.EditorTabs.POINTERS
+    chartEditor.enums.EditorTabs.CIRCULAR_RANGES
   ]
 });
 

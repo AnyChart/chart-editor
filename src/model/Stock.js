@@ -2,7 +2,6 @@ goog.provide('chartEditor.model.Stock');
 
 goog.require('chartEditor.model.Base');
 goog.require('chartEditor.ui.appearanceTabs.ChartTitle');
-goog.require('chartEditor.ui.appearanceTabs.GeneralTheming');
 goog.require('chartEditor.ui.appearanceTabs.Grids');
 goog.require('chartEditor.ui.appearanceTabs.Legend');
 goog.require('chartEditor.ui.appearanceTabs.StockSeries');
@@ -21,11 +20,6 @@ chartEditor.model.Stock = function() {
 
   /** @inheritDoc */
   this.appearanceTabs = [
-    {
-      name: chartEditor.enums.EditorTabs.THEMING,
-      classFunc: chartEditor.ui.appearanceTabs.GeneralTheming,
-      docsUrl: 'http://docs.anychart.com/Appearance_Settings/Themes'
-    },
     {
       name: chartEditor.enums.EditorTabs.TITLE,
       classFunc: chartEditor.ui.appearanceTabs.ChartTitle,

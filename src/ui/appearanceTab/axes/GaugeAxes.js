@@ -27,7 +27,7 @@ goog.inherits(chartEditor.ui.appearanceTabs.axes.GaugeAxes, chartEditor.ui.Panel
 /** @override */
 chartEditor.ui.appearanceTabs.axes.GaugeAxes.prototype.enterDocument = function() {
   var model = /** @type {chartEditor.model.Base} */(this.getModel());
-  this.isLinear = String(model.getModel()['chart']['typeKey']).indexOf('gauges.linear') === 0;
+  this.isLinear = String(model.getModel()['chart']['typeKey']).indexOf('gauges_linear') === 0;
   chartEditor.ui.appearanceTabs.axes.GaugeAxes.base(this, 'enterDocument');
 };
 

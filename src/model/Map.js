@@ -4,7 +4,6 @@ goog.require('chartEditor.model.Base');
 goog.require('chartEditor.ui.appearanceTabs.ChartTitle');
 goog.require('chartEditor.ui.appearanceTabs.ColorRange');
 goog.require('chartEditor.ui.appearanceTabs.DataLabels');
-goog.require('chartEditor.ui.appearanceTabs.GeneralTheming');
 goog.require('chartEditor.ui.appearanceTabs.Legend');
 goog.require('chartEditor.ui.appearanceTabs.SeriesWithScales');
 goog.require('chartEditor.ui.appearanceTabs.Tooltip');
@@ -23,10 +22,6 @@ chartEditor.model.Map = function() {
   /** @inheritDoc */
   this.appearanceTabs = [
     {
-      name: chartEditor.enums.EditorTabs.THEMING,
-      classFunc: chartEditor.ui.appearanceTabs.GeneralTheming,
-      docsUrl: 'http://docs.anychart.com/Appearance_Settings/Themes'
-    }, {
       name: chartEditor.enums.EditorTabs.TITLE,
       classFunc: chartEditor.ui.appearanceTabs.ChartTitle,
       docsUrl: 'http://docs.anychart.com/Common_Settings/Title'
