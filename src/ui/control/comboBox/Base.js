@@ -326,7 +326,7 @@ chartEditor.ui.control.comboBox.Base.prototype.setValue = function(value) {
       this.handleInputChange_();
       this.dispatchEvent(goog.ui.Component.EventType.CHANGE);
 
-    } else if (!goog.isDef(value)) {
+    } else if (!goog.isDef(value) || goog.isNull(value)) {
       this.lastToken_ = '';
       this.labelInput_.setValue('');
     }
