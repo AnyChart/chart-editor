@@ -182,7 +182,8 @@ chartEditor.editor.Base.prototype.dialogRender = function (opt_class, opt_useIfr
   this.dialog_.addChild(this, true);
 
   this.getHandler().listen(this.dialog_, goog.ui.PopupBase.EventType.BEFORE_HIDE, this.onBeforeCloseDialog_);
-  this.getHandler().listen(this.dialog_, goog.ui.PopupBase.EventType.HIDE, this.onCloseDialog_);
+  this.getHandler().listen(this.dialog_, goog.ui.PopupBase.EventType.HIDE, this.onHideDialog_);
+  this.getHandler().listen(this.dialog_, goog.ui.PopupBase.EventType.SHOW, this.onShowDialog_);
 };
 
 
@@ -342,7 +343,18 @@ chartEditor.editor.Base.prototype.onBeforeCloseDialog_ = function (evt) {
  * @param {Object} evt
  * @private
  */
-chartEditor.editor.Base.prototype.onCloseDialog_ = function (evt) {
+chartEditor.editor.Base.prototype.onShowDialog_ = function (evt) {
+  if (evt.target === this.dialog_) {
+    this.dispatchEvent('editorshow');
+  }
+};
+
+
+/**
+ * @param {Object} evt
+ * @private
+ */
+chartEditor.editor.Base.prototype.onHideDialog_ = function (evt) {
   if (evt.target === this.dialog_) {
     this.dispatchEvent('editorclose');
   }

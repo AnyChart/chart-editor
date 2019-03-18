@@ -113,17 +113,16 @@ chartEditor.model.Chart = function() {
       docsUrl: 'http://docs.anychart.com/Axes_and_Grids/Axis_Basics'
     },
 
-    // { // todo: ломает radar
-    //   name: chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
-    //   classFunc: chartEditor.ui.appearanceTabs.axes.RadarPolarXAxis,
-    //   docsUrl: 'http://docs.anychart.com/Axes_and_Grids/Axis_Basics'
-    // },
-    // {
-    //   name: chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
-    //   classFunc: chartEditor.ui.appearanceTabs.axes.RadarPolarYAxis,
-    //   docsUrl: 'http://docs.anychart.com/Axes_and_Grids/Axis_Basics'
-    // },
-
+    {
+      name: chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      classFunc: chartEditor.ui.appearanceTabs.axes.RadarPolarXAxis,
+      docsUrl: 'http://docs.anychart.com/Axes_and_Grids/Axis_Basics'
+    },
+    {
+      name: chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+      classFunc: chartEditor.ui.appearanceTabs.axes.RadarPolarYAxis,
+      docsUrl: 'http://docs.anychart.com/Axes_and_Grids/Axis_Basics'
+    },
 
     {
       name: chartEditor.enums.EditorTabs.GAUGE_AXES,
@@ -136,11 +135,11 @@ chartEditor.model.Chart = function() {
       docsUrl: 'http://docs.anychart.com/Common_Settings/Tooltip'
     },
 
-    // {// todo: ломает cartesian
-    //   name: chartEditor.enums.EditorTabs.GRIDS,
-    //   classFunc: chartEditor.ui.appearanceTabs.Grids,
-    //   docsUrl: 'http://docs.anychart.com/Axes_and_Grids/Axis_Basics#grids'
-    // },
+    {
+      name: chartEditor.enums.EditorTabs.GRIDS,
+      classFunc: chartEditor.ui.appearanceTabs.Grids,
+      docsUrl: 'http://docs.anychart.com/Axes_and_Grids/Axis_Basics#grids'
+    },
 
     {
       name: chartEditor.enums.EditorTabs.COLOR_SCALE,

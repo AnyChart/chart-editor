@@ -61,9 +61,14 @@ chartEditor.ui.steps.VisualAppearance.prototype.enterDocument = function() {
 
   var editor = /** @type {chartEditor.editor.Base} */(this.getParent());
   var model = /** @type {chartEditor.model.Base} */(editor.getModel());
+  var self = this;
 
   this.chart_ = new chartEditor.ui.Chart(model);
   this.chartWrapper.addChild(this.chart_, true);
+
+  this.getHandler().listen(editor, 'editorshow', function(){
+    self.chart_.firstDraw();
+  });
 };
 
 

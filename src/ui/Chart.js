@@ -58,10 +58,20 @@ chartEditor.ui.Chart.prototype.createDom = function() {
 chartEditor.ui.Chart.prototype.enterDocument = function() {
   chartEditor.ui.Chart.base(this, 'enterDocument');
 
-  this.onModelChange(null);
+  // Entry point to settings processing cycle
+  // this.onModelChange(null);
 
   this.getHandler().listen(/** @type {chartEditor.model.Base} */(this.getModel()),
       chartEditor.events.EventType.EDITOR_MODEL_UPDATE, this.onModelChange);
+};
+
+
+/**
+ * Entry point to settings processing cycle.
+ * todo: Only for editor's dialog render mode. Just for Qlik.
+ */
+chartEditor.ui.Chart.prototype.firstDraw = function() {
+  this.onModelChange(null);
 };
 
 
@@ -80,7 +90,7 @@ chartEditor.ui.Chart.prototype.onModelChange = function(evt) {
   if (!chartType)
     return;
 
-  // Global panel
+  // Global settings
   goog.object.forEach(settings['anychart'], function(value, key) {
     chartEditor.binding.exec(self.anychart, key, value);
   });
@@ -237,39 +247,42 @@ chartEditor.ui.Chart.prototype.onModelChange = function(evt) {
     }
   }
 
-  // Chart panel
-  goog.object.forEach(settings['chart']['settings'], function(value, key) {
-    if (goog.isString(value)) {
-      value = value.replace(/(\\\\)/g, '\\');
-      value = value.replace(/(\\n)/g, '\n');
+  // Chart settings
+  for (var key in settings['chart']['settings']) {
+    if (settings['chart']['settings'].hasOwnProperty(key)) {
+      var value = settings['chart']['settings'][key];
+      if (goog.isString(value)) {
+        value = value.replace(/(\\\\)/g, '\\');
+        value = value.replace(/(\\n)/g, '\n');
 
-      if (key === 'palette()')
-        value = self.anychart['palettes'][value];
+        if (key === 'palette()')
+          value = self.anychart['palettes'][value];
 
-      if (value.indexOf('STANDALONE:') === 0) {
-        var tmp = value.split(':');
-        var sName = tmp[1];
-        var sIndex = tmp[2];
-        value = void 0;
+        if (value.indexOf('STANDALONE:') === 0) {
+          var tmp = value.split(':');
+          sName = tmp[1];
+          sIndex = tmp[2];
+          value = void 0;
 
-        if (tmp.length == 3) {
-          // Apply only real standalones (not defaults)
-          descriptor = settings['standalones'][sName][sIndex];
-          if (!descriptor || descriptor['key'] == key) {
-            delete settings['chart']['settings'][key];
+          if (tmp.length == 3) {
+            // Apply only real standalones (not defaults)
+            descriptor = settings['standalones'][sName][sIndex];
+            if (!descriptor || descriptor['key'] == key) {
+              delete settings['chart']['settings'][key];
 
-          } else if(!descriptor['key']) {
-            value = descriptor['instance'];
+            } else if(!descriptor['key']) {
+              value = descriptor['instance'];
+            }
           }
         }
       }
+
+      if (goog.isDef(value))
+        chartEditor.binding.exec(self.chart_, key, value);
     }
+  }
 
-    if (goog.isDef(value))
-      chartEditor.binding.exec(self.chart_, key, value);
-  });
-
-  // After chart panel (including standalones) are applied we should apply standalones panel
+  // After chart settings (including standalones) are applied we should apply standalones settings
   for (sName in settings['standalones']) {
     if (settings['standalones'][sName].length) {
       for (sIndex = 0; sIndex < settings['standalones'][sName].length; sIndex++) {
