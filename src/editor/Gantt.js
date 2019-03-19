@@ -11,10 +11,11 @@ goog.require('chartEditor.utils');
  * 
  * @constructor
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
+ * @param {chartEditor.enums.ChartType=} opt_lockedChartType - Locked chart type.
  * @extends {chartEditor.editor.Base}
  */
-chartEditor.editor.Gantt = function(opt_domHelper) {
-  chartEditor.editor.Gantt.base(this, 'constructor', opt_domHelper);
+chartEditor.editor.Gantt = function(opt_domHelper, opt_lockedChartType) {
+  chartEditor.editor.Gantt.base(this, 'constructor', opt_domHelper, opt_lockedChartType);
 
   this.setModel(new chartEditor.model.Gantt());
 
@@ -25,10 +26,11 @@ goog.inherits(chartEditor.editor.Gantt, chartEditor.editor.Base);
 
 /**
  * Constructor function for Map Editor.
+ * @param {chartEditor.enums.ChartType=} opt_lockedChartType - Locked chart type.
  * @return {chartEditor.editor.Gantt}
  */
-window['anychart'].ganttEditor = function() {
-  return new chartEditor.editor.Gantt();
+window['anychart'].ganttEditor = function(opt_lockedChartType) {
+  return new chartEditor.editor.Gantt(void 0, opt_lockedChartType);
 };
 
 

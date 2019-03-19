@@ -130,16 +130,12 @@ chartEditor.editor.Base.prototype.version = function () {
  * @param {boolean=} opt_value qlikMode flag.
  * @return {chartEditor.editor.Base|boolean}
  */
-chartEditor.editor.Base.prototype.qlikMode = function (opt_value) {
+chartEditor.editor.Base.prototype.qlikMode = function(opt_value) {
   if (goog.isDef(opt_value) && goog.isBoolean(opt_value)) {
-    this.getModel().setValue([
-      ['editorSettings'], 'qlikMode'
-    ], opt_value);
+    this.getModel().setValue([['editorSettings'], 'qlikMode'], opt_value);
     return this;
   }
-  return this.getModel().getValue([
-    ['editorSettings'], 'qlikMode'
-  ]);
+  return this.getModel().getValue([['editorSettings'], 'qlikMode']);
 };
 
 
