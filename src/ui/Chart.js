@@ -287,11 +287,8 @@ chartEditor.ui.Chart.prototype.onModelChange = function(evt) {
   }
 
   // Apply defaults
-  console.log("Settings", settings['chart']['settings']);
-  console.log("Defaults", defaults);
   for (key in defaults) {
     if (defaults.hasOwnProperty(key) && !goog.isDef(settings['chart']['settings'][key])) {
-      console.log('Apply default', key, value);
       chartEditor.binding.exec(self.chart_, key, defaults[key]);
     }
   }
