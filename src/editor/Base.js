@@ -593,6 +593,16 @@ chartEditor.editor.Base.prototype.setDefaults = function (values) {
 
 
 /**
+ * @param {chartEditor.model.Base.Key} key
+ * @return {*} Input's value
+ */
+chartEditor.editor.Base.prototype.getModelValue = function (key) {
+  var model = /** @type {chartEditor.model.Base} */ (this.getModel());
+  return model.getValue(key);
+};
+
+
+/**
  * Chart editor statistics service url
  */
 //chartEditor.editor.Base.CLOUD_URL = 'https://static.anychart.com/ce-cloud/';
@@ -767,4 +777,5 @@ window['anychart'] = window['anychart'] || {};
   proto['removeClassName'] = proto.removeClassName;
   proto['saveToCloud'] = proto.saveToCloud;
   proto['qlikMode'] = proto.qlikMode;
+  proto['getModelValue'] = proto.getModelValue;
 })();
