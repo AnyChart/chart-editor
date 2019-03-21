@@ -62,8 +62,8 @@ chartEditor.ui.panel.series.SeriesWithScales.prototype.createDom = function() {
   name.init(model, this.genKey('name()'));
   this.addHeaderChildControl(name);
 
-  var lockSeriesNames = model.getValue([['editorSettings'], ['lockSeriesName'], name.getKey()[2]]);
-  name.setEnabled(!lockSeriesNames);
+  // var lockSeriesNames = model.getValue([['editorSettings'], ['lockSeriesName'], name.getKey()[2]]);
+  // name.setEnabled(!lockSeriesNames);
 
   goog.dom.classlist.add(name.getElement(), goog.getCssName('anychart-ce-series-name-input'));
 

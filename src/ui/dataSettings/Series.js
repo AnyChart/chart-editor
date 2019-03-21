@@ -161,7 +161,6 @@ chartEditor.ui.dataSettings.Series.prototype.createFieldsOptions = function() {
   }
 
   if (data) {
-    console.log(data);
     for (var i = 0; i < this.fields_.length; i++) {
       var field = this.fields_[i];
       var fieldSelect = field.getSelect();

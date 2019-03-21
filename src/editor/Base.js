@@ -489,7 +489,7 @@ chartEditor.editor.Base.prototype.data = function (dataOrConfig) {
   } else if (goog.isObject(dataOrConfig) && goog.isObject(dataOrConfig['data'])) {
     // Passed config object with raw data in 'data' field
     preparedData = dataOrConfig;
-    preparedData.setId = dataOrConfig['setId'];
+    preparedData.setId = dataOrConfig['setId'] || 'qlikData';
     preparedData.dataType = dataOrConfig['dataType'];
     preparedData.chartType = dataOrConfig['chartType'];
     preparedData.seriesType = dataOrConfig['seriesType'];
@@ -584,11 +584,11 @@ chartEditor.editor.Base.prototype.deserializeModel = function (serializedModel) 
 
 /**
  * Allows to set defaults for created chart. This is for Qlik
- * @param {Array.<{key: chartEditor.model.Base.Key, value: (string|boolean|Object) }>} values
+ * @param {Object} values
  */
 chartEditor.editor.Base.prototype.setDefaults = function (values) {
   var model = /** @type {chartEditor.model.Base} */ (this.getModel());
-  model.setDefaults(values);
+  model.defaults(values);
 };
 
 

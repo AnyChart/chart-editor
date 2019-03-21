@@ -66,10 +66,10 @@ chartEditor.model.Base = function() {
 
   /**
    * Default model values.
-   * @type {Array}
+   * @type {Object}
    * @private
    */
-  this.defaults_ = [];
+  this.defaults_ = {};
 
   /**
    * Data set analysis result
@@ -745,13 +745,6 @@ chartEditor.model.Base.prototype.chooseActiveAndField = function(opt_active, opt
   var preparedData = this.getPreparedData();
   this.model['dataSettings']['active'] = goog.isDefAndNotNull(opt_active) ? opt_active : preparedData[0].setFullId;
 
-  if (this.data[this.model['dataSettings']['active']].chartType &&
-      (!this.model['chart']['type'] || this.data[this.model['dataSettings']['active']].chartType === this.model['chart']['type'])) {
-    var defaults = this.data[this.model['dataSettings']['active']].defaults;
-    this.setDefaults(defaults);
-  } else
-    this.setDefaults([]);
-
   this.dropChartSettings();
 
   this.analyzeDataBeforeChooseField();
@@ -917,8 +910,6 @@ chartEditor.model.Base.prototype.dropChartSettings = function(opt_pattern, opt_b
     this.model['standalones'] = {};
     this.model['editorSettings']['lockSeriesName'] = {};
     this.stackMode = false;
-
-    this.applyDefaults();
   }
 };
 
@@ -935,7 +926,6 @@ chartEditor.model.Base.prototype.generateInitialDefaults = function() {
       if (this.model['chart']['type'] === 'map')
         this.initGeoData();
 
-      this.applyDefaults();
       this.analyzeDataBeforeChooseField();
       this.analyzeDataAfterChooseField();
 
@@ -1067,11 +1057,6 @@ chartEditor.model.Base.prototype.setChartType = function(input) {
   this.model['chart']['type'] = chartType;
   this.stackMode = selectValue.stackMode;
   var prevDefaultSeriesType = /** @type {string} */(this.model['chart']['seriesType']);
-
-  if (this.data[this.model['dataSettings']['active']].chartType &&
-      this.data[this.model['dataSettings']['active']].chartType !== chartType) {
-    this.setDefaults([]);
-  }
 
   if (prevChartType === 'map') {
     delete this.data[this.model['dataSettings']['activeGeo']];
@@ -1561,21 +1546,15 @@ chartEditor.model.Base.prototype.getModel = function() {
 
 
 /**
- * @param {Array.<{key: chartEditor.model.Base.Key, value: (string|boolean|Object) }>} values
+ * @param {Object=} opt_values
+ * @return {chartEditor.model.Base|Object}
  */
-chartEditor.model.Base.prototype.setDefaults = function(values) {
-  this.defaults_ = values;
-};
-
-
-/**
- * Applies default setting to model without override existing panel.
- * @private
- */
-chartEditor.model.Base.prototype.applyDefaults = function() {
-  for (var i = 0; i < this.defaults_.length; i++) {
-    this.setValue(this.defaults_[i]['key'], this.defaults_[i]['value'], true, void 0, void 0, true);
+chartEditor.model.Base.prototype.defaults = function(opt_values) {
+  if (goog.isDef(opt_values)) {
+    this.defaults_ = opt_values;
+    return this;
   }
+  return this.defaults_;
 };
 // endregion
 

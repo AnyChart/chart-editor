@@ -84,6 +84,7 @@ chartEditor.ui.Chart.prototype.onModelChange = function(evt) {
   var model = /** @type {chartEditor.model.Base} */(this.getModel());
   var rawData = model.getRawData();
   var settings = model.getModel();
+  var defaults = Object.assign({}, model.defaults());
   var chartType = settings['chart']['type'];
   var rebuild = !arguments.length || !arguments[0] || arguments[0].rebuildChart;
 
@@ -157,7 +158,6 @@ chartEditor.ui.Chart.prototype.onModelChange = function(evt) {
         // no mappings required for tree-data charts
         this.chart_['data'](dataSet);
       } else {
-        var dataFields;
         var pointersIndexes = {};
         for (var i = 0; i < settings['dataSettings']['mappings'].length; i++) {
           plotMapping = settings['dataSettings']['mappings'][i];
@@ -202,19 +202,21 @@ chartEditor.ui.Chart.prototype.onModelChange = function(evt) {
                 // Set series id
                 series['id'](plotMapping[j]['id']);
 
-                // if (model.getValue([['editorSettings'], ['lockSeriesName'], stringKey])) {
-                //   // Set forced series name
-                //   dataFields = dataFields || model.getPreparedData(model.getModel()['dataSettings']['active'])[0].fields;
-                //   console.log(dataFields);
-                //   var currentField = goog.array.filter(dataFields, function(item) {
-                //     return item.key === (goog.isDef(seriesMapping['value']) ? seriesMapping['value'] : goog.object.getAnyValue(seriesMapping));
-                //   })[0];
-                //
-                //   if (currentField) {
-                //     settings['chart']['settings'][stringKey] = currentField.name;
-                //     model.setValue([['editorSettings'], ['lockSeriesName'], stringKey], currentField.key, true);
-                //   }
-                // }
+                var fieldKey = mappingObj['value'] ?
+                    mappingObj['value'][0] :
+                      mappingObj['close'] ?
+                          mappingObj['close'][0] :
+                            mappingObj['high'] ? mappingObj['high'][0] : null;
+
+                if (fieldKey) {
+                  var preparedData = model.getPreparedData()[0];
+                  var seriesName = preparedData.fieldNames[fieldKey] ? preparedData.fieldNames[fieldKey] : null;
+                  if (!seriesName) {
+                    var currentField = goog.array.filter(preparedData.fields, function(item) {return item.key === fieldKey;})[0];
+                    seriesName = currentField.name;
+                  }
+                  defaults['getSeries(\'' + plotMapping[j]['id'] + '\').name()'] = seriesName;
+                }
               }
             }
           }
@@ -249,7 +251,8 @@ chartEditor.ui.Chart.prototype.onModelChange = function(evt) {
   }
 
   // Chart settings
-  for (var key in settings['chart']['settings']) {
+  var key;
+  for (key in settings['chart']['settings']) {
     if (settings['chart']['settings'].hasOwnProperty(key)) {
       var value = settings['chart']['settings'][key];
       if (goog.isString(value)) {
@@ -265,10 +268,10 @@ chartEditor.ui.Chart.prototype.onModelChange = function(evt) {
           sIndex = tmp[2];
           value = void 0;
 
-          if (tmp.length == 3) {
+          if (tmp.length === 3) {
             // Apply only real standalones (not defaults)
             descriptor = settings['standalones'][sName][sIndex];
-            if (!descriptor || descriptor['key'] == key) {
+            if (!descriptor || descriptor['key'] === key) {
               delete settings['chart']['settings'][key];
 
             } else if(!descriptor['key']) {
@@ -280,6 +283,16 @@ chartEditor.ui.Chart.prototype.onModelChange = function(evt) {
 
       if (goog.isDef(value))
         chartEditor.binding.exec(self.chart_, key, value);
+    }
+  }
+
+  // Apply defaults
+  console.log("Settings", settings['chart']['settings']);
+  console.log("Defaults", defaults);
+  for (key in defaults) {
+    if (defaults.hasOwnProperty(key) && !goog.isDef(settings['chart']['settings'][key])) {
+      console.log('Apply default', key, value);
+      chartEditor.binding.exec(self.chart_, key, defaults[key]);
     }
   }
 
