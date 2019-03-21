@@ -4,9 +4,7 @@ goog.require('chartEditor.ui.Component');
 goog.require('chartEditor.ui.control.fieldSelect.Base');
 goog.require('chartEditor.ui.control.fieldSelect.SelectMenuCaption');
 goog.require('chartEditor.ui.control.fieldSelect.SelectMenuItem');
-goog.require('chartEditor.ui.dataSettings.GeoDataInputs');
 goog.require('chartEditor.ui.dataSettings.Plot');
-goog.require('chartEditor.ui.dataSettings.chartTypeSelect.Widget');
 goog.require('goog.ui.Button');
 goog.require('goog.ui.MenuItem');
 
@@ -32,11 +30,6 @@ chartEditor.ui.dataSettings.Widget = function(model, opt_domHelper) {
    * @private
    */
   this.plots_ = [];
-
-  this.geoDataInputs_ = null;
-
-  // this.addClassName('anychart-ce-border-box');
-  // this.addClassName('anychart-ce-chart-data-panel');
 };
 goog.inherits(chartEditor.ui.dataSettings.Widget, chartEditor.ui.Component);
 
@@ -48,18 +41,6 @@ chartEditor.ui.dataSettings.Widget.prototype.createDom = function() {
   var coreFieldsContainer = new chartEditor.ui.Component();
   coreFieldsContainer.addClassName('anychart-ce-data-settings-panel-core');
   this.addChild(coreFieldsContainer, true);
-
-  var model = /** @type {chartEditor.model.Base} */(this.getModel());
-
-  this.chartTypeSelect_ = new chartEditor.ui.dataSettings.chartTypeSelect.Widget();
-  this.chartTypeSelect_.init(model, [['chart'], 'type'], 'setChartType');
-  coreFieldsContainer.addChild(this.chartTypeSelect_, true);
-
-  var chartType = model.getValue([['chart'], 'type']);
-  if (chartType == 'map') {
-    this.geoDataInputs_ = new chartEditor.ui.dataSettings.GeoDataInputs(model);
-    coreFieldsContainer.addChild(this.geoDataInputs_, true);
-  }
 
   this.coreFieldsContainer_ = coreFieldsContainer;
 };
@@ -74,17 +55,11 @@ chartEditor.ui.dataSettings.Widget.prototype.onModelChange = function(evt) {
 
   var model = /** @type {chartEditor.model.Base} */(this.getModel());
   var chartType = model.getValue([['chart'], 'type']);
-  var stackMode = model.getValue([['chart'], ['settings'], 'yScale().stackMode()']);
-
-  this.chartTypeSelect_.setValueByModel({stackMode: stackMode});
-
-  if (this.geoDataInputs_)
-    this.geoDataInputs_.exclude(chartType !== 'map');
 
   goog.dispose(this.activeAndFieldSelect_);
   this.activeAndFieldSelect_ = null;
 
-  if (chartType === 'map' || model.chartTypeLike('gauges') || model.chartTypeLike('gantt') || chartType === 'sankey') {
+  if (model.chartTypeLike('gauges') || model.chartTypeLike('gantt') || chartType === 'sankey') {
     // Data Set select
     this.activeAndFieldSelect_ = new chartEditor.ui.control.fieldSelect.Base({
       caption: 'Select data set',
@@ -108,7 +83,7 @@ chartEditor.ui.dataSettings.Widget.prototype.onModelChange = function(evt) {
   this.activeAndFieldSelect_.addClassName('anychart-select-with-content');
   this.activeAndFieldSelect_.getSelect().setValueByModel({active: model.getActive()});
 
-  goog.dom.classlist.enable(this.activeAndFieldSelect_.getElement(), 'anychart-ce-hidden', this.activeAndFieldSelect_.getSelect().getItemCount() <= 1);
+  goog.dom.classlist.enable(this.coreFieldsContainer_.getElement(), 'anychart-ce-hidden', this.activeAndFieldSelect_.getSelect().getItemCount() <= 1);
 
   // Plots
   this.removeAllPlots_();
@@ -169,7 +144,7 @@ chartEditor.ui.dataSettings.Widget.prototype.createDataSetsOptions_ = function()
   var field = model.getValue([['dataSettings'], 'field']);
 
   for (var i = 0; i < data.length; i++) {
-    if (data[i].type == chartEditor.model.DataType.GEO)
+    if (data[i].type === chartEditor.model.DataType.GEO)
       continue;
 
     this.activeAndFieldSelect_.getSelect().addItem(new chartEditor.ui.control.fieldSelect.SelectMenuItem({

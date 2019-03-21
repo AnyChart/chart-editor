@@ -202,18 +202,19 @@ chartEditor.ui.Chart.prototype.onModelChange = function(evt) {
                 // Set series id
                 series['id'](plotMapping[j]['id']);
 
-                if (model.getValue([['editorSettings'], ['lockSeriesName'], stringKey])) {
-                  // Set forced series name
-                  dataFields = dataFields || model.getPreparedData(model.getModel()['dataSettings']['active'])[0].fields;
-                  var currentField = goog.array.filter(dataFields, function(item) {
-                    return item.key === (goog.isDef(seriesMapping['value']) ? seriesMapping['value'] : goog.object.getAnyValue(seriesMapping));
-                  })[0];
-
-                  if (currentField) {
-                    settings['chart']['settings'][stringKey] = currentField.name;
-                    model.setValue([['editorSettings'], ['lockSeriesName'], stringKey], currentField.key, true);
-                  }
-                }
+                // if (model.getValue([['editorSettings'], ['lockSeriesName'], stringKey])) {
+                //   // Set forced series name
+                //   dataFields = dataFields || model.getPreparedData(model.getModel()['dataSettings']['active'])[0].fields;
+                //   console.log(dataFields);
+                //   var currentField = goog.array.filter(dataFields, function(item) {
+                //     return item.key === (goog.isDef(seriesMapping['value']) ? seriesMapping['value'] : goog.object.getAnyValue(seriesMapping));
+                //   })[0];
+                //
+                //   if (currentField) {
+                //     settings['chart']['settings'][stringKey] = currentField.name;
+                //     model.setValue([['editorSettings'], ['lockSeriesName'], stringKey], currentField.key, true);
+                //   }
+                // }
               }
             }
           }

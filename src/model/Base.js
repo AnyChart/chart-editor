@@ -2324,19 +2324,8 @@ chartEditor.model.Base.prototype.prepareDataSet_ = function(dataSet) {
 
   result.row = row;
 
-  var settings = new goog.format.JsonPrettyPrinter.SafeHtmlDelimiters();
-  settings.lineBreak = '';
-  settings.objectStart = '\n{';
-  settings.arrayStart = '\n[';
-  settings.space = '';
-  settings.propertySeparator = ', ';
-  settings.nameValueSeparator = ': ';
-
-  var f = new goog.format.JsonPrettyPrinter(settings);
-  result.sample = f.format(row);
-
   var val, type, field, name;
-  if (goog.typeOf(row) == 'array') {
+  if (goog.typeOf(row) === 'array') {
     for (var i = 0; i < row.length; i++) {
       name = goog.isDefAndNotNull(result.fieldNames[i]) && goog.isDefAndNotNull(result.fieldNames[i].key)?
           result.fieldNames[i].key :

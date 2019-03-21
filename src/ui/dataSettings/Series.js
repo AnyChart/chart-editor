@@ -50,24 +50,6 @@ chartEditor.ui.dataSettings.Series.prototype.createDom = function() {
   this.getKey();
   var model = /** @type {chartEditor.model.Base} */(this.getModel());
 
-  if (!model.chartTypeLike('gauges') && !model.isChartSingleSeries()) {
-    var mappings = model.getValue([['dataSettings'], ['mappings', this.plotIndex_]]);
-
-    var chartType = model.getValue([['chart'], 'type']);
-    var keyStr = chartType === 'stock' ? 'plot(' + this.plotIndex_ + ').' : '';
-    var id = goog.isDef(mappings[this.index_]['id']) ? mappings[this.index_]['id'] : this.index_;
-    keyStr += 'getSeries(\'' + id + '\').name()';
-    var key = [['chart'], ['settings'], keyStr];
-
-    var name = new chartEditor.ui.control.input.Base();
-
-    var isSingleValues = chartEditor.model.Series[mappings[this.index_]['ctor']]['fields'].length === 1;
-    var nameLC = new chartEditor.ui.control.wrapped.SeriesName(name, 'Name', isSingleValues);
-    nameLC.init(model, key, void 0, true, true);
-    this.addChild(nameLC, true);
-    this.name_ = nameLC;
-  }
-
   this.type_ = new chartEditor.ui.control.fieldSelect.Base({
     label: 'Series Type',
     caption: 'Select Series Type',
@@ -111,13 +93,6 @@ chartEditor.ui.dataSettings.Series.prototype.onModelChange = function(evt) {
 
   this.createFields();
   this.createFieldsOptions();
-};
-
-
-/** @inheritDoc */
-chartEditor.ui.dataSettings.Series.prototype.onChartDraw = function(evt) {
-  chartEditor.ui.dataSettings.Series.base(this, 'onChartDraw', evt);
-  if (this.name_) this.name_.setValueByTarget(evt.chart);
 };
 
 
@@ -186,6 +161,7 @@ chartEditor.ui.dataSettings.Series.prototype.createFieldsOptions = function() {
   }
 
   if (data) {
+    console.log(data);
     for (var i = 0; i < this.fields_.length; i++) {
       var field = this.fields_[i];
       var fieldSelect = field.getSelect();
@@ -204,7 +180,7 @@ chartEditor.ui.dataSettings.Series.prototype.createFieldsOptions = function() {
         fieldSelect.addItem(option);
       }
       for (var j = 0; j < dataFields.length; j++) {
-        var caption = dataFields[j].name;
+        var caption = data.fieldNames[dataFields[j].key] ?  data.fieldNames[dataFields[j].key] : dataFields[j].name;
         option = new chartEditor.ui.control.fieldSelect.SelectMenuItem({
           caption: caption,
           value: dataFields[j].key
