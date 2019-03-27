@@ -1,9 +1,6 @@
-goog.provide('editor');
+goog.provide('bundleEditor');
 
-goog.require('chartEditor.editor.Chart');
-goog.require('chartEditor.editor.Stock');
-goog.require('chartEditor.editor.Map');
-goog.require('chartEditor.editor.Gantt');
+goog.require('chartEditor.editor.bundle');
 
 /**
  * Set default css name mapping for anychart chart editor ui.

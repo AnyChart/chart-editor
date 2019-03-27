@@ -31,10 +31,7 @@ window['anychart'].chartEditor = function(opt_lockedChartType) {
   return new chartEditor.editor.Chart(void 0, opt_lockedChartType);
 };
 
-window['anychart'].editor = window['anychart'].chartEditor;
-
 //exports
 (function() {
   goog.exportSymbol('anychart.chartEditor', window['anychart'].chartEditor);
-  goog.exportSymbol('anychart.editor', window['anychart'].editor);
 })();

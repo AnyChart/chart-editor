@@ -106,8 +106,9 @@ chartEditor.ui.presets.Widget.prototype.loadDataIndex_ = function() {
           var indexJson = xhr.getResponseJson();
           if (indexJson['sets']) {
             for (var i in indexJson['sets']) {
-              if (indexJson['sets'][i]['products'] && goog.array.indexOf(indexJson['sets'][i]['products'], chartEditor.PRODUCT) >= 0) {
-                self.dataIndex[indexJson['sets'][i]['id']] = indexJson['sets'][i];
+              var set = indexJson['sets'][i];
+              if (set['products'] && (goog.array.indexOf(set['products'], chartEditor.PRODUCT) >= 0 || chartEditor.PRODUCT == chartEditor.model.Product.BUNDLE)) {
+                self.dataIndex[set['id']] = set;
               }
             }
           }
