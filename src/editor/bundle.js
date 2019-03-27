@@ -31,7 +31,7 @@ window['anychart'].editor = function(opt_lockedChartType) {
         return new chartEditor.editor.Chart(void 0, lockedChartType);
     }
   }
-  // return new chartEditor.editor.Chart();
+  return new chartEditor.editor.Chart();
 };
 
 
