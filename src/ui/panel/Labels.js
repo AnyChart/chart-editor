@@ -95,6 +95,7 @@ chartEditor.ui.panel.Labels.prototype.enterDocument = function() {
         positionValuesEnum = chartEditor.enums.SidePosition;
         break;
       case 'funnel':
+      case 'pyramid':
         positionValuesEnum = chartEditor.enums.PyramidLabelsPosition;
         break;
       default:
