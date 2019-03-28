@@ -539,8 +539,13 @@ chartEditor.model.Chart.prototype.createDefaultPlotMappings = function() {
 
   if (this.isChartSingleSeries() || this.chartTypeLike(['box', 'gauges']))
     numSeries = 1;
-  else
+  else {
     numSeries = Math.floor(this.fieldsState.numbersCount / numValues);
+    if (!this.fieldsState.strings.length) {
+      // X field is also from numbers
+      numSeries--;
+    }
+  }
 
   for (var i = 0; i < numSeries; i += numValues) {
     var seriesConfig = this.createDefaultSeriesMapping(i, /** @type {string} */(seriesType));
@@ -556,8 +561,14 @@ chartEditor.model.Chart.prototype.createDefaultSeriesMapping = function(index, t
   var config = {'ctor': type, 'mapping': {}};
   config['id'] = goog.isDef(opt_id) ? opt_id : goog.string.createUniqueString();
 
+  var xField = this.model['dataSettings']['field'];
+
   var strings = goog.array.clone(this.fieldsState.strings);
+  strings = strings.filter(function(item){ return item != xField;});
+
   var numbers = goog.array.clone(this.fieldsState.numbers);
+  numbers = numbers.filter(function(item){ return item != xField;});
+
   var fields = chartEditor.model.Series[type]['fields'];
 
   for (var i = 0; i < fields.length; i++) {
