@@ -152,71 +152,73 @@ chartEditor.ui.Chart.prototype.onModelChange = function(evt) {
         dataSet['addData'](model.preprocessData(/** @type {Array<Object>} */(rawData), mappingObj), 'as-table');
       else
         dataSet['data'](rawData);
+    }
 
-      // Create mapping and series
-      if (dsCtor === 'tree') {
-        // no mappings required for tree-data charts
-        this.chart_['data'](dataSet);
-      } else {
-        var pointersIndexes = {};
-        for (var i = 0; i < settings['dataSettings']['mappings'].length; i++) {
-          plotMapping = settings['dataSettings']['mappings'][i];
-          for (var j = 0; j < plotMapping.length; j++) {
-            seriesMapping = plotMapping[j]['mapping'];
+    // Create mapping and series
+    if (dsCtor === 'tree') {
+      // no mappings required for tree-data charts
+      this.chart_['data'](dataSet);
+    } else {
+      var pointersIndexes = {};
+      for (var i = 0; i < settings['dataSettings']['mappings'].length; i++) {
+        plotMapping = settings['dataSettings']['mappings'][i];
+        for (var j = 0; j < plotMapping.length; j++) {
+          seriesMapping = plotMapping[j]['mapping'];
 
-            mappingObj = dsCtor === 'table' || model.chartTypeLike('gauges') ? {} :
-                {'x': settings['dataSettings']['field']};
+          mappingObj = dsCtor === 'table' || model.chartTypeLike('gauges') ? {} :
+              {'x': settings['dataSettings']['field']};
 
-            for (var k in seriesMapping) {
-              if (seriesMapping.hasOwnProperty(k))
-                mappingObj[k] = seriesMapping[k];
-            }
+          for (var k in seriesMapping) {
+            if (seriesMapping.hasOwnProperty(k))
+              mappingObj[k] = seriesMapping[k];
+          }
 
-            var mappingInstance = dataSet['mapAs'](mappingObj);
+          var mappingInstance = dataSet['mapAs'](mappingObj);
 
-            var singleSeriesChart = !!model.getChartTypeSettings()['singleSeries'];
-            if (singleSeriesChart) {
-              this.chart_['data'](mappingInstance);
+          var singleSeriesChart = !!model.getChartTypeSettings()['singleSeries'];
+          if (singleSeriesChart) {
+            this.chart_['data'](mappingInstance);
+
+          } else {
+            var seriesCtor = plotMapping[j]['ctor'];
+            seriesCtor = chartEditor.model.Series[seriesCtor]['ctor'] || seriesCtor;
+
+            var series;
+            var stringKey = 'getSeries(\'' + plotMapping[j]['id'] + '\').name()';
+
+            if (chartType === 'stock') {
+              var plot = this.chart_['plot'](i);
+              series = plot[seriesCtor](mappingInstance);
+              stringKey = 'plot(' + i + ').' + stringKey;
+
+            } else if (chartType === 'gauges.circular') {
+              pointersIndexes[seriesCtor] = ++pointersIndexes[seriesCtor] || 0;
+              series = this.chart_[seriesCtor](pointersIndexes[seriesCtor], mappingInstance);
 
             } else {
-              var seriesCtor = plotMapping[j]['ctor'];
-              seriesCtor = chartEditor.model.Series[seriesCtor]['ctor'] || seriesCtor;
+              series = this.chart_[seriesCtor](mappingInstance);
+            }
 
-              var series;
-              var stringKey = 'getSeries(\'' + plotMapping[j]['id'] + '\').name()';
+            if (series['id']) {
+              // Set series id
+              series['id'](plotMapping[j]['id']);
 
-              if (chartType === 'stock') {
-                var plot = this.chart_['plot'](i);
-                series = plot[seriesCtor](mappingInstance);
-                stringKey = 'plot(' + i + ').' + stringKey;
+              var fieldKey = mappingObj['value'] ?
+                  mappingObj['value'] :
+                    mappingObj['close'] ?
+                        mappingObj['close'] :
+                          mappingObj['high'] ? mappingObj['high'] : null;
 
-              } else if (chartType === 'gauges.circular') {
-                pointersIndexes[seriesCtor] = ++pointersIndexes[seriesCtor] || 0;
-                series = this.chart_[seriesCtor](pointersIndexes[seriesCtor], mappingInstance);
+              fieldKey = goog.isArray(fieldKey) ? fieldKey[0] : fieldKey;
 
-              } else {
-                series = this.chart_[seriesCtor](mappingInstance);
-              }
-
-              if (series['id']) {
-                // Set series id
-                series['id'](plotMapping[j]['id']);
-
-                var fieldKey = mappingObj['value'] ?
-                    mappingObj['value'][0] :
-                      mappingObj['close'] ?
-                          mappingObj['close'][0] :
-                            mappingObj['high'] ? mappingObj['high'][0] : null;
-
-                if (fieldKey) {
-                  var preparedData = model.getPreparedData()[0];
-                  var seriesName = preparedData.fieldNames[fieldKey] ? preparedData.fieldNames[fieldKey] : null;
-                  if (!seriesName) {
-                    var currentField = goog.array.filter(preparedData.fields, function(item) {return item.key === fieldKey;})[0];
-                    seriesName = currentField.name;
-                  }
-                  defaults['getSeries(\'' + plotMapping[j]['id'] + '\').name()'] = seriesName;
+              if (fieldKey) {
+                var preparedData = model.getPreparedData()[0];
+                var seriesName = preparedData.fieldNames[fieldKey] ? preparedData.fieldNames[fieldKey] : null;
+                if (!seriesName) {
+                  var currentField = goog.array.filter(preparedData.fields, function(item) {return item.key == fieldKey;})[0];
+                  seriesName = currentField.name;
                 }
+                defaults['getSeries(\'' + plotMapping[j]['id'] + '\').name()'] = seriesName;
               }
             }
           }

@@ -2314,7 +2314,7 @@ chartEditor.model.Base.prototype.prepareDataSet_ = function(dataSet) {
       val = row[i];
       type = goog.isDefAndNotNull(val) ? typeof(val) : 'number';
       field = {
-        key: name,
+        key: i,
         name: name,
         type: type
       };
