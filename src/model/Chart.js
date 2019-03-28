@@ -247,6 +247,9 @@ chartEditor.model.Series['sankey'] = {
 chartEditor.model.Series['funnel'] = {
   'fields': [{'field': 'value', 'name': 'Value'}]
 };
+chartEditor.model.Series['pyramid'] = {
+  'fields': [{'field': 'value', 'name': 'Value'}]
+};
 chartEditor.model.Series['treeMap'] = {
   'fields': [
     {'field': 'parent', 'name': 'Parent', 'type': 'string'},
@@ -331,6 +334,7 @@ chartEditor.model.ExcludedPanelsForCharts.push({
     chartEditor.enums.ChartType.WATERFALL,
     chartEditor.enums.ChartType.PIE,
     chartEditor.enums.ChartType.FUNNEL,
+    chartEditor.enums.ChartType.PYRAMID,
     chartEditor.enums.ChartType.BOX,
 
     chartEditor.enums.ChartType.MEKKO,
@@ -368,6 +372,7 @@ chartEditor.model.ExcludedPanelsForCharts.push({
   chartTypes: [
     chartEditor.enums.ChartType.PIE,
     chartEditor.enums.ChartType.FUNNEL,
+    chartEditor.enums.ChartType.PYRAMID,
     chartEditor.enums.ChartType.TREEMAP,
     chartEditor.enums.ChartType.SANKEY,
     chartEditor.enums.ChartType.TAG_CLOUD,

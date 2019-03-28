@@ -280,6 +280,7 @@ chartEditor.enums.ChartType = {
   POLAR: 'polar',
   PIE: 'pie',
   FUNNEL: 'funnel',
+  PYRAMID: 'pyramid',
   MEKKO: 'mekko',
   BARMEKKO: 'barmekko',
   MOSAIC: 'mosaic',

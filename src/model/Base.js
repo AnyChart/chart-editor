@@ -420,6 +420,16 @@ chartEditor.model.ChartTypes = (function() {
     product: chartEditor.model.Product.CHART
   };
 
+  types[chartEditor.enums.ChartType.PYRAMID] = {
+    'value': 'pyramid',
+    'name': 'Pyramid',
+    'icon': 'pyramid-chart.svg',
+    'series': ['pyramid'],
+    'dataSetCtor': 'set',
+    'singleSeries': true,
+    product: chartEditor.model.Product.CHART
+  };
+
   types[chartEditor.enums.ChartType.MEKKO] = {
     'value': 'mekko',
     'name': 'Mekko',
