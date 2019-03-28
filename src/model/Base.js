@@ -1941,7 +1941,7 @@ chartEditor.model.Base.prototype.getChartWithJsCode_ = function(opt_options) {
     chart['data'](dataSet);
     result.push(
       '// Setting data to the chart',
-      'chart.data(data);'
+      'chart.data(dataSet);'
     );
   } else {
     // create mapping and series
