@@ -179,7 +179,7 @@ chartEditor.ui.control.select.Base.prototype.setValue = function(value, opt_addi
     for (var i = 0, item; item = selectionModel.getItemAt(i); i++) {
       if (item && typeof item.getValue === 'function') {
         var itemModel = item.getValue();
-        if (itemModel === value || itemModel.value === value) {
+        if (itemModel == value || itemModel.value == value) {
           var additionalMatch = true;
           if (goog.isObject(opt_additionalValues)) {
             for (var j in opt_additionalValues) {
