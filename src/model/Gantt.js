@@ -68,6 +68,8 @@ chartEditor.model.Series['ganttProject'] = {
     {'field': 'progressValue', 'type': 'string', 'isOptional': true},
     {'field': 'actualStart', 'type': 'string'},
     {'field': 'actualEnd'},
+    {'field': 'baselineStart', 'isOptional': true},
+    {'field': 'baselineEnd', 'isOptional': true},
     {'field': 'connectTo', 'isOptional': true},
     {'field': 'connectorType', 'type': 'string', 'isOptional': true}
   ]
