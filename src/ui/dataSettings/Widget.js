@@ -178,13 +178,16 @@ chartEditor.ui.dataSettings.Widget.prototype.createActiveAndFieldOptions_ = func
       continue;
     }
 
+    var fieldNames = data[0].fieldNames;
     for (var j = 0; j < fields.length; j++) {
       var field = fields[j];
-      this.activeAndFieldSelect_.getSelect().addItem(new chartEditor.ui.control.fieldSelect.SelectMenuItem({
-        caption: field.name,
+      var name = fieldNames && fieldNames[field.name] ? fieldNames[field.name] : fields.name;
+      var item = {
+        caption: name,
         value: field.key,
         active: data[i].setFullId
-      }));
+      };
+      this.activeAndFieldSelect_.getSelect().addItem(new chartEditor.ui.control.fieldSelect.SelectMenuItem(item));
     }
   }
 };

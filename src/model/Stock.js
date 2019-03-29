@@ -28,11 +28,6 @@ chartEditor.model.Stock = function() {
       docsUrl: 'https://docs.anychart.com/Working_with_Data/Overview'
     },
     {
-      name: chartEditor.enums.EditorTabs.THEMING,
-      classFunc: chartEditor.ui.appearanceTabs.GeneralTheming,
-      docsUrl: 'http://docs.anychart.com/Appearance_Settings/Themes'
-    },
-    {
       name: chartEditor.enums.EditorTabs.TITLE,
       classFunc: chartEditor.ui.appearanceTabs.ChartTitle,
       docsUrl: 'http://docs.anychart.com/Common_Settings/Title'

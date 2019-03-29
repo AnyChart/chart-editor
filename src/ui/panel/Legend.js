@@ -1,6 +1,6 @@
 goog.provide('chartEditor.ui.panel.Legend');
 
-goog.require('chartEditor.ui.PanelIndexed');
+goog.require('chartEditor.ui.PanelZippy');
 goog.require('chartEditor.ui.panel.LegendAppearance');
 goog.require('chartEditor.ui.panel.Title');
 
@@ -10,7 +10,7 @@ goog.require('chartEditor.ui.panel.Title');
  * @param {number=} opt_plotIndex
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  * @constructor
- * @extends {chartEditor.ui.PanelIndexed}
+ * @extends {chartEditor.ui.PanelZippy}
  */
 chartEditor.ui.panel.Legend = function(model, opt_plotIndex, opt_domHelper) {
   chartEditor.ui.panel.Legend.base(
@@ -40,7 +40,7 @@ chartEditor.ui.panel.Legend = function(model, opt_plotIndex, opt_domHelper) {
 
   this.addClassName(goog.getCssName('anychart-ce-panel-legend-single'));
 };
-goog.inherits(chartEditor.ui.panel.Legend,chartEditor.ui.PanelIndexed);
+goog.inherits(chartEditor.ui.panel.Legend,chartEditor.ui.PanelZippy);
 
 
 /** @override */

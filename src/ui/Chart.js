@@ -62,7 +62,7 @@ chartEditor.ui.Chart.prototype.enterDocument = function() {
   // this.onModelChange(null);
 
   this.getHandler().listen(/** @type {chartEditor.model.Base} */(this.getModel()),
-      chartEditor.events.EventType.EDITOR_MODEL_UPDATE, this.onModelChange);
+    chartEditor.events.EventType.EDITOR_MODEL_UPDATE, this.onModelChange);
 };
 
 
@@ -166,7 +166,7 @@ chartEditor.ui.Chart.prototype.onModelChange = function(evt) {
           seriesMapping = plotMapping[j]['mapping'];
 
           mappingObj = dsCtor === 'table' || model.chartTypeLike('gauges') ? {} :
-              {'x': settings['dataSettings']['field']};
+            {'x': settings['dataSettings']['field']};
 
           for (var k in seriesMapping) {
             if (seriesMapping.hasOwnProperty(k))
@@ -204,21 +204,23 @@ chartEditor.ui.Chart.prototype.onModelChange = function(evt) {
               series['id'](plotMapping[j]['id']);
 
               var fieldKey = mappingObj['value'] ?
-                  mappingObj['value'] :
-                    mappingObj['close'] ?
-                        mappingObj['close'] :
-                          mappingObj['high'] ? mappingObj['high'] : null;
-
-              fieldKey = goog.isArray(fieldKey) ? fieldKey[0] : fieldKey;
+                mappingObj['value'] :
+                mappingObj['close'] ?
+                  mappingObj['close'] :
+                  mappingObj['high'] ? mappingObj['high'] : null;
 
               if (fieldKey) {
-                var preparedData = model.getPreparedData()[0];
+                fieldKey = goog.isArray(fieldKey) ? fieldKey[0] : fieldKey;
+                var preparedData = model.getPreparedData();
+                preparedData = preparedData[0];
                 var seriesName = preparedData.fieldNames[fieldKey] ? preparedData.fieldNames[fieldKey] : null;
                 if (!seriesName) {
-                  var currentField = goog.array.filter(preparedData.fields, function(item) {return item.key == fieldKey;})[0];
+                  var currentField = goog.array.filter(preparedData.fields, function(item) {
+                    return item.key === fieldKey;
+                  })[0];
                   seriesName = currentField.name;
                 }
-                defaults['getSeries(\'' + plotMapping[j]['id'] + '\').name()'] = seriesName;
+                defaults[stringKey] = seriesName;
               }
             }
           }
@@ -276,7 +278,7 @@ chartEditor.ui.Chart.prototype.onModelChange = function(evt) {
             if (!descriptor || descriptor['key'] === key) {
               delete settings['chart']['settings'][key];
 
-            } else if(!descriptor['key']) {
+            } else if (!descriptor['key']) {
               value = descriptor['instance'];
             }
           }

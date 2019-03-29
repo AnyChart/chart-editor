@@ -65,11 +65,11 @@ chartEditor.ui.panel.series.StockSeries.prototype.createDom = function() {
   var fill;
   if (this.hasFillStroke_) {
     fill = new chartEditor.ui.control.colorPicker.Base();
-    fill.init(model, this.genKey('color()'));
-
+    var color = new chartEditor.ui.control.wrapped.Labeled(/** @type {chartEditor.ui.control.colorPicker.Base} */(fill), 'Fill');
+    color.init(model, this.genKey('color()'));
     if (!this.hasFallingRising_) {
-      this.addHeaderChildControl(fill);
-      fill.addClassName(goog.getCssName('anychart-ce-panel-control-right'));
+      this.addChildControl(color);
+      this.addContentSeparator();
     }
   }
   // endregion
@@ -100,6 +100,8 @@ chartEditor.ui.panel.series.StockSeries.prototype.createDom = function() {
     var risingStroke = new chartEditor.ui.panel.Stroke(model, 'Rising Stroke');
     risingStroke.setKey(this.genKey('risingStroke()'));
     this.addChildControl(risingStroke);
+
+    this.addContentSeparator();
 
     if (this.seriesType_ != 'ohlc') {
       var fallingFill = new chartEditor.ui.control.colorPicker.Base();

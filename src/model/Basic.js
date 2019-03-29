@@ -16,7 +16,7 @@ goog.require('chartEditor.ui.panel.scales.Base');
 
 
 /**
- * ditor Model for Basic Editor product.
+ * Editor Model for Basic Editor product.
  *
  * @constructor
  * @extends {chartEditor.model.Base}
