@@ -544,13 +544,8 @@ chartEditor.model.Chart.prototype.createDefaultPlotMappings = function() {
 
   if (this.isChartSingleSeries() || this.chartTypeLike(['box', 'gauges']))
     numSeries = 1;
-  else {
+  else
     numSeries = Math.floor(this.fieldsState.numbersCount / numValues);
-    if (!this.fieldsState.strings.length) {
-      // X field is also from numbers
-      numSeries--;
-    }
-  }
 
   for (var i = 0; i < numSeries; i += numValues) {
     var seriesConfig = this.createDefaultSeriesMapping(i, /** @type {string} */(seriesType));
