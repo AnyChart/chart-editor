@@ -178,10 +178,14 @@ chartEditor.ui.dataSettings.Widget.prototype.createActiveAndFieldOptions_ = func
       continue;
     }
 
-    var fieldNames = data[0].fieldNames;
+    var fieldNames = data[i].fieldNames;
     for (var j = 0; j < fields.length; j++) {
       var field = fields[j];
-      var name = fieldNames && fieldNames[field.name] ? fieldNames[field.name] : fields.name;
+      // todo: (chernetsky) Разве не должно быть fieldNames[field.key]? Надо проверить.
+      var name = fieldNames && fieldNames[field.name] ?
+          fieldNames[field.name] :
+          field.name;
+
       var item = {
         caption: name,
         value: field.key,
