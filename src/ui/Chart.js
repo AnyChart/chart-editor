@@ -215,12 +215,14 @@ chartEditor.ui.Chart.prototype.onModelChange = function(evt) {
                 preparedData = preparedData[0];
                 var seriesName = preparedData.fieldNames[fieldKey] ? preparedData.fieldNames[fieldKey] : null;
                 if (!seriesName) {
-                  var currentField = goog.array.filter(preparedData.fields, function(item) {
-                    return item.key === fieldKey;
-                  })[0];
-                  seriesName = currentField.name;
+                  for (var f = 0; f < preparedData.fields.length; f++) {
+                    if (String(preparedData.fields[f].key) == String(fieldKey)) {
+                      seriesName = preparedData.fields[f].name;
+                      defaults[stringKey] = seriesName;
+                      break;
+                    }
+                  }
                 }
-                defaults[stringKey] = seriesName;
               }
             }
           }
