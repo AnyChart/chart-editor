@@ -732,7 +732,7 @@ chartEditor.model.Base.prototype.analyzeDataAfterChooseField = function() {
 
   // Counting numbers
   for (key in dataRow) {
-    if (this.model['dataSettings']['field'] === key)
+    if (this.model['dataSettings']['field'] == String(key))
       continue;
 
     numberValue = goog.string.toNumber(dataRow[key]);
