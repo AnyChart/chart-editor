@@ -136,7 +136,7 @@ chartEditor.ui.control.select.Base.prototype.applySelection = function () {
     this.editorModel.callbackByString(this.callback, this);
   else {
     var value = this.getValue();
-    value = goog.isObject(value) && value.value ? value.value : value;
+    value = goog.isObject(value) && goog.isDef(value.value) ? value.value : value;
     this.editorModel.setValue(this.key, value, false, this.noRebuild);
   }
 };
