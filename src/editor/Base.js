@@ -171,7 +171,9 @@ chartEditor.editor.Base.prototype.getTheme = function () {
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  */
 chartEditor.editor.Base.prototype.dialogRender = function (opt_class, opt_useIframeMask, opt_domHelper) {
-  this.dialog_ = new chartEditor.editor.Base.Dialog(opt_class || goog.getCssName('anychart-ce-dialog'), opt_useIframeMask, opt_domHelper);
+  this.dialog_ = new chartEditor.editor.Base.Dialog(goog.getCssName('anychart-ce-dialog'), opt_useIframeMask, opt_domHelper);
+
+  this.dialogAdditionalClass_ = opt_class;
 
   if (this.theme_) this.dialog_.setTheme(this.theme_);
 
@@ -196,6 +198,9 @@ chartEditor.editor.Base.prototype.dialogVisible = function (opt_value, opt_force
     if (this.dialog_.isVisible() !== opt_value) {
       this.forceClose = !!opt_forceClose;
       this.dialog_.setVisible(opt_value);
+      if (this.dialogAdditionalClass_)
+        goog.dom.classlist.add(this.dialog_.getElement(), this.dialogAdditionalClass_);
+
       this.waitForImages_();
     }
     return this;
