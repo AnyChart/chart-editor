@@ -252,6 +252,7 @@ chartEditor.enums.EditorTabs = {
   GANTT_TIMELINE_TOOLTIP: 'ganttTimelineTooltip',
   GANTT_DATAGRID_TOOLTIP: 'ganttDataGridTooltip',
   LABEL: 'label',
+  QUARTERS: 'quarters',
   CHART_LABELS: 'chartLabels'
 };
 

@@ -15,6 +15,7 @@ goog.require('chartEditor.ui.appearanceTabs.Grids');
 goog.require('chartEditor.ui.appearanceTabs.Legend');
 goog.require('chartEditor.ui.appearanceTabs.Node');
 goog.require('chartEditor.ui.appearanceTabs.Pointers');
+goog.require('chartEditor.ui.appearanceTabs.Quarters');
 goog.require('chartEditor.ui.appearanceTabs.ScaleBars');
 goog.require('chartEditor.ui.appearanceTabs.Scales');
 goog.require('chartEditor.ui.appearanceTabs.SeriesWithScales');
@@ -81,6 +82,11 @@ chartEditor.model.Chart = function() {
       classFunc: chartEditor.ui.appearanceTabs.CircularRanges
     },
     {
+      name: chartEditor.enums.EditorTabs.QUARTERS,
+      classFunc: chartEditor.ui.appearanceTabs.Quarters,
+      docsUrl: 'https://docs.anychart.com/Basic_Charts/Quadrant_Chart#quarters'
+    },
+    {
       name: chartEditor.enums.EditorTabs.FLOW,
       classFunc: chartEditor.ui.appearanceTabs.Flow
     },
@@ -111,7 +117,6 @@ chartEditor.model.Chart = function() {
       classFunc: chartEditor.ui.appearanceTabs.axes.CartesianYAxes,
       docsUrl: 'http://docs.anychart.com/Axes_and_Grids/Axis_Basics'
     },
-
     {
       name: chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
       classFunc: chartEditor.ui.appearanceTabs.axes.RadarPolarXAxis,
@@ -458,6 +463,13 @@ chartEditor.model.SpecificPanelsForCharts.push({
     chartEditor.enums.ChartType.GAUGES_CIRCULAR],
   panels: [
     chartEditor.enums.EditorTabs.CIRCULAR_RANGES
+  ]
+});
+chartEditor.model.SpecificPanelsForCharts.push({
+  chartTypes: [
+    chartEditor.enums.ChartType.QUADRANT],
+  panels: [
+    chartEditor.enums.EditorTabs.QUARTERS
   ]
 });
 
