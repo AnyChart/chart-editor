@@ -2028,6 +2028,9 @@ chartEditor.model.Base.prototype.getChartWithJsCode_ = function(opt_options) {
           } else {
             series = chart[seriesCtor](mappingInstancesList[i][j]);
             result.push('series' + eq + 'chart.' + seriesCtor + mappingPostfix);
+            // to prevent not drawing line series for qlik purposes
+            if ((chartType === 'quadrant' || chartType === 'quadrant') && seriesCtor === 'line')
+              result.push('series.connectMissingPoint(true)');
           }
           if (series['id']) {
             series['id'](plotMapping[j]['id']);
