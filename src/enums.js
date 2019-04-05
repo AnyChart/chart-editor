@@ -296,7 +296,8 @@ chartEditor.enums.ChartType = {
   STOCK: 'stock',
   MAP: 'map',
   GANTT_PROJECT: 'ganttProject',
-  GANTT_RESOURCE: 'ganttResource'
+  GANTT_RESOURCE: 'ganttResource',
+  QUADRANT: 'quadrant'
 };
 
 

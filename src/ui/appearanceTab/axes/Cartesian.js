@@ -79,6 +79,8 @@ chartEditor.ui.appearanceTabs.axes.Cartesian.prototype.createPanels = function()
       model.suspendDispatch();
       // Always create 0 axis panel
       this.addPanelInstance(/** @type {chartEditor.ui.PanelIndexed} */(this.createPanel()));
+      if (model['model']['chart']['type'] === chartEditor.enums.ChartType.QUADRANT)
+        this.addPanelInstance(/** @type {chartEditor.ui.PanelIndexed} */(this.createPanel()));
       model.resumeDispatch(true);
     }
   }

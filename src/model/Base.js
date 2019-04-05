@@ -628,6 +628,23 @@ chartEditor.model.ChartTypes = (function() {
     product: chartEditor.model.Product.GANTT
   };
 
+  types[chartEditor.enums.ChartType.QUADRANT] = {
+    'value': 'quadrant',
+    'name': 'Quadrant',
+    // ???
+    'icon': 'gantt-chart.svg',
+    'series': [ 'marker', 'line', 'bubble'],
+    'dataSetCtor': 'set',
+    'scales': chartEditor.model.Scales.SCATTER,
+    excludedPanels: [
+      chartEditor.enums.EditorTabs.GRIDS,
+      chartEditor.enums.EditorTabs.COLOR_SCALE,
+      chartEditor.enums.EditorTabs.COLOR_RANGE,
+      chartEditor.enums.EditorTabs.RADAR_POLAR_AXES
+    ],
+    product: chartEditor.model.Product.CHART
+  };
+
   return types;
 }());
 
