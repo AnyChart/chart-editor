@@ -8,6 +8,7 @@ goog.require('chartEditor.ui.panel.specific.HeatMap');
 goog.require('chartEditor.ui.panel.specific.Mekko');
 goog.require('chartEditor.ui.panel.specific.Pie');
 goog.require('chartEditor.ui.panel.specific.Polar');
+goog.require('chartEditor.ui.panel.specific.Quadrant');
 goog.require('chartEditor.ui.panel.specific.Radar');
 goog.require('chartEditor.ui.panel.specific.Sankey');
 goog.require('chartEditor.ui.panel.specific.Scatter');
@@ -80,6 +81,10 @@ chartEditor.ui.appearanceTabs.ChartSpecific = function(model, opt_domHelper) {
     {
       chartType: ['tagCloud'],
       classFunc: chartEditor.ui.panel.specific.TagCloud
+    },
+    {
+      chartType: ['quadrant'],
+      classFunc: chartEditor.ui.panel.specific.Quadrant
     }
   ];
 
