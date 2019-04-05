@@ -631,8 +631,7 @@ chartEditor.model.ChartTypes = (function() {
   types[chartEditor.enums.ChartType.QUADRANT] = {
     'value': 'quadrant',
     'name': 'Quadrant',
-    // ???
-    'icon': 'gantt-chart.svg',
+    'icon': 'quadrant-chart.svg',
     'series': [ 'marker', 'line', 'bubble'],
     'dataSetCtor': 'set',
     'scales': chartEditor.model.Scales.SCATTER,
