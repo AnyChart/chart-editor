@@ -2030,7 +2030,7 @@ chartEditor.model.Base.prototype.getChartWithJsCode_ = function(opt_options) {
             result.push('series' + eq + 'chart.' + seriesCtor + mappingPostfix);
             // to prevent not drawing line series for qlik purposes
             if ((chartType === 'quadrant' || chartType === 'scatter') && seriesCtor === 'line')
-              result.push('series.connectMissingPoint(true)');
+              result.push('series.connectMissingPoints(true)');
           }
           if (series['id']) {
             series['id'](plotMapping[j]['id']);
