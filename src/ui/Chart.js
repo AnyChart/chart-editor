@@ -198,7 +198,7 @@ chartEditor.ui.Chart.prototype.onModelChange = function(evt) {
             } else {
               series = this.chart_[seriesCtor](mappingInstance);
               // to prevent not drawing line series for qlik purposes
-              if ((chartType === 'quadrant' || chartType === 'quadrant') && seriesCtor === 'line')
+              if ((chartType === 'quadrant' || chartType === 'scatter') && seriesCtor === 'line')
                 series['connectMissingPoints'](true);
             }
 
