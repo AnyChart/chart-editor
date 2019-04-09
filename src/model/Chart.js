@@ -220,7 +220,6 @@ chartEditor.model.Series['box'] = {
     {'field': 'median'},
     {'field': 'q3'},
     {'field': 'highest'},
-    {'field': 'value'},
     {'field': 'outliers'}]
 };
 chartEditor.model.Series['marker'] = {
