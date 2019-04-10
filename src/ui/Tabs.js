@@ -65,15 +65,14 @@ chartEditor.ui.Tabs.prototype.createDom = function() {
 
     tabContent.addChild(panel, true);
 
-    if (this.descriptors[i].docsUrl) {
-      var descriptionHtml = goog.dom.createDom(
-          goog.dom.TagName.A,
-          {'href': this.descriptors[i].docsUrl, 'target': '_blank'},
-          ' Read docs');
-
-      panel.addDescription(descriptionHtml);
-    }
-
+    // if (this.descriptors[i].docsUrl) {
+    //   var descriptionHtml = goog.dom.createDom(
+    //       goog.dom.TagName.A,
+    //       {'href': this.descriptors[i].docsUrl, 'target': '_blank'},
+    //       ' Read docs');
+    //
+    //   panel.addDescription(descriptionHtml);
+    // }
 
     goog.dom.classlist.add(panel.getElement(), 'anychart-ce-panel-' + this.descriptors[i].name.toLowerCase());
     goog.dom.classlist.add(panel.getTopElement(), 'anychart-ce-section-caption');
