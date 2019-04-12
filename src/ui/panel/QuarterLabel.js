@@ -2,6 +2,7 @@ goog.provide('chartEditor.ui.panel.QuarterLabel');
 
 goog.require('chartEditor.ui.Panel');
 goog.require('chartEditor.ui.control.comboBox.Base');
+goog.require('chartEditor.ui.control.comboBox.Percent');
 goog.require('chartEditor.ui.control.wrapped.Labeled');
 goog.require('chartEditor.ui.panel.Title');
 
@@ -30,26 +31,10 @@ chartEditor.ui.panel.QuarterLabel.prototype.allowEditPosition_ = true;
 
 
 /**
- * @param {boolean} value
- */
-chartEditor.ui.panel.QuarterLabel.prototype.allowEditPosition = function(value) {
-  this.allowEditPosition_ = value;
-};
-
-
-/**
  * @type {boolean}
  * @private
  */
 chartEditor.ui.panel.QuarterLabel.prototype.allowEditAnchor_ = true;
-
-
-/**
- * @param {boolean} value
- */
-chartEditor.ui.panel.QuarterLabel.prototype.allowEditAnchor = function(value) {
-  this.allowEditAnchor_ = value;
-};
 
 
 /** @inheritDoc */
@@ -78,6 +63,18 @@ chartEditor.ui.panel.QuarterLabel.prototype.createDom = function() {
   var rotationLC = new chartEditor.ui.control.wrapped.Labeled(rotation, 'Rotation');
   rotationLC.init(model, this.genKey('rotation()'));
   this.addChildControl(rotationLC);
+
+  var offsetX = new chartEditor.ui.control.comboBox.Percent();
+  offsetX.allowNegative(true);
+  var offsetXLC = new chartEditor.ui.control.wrapped.Labeled(offsetX, 'Offset X');
+  offsetXLC.init(model, this.genKey('offsetX()'));
+  this.addChildControl(offsetXLC);
+
+  var offsetY = new chartEditor.ui.control.comboBox.Percent();
+  offsetY.allowNegative(true);
+  var offsetYLC = new chartEditor.ui.control.wrapped.Labeled(offsetY, 'Offset Y');
+  offsetYLC.init(model, this.genKey('offsetY()'));
+  this.addChildControl(offsetYLC);
 };
 
 
@@ -86,42 +83,23 @@ chartEditor.ui.panel.QuarterLabel.prototype.enterDocument = function() {
   chartEditor.ui.panel.QuarterLabel.base(this, 'enterDocument');
 
   if (this.allowEditPosition_) {
-    var positionValuesEnum;
-    var model = /** @type {chartEditor.model.Base} */(this.getModel());
-    var chartType = model.getModel()['chart']['type'];
-    var addValueOption = false;
-    switch (chartType) {
-      case 'pie':
-        positionValuesEnum = chartEditor.enums.SidePosition;
-        break;
-      case 'funnel':
-      case 'pyramid':
-        positionValuesEnum = chartEditor.enums.PyramidLabelsPosition;
-        break;
-      default:
-        positionValuesEnum = chartEditor.enums.Position;
-        addValueOption = true;
-    }
-
-    var positionValues = goog.object.getValues(positionValuesEnum);
+    var positionValues = goog.object.getValues(chartEditor.enums.Position);
     positionValues = goog.array.filter(positionValues, function(i) {
       return goog.typeOf(i) === 'string';
     });
-    if (addValueOption) positionValues.push('value');
+    positionValues.push('value');
 
     var positionField = /** @type {chartEditor.ui.control.fieldSelect.Base} */(this.settings_.getPositionField());
     positionField.getSelect().setOptions(positionValues);
   }
 
-  if (this.allowEditAnchor_) {
-    var alignValues = goog.object.getValues(chartEditor.enums.Anchor);
-    alignValues = goog.array.filter(alignValues, function(i) {
-      return goog.typeOf(i) == 'string';
-    });
+  var alignValues = goog.object.getValues(chartEditor.enums.Anchor);
+  alignValues = goog.array.filter(alignValues, function(i) {
+    return goog.typeOf(i) == 'string';
+  });
 
-    var alignField = /** @type {chartEditor.ui.control.fieldSelect.Base} */(this.settings_.getAlignField());
-    alignField.getSelect().setOptions(alignValues);
-  }
+  var alignField = /** @type {chartEditor.ui.control.fieldSelect.Base} */(this.settings_.getAlignField());
+  alignField.getSelect().setOptions(alignValues);
 };
 
 

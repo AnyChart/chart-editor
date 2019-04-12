@@ -63,10 +63,8 @@ chartEditor.ui.panel.Quarter.prototype.createDom = function() {
 
   var label = new chartEditor.ui.panel.QuarterLabel(model);
   label.setName('Label');
-  label.allowEnabled(true);
-  label.allowEditPosition(true);
-  label.allowEditAnchor(true);
+  // label.allowEditPosition(true);
+  // label.allowEditAnchor(true);
   label.setKey(this.genKey('label()'));
-  label.setEnabled(false);
   this.addChildControl(label);
 };
