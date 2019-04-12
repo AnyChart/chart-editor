@@ -5,7 +5,7 @@ goog.require('chartEditor.ui.control.colorPicker.Base');
 goog.require('chartEditor.ui.control.comboBox.Base');
 goog.require('chartEditor.ui.control.fieldSelect.Base');
 goog.require('chartEditor.ui.control.wrapped.Labeled');
-goog.require('chartEditor.ui.panel.QuarterLabel');
+// goog.require('chartEditor.ui.panel.QuarterLabel');
 goog.require('chartEditor.ui.panel.Stroke');
 goog.require('chartEditor.ui.panel.Title');
 
@@ -61,10 +61,12 @@ chartEditor.ui.panel.Quarter.prototype.createDom = function() {
   title.setKey(this.genKey('title()'));
   this.addChildControl(title);
 
-  var label = new chartEditor.ui.panel.QuarterLabel(model);
-  label.setName('Label');
-  // label.allowEditPosition(true);
-  // label.allowEditAnchor(true);
-  label.setKey(this.genKey('label()'));
-  this.addChildControl(label);
+  // any getter call of the quarter or chart label lead to creating it
+  // TODO: make a workaround how to enable this control only by user action
+  // var label = new chartEditor.ui.panel.QuarterLabel(model);
+  // label.setName('Label');
+  // // label.allowEditPosition(true);
+  // // label.allowEditAnchor(true);
+  // label.setKey(this.genKey('label()'));
+  // this.addChildControl(label);
 };
