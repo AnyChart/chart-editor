@@ -5,10 +5,9 @@ goog.require('chartEditor.ui.control.colorPicker.Base');
 goog.require('chartEditor.ui.control.comboBox.Base');
 goog.require('chartEditor.ui.control.fieldSelect.Base');
 goog.require('chartEditor.ui.control.wrapped.Labeled');
+goog.require('chartEditor.ui.panel.QuarterLabel');
 goog.require('chartEditor.ui.panel.Stroke');
 goog.require('chartEditor.ui.panel.Title');
-goog.require('chartEditor.ui.panel.QuarterLabel');
-goog.require('chartEditor.ui.panel.ChartLabel');
 
 
 /**
@@ -65,6 +64,9 @@ chartEditor.ui.panel.Quarter.prototype.createDom = function() {
   var label = new chartEditor.ui.panel.QuarterLabel(model);
   label.setName('Label');
   label.allowEnabled(true);
+  label.allowEditPosition(true);
+  label.allowEditAnchor(true);
   label.setKey(this.genKey('label()'));
+  label.setEnabled(false);
   this.addChildControl(label);
 };
