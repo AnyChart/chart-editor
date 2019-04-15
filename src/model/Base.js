@@ -326,6 +326,17 @@ chartEditor.model.ChartTypes = (function() {
     product: chartEditor.model.Product.CHART
   };
 
+  types[chartEditor.enums.ChartType.DONUT] = {
+    'value': 'pie',
+    'name': 'Donut',
+    'icon': 'pie-chart.svg',
+    'series': ['pie'],
+    'dataSetCtor': 'set',
+    'singleSeries': true,
+    'defaults': {'innerRadius()': '50%'},
+    product: chartEditor.model.Product.CHART
+  };
+
   types[chartEditor.enums.ChartType.SCATTER] = {
     'value': 'scatter',
     'name': 'Scatter',
@@ -816,6 +827,10 @@ chartEditor.model.Base.prototype.chooseDefaultChartType = function() {
     });
     if (goog.object.getCount(result))
       this.model['chart']['type'] = desiredChartType;
+
+    if (locked['defaults']) {
+      this.defaults(locked['defaults']);
+    }
   }
 };
 
@@ -2050,7 +2065,8 @@ chartEditor.model.Base.prototype.getChartWithJsCode_ = function(opt_options) {
   }
 
   // Apply chart panel
-  if (!goog.object.isEmpty(settings['chart']['settings'])) {
+  var defaults = chartEditor.model.ChartTypes[this.lockedChartType]['defaults'];
+  if (!goog.object.isEmpty(settings['chart']['settings']) || defaults) {
     result.push('// Applying appearance panel');
 
     var chartSettings;
@@ -2067,8 +2083,14 @@ chartEditor.model.Base.prototype.getChartWithJsCode_ = function(opt_options) {
       for (var k = 0; k < keys.length; k++) {
         chartSettings[keys[k]] = settings['chart']['settings'][keys[k]];
       }
-    } else
+    } else {
       chartSettings = settings['chart']['settings'];
+      //apply default chart type settings
+      for (var key in defaults) {
+        if (!chartSettings[key])
+          chartSettings[key] = defaults[key];
+      }
+    }
 
     var markerSeriesName = '';
 

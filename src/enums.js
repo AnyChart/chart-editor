@@ -272,6 +272,7 @@ chartEditor.enums.ChartType = {
   COLUMN: 'column',
   COLUMN_STACKED_VALUE: 'column-stacked-value',
   COLUMN_STACKED_PERCENT: 'column-stacked-percent',
+  DONUT: 'donut',
   SCATTER: 'scatter',
   WATERFALL: 'waterfall',
   BOX: 'box',
