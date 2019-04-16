@@ -223,7 +223,9 @@ chartEditor.model.Series['box'] = {
     {'field': 'outliers'}]
 };
 chartEditor.model.Series['marker'] = {
-  'fields': [{'field': 'value', 'name': 'Value'}]
+  'fields': [
+    {'field': 'value', 'name': 'Value'},
+    {'field': 'name', 'name': 'Name', 'isOptional': true}]
 };
 chartEditor.model.Series['bubble'] = {
   'fields': [
