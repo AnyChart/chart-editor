@@ -1588,6 +1588,8 @@ chartEditor.model.Base.prototype.getModel = function() {
  */
 chartEditor.model.Base.prototype.defaults = function(opt_values) {
   if (goog.isDef(opt_values)) {
+    if (!goog.isDef(this.model['defaults']))
+      this.model['defaults'] = {};
     this.model['defaults'] = Object.assign(this.model['defaults'], opt_values);
     return this;
   }
