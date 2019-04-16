@@ -126,6 +126,19 @@ chartEditor.editor.Base.prototype.version = function () {
 
 
 /**
+ * Set specific settings for using editor in different plugins
+ * @param {string} value
+ */
+chartEditor.editor.Base.prototype.pluginMode = function(value) {
+  this.getModel().setValue([['editorSettings'], 'pluginMode'], value);
+  switch (value) {
+    case 'freeboard':
+      chartEditor.model.Scales.CARTESIAN[0]['type'] = 'date-time';
+  }
+};
+
+
+/**
  * Set/get the flag for qlikMode.
  * @param {boolean=} opt_value qlikMode flag.
  * @return {chartEditor.editor.Base|boolean}
@@ -782,5 +795,6 @@ window['anychart'] = window['anychart'] || {};
   proto['removeClassName'] = proto.removeClassName;
   proto['saveToCloud'] = proto.saveToCloud;
   proto['qlikMode'] = proto.qlikMode;
+  proto['pluginMode'] = proto.pluginMode;
   proto['getModelValue'] = proto.getModelValue;
 })();
