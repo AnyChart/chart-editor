@@ -823,7 +823,6 @@ chartEditor.model.Base.prototype.chooseDefaultChartType = function() {
       this.model['chart']['type'] = desiredChartType;
 
     if (locked['defaults']) {
-      console.log('apply defaults',locked['defaults']);
       this.defaults(locked['defaults']);
     }
   }
@@ -1589,7 +1588,7 @@ chartEditor.model.Base.prototype.getModel = function() {
  */
 chartEditor.model.Base.prototype.defaults = function(opt_values) {
   if (goog.isDef(opt_values)) {
-    this.model['defaults'] = opt_values;
+    this.model['defaults'] = Object.assign(this.model['defaults'], opt_values);
     return this;
   }
   return this.model['defaults'];
