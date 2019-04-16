@@ -61,15 +61,9 @@ chartEditor.model.Base = function() {
     'editorSettings': {
       'qlikMode': true
     },
-    'standalones': {}
+    'standalones': {},
+    'defaults': {}
   };
-
-  /**
-   * Default model values.
-   * @type {Object}
-   * @private
-   */
-  this.defaults_ = {};
 
   /**
    * Data set analysis result
@@ -1594,10 +1588,10 @@ chartEditor.model.Base.prototype.getModel = function() {
  */
 chartEditor.model.Base.prototype.defaults = function(opt_values) {
   if (goog.isDef(opt_values)) {
-    this.defaults_ = opt_values;
+      this.model['defaults'] = opt_values;
     return this;
   }
-  return this.defaults_;
+  return this.model['defaults'];
 };
 // endregion
 
@@ -2083,13 +2077,13 @@ chartEditor.model.Base.prototype.getChartWithJsCode_ = function(opt_options) {
       for (var k = 0; k < keys.length; k++) {
         chartSettings[keys[k]] = settings['chart']['settings'][keys[k]];
       }
-    } else {
+    } else
       chartSettings = settings['chart']['settings'];
-      //apply default chart type settings
-      for (var key in defaults) {
-        if (!chartSettings[key])
-          chartSettings[key] = defaults[key];
-      }
+
+    //apply default chart type settings
+    for (var key in defaults) {
+      if (!chartSettings[key])
+        chartSettings[key] = defaults[key];
     }
 
     var markerSeriesName = '';
