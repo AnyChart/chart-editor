@@ -639,6 +639,10 @@ chartEditor.model.ChartTypes = (function() {
     'icon': 'quadrant-chart.svg',
     'series': [ 'marker', 'line', 'bubble'],
     'dataSetCtor': 'set',
+    'defaults': {'quarters().leftTop().label().enabled()': false,
+      'quarters().leftBottom().label().enabled()': false,
+      'quarters().rightTop().label().enabled()': false,
+      'quarters().rightBottom().label().enabled()': false},
     'scales': chartEditor.model.Scales.SCATTER,
     excludedPanels: [
       chartEditor.enums.EditorTabs.GRIDS,
