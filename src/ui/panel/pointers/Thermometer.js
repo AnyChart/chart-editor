@@ -17,8 +17,6 @@ goog.require('chartEditor.ui.panel.pointers.LinearBase');
 chartEditor.ui.panel.pointers.Thermometer = function(model, type, pointerId, pointerIndex, opt_domHelper) {
   chartEditor.ui.panel.pointers.Thermometer.base(this, 'constructor', model, type, pointerId, pointerIndex, opt_domHelper);
 
-  this.pointerType_ = 'thermometer';
-
   this.addClassName(goog.getCssName('anychart-ce-panel-pointer-thermometer'));
 };
 goog.inherits(chartEditor.ui.panel.pointers.Thermometer, chartEditor.ui.panel.pointers.LinearBase);

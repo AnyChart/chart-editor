@@ -43,16 +43,16 @@ chartEditor.ui.appearanceTabs.Pointers.prototype.createPanels = function() {
     type = mappings[0][j]['ctor'];
     var className;
     switch (type) {
-      case 'gauges.bar':
+      case 'circularGauge.bar':
         className = chartEditor.ui.panel.pointers.Bar;
         break;
-      case 'gauges.marker':
+      case 'circularGauge.marker':
         className = chartEditor.ui.panel.pointers.Marker;
         break;
-      case 'needle':
+      case 'circularGauge.needle':
         className = chartEditor.ui.panel.pointers.Needle;
         break;
-      case 'knob':
+      case 'circularGauge.knob':
         className = chartEditor.ui.panel.pointers.Knob;
         break;
       case 'linearGauge.led':
@@ -93,6 +93,14 @@ chartEditor.ui.appearanceTabs.Pointers.prototype.onModelChange = function(evt) {
     if (mappings[0].length !== panelsCount) {
       this.removeAllPanels();
       this.createPanels();
+    }
+    var panels = this.getPanels();
+    // check if pointer type was changed
+    for (var i = 0; i < panels.length; i++) {
+      if (panels[i].getPointerType() !== mappings[0][i].ctor) {
+        this.removeAllPanels();
+        this.createPanels();
+      }
     }
   }
 };

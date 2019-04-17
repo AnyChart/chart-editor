@@ -80,3 +80,12 @@ chartEditor.ui.panel.pointers.LinearBase.prototype.createDom = function() {
   zIndexLC.init(model, this.genKey('zIndex()'));
   this.addChildControl(zIndexLC);
 };
+
+
+/**
+ * Getter for pointer type
+ * @return {string} pointer type
+ */
+chartEditor.ui.panel.pointers.LinearBase.prototype.getPointerType = function() {
+  return this.pointerType_;
+};

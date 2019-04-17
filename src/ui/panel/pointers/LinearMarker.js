@@ -16,8 +16,6 @@ goog.require('chartEditor.ui.panel.pointers.LinearBase');
 chartEditor.ui.panel.pointers.LinearMarker = function(model, type, pointerId, pointerIndex, opt_domHelper) {
   chartEditor.ui.panel.pointers.LinearMarker.base(this, 'constructor', model, type, pointerId, pointerIndex, opt_domHelper);
 
-  this.pointerType_ = 'marker';
-
   this.addClassName(goog.getCssName('anychart-ce-panel-pointer-marker'));
 };
 goog.inherits(chartEditor.ui.panel.pointers.LinearMarker, chartEditor.ui.panel.pointers.LinearBase);

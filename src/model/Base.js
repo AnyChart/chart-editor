@@ -529,7 +529,7 @@ chartEditor.model.ChartTypes = (function() {
     'value': 'gauges.circular',
     'name': 'Circular Gauge',
     'icon': 'circular-gauge.svg',
-    'series': ['gauges.bar', 'gauges.marker', 'needle', 'knob'],
+    'series': ['circularGauge.bar', 'circularGauge.marker', 'circularGauge.needle', 'circularGauge.knob'],
     'dataSetCtor': 'set',
     excludedPanels: [
       chartEditor.enums.EditorTabs.LEGEND,

@@ -263,20 +263,24 @@ chartEditor.model.Series['treeMap'] = {
     {'field': 'value', 'name': 'Value'}
   ]
 };
-chartEditor.model.Series['gauges.bar'] = {
+chartEditor.model.Series['circularGauge.bar'] = {
   'ctor': 'bar',
   'name': 'Bar',
   'fields': [{'field': 'value', 'name': 'Value'}]
 };
-chartEditor.model.Series['gauges.marker'] = {
+chartEditor.model.Series['circularGauge.marker'] = {
   'ctor': 'marker',
   'name': 'Marker',
   'fields': [{'field': 'value', 'name': 'Value'}]
 };
-chartEditor.model.Series['needle'] = {
+chartEditor.model.Series['circularGauge.needle'] = {
+  'ctor': 'needle',
+  'name': 'Needle',
   'fields': [{'field': 'value', 'name': 'Value'}]
 };
-chartEditor.model.Series['knob'] = {
+chartEditor.model.Series['circularGauge.knob'] = {
+  'ctor': 'knob',
+  'name': 'Knob',
   'fields': [{'field': 'value', 'name': 'Value'}]
 };
 chartEditor.model.Series['linearGauge.bar'] = {

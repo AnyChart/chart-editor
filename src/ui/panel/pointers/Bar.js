@@ -19,8 +19,6 @@ goog.require('chartEditor.ui.panel.pointers.CircularBase');
 chartEditor.ui.panel.pointers.Bar = function(model, type, pointerId, pointerIndex, opt_domHelper) {
   chartEditor.ui.panel.pointers.Bar.base(this, 'constructor', model, type, pointerId, pointerIndex, opt_domHelper);
 
-  this.pointerType_ = 'bar';
-
   this.addClassName(goog.getCssName('anychart-ce-panel-pointer-bar'));
 };
 goog.inherits(chartEditor.ui.panel.pointers.Bar, chartEditor.ui.panel.pointers.CircularBase);

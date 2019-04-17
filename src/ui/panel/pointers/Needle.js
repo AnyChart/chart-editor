@@ -17,8 +17,6 @@ goog.require('chartEditor.ui.panel.pointers.CircularBase');
 chartEditor.ui.panel.pointers.Needle = function(model, type, pointerId, pointerIndex, opt_domHelper) {
   chartEditor.ui.panel.pointers.Needle.base(this, 'constructor', model, type, pointerId, pointerIndex, opt_domHelper);
 
-  this.pointerType_ = 'needle';
-
   this.addClassName(goog.getCssName('anychart-ce-panel-pointer-needle'));
 };
 goog.inherits(chartEditor.ui.panel.pointers.Needle, chartEditor.ui.panel.pointers.CircularBase);

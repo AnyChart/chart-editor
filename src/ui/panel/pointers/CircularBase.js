@@ -96,3 +96,12 @@ chartEditor.ui.panel.pointers.CircularBase.prototype.disposeInternal = function(
 
   chartEditor.ui.panel.pointers.CircularBase.base(this, 'disposeInternal');
 };
+
+
+/**
+ * Getter for pointer type
+ * @return {string} pointer type
+ */
+chartEditor.ui.panel.pointers.CircularBase.prototype.getPointerType = function() {
+  return this.pointerType_;
+};

@@ -17,8 +17,6 @@ goog.require('chartEditor.ui.panel.pointers.LinearBase');
 chartEditor.ui.panel.pointers.Tank = function(model, type, pointerId, pointerIndex, opt_domHelper) {
   chartEditor.ui.panel.pointers.Tank.base(this, 'constructor', model, type, pointerId, pointerIndex, opt_domHelper);
 
-  this.pointerType_ = 'tank';
-
   this.skipSettings(['stroke()']);
 
   this.addClassName(goog.getCssName('anychart-ce-panel-pointer-tank'));

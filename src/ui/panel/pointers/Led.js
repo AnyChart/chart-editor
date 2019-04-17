@@ -21,8 +21,6 @@ goog.require('chartEditor.ui.panel.scales.Base');
 chartEditor.ui.panel.pointers.Led = function(model, type, pointerId, pointerIndex, opt_domHelper) {
   chartEditor.ui.panel.pointers.Led.base(this, 'constructor', model, type, pointerId, pointerIndex, opt_domHelper);
 
-  this.pointerType_ = 'led';
-
   this.skipSettings(['fill()', 'stroke()']);
 
   this.addClassName(goog.getCssName('anychart-ce-panel-pointer-led'));

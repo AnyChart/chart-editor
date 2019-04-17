@@ -18,8 +18,6 @@ goog.require('chartEditor.ui.panel.pointers.CircularBase');
 chartEditor.ui.panel.pointers.Knob = function(model, type, pointerId, pointerIndex, opt_domHelper) {
   chartEditor.ui.panel.pointers.Knob.base(this, 'constructor', model, type, pointerId, pointerIndex, opt_domHelper);
 
-  this.pointerType_ = 'knob';
-
   this.addClassName(goog.getCssName('anychart-ce-panel-pointer-knob'));
 };
 goog.inherits(chartEditor.ui.panel.pointers.Knob, chartEditor.ui.panel.pointers.CircularBase);

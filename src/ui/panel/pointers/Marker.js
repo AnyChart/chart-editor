@@ -19,8 +19,6 @@ goog.require('chartEditor.ui.panel.pointers.CircularBase');
 chartEditor.ui.panel.pointers.Marker = function(model, type, pointerId, pointerIndex, opt_domHelper) {
   chartEditor.ui.panel.pointers.Marker.base(this, 'constructor', model, type, pointerId, pointerIndex, opt_domHelper);
 
-  this.pointerType_ = 'marker';
-
   this.addClassName(goog.getCssName('anychart-ce-panel-pointer-marker'));
 };
 goog.inherits(chartEditor.ui.panel.pointers.Marker, chartEditor.ui.panel.pointers.CircularBase);

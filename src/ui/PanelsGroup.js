@@ -272,3 +272,11 @@ chartEditor.ui.PanelsGroup.prototype.removePanel = function(panelIndex) {
 chartEditor.ui.PanelsGroup.prototype.createPanels = function() {
   // Should be overridden
 };
+
+/**
+ * Get all panels.
+ * @return {Array} panels
+ */
+chartEditor.ui.PanelsGroup.prototype.getPanels = function() {
+  return this.panels_[0];
+};
