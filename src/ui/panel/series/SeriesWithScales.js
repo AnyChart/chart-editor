@@ -61,16 +61,21 @@ chartEditor.ui.panel.series.SeriesWithScales.prototype.createDom = function() {
   var name = new chartEditor.ui.control.input.Base('Series name');
   name.init(model, this.genKey('name()'));
   this.addHeaderChildControl(name);
-
-  // var lockSeriesNames = model.getValue([['editorSettings'], ['lockSeriesName'], name.getKey()[2]]);
-  // name.setEnabled(!lockSeriesNames);
-
   goog.dom.classlist.add(name.getElement(), goog.getCssName('anychart-ce-series-name-input'));
-
   // endregion
 
   // region ==== Content
-  if (this.hasFillStroke_) {
+  var dataMarkers = new chartEditor.ui.panel.Markers(model);
+  if (this.seriesType_ === 'marker') {
+    dataMarkers.setFillKey('color()');
+    dataMarkers.setName(null);
+    dataMarkers.allowEnabled(false);
+    dataMarkers.setKey(this.getKey());
+    this.addChildControl(dataMarkers);
+
+    this.addContentSeparator();
+
+  } else if (this.hasFillStroke_) {
     var fill = new chartEditor.ui.control.colorPicker.Base();
     var totalFillLC = new chartEditor.ui.control.wrapped.Labeled(/** @type {chartEditor.ui.control.colorPicker.Base} */(fill),
         this.hasFallingRising_ ? 'Total Fill' : 'Fill');
@@ -146,11 +151,12 @@ chartEditor.ui.panel.series.SeriesWithScales.prototype.createDom = function() {
   this.addContentSeparator();
 
   // Data markers
-  var dataMarkers = new chartEditor.ui.panel.Markers(model);
-  dataMarkers.setName('Data Markers');
-  dataMarkers.allowEnabled(true);
-  dataMarkers.setKey(this.genKey('markers()'));
-  this.addChildControl(dataMarkers);
+  if (this.seriesType_ !== 'marker') {
+    dataMarkers.setName('Data Markers');
+    dataMarkers.allowEnabled(true);
+    dataMarkers.setKey(this.genKey('markers()'));
+    this.addChildControl(dataMarkers);
+  }
 
   // Color Scale
   if (this.seriesType_ === 'choropleth') {
