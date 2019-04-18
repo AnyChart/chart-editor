@@ -156,6 +156,7 @@ chartEditor.editor.Base.prototype.qlikMode = function(opt_value) {
 chartEditor.editor.Base.prototype.render = function (opt_parentElement) {
   chartEditor.editor.Base.base(this, 'render', opt_parentElement);
   this.waitForImages_();
+  this.dispatchEvent('editorshow');
 };
 
 
@@ -163,6 +164,7 @@ chartEditor.editor.Base.prototype.render = function (opt_parentElement) {
 chartEditor.editor.Base.prototype.decorate = function (element) {
   chartEditor.editor.Base.base(this, 'decorate', element);
   this.waitForImages_();
+  this.dispatchEvent('editorshow');
 };
 
 

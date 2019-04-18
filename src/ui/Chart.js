@@ -58,9 +58,6 @@ chartEditor.ui.Chart.prototype.createDom = function() {
 chartEditor.ui.Chart.prototype.enterDocument = function() {
   chartEditor.ui.Chart.base(this, 'enterDocument');
 
-  // Entry point to settings processing cycle
-  // this.onModelChange(null);
-
   this.getHandler().listen(/** @type {chartEditor.model.Base} */(this.getModel()),
     chartEditor.events.EventType.EDITOR_MODEL_UPDATE, this.onModelChange);
 };
@@ -68,7 +65,6 @@ chartEditor.ui.Chart.prototype.enterDocument = function() {
 
 /**
  * Entry point to settings processing cycle.
- * todo: Only for editor's dialog render mode. Just for Qlik.
  */
 chartEditor.ui.Chart.prototype.firstDraw = function() {
   this.onModelChange(null);
