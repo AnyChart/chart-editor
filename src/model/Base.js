@@ -211,7 +211,8 @@ chartEditor.model.ChartTypes = (function() {
     'value': 'line',
     'name': 'Line',
     'icon': 'line-chart-1.svg', // 'http://www.anychart.com/_design/img/upload/charts/types/'
-    'series': ['line', 'spline', 'area', 'splineArea', 'column', 'ohlc'], // first value is default
+    'series': ['line', 'spline', 'area', 'splineArea', 'column', 'ohlc',
+      'rangeArea', 'rangeStepArea', 'rangeSplineArea', 'rangeColumn', 'hilo'], // first value is default
     'scales': chartEditor.model.Scales.CARTESIAN,
     'dataSetCtor': 'set',
     // filters: ['common'], Default chart type filter is 'common'
@@ -222,7 +223,8 @@ chartEditor.model.ChartTypes = (function() {
     'value': 'area',
     'name': 'Area',
     'icon': 'area-chart.svg',
-    'series': ['area', 'splineArea', 'line', 'spline', 'column', 'ohlc'],
+    'series': ['area', 'splineArea', 'line', 'spline', 'column', 'ohlc',
+      'rangeArea', 'rangeStepArea', 'rangeSplineArea', 'rangeColumn', 'hilo'],
     'scales': chartEditor.model.Scales.CARTESIAN,
     'dataSetCtor': 'set',
     product: chartEditor.model.Product.CHART
@@ -256,7 +258,7 @@ chartEditor.model.ChartTypes = (function() {
     'value': 'bar',
     'name': 'Bar',
     'icon': 'bar-chart.svg',
-    'series': ['bar', 'line', 'spline', 'area', 'splineArea', 'ohlc'],
+    'series': ['bar', 'line', 'spline', 'area', 'splineArea', 'ohlc', 'rangeBar'],
     'scales': chartEditor.model.Scales.CARTESIAN,
     'dataSetCtor': 'set',
     product: chartEditor.model.Product.CHART
@@ -290,7 +292,8 @@ chartEditor.model.ChartTypes = (function() {
     'value': 'column',
     'name': 'Column',
     'icon': 'column-chart.svg',
-    'series': ['column', 'line', 'spline', 'area', 'splineArea', 'ohlc', 'candlestick'],
+    'series': ['column', 'line', 'spline', 'area', 'splineArea', 'ohlc', 'candlestick',
+      'rangeArea', 'rangeStepArea', 'rangeSplineArea', 'rangeColumn', 'hilo'],
     'scales': chartEditor.model.Scales.CARTESIAN,
     'dataSetCtor': 'set',
     product: chartEditor.model.Product.CHART
@@ -639,10 +642,12 @@ chartEditor.model.ChartTypes = (function() {
     'icon': 'quadrant-chart.svg',
     'series': [ 'marker', 'line', 'bubble'],
     'dataSetCtor': 'set',
-    'defaults': {'quarters().leftTop().label().enabled()': false,
+    'defaults': {
+      'quarters().leftTop().label().enabled()': false,
       'quarters().leftBottom().label().enabled()': false,
       'quarters().rightTop().label().enabled()': false,
-      'quarters().rightBottom().label().enabled()': false},
+      'quarters().rightBottom().label().enabled()': false
+    },
     'scales': chartEditor.model.Scales.SCATTER,
     excludedPanels: [
       chartEditor.enums.EditorTabs.GRIDS,

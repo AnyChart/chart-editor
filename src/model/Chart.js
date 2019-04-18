@@ -186,13 +186,36 @@ chartEditor.model.Series['polygon'] = {
 chartEditor.model.Series['polyline'] = {
   'fields': [{'field': 'value', 'name': 'Y Value'}]
 };
+
+var rangeFields = [
+  {'field': 'high', 'name': 'High'},
+  {'field': 'low', 'name': 'Low'}
+];
+chartEditor.model.Series['rangeArea'] = {
+  'name': 'Range Area',
+  'fields': rangeFields
+};
+chartEditor.model.Series['rangeStepArea'] = {
+  'name': 'Range Step Area',
+  'fields': rangeFields
+};
+chartEditor.model.Series['rangeSplineArea'] = {
+  'name': 'Range Spline Area',
+  'fields': rangeFields
+};
 chartEditor.model.Series['rangeColumn'] = {
   'name': 'Range Column',
-  'fields': [
-    {'field': 'high', 'name': 'High'},
-    {'field': 'low', 'name': 'Low'}
-  ]
+  'fields': rangeFields
 };
+chartEditor.model.Series['rangeBar'] = {
+  'name': 'Range Bar',
+  'fields': rangeFields
+};
+chartEditor.model.Series['hilo'] = {
+  'name': 'HiLo',
+  'fields': rangeFields
+};
+
 chartEditor.model.Series['waterfall'] = {
   'name': 'Waterfall',
   'fields': [
