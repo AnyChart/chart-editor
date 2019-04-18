@@ -97,7 +97,7 @@ chartEditor.ui.appearanceTabs.Pointers.prototype.onModelChange = function(evt) {
     var panels = this.getPanels();
     // check if pointer type was changed
     for (var i = 0; i < panels.length; i++) {
-      if (panels[i].getPointerType() !== mappings[0][i].ctor) {
+      if (panels[i].getPointerType() !== mappings[0][i]['ctor']) {
         this.removeAllPanels();
         this.createPanels();
       }
