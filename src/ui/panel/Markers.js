@@ -20,23 +20,22 @@ chartEditor.ui.panel.Markers = function(model, opt_domHelper) {
   chartEditor.ui.panel.Markers.base(this, 'constructor', model, 'Markers', opt_domHelper);
 
   this.allowReset(true);
+
+  this.addClassName(goog.getCssName('anychart-ce-panel-markers'));
+
+  this.fillKey_ = 'fill()';
 };
 goog.inherits(chartEditor.ui.panel.Markers, chartEditor.ui.Panel);
 
 
-/**
- * Default CSS class.
- * @type {string}
- */
-chartEditor.ui.panel.Markers.CSS_CLASS = goog.getCssName('anychart-ce-panel-markers');
-
+/** @param {string} value */
+chartEditor.ui.panel.Markers.prototype.setFillKey = function(value) {
+  this.fillKey_ = value;
+};
 
 /** @override */
 chartEditor.ui.panel.Markers.prototype.createDom = function() {
   chartEditor.ui.panel.Markers.base(this, 'createDom');
-
-  var element = this.getElement();
-  goog.dom.classlist.add(element, chartEditor.ui.panel.Markers.CSS_CLASS);
 
   var content = this.getContentElement();
   var model = /** @type {chartEditor.model.Base} */(this.getModel());
@@ -57,7 +56,7 @@ chartEditor.ui.panel.Markers.prototype.createDom = function() {
 
   var fill = new chartEditor.ui.control.colorPicker.Base();
   pointWidthLC = new chartEditor.ui.control.wrapped.Labeled(fill, 'Fill');
-  pointWidthLC.init(model, this.genKey('fill()'));
+  pointWidthLC.init(model, this.genKey(this.fillKey_));
   this.addChildControl(pointWidthLC);
   goog.dom.classlist.add(fill.getElement(), goog.getCssName('markers-fill'));
 
