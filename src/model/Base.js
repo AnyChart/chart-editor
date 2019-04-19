@@ -873,13 +873,13 @@ chartEditor.model.Base.prototype.createDefaultPlotMappings = function() {
  * Creates config object for one series.
  * Generates auto mapping for this series.
  *
- * @param {number} index Series index (serial number)
+ * @param {number} seriesIndex Series index (serial number)
  * @param {string} type Series type
  * @param {string=} opt_id Series id.
  * @param {number=} opt_startFieldIndex Index of number field to start from.
  * @return {Object}
  */
-chartEditor.model.Base.prototype.createDefaultSeriesMapping = function(index, type, opt_id, opt_startFieldIndex) {return {};};
+chartEditor.model.Base.prototype.createDefaultSeriesMapping = function(seriesIndex, type, opt_id, opt_startFieldIndex) {return {};};
 
 
 /**

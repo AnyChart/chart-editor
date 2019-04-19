@@ -559,13 +559,28 @@ chartEditor.model.Chart.prototype.chooseDefaultSeriesType = function() {
 
   var seriesType = this.model['chart']['seriesType'];
   if (!seriesType) {
-    if (this.getChartTypeKey() == 'scatter') {
-      if (!(this.fieldsState.numbersCount % 2))
-        seriesType = 'bubble';
-      else
-        seriesType = 'marker';
-    } else
+    var chartTypeKey = this.getChartTypeKey();
+    var numberFieldsByPairs = !(this.fieldsState.numbersCount % 2);
+
+    switch (chartTypeKey) {
+      // case chartEditor.enums.ChartType.AREA:
+      //   seriesType = numberFieldsByPairs ? 'rangeArea' : 'area';
+      //   break;
+      // case chartEditor.enums.ChartType.COLUMN:
+      //   seriesType = numberFieldsByPairs ? 'rangeArea' : 'column';
+      //   break;
+      // case chartEditor.enums.ChartType.BAR:
+      //   seriesType = numberFieldsByPairs ? 'rangeBar' : 'bar';
+      //   break;
+      case chartEditor.enums.ChartType.SCATTER:
+        seriesType = numberFieldsByPairs ? 'bubble' : 'marker';
+        break;
+    }
+
+    if (!seriesType) {
+      // Just take first series type
       seriesType = this.getChartTypeSettings()['series'][0];
+    }
   }
 
   this.model['chart']['seriesType'] = seriesType;
@@ -579,7 +594,7 @@ chartEditor.model.Chart.prototype.createDefaultPlotMappings = function() {
   var numValues;
   var numSeries;
 
-  if (seriesType === 'bubble')
+  if (seriesType === 'bubble' || seriesType.indexOf('range') === 0)
     numValues = 2;
   else
     numValues = 1;
@@ -589,8 +604,8 @@ chartEditor.model.Chart.prototype.createDefaultPlotMappings = function() {
   else
     numSeries = Math.floor(this.fieldsState.numbersCount / numValues);
 
-  for (var i = 0; i < numSeries; i += numValues) {
-    var seriesConfig = this.createDefaultSeriesMapping(i, /** @type {string} */(seriesType));
+  for (var i = 0; i < numSeries; i++) {
+    var seriesConfig = this.createDefaultSeriesMapping(i, /** @type {string} */(seriesType), void 0, i * numValues);
     result.push(seriesConfig);
   }
 
@@ -599,7 +614,7 @@ chartEditor.model.Chart.prototype.createDefaultPlotMappings = function() {
 
 
 /** @inheritDoc */
-chartEditor.model.Chart.prototype.createDefaultSeriesMapping = function(index, type, opt_id, opt_startFieldIndex) {
+chartEditor.model.Chart.prototype.createDefaultSeriesMapping = function(seriesIndex, type, opt_id, opt_startFieldIndex) {
   var config = {'ctor': type, 'mapping': {}};
   config['id'] = goog.isDef(opt_id) ? opt_id : goog.string.createUniqueString();
 
@@ -612,19 +627,25 @@ chartEditor.model.Chart.prototype.createDefaultSeriesMapping = function(index, t
   numbers = numbers.filter(function(item){ return item != xField;});
 
   var fields = chartEditor.model.Series[type]['fields'];
+  opt_startFieldIndex = goog.isNumber(opt_startFieldIndex) ? opt_startFieldIndex : seriesIndex;
 
   for (var i = 0; i < fields.length; i++) {
     if (fields[i]['field'] === 'from') { // for Sankey
       config['mapping'][fields[i]['field']] = this.fieldsState.firstString;
-    } else {
-      var j = index + i + (goog.isNumber(opt_startFieldIndex) ? opt_startFieldIndex : 0);
-      var numberIndex = numbers.length > j ? j : j % numbers.length;
-      var stringIndex = strings.length > j ? j : j % strings.length;
 
-      config['mapping'][fields[i]['field']] =
-          (fields[i]['type'] === 'string' && strings.length) ?
-              strings[stringIndex] :
-              numbers[numberIndex];
+    } else {
+      var j = i + opt_startFieldIndex;
+
+      if (fields[i]['type'] === 'string' && strings.length) {
+        // String value
+        var stringIndex = strings.length > j ? j : j % strings.length;
+        config['mapping'][fields[i]['field']] = strings[stringIndex];
+
+      } else {
+        // Number value
+        var numberIndex = numbers.length > j ? j : j % numbers.length;
+        config['mapping'][fields[i]['field']] = numbers[numberIndex];
+      }
     }
   }
   return config;
