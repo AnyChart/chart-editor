@@ -18,6 +18,7 @@ chartEditor.ui.control.input.Numbers = function(opt_label, opt_domHelper) {
     return !isNaN(Number(value));
   });
   this.setFormatterFunction(function(value){
+    // TODO: remove String casting and check this
     return String(Number(value));
   });
 };
