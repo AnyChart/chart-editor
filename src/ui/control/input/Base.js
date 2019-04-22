@@ -130,6 +130,8 @@ chartEditor.ui.control.input.Base.prototype.onChange = function() {
     if (this.validateFunction_(value)) {
       var caretPosition = goog.dom.selection.getStart(this.getElement());
 
+      value = this.formatterFunction_(value);
+
       if (this.callback)
         this.editorModel.callbackByString(this.callback, this);
       else

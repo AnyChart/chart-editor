@@ -149,7 +149,7 @@ chartEditor.model.Stock.prototype.createDefaultSeriesMapping = function(index, t
   config['id'] = goog.isDef(opt_id) ? opt_id : goog.string.createUniqueString();
 
   var strings = this.fieldsState.strings.filter(function(string) {return string != 'dimensionGroup';});
-  var numbers = goog.array.clone(this.fieldsState.numbers);
+  var numbers = this.fieldsState.numbers.filter(function(string) {return string != 'dimensionGroup';});
   var fields = chartEditor.model.Series[type]['fields'];
 
   for (var i = 0; i < fields.length; i++) {

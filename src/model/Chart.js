@@ -586,7 +586,7 @@ chartEditor.model.Chart.prototype.createDefaultSeriesMapping = function(index, t
   strings = strings.filter(function(item){ return item != xField && item != 'dimensionGroup';});
 
   var numbers = goog.array.clone(this.fieldsState.numbers);
-  numbers = numbers.filter(function(item){ return item != xField;});
+  numbers = numbers.filter(function(item){ return item != xField && item != 'dimensionGroup';});
 
   var fields = chartEditor.model.Series[type]['fields'];
 
