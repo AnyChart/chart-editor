@@ -836,6 +836,8 @@
 }
 
 .anychart-ce-zippy-header {
+  width: auto !important;
+
   .anychart-ce-color {
     margin-right: 15px;
   }
@@ -1081,6 +1083,12 @@
     border: 1px solid @color-border;
     margin-bottom: 15px;
     background: white;
+
+    > .content {
+      > div {
+        width: 100%;
+      }
+    }
 
     &.locked {
       background: @color-background;
