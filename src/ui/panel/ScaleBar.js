@@ -29,8 +29,6 @@ chartEditor.ui.panel.ScaleBar = function(model, index, opt_domHelper) {
   this.allowEnabled(true);
 
   this.allowRemove(true);
-
-  this.addClassName(goog.getCssName('anychart-ce-panel-scale-bar'));
 };
 goog.inherits(chartEditor.ui.panel.ScaleBar, chartEditor.ui.PanelZippy);
 
