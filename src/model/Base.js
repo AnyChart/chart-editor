@@ -1029,7 +1029,7 @@ chartEditor.model.Base.prototype.addSeries = function(plotIndex) {
       /** @type {string} */(this.model['chart']['seriesType']));
 
   this.model['dataSettings']['mappings'][plotIndex].push(mapping);
-  this.dispatchUpdate();
+  this.dispatchUpdate(void 0, void 0, 'addSeries');
 };
 
 
@@ -1045,7 +1045,7 @@ chartEditor.model.Base.prototype.dropSeries = function(plotIndex, seriesIndex) {
     var removedSeries = goog.array.splice(this.model['dataSettings']['mappings'][plotIndex], seriesIndex, 1);
     var stringKey = this.chartTypeLike('gauges') ? 'getPointer' : 'getSeries';
     this.dropChartSettings(stringKey + '(\'' + removedSeries[0]['id'] + '\')');
-    this.dispatchUpdate();
+    this.dispatchUpdate(void 0, void 0, 'dropSeries');
   }
 };
 
@@ -1183,7 +1183,7 @@ chartEditor.model.Base.prototype.setSeriesType = function(input) {
   if (this.model['dataSettings']['mappings'][plotIndex][seriesIndex]['ctor'] !== type) {
     var oldConfig = this.model['dataSettings']['mappings'][plotIndex][seriesIndex];
     this.model['dataSettings']['mappings'][plotIndex][seriesIndex] = this.createDefaultSeriesMapping(seriesIndex, type, oldConfig['id']);
-    this.dispatchUpdate();
+    this.dispatchUpdate(void 0, void 0, 'setSeriesType');
   }
 };
 
@@ -1516,9 +1516,9 @@ chartEditor.model.Base.prototype.removeByKey = function(key, opt_noDispatch) {
 /**
  * @param {boolean=} opt_noRebuildChart
  * @param {boolean=} opt_noRebuildMapping
- * @param {string=} opt_lastKey
+ * @param {string=} opt_metaData
  */
-chartEditor.model.Base.prototype.dispatchUpdate = function(opt_noRebuildChart, opt_noRebuildMapping, opt_lastKey) {
+chartEditor.model.Base.prototype.dispatchUpdate = function(opt_noRebuildChart, opt_noRebuildMapping, opt_metaData) {
   if (this.suspendQueue_ > 0) {
     this.needDispatch_ = true;
     return;
@@ -1528,7 +1528,7 @@ chartEditor.model.Base.prototype.dispatchUpdate = function(opt_noRebuildChart, o
     type: chartEditor.events.EventType.EDITOR_MODEL_UPDATE,
     rebuildChart: !opt_noRebuildChart,
     rebuildMapping: !opt_noRebuildMapping,
-    lastKey: opt_lastKey
+    meta: opt_metaData
   });
 
   this.needDispatch_ = false;

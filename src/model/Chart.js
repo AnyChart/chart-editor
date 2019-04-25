@@ -562,16 +562,17 @@ chartEditor.model.Chart.prototype.chooseDefaultSeriesType = function() {
     var chartTypeKey = this.getChartTypeKey();
     var numberFieldsByPairs = !(this.fieldsState.numbersCount % 2);
 
+    // todo: debug for conditional coloring
     switch (chartTypeKey) {
-      // case chartEditor.enums.ChartType.AREA:
-      //   seriesType = numberFieldsByPairs ? 'rangeArea' : 'area';
-      //   break;
-      // case chartEditor.enums.ChartType.COLUMN:
-      //   seriesType = numberFieldsByPairs ? 'rangeArea' : 'column';
-      //   break;
-      // case chartEditor.enums.ChartType.BAR:
-      //   seriesType = numberFieldsByPairs ? 'rangeBar' : 'bar';
-      //   break;
+      case chartEditor.enums.ChartType.AREA:
+        seriesType = numberFieldsByPairs ? 'rangeSplineArea' : 'area';
+        break;
+      case chartEditor.enums.ChartType.COLUMN:
+        seriesType = numberFieldsByPairs ? 'rangeColumn' : 'column';
+        break;
+      case chartEditor.enums.ChartType.BAR:
+        seriesType = numberFieldsByPairs ? 'rangeBar' : 'bar';
+        break;
       case chartEditor.enums.ChartType.SCATTER:
         seriesType = numberFieldsByPairs ? 'bubble' : 'marker';
         break;

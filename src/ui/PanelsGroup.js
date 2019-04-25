@@ -102,6 +102,8 @@ chartEditor.ui.PanelsGroup.prototype.createDom = function() {
 chartEditor.ui.PanelsGroup.prototype.enterDocument = function() {
   chartEditor.ui.PanelsGroup.base(this, 'enterDocument');
 
+  if (this.isExcluded()) return;
+
   if (this.allowAddPanels_ && this.addPanelBtn_) {
     goog.style.setElementShown(this.addPanelBtn_.getElement(), true);
     this.getHandler().listen(this.addPanelBtn_, goog.ui.Component.EventType.ACTION, this.onAddPanel);
@@ -233,15 +235,6 @@ chartEditor.ui.PanelsGroup.prototype.onReset = function(evt) {
 
 
 /**
- * Get number of existing panels
- * @return {number}
- */
-chartEditor.ui.PanelsGroup.prototype.getPanelsCount = function() {
-  return this.panels_[0] && this.panels_[0].length;
-};
-
-
-/**
  * @return {?chartEditor.ui.PanelIndexed}
  * @protected
  */
@@ -273,10 +266,11 @@ chartEditor.ui.PanelsGroup.prototype.createPanels = function() {
   // Should be overridden
 };
 
+
 /**
- * Get all panels.
- * @return {Array} panels
+ * Drops panels and builds them again
  */
-chartEditor.ui.PanelsGroup.prototype.getPanels = function() {
-  return this.panels_[0];
+chartEditor.ui.PanelsGroup.prototype.rebuildPanels = function() {
+  this.removeAllPanels();
+  this.createPanels();
 };

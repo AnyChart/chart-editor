@@ -20,26 +20,22 @@ goog.require('chartEditor.ui.panel.scales.Base');
  * @param {chartEditor.model.Base} model
  * @param {string|number} seriesId
  * @param {number} seriesIndex
- * @param {number=} opt_plotIndex
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper; see {@link goog.ui.Component} for semantics.
  * @constructor
  * @extends {chartEditor.ui.PanelZippy}
  */
-chartEditor.ui.panel.series.SeriesWithScales = function(model, seriesId, seriesIndex, opt_plotIndex, opt_domHelper) {
+chartEditor.ui.panel.series.SeriesWithScales = function(model, seriesId, seriesIndex, opt_domHelper) {
   chartEditor.ui.panel.series.SeriesWithScales.base(this, 'constructor', model, seriesIndex, null, opt_domHelper);
 
   this.seriesId_ = String(seriesId);
 
   var stringKey = 'getSeries(\'' + this.seriesId_ + '\')';
-  if (goog.isDef(opt_plotIndex)) {
-    this.plotIndex_ = opt_plotIndex;
-    stringKey = 'plot(' + this.plotIndex_ + ').' + stringKey;
-  }
 
-  this.seriesType_ = model.getValue([['dataSettings'], ['mappings', this.getPlotIndex()], [this.index_, 'ctor']]);
+  this.seriesType_ = model.getValue([['dataSettings'], ['mappings', 0], [this.index_, 'ctor']]);
   this.key = [['chart'], ['settings'], stringKey];
 
   this.hasFallingRising_ = this.seriesType_ == 'candlestick' || this.seriesType_ == 'waterfall' || this.seriesType_ == 'ohlc';
+
   this.hasFillStroke_ = this.seriesType_ == 'waterfall' || !this.hasFallingRising_;
 
   this.allowEnabled(false);
