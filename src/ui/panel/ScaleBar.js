@@ -29,8 +29,6 @@ chartEditor.ui.panel.ScaleBar = function(model, index, opt_domHelper) {
   this.allowEnabled(true);
 
   this.allowRemove(true);
-
-  this.addClassName(goog.getCssName('anychart-ce-panel-scale-bar'));
 };
 goog.inherits(chartEditor.ui.panel.ScaleBar, chartEditor.ui.PanelZippy);
 
@@ -40,6 +38,11 @@ chartEditor.ui.panel.ScaleBar.prototype.createDom = function() {
   chartEditor.ui.panel.ScaleBar.base(this, 'createDom');
 
   var model = /** @type {chartEditor.model.Base} */(this.getModel());
+
+  // custom formatter function for from and to controls
+  var formatterFunc = function(value){
+      return Number(value);
+  };
 
   // region ==== Header
   var fill = new chartEditor.ui.control.colorPicker.Base();
@@ -71,11 +74,13 @@ chartEditor.ui.panel.ScaleBar.prototype.createDom = function() {
   this.addContentSeparator();
 
   var from = new chartEditor.ui.control.input.Numbers('From value');
+  from.setFormatterFunction(formatterFunc);
   var fromlLC = new chartEditor.ui.control.wrapped.Labeled(from, 'From');
   fromlLC.init(model, this.genKey('from', true));
   this.addChildControl(fromlLC);
 
   var to = new chartEditor.ui.control.input.Numbers('To value');
+  to.setFormatterFunction(formatterFunc);
   var tolLC = new chartEditor.ui.control.wrapped.Labeled(to, 'To');
   tolLC.init(model, this.genKey('to', true));
   this.addChildControl(tolLC);

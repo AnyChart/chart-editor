@@ -836,6 +836,8 @@
 }
 
 .anychart-ce-zippy-header {
+  width: auto !important;
+
   .anychart-ce-color {
     margin-right: 15px;
   }
@@ -850,7 +852,6 @@
 
 .anychart-ce-panel-series-single,
 .anychart-ce-panel-pointer-single,
-.anychart-ce-panel-scale-bar,
 .anychart-ce-panel-gantt-column,
 .anychart-ce-panel-range-single {
   .anychart-plus-minus {
@@ -1083,6 +1084,12 @@
     margin-bottom: 15px;
     background: white;
 
+    > .content {
+      > div {
+        width: 100%;
+      }
+    }
+
     &.locked {
       background: @color-background;
       .anychart-plus-minus {
@@ -1214,7 +1221,10 @@
     margin: 0 !important;
   }
   .anychart-ce-panel {
-    padding: 15px;
+    > .top,
+    > .content {
+      padding: 15px;
+    }
   }
   .anychart-ce-stroke,
   .anychart-ce-panel-stagger {

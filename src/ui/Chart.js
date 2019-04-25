@@ -213,7 +213,7 @@ chartEditor.ui.Chart.prototype.onModelChange = function(evt) {
                 var preparedData = model.getPreparedData();
                 preparedData = preparedData[0];
                 var seriesName = preparedData.fieldNames[fieldKey] ? preparedData.fieldNames[fieldKey] : null;
-                if (!seriesName) {
+                if (!seriesName && !model.chartTypeLike('gauges')) {
                   for (var f = 0; f < preparedData.fields.length; f++) {
                     if (String(preparedData.fields[f].key) == String(fieldKey)) {
                       seriesName = preparedData.fields[f].name;

@@ -621,10 +621,10 @@ chartEditor.model.Chart.prototype.createDefaultSeriesMapping = function(seriesIn
   var xField = this.model['dataSettings']['field'];
 
   var strings = goog.array.clone(this.fieldsState.strings);
-  strings = strings.filter(function(item){ return item != xField;});
+  strings = strings.filter(function(item){ return item != xField && item != 'dimensionGroup';});
 
   var numbers = goog.array.clone(this.fieldsState.numbers);
-  numbers = numbers.filter(function(item){ return item != xField;});
+  numbers = numbers.filter(function(item){ return item != xField && item != 'dimensionGroup';});
 
   var fields = chartEditor.model.Series[type]['fields'];
   opt_startFieldIndex = goog.isNumber(opt_startFieldIndex) ? opt_startFieldIndex : seriesIndex;

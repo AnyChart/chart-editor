@@ -134,8 +134,8 @@ chartEditor.model.Gantt.prototype.createDefaultSeriesMapping = function(index, t
   var config = {'ctor': type, 'mapping': {}};
   config['id'] = goog.isDef(opt_id) ? opt_id : goog.string.createUniqueString();
 
-  var strings = goog.array.clone(this.fieldsState.strings);
-  var numbers = goog.array.clone(this.fieldsState.numbers);
+  var strings = this.fieldsState.strings.filter(function(string) {return string != 'dimensionGroup';});
+  var numbers = this.fieldsState.numbers.filter(function(string) {return string != 'dimensionGroup';});
   var fields = chartEditor.model.Series[type]['fields'];
 
   var preparedData = this.getPreparedData();
