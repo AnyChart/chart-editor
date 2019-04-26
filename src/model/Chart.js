@@ -218,9 +218,7 @@ chartEditor.model.Series['hilo'] = {
 
 chartEditor.model.Series['waterfall'] = {
   'name': 'Waterfall',
-  'fields': [
-    {'field': 'value', 'name': 'Value'}
-  ]
+  'fields': [{'field': 'value', 'name': 'Value'}]
 };
 chartEditor.model.Series['ohlc'] = {
   'fields': [
