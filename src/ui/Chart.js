@@ -180,7 +180,7 @@ chartEditor.ui.Chart.prototype.onModelChange = function(evt) {
             seriesCtor = chartEditor.model.Series[seriesCtor]['ctor'] || seriesCtor;
 
             var series;
-            var stringKey = 'getSeries(\'' + plotMapping[j]['id'] + '\').name()';
+            var stringKey =  (model.chartTypeLike('gauges') ? 'getPointer' : 'getSeries') + '(\'' + plotMapping[j]['id'] + '\').name()';
 
             if (chartType === 'stock') {
               var plot = this.chart_['plot'](i);
@@ -213,15 +213,16 @@ chartEditor.ui.Chart.prototype.onModelChange = function(evt) {
                 var preparedData = model.getPreparedData();
                 preparedData = preparedData[0];
                 var seriesName = preparedData.fieldNames[fieldKey] ? preparedData.fieldNames[fieldKey] : null;
-                if (!seriesName && !model.chartTypeLike('gauges')) {
+                if (!seriesName) {
                   for (var f = 0; f < preparedData.fields.length; f++) {
                     if (String(preparedData.fields[f].key) == String(fieldKey)) {
                       seriesName = preparedData.fields[f].name;
-                      defaults[stringKey] = seriesName;
                       break;
                     }
                   }
                 }
+                if (seriesName)
+                  defaults[stringKey] = seriesName;
               }
             }
           }

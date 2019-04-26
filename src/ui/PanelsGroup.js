@@ -102,6 +102,8 @@ chartEditor.ui.PanelsGroup.prototype.createDom = function() {
 chartEditor.ui.PanelsGroup.prototype.enterDocument = function() {
   chartEditor.ui.PanelsGroup.base(this, 'enterDocument');
 
+  if (this.isExcluded()) return;
+
   if (this.allowAddPanels_ && this.addPanelBtn_) {
     goog.style.setElementShown(this.addPanelBtn_.getElement(), true);
     this.getHandler().listen(this.addPanelBtn_, goog.ui.Component.EventType.ACTION, this.onAddPanel);
