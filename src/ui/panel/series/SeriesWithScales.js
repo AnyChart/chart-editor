@@ -10,6 +10,7 @@ goog.require('chartEditor.ui.control.wrapped.Labeled');
 goog.require('chartEditor.ui.panel.Error');
 goog.require('chartEditor.ui.panel.Labels');
 goog.require('chartEditor.ui.panel.Markers');
+goog.require('chartEditor.ui.panel.SeriesColoring');
 goog.require('chartEditor.ui.panel.Stroke');
 goog.require('chartEditor.ui.panel.Title');
 goog.require('chartEditor.ui.panel.scales.Base');
@@ -61,6 +62,10 @@ chartEditor.ui.panel.series.SeriesWithScales.prototype.createDom = function() {
   // endregion
 
   // region ==== Content
+  var coloring = new chartEditor.ui.panel.SeriesColoring(model);
+  coloring.setKey(this.getKey());
+  this.addChildControl(coloring);
+
   var dataMarkers = new chartEditor.ui.panel.Markers(model);
   if (this.seriesType_ === 'marker') {
     dataMarkers.setFillKey('color()');
