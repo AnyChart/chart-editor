@@ -18,8 +18,8 @@ goog.require('chartEditor.ui.PanelZippy');
 chartEditor.ui.panel.SeriesColoring = function(model, opt_domHelper) {
   chartEditor.ui.panel.SeriesColoring.base(this, 'constructor', model, 0, 'Coloring', opt_domHelper);
 
-  // this.allowReset(true);
-  // this.allowEnabled(false);
+  this.allowReset(true);
+  this.allowEnabled(false);
 
   this.addClassName(goog.getCssName('anychart-ce-panel-series-coloring'));
 };
@@ -35,8 +35,8 @@ chartEditor.ui.panel.SeriesColoring.prototype.createDom = function() {
   var model = /** @type {chartEditor.model.Base} */(this.getModel());
 
   // region ==== Header
-  this.zippyHeader.getElement().appendChild(
-      dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-ce-zippy-title'), this.name));
+  // this.zippyHeader.getElement().appendChild(
+  //     dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-ce-zippy-title'), this.name));
   // endregion
 
   // region ==== Content
