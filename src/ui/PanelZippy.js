@@ -38,7 +38,7 @@ chartEditor.ui.PanelZippy.prototype.expand = function() {
 chartEditor.ui.PanelZippy.prototype.lock = function(value) {
   this.locked_ = value;
   goog.dom.classlist.enable(this.getElement(), 'locked', this.locked_);
-
+debugger
   if (this.locked_)
     this.zippy_.collapse();
 };
@@ -62,11 +62,11 @@ chartEditor.ui.PanelZippy.prototype.createDom = function() {
     goog.dom.appendChild(this.zippyHeader.getElement(), this.resetButton_.getElement());
   }
 
-  var plusMinus = goog.dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-plus-minus'), [
+  this.plusMinus_ = goog.dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-ce-toggle'), [
     goog.dom.createDom(goog.dom.TagName.DIV, 'expand ac ac-chevron-circle-down'),
     goog.dom.createDom(goog.dom.TagName.DIV, 'collapse ac ac-chevron-circle-up')
   ]);
-  this.zippyHeader.getElement().appendChild(plusMinus);
+  this.zippyHeader.getElement().appendChild(this.plusMinus_);
   // endregion
 
   // region == zippyContent element ==
@@ -83,8 +83,15 @@ chartEditor.ui.PanelZippy.prototype.createDom = function() {
   this.zippy_ = new goog.ui.AnimatedZippy(zippyHeader.getElement(), zippyContent.getElement());
   this.zippy_.setHandleKeyboardEvents(false);
   this.zippy_.setHandleMouseEvents(false);
-  this.getHandler().listen(plusMinus, goog.events.EventType.CLICK, function() {
-    this.zippy_.toggle();
+
+  this.getHandler().listen(this.plusMinus_, goog.events.EventType.MOUSEDOWN, function() {
+    console.log('MOUSEDOWN', this);
+    // this.zippy_.toggle();
+  });
+
+  this.getHandler().listen(this.plusMinus_, goog.events.EventType.CLICK, function() {
+    console.log('toggle', this);
+    //this.zippy_.toggle();
   });
   // endregion
 };

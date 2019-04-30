@@ -45,116 +45,116 @@ chartEditor.model.Chart = function() {
       classFunc: chartEditor.ui.appearanceTabs.Data,
       docsUrl: 'https://docs.anychart.com/Working_with_Data/Overview'
     },
-    {
-      name: chartEditor.enums.EditorTabs.SPECIFIC,
-      classFunc: chartEditor.ui.appearanceTabs.ChartSpecific
-    },
-    {
-      name: chartEditor.enums.EditorTabs.TITLE,
-      classFunc: chartEditor.ui.appearanceTabs.ChartTitle,
-      docsUrl: 'http://docs.anychart.com/Common_Settings/Title'
-    },
-    {
-      name: chartEditor.enums.EditorTabs.CHART_LABELS,
-      classFunc: chartEditor.ui.appearanceTabs.ChartLabels
-    },
-    {
-      name: chartEditor.enums.EditorTabs.LEGEND,
-      classFunc: chartEditor.ui.appearanceTabs.Legend,
-      docsUrl: 'http://docs.anychart.com/Common_Settings/Legend/Basic_Settings'
-    },
-    {
-      name: chartEditor.enums.EditorTabs.DATA_LABELS,
-      classFunc: chartEditor.ui.appearanceTabs.DataLabels,
-      docsUrl: 'http://docs.anychart.com/Common_Settings/Labels'
-    },
+    // {
+    //   name: chartEditor.enums.EditorTabs.SPECIFIC,
+    //   classFunc: chartEditor.ui.appearanceTabs.ChartSpecific
+    // },
+    // {
+    //   name: chartEditor.enums.EditorTabs.TITLE,
+    //   classFunc: chartEditor.ui.appearanceTabs.ChartTitle,
+    //   docsUrl: 'http://docs.anychart.com/Common_Settings/Title'
+    // },
+    // {
+    //   name: chartEditor.enums.EditorTabs.CHART_LABELS,
+    //   classFunc: chartEditor.ui.appearanceTabs.ChartLabels
+    // },
+    // {
+    //   name: chartEditor.enums.EditorTabs.LEGEND,
+    //   classFunc: chartEditor.ui.appearanceTabs.Legend,
+    //   docsUrl: 'http://docs.anychart.com/Common_Settings/Legend/Basic_Settings'
+    // },
+    // {
+    //   name: chartEditor.enums.EditorTabs.DATA_LABELS,
+    //   classFunc: chartEditor.ui.appearanceTabs.DataLabels,
+    //   docsUrl: 'http://docs.anychart.com/Common_Settings/Labels'
+    // },
     {
       name: chartEditor.enums.EditorTabs.SERIES,
       classFunc: chartEditor.ui.appearanceTabs.SeriesWithScales,
       docsUrl: 'https://api.anychart.com/anychart.core.SeriesBase'
     },
-    {
-      name: chartEditor.enums.EditorTabs.POINTERS,
-      classFunc: chartEditor.ui.appearanceTabs.Pointers
-    },
-    {
-      name: chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
-      classFunc: chartEditor.ui.appearanceTabs.CircularRanges
-    },
-    {
-      name: chartEditor.enums.EditorTabs.QUARTERS,
-      classFunc: chartEditor.ui.appearanceTabs.Quarters,
-      docsUrl: 'https://docs.anychart.com/Basic_Charts/Quadrant_Chart#quarters'
-    },
-    {
-      name: chartEditor.enums.EditorTabs.FLOW,
-      classFunc: chartEditor.ui.appearanceTabs.Flow
-    },
-    {
-      name: chartEditor.enums.EditorTabs.NODE,
-      classFunc: chartEditor.ui.appearanceTabs.Node
-    },
-    {
-      name: chartEditor.enums.EditorTabs.DROP_OFF,
-      classFunc: chartEditor.ui.appearanceTabs.DropOff
-    },
-    {
-      name: chartEditor.enums.EditorTabs.SCALE_BARS,
-      classFunc: chartEditor.ui.appearanceTabs.ScaleBars
-    },
-    {
-      name: chartEditor.enums.EditorTabs.SCALES,
-      classFunc: chartEditor.ui.appearanceTabs.Scales,
-      docsUrl: 'http://docs.anychart.com/Axes_and_Grids/Scales'
-    },
-    {
-      name: chartEditor.enums.EditorTabs.CARTESIAN_AXES,
-      classFunc: chartEditor.ui.appearanceTabs.axes.CartesianXAxes,
-      docsUrl: 'http://docs.anychart.com/Axes_and_Grids/Axis_Basics'
-    },
-    {
-      name: chartEditor.enums.EditorTabs.CARTESIAN_AXES,
-      classFunc: chartEditor.ui.appearanceTabs.axes.CartesianYAxes,
-      docsUrl: 'http://docs.anychart.com/Axes_and_Grids/Axis_Basics'
-    },
-    {
-      name: chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
-      classFunc: chartEditor.ui.appearanceTabs.axes.RadarPolarXAxis,
-      docsUrl: 'http://docs.anychart.com/Axes_and_Grids/Axis_Basics'
-    },
-    {
-      name: chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
-      classFunc: chartEditor.ui.appearanceTabs.axes.RadarPolarYAxis,
-      docsUrl: 'http://docs.anychart.com/Axes_and_Grids/Axis_Basics'
-    },
-
-    {
-      name: chartEditor.enums.EditorTabs.GAUGE_AXES,
-      classFunc: chartEditor.ui.appearanceTabs.axes.GaugeAxes,
-      docsUrl: 'http://docs.anychart.com/Gauges/Linear_Gauge#scales_and_axes'
-    },
-    {
-      name: chartEditor.enums.EditorTabs.TOOLTIP,
-      classFunc: chartEditor.ui.appearanceTabs.Tooltip,
-      docsUrl: 'http://docs.anychart.com/Common_Settings/Tooltip'
-    },
-
-    {
-      name: chartEditor.enums.EditorTabs.GRIDS,
-      classFunc: chartEditor.ui.appearanceTabs.Grids,
-      docsUrl: 'http://docs.anychart.com/Axes_and_Grids/Axis_Basics#grids'
-    },
-
-    {
-      name: chartEditor.enums.EditorTabs.COLOR_SCALE,
-      classFunc: chartEditor.ui.appearanceTabs.ColorScale,
-      docsUrl: 'http://docs.anychart.com/Basic_Charts/Heat_Map_Chart#color_scale'
-    },
-    {
-      name: chartEditor.enums.EditorTabs.COLOR_RANGE,
-      classFunc: chartEditor.ui.appearanceTabs.ColorRange,
-      docsUrl: 'http://api.anychart.com/v8/anychart.core.ui.ColorRange'
-    }
+    // {
+    //   name: chartEditor.enums.EditorTabs.POINTERS,
+    //   classFunc: chartEditor.ui.appearanceTabs.Pointers
+    // },
+    // {
+    //   name: chartEditor.enums.EditorTabs.CIRCULAR_RANGES,
+    //   classFunc: chartEditor.ui.appearanceTabs.CircularRanges
+    // },
+    // {
+    //   name: chartEditor.enums.EditorTabs.QUARTERS,
+    //   classFunc: chartEditor.ui.appearanceTabs.Quarters,
+    //   docsUrl: 'https://docs.anychart.com/Basic_Charts/Quadrant_Chart#quarters'
+    // },
+    // {
+    //   name: chartEditor.enums.EditorTabs.FLOW,
+    //   classFunc: chartEditor.ui.appearanceTabs.Flow
+    // },
+    // {
+    //   name: chartEditor.enums.EditorTabs.NODE,
+    //   classFunc: chartEditor.ui.appearanceTabs.Node
+    // },
+    // {
+    //   name: chartEditor.enums.EditorTabs.DROP_OFF,
+    //   classFunc: chartEditor.ui.appearanceTabs.DropOff
+    // },
+    // {
+    //   name: chartEditor.enums.EditorTabs.SCALE_BARS,
+    //   classFunc: chartEditor.ui.appearanceTabs.ScaleBars
+    // },
+    // {
+    //   name: chartEditor.enums.EditorTabs.SCALES,
+    //   classFunc: chartEditor.ui.appearanceTabs.Scales,
+    //   docsUrl: 'http://docs.anychart.com/Axes_and_Grids/Scales'
+    // },
+    // {
+    //   name: chartEditor.enums.EditorTabs.CARTESIAN_AXES,
+    //   classFunc: chartEditor.ui.appearanceTabs.axes.CartesianXAxes,
+    //   docsUrl: 'http://docs.anychart.com/Axes_and_Grids/Axis_Basics'
+    // },
+    // {
+    //   name: chartEditor.enums.EditorTabs.CARTESIAN_AXES,
+    //   classFunc: chartEditor.ui.appearanceTabs.axes.CartesianYAxes,
+    //   docsUrl: 'http://docs.anychart.com/Axes_and_Grids/Axis_Basics'
+    // },
+    // {
+    //   name: chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+    //   classFunc: chartEditor.ui.appearanceTabs.axes.RadarPolarXAxis,
+    //   docsUrl: 'http://docs.anychart.com/Axes_and_Grids/Axis_Basics'
+    // },
+    // {
+    //   name: chartEditor.enums.EditorTabs.RADAR_POLAR_AXES,
+    //   classFunc: chartEditor.ui.appearanceTabs.axes.RadarPolarYAxis,
+    //   docsUrl: 'http://docs.anychart.com/Axes_and_Grids/Axis_Basics'
+    // },
+    //
+    // {
+    //   name: chartEditor.enums.EditorTabs.GAUGE_AXES,
+    //   classFunc: chartEditor.ui.appearanceTabs.axes.GaugeAxes,
+    //   docsUrl: 'http://docs.anychart.com/Gauges/Linear_Gauge#scales_and_axes'
+    // },
+    // {
+    //   name: chartEditor.enums.EditorTabs.TOOLTIP,
+    //   classFunc: chartEditor.ui.appearanceTabs.Tooltip,
+    //   docsUrl: 'http://docs.anychart.com/Common_Settings/Tooltip'
+    // },
+    //
+    // {
+    //   name: chartEditor.enums.EditorTabs.GRIDS,
+    //   classFunc: chartEditor.ui.appearanceTabs.Grids,
+    //   docsUrl: 'http://docs.anychart.com/Axes_and_Grids/Axis_Basics#grids'
+    // },
+    //
+    // {
+    //   name: chartEditor.enums.EditorTabs.COLOR_SCALE,
+    //   classFunc: chartEditor.ui.appearanceTabs.ColorScale,
+    //   docsUrl: 'http://docs.anychart.com/Basic_Charts/Heat_Map_Chart#color_scale'
+    // },
+    // {
+    //   name: chartEditor.enums.EditorTabs.COLOR_RANGE,
+    //   classFunc: chartEditor.ui.appearanceTabs.ColorRange,
+    //   docsUrl: 'http://api.anychart.com/v8/anychart.core.ui.ColorRange'
+    // }
   ];
 };
 goog.inherits(chartEditor.model.Chart, chartEditor.model.Base);

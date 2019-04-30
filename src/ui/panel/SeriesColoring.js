@@ -18,8 +18,8 @@ goog.require('chartEditor.ui.PanelZippy');
 chartEditor.ui.panel.SeriesColoring = function(model, opt_domHelper) {
   chartEditor.ui.panel.SeriesColoring.base(this, 'constructor', model, 0, 'Coloring', opt_domHelper);
 
-  this.allowReset(true);
-  this.allowEnabled(false);
+  // this.allowReset(true);
+  // this.allowEnabled(false);
 
   this.addClassName(goog.getCssName('anychart-ce-panel-series-coloring'));
 };
@@ -34,22 +34,37 @@ chartEditor.ui.panel.SeriesColoring.prototype.createDom = function() {
   var dom = this.getDomHelper();
   var model = /** @type {chartEditor.model.Base} */(this.getModel());
 
-  console.log(this.getKey());
   // region ==== Header
   this.zippyHeader.getElement().appendChild(
       dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-ce-zippy-title'), this.name));
   // endregion
 
   // region ==== Content
-  var dataMarkers = new chartEditor.ui.panel.Markers(model);
-  if (this.seriesType_ === 'marker') {
-    dataMarkers.setFillKey('color()');
-    dataMarkers.setName(null);
-    dataMarkers.allowEnabled(false);
-    dataMarkers.setKey(this.getKey());
-    this.addChildControl(dataMarkers);
+  this.seriesType_ = model.getValue([['dataSettings'], ['mappings', 0], [this.index_, 'ctor']]);
 
-    this.addContentSeparator();
+  // Falling/rising
+  if (this.seriesType_ != 'ohlc') {
+    var risingFill = new chartEditor.ui.control.colorPicker.Base();
+    var risingFillLC = new chartEditor.ui.control.wrapped.Labeled(risingFill, 'Rising Fill');
+    risingFillLC.init(model, this.genKey('risingFill()'));
+    this.addChildControl(risingFillLC);
   }
+
+  var risingStroke = new chartEditor.ui.panel.Stroke(model, 'Rising Stroke');
+  risingStroke.setKey(this.genKey('risingStroke()'));
+  this.addChildControl(risingStroke);
+
+  if (this.seriesType_ != 'ohlc') {
+    var fallingFill = new chartEditor.ui.control.colorPicker.Base();
+    var fallingFillLC = new chartEditor.ui.control.wrapped.Labeled(fallingFill, 'Falling Fill');
+    fallingFillLC.init(model, this.genKey('fallingFill()'));
+    this.addChildControl(fallingFillLC);
+  }
+
+  var fallingStroke = new chartEditor.ui.panel.Stroke(model, 'Falling Stroke');
+  fallingStroke.setKey(this.genKey('fallingStroke()'));
+  this.addChildControl(fallingStroke);
+
+  this.addContentSeparator();
   // endregion
 };
