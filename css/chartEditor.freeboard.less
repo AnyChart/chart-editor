@@ -1,0 +1,37 @@
+@import "chartEditor.less";
+@import "variables.freeboard.less";
+@import "dialog.freeboard.less";
+
+
+// region ---- Freeboard specific
+.anychart-ce-freeboard-dialog {
+  a {
+    color: @color-label;
+  }
+  .title {
+    //font-size: 17px;
+    color: @color-caption !important;
+    //margin-bottom: 4px;
+    //min-height: 33px;
+  }
+
+  textarea,
+  input[type="text"] {
+    background-color: @color-background;
+    border: 1px solid @color-background;
+    color: @color-text;
+    width: auto;
+    height: auto;
+  }
+
+  textarea:focus,
+  input[type="text"]:focus {
+  }
+}
+
+.anychart-ce-wide-width {
+  width: 100%;
+}
+
+// endregion
+

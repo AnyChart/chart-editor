@@ -49,7 +49,7 @@ chartEditor.ui.dialog.Crosslink.prototype.updateContent = function(productId) {
   var fragment3 = goog.dom.createDom(
       goog.dom.TagName.A,
       {'href': requredProduct.url, 'target': '_blank'},
-      'Download and install ' + requredProduct.name + ' extension at Qlik Market');
+      'Download and install ' + requredProduct.name + ' extension at ' + chartEditor.model.Base.SOLUTION_DATA.marketName);
 
   goog.dom.appendChild(element, goog.dom.createDom(goog.dom.TagName.P, null, fragment1));
   goog.dom.appendChild(element, goog.dom.createDom(goog.dom.TagName.P, null, fragment2));

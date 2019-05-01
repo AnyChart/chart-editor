@@ -58,9 +58,7 @@ chartEditor.model.Base = function() {
         //'getSeriesAt(0).name()': 'my series'
       }
     },
-    'editorSettings': {
-      'qlikMode': true
-    },
+    'editorSettings': {},
     'standalones': {},
     'defaults': {}
   };
@@ -94,6 +92,13 @@ chartEditor.model.Base = function() {
   this.appearanceTabs = [];
 };
 goog.inherits(chartEditor.model.Base, goog.events.EventTarget);
+
+
+/**
+ * Chart editor specific solution.
+ * @define {string}
+ */
+chartEditor.model.Base.SOLUTION = 'qlik';
 
 
 /**
@@ -137,6 +142,105 @@ chartEditor.model.Base.Model;
 chartEditor.model.Base.JavascriptOptions;
 
 
+/**
+ * @typedef {{
+ *    overviewUrl: string,
+ *    basicTitle: string,
+ *    basicUrl: string,
+ *    chartTitle: string,
+ *    chartUrl: string,
+ *    stockTitle: string,
+ *    stockUrl: string,
+ *    mapTitle: string,
+ *    mapUrl: string,
+ *    ganttTitle: string,
+ *    ganttUrl: string,
+ *    bundleTitle: string,
+ *    bundleUrl: string,
+ *    marketName: string
+ * }}
+ */
+chartEditor.model.Base.SolutionData;
+
+
+/**
+ * NOTE: Contains a lot of unnecessary fields. Left for a while.
+ * @type {chartEditor.model.Base.SolutionData}
+ */
+chartEditor.model.Base.SOLUTION_DATA = (function(){
+  switch (chartEditor.model.Base.SOLUTION) {
+    case 'qlik':
+      return /** @type {chartEditor.model.Base.SolutionData} */ ({
+        overviewUrl: 'https://www.anychart.com/products/qlik/overview/?utm_source=qlik-extension',
+        basicTitle: 'AnyChart Qlik Basic',
+        basicUrl: 'https://github.com/AnyChart/anychart-qlik-basic',
+        chartTitle: 'AnyChart Qlik Charts',
+        chartUrl: 'https://market.qlik.com/solutions/AnyChart_Qlik_Charts',
+        stockTitle: 'AnyChart Qlik Stock Charts',
+        stockUrl: 'https://market.qlik.com/solutions/AnyChart_Qlik_Stock_Charts',
+        mapTitle: 'AnyChart Qlik Geo Maps',
+        mapUrl: 'https://market.qlik.com/solutions/AnyChart_Qlik_Geo_Maps',
+        ganttTitle: 'AnyChart Qlik Gantt Chart',
+        ganttUrl: 'https://market.qlik.com/solutions/AnyChart_Qlik_Gantt_Chart',
+        bundleTitle: 'AnyChart Qlik Bundle',
+        bundleUrl: 'https://github.com/AnyChart/anychart-qlik-basic',
+        marketName: 'Qlik Market'
+      });
+    case 'tableau':
+      return /** @type {chartEditor.model.Base.SolutionData} */ ({
+        overviewUrl: 'https://www.anychart.com/products/tableau/overview/?utm_source=tableau-extension',
+        basicTitle: '',
+        basicUrl: '',
+        chartTitle: '',
+        chartUrl: '',
+        stockTitle: '',
+        stockUrl: '',
+        mapTitle: '',
+        mapUrl: '',
+        ganttTitle: '',
+        ganttUrl: '',
+        bundleTitle: '',
+        bundleUrl: '',
+        marketName: ''
+      });
+    case 'freeboard':
+      return /** @type {chartEditor.model.Base.SolutionData} */ ({
+        overviewUrl: 'https://www.anychart.com/products/freeboard/overview/?utm_source=freeboard-extension',
+        basicTitle: '',
+        basicUrl: '',
+        chartTitle: '',
+        chartUrl: '',
+        stockTitle: '',
+        stockUrl: '',
+        mapTitle: '',
+        mapUrl: '',
+        ganttTitle: '',
+        ganttUrl: '',
+        bundleTitle: '',
+        bundleUrl: '',
+        marketName: ''
+      });
+    default:
+      return /** @type {chartEditor.model.Base.SolutionData} */ ({
+        overviewUrl: 'https://www.anychart.com/features/chart_editor/',
+        basicTitle: '',
+        basicUrl: '',
+        chartTitle: '',
+        chartUrl: '',
+        stockTitle: '',
+        stockUrl: '',
+        mapTitle: '',
+        mapUrl: '',
+        ganttTitle: '',
+        ganttUrl: '',
+        bundleTitle: '',
+        bundleUrl: '',
+        marketName: ''
+      });
+  }
+})();
+
+
 // region Structures
 /**
  * @enum {number}
@@ -155,12 +259,30 @@ chartEditor.model.Product = {
  * @enum {Object}
  */
 chartEditor.model.ProductDescription = {};
-chartEditor.model.ProductDescription[chartEditor.model.Product.BASIC] = {name: 'AnyChart Qlik Basic', url: 'https://github.com/AnyChart/anychart-qlik-basic'};
-chartEditor.model.ProductDescription[chartEditor.model.Product.CHART] = {name: 'AnyChart Qlik Charts', url: 'https://market.qlik.com/solutions/AnyChart_Qlik_Charts'};
-chartEditor.model.ProductDescription[chartEditor.model.Product.STOCK] = {name: 'AnyChart Qlik Stock Charts', url: 'https://market.qlik.com/solutions/AnyChart_Qlik_Stock_Charts'};
-chartEditor.model.ProductDescription[chartEditor.model.Product.MAP] = {name: 'AnyChart Qlik Geo Maps', url: 'https://market.qlik.com/solutions/AnyChart_Qlik_Geo_Maps'};
-chartEditor.model.ProductDescription[chartEditor.model.Product.GANTT] = {name: 'AnyChart Qlik Gantt Chart', url: 'https://market.qlik.com/solutions/AnyChart_Qlik_Gantt_Chart'};
-chartEditor.model.ProductDescription[chartEditor.model.Product.BUNDLE] = {name: 'AnyChart Qlik Bundle', url: 'https://github.com/AnyChart/anychart-qlik-basic'};
+chartEditor.model.ProductDescription[chartEditor.model.Product.BASIC] = {
+  name: chartEditor.model.Base.SOLUTION_DATA.basicTitle,
+  url: chartEditor.model.Base.SOLUTION_DATA.basicUrl
+};
+chartEditor.model.ProductDescription[chartEditor.model.Product.CHART] = {
+  name: chartEditor.model.Base.SOLUTION_DATA.chartTitle,
+  url: chartEditor.model.Base.SOLUTION_DATA.chartUrl
+};
+chartEditor.model.ProductDescription[chartEditor.model.Product.STOCK] = {
+  name: chartEditor.model.Base.SOLUTION_DATA.stockTitle,
+  url: chartEditor.model.Base.SOLUTION_DATA.stockUrl
+};
+chartEditor.model.ProductDescription[chartEditor.model.Product.MAP] = {
+  name: chartEditor.model.Base.SOLUTION_DATA.mapTitle,
+  url: chartEditor.model.Base.SOLUTION_DATA.mapUrl
+};
+chartEditor.model.ProductDescription[chartEditor.model.Product.GANTT] = {
+  name: chartEditor.model.Base.SOLUTION_DATA.ganttTitle,
+  url: chartEditor.model.Base.SOLUTION_DATA.ganttUrl
+};
+chartEditor.model.ProductDescription[chartEditor.model.Product.BUNDLE] = {
+  name: chartEditor.model.Base.SOLUTION_DATA.bundleTitle,
+  url: chartEditor.model.Base.SOLUTION_DATA.bundleUrl
+};
 
 
 /**
@@ -637,7 +759,7 @@ chartEditor.model.ChartTypes = (function() {
     'value': 'quadrant',
     'name': 'Quadrant',
     'icon': 'quadrant-chart.svg',
-    'series': [ 'marker', 'line', 'bubble'],
+    'series': ['marker', 'line', 'bubble'],
     'dataSetCtor': 'set',
     'defaults': {
       'quarters().leftTop().label().enabled()': false,
@@ -691,7 +813,7 @@ chartEditor.model.ExcludedPanelsForCharts = [];
 
 /**
  * @type {Array.<chartEditor.model.SpecificPanels>}
-*/
+ */
 chartEditor.model.SpecificPanelsForCharts = [];
 // endregion
 
@@ -822,7 +944,7 @@ chartEditor.model.Base.prototype.chooseDefaultChartType = function() {
   this.stackMode = locked ? locked['stackMode'] : false;
 
   if (desiredChartType) {
-    var result = goog.object.filter(availableChartTypes, function(item, key){
+    var result = goog.object.filter(availableChartTypes, function(item, key) {
       return item['value'] === desiredChartType || key === desiredChartType;
     });
     if (goog.object.getCount(result))
@@ -876,7 +998,9 @@ chartEditor.model.Base.prototype.createDefaultPlotMappings = function() {
  * @param {number=} opt_startFieldIndex Index of number field to start from.
  * @return {Object}
  */
-chartEditor.model.Base.prototype.createDefaultSeriesMapping = function(index, type, opt_id, opt_startFieldIndex) {return {};};
+chartEditor.model.Base.prototype.createDefaultSeriesMapping = function(index, type, opt_id, opt_startFieldIndex) {
+  return {};
+};
 
 
 /**
@@ -1006,14 +1130,16 @@ chartEditor.model.Base.prototype.onChangeStep = function(stepIndex) {
 /**
  * Adds new plot default mapping.
  */
-chartEditor.model.Base.prototype.addPlot = function() {};
+chartEditor.model.Base.prototype.addPlot = function() {
+};
 
 
 /**
  * Drops plot mapping by index.
  * @param {number} index
  */
-chartEditor.model.Base.prototype.dropPlot = function(index) {};
+chartEditor.model.Base.prototype.dropPlot = function(index) {
+};
 
 
 /**
@@ -1086,7 +1212,8 @@ chartEditor.model.Base.prototype.setActiveAndField = function(input) {
  *
  * @param {chartEditor.ui.control.select.Base} selectControl
  */
-chartEditor.model.Base.prototype.setActiveGeo = function(selectControl) {};
+chartEditor.model.Base.prototype.setActiveGeo = function(selectControl) {
+};
 
 
 /**
@@ -1983,8 +2110,8 @@ chartEditor.model.Base.prototype.getChartWithJsCode_ = function(opt_options) {
     // no mappings required for tree-data charts
     chart['data'](dataSet);
     result.push(
-      '// Setting data to the chart',
-      'chart.data(dataSet);'
+        '// Setting data to the chart',
+        'chart.data(dataSet);'
     );
   } else {
     // create mapping and series
@@ -1999,7 +2126,7 @@ chartEditor.model.Base.prototype.getChartWithJsCode_ = function(opt_options) {
       for (j = 0; j < plotMapping.length; j++) {
         var seriesMapping = plotMapping[j]['mapping'];
         var mappingObj = dsCtor === 'table' || this.chartTypeLike('gauges') ? {} :
-          {'x': settings['dataSettings']['field']};
+            {'x': settings['dataSettings']['field']};
 
         for (var m in seriesMapping) {
           if (seriesMapping.hasOwnProperty(m))
@@ -2016,8 +2143,8 @@ chartEditor.model.Base.prototype.getChartWithJsCode_ = function(opt_options) {
     if (singleSeriesChart) {
       chart['data'](mappingInstancesList[0][0]);
       result.push(
-        '// Setting data to the chart',
-        'chart.data(mapping);'
+          '// Setting data to the chart',
+          'chart.data(mapping);'
       );
     } else {
       result.push('// Creating series and setting data to them');
@@ -2110,7 +2237,7 @@ chartEditor.model.Base.prototype.getChartWithJsCode_ = function(opt_options) {
         var sDescriptor = settings['standalones'][sName][sIndex];
 
         if (instance && !sDescriptor['key'] && chartEditor.binding.testExec(chart, key, instance)) {
-              // Pass standalone instance to chart's method
+          // Pass standalone instance to chart's method
           var instanceVarName = standaloneInstances[value].name;
           var sSettingString = self.printKey(printer, 'chart', key, instanceVarName, true, true);
           result.push(sSettingString);
@@ -2200,7 +2327,7 @@ chartEditor.model.Base.prototype.getStandalonesJsCode = function(chart, printer,
   return [];
 };
 
-    
+
 /**
  * @param {goog.format.JsonPrettyPrinter} printer
  * @param {string} prefix
@@ -2215,7 +2342,7 @@ chartEditor.model.Base.prototype.printKey = function(printer, prefix, key, value
   if (goog.isDef(value)) {
     var quote = opt_noQuotes ? '' : '"';
     var valueString = opt_forceRawValue ?
-        quote + String(value) + quote:
+        quote + String(value) + quote :
         this.printValue_(printer, value);
 
     var replaceValue = valueString + ');';
@@ -2361,7 +2488,7 @@ chartEditor.model.Base.prototype.prepareDataSet_ = function(dataSet) {
   var val, type, field, name;
   if (goog.typeOf(row) === 'array') {
     for (var i = 0; i < row.length; i++) {
-      name = goog.isDefAndNotNull(result.fieldNames[i]) && goog.isDefAndNotNull(result.fieldNames[i].key)?
+      name = goog.isDefAndNotNull(result.fieldNames[i]) && goog.isDefAndNotNull(result.fieldNames[i].key) ?
           result.fieldNames[i].key :
           'value' + i;
       val = row[i];
@@ -2473,13 +2600,13 @@ chartEditor.model.Base.prototype.isChartSingleSeries = function() {
 chartEditor.model.Base.prototype.getChartTypeKey = function() {
   var chartType = this.model['chart']['type'];
   var chartTypeKey = this.model['chart']['typeKey'];
-  
+
   if (chartType !== chartTypeKey || chartEditor.model.ChartTypes[chartTypeKey]['value'] !== chartType) {
     if (this.stackMode) {
       chartTypeKey = chartType + '-stacked-' + this.stackMode;
 
     } else {
-      var result = goog.object.filter(chartEditor.model.ChartTypes, function(item, key){
+      var result = goog.object.filter(chartEditor.model.ChartTypes, function(item, key) {
         return item['value'] === chartType || key === chartType;
       });
       if (goog.object.getCount(result))
@@ -2523,7 +2650,8 @@ chartEditor.model.Base.prototype.chartTypeLike = function(value) {
 
 
 /** @protected */
-chartEditor.model.Base.prototype.initGeoData = function() {};
+chartEditor.model.Base.prototype.initGeoData = function() {
+};
 
 
 /**
@@ -2532,7 +2660,9 @@ chartEditor.model.Base.prototype.initGeoData = function() {};
  *
  * @return {Object}
  */
-chartEditor.model.Base.prototype.getGeoDataInfo = function() {return {};};
+chartEditor.model.Base.prototype.getGeoDataInfo = function() {
+  return {};
+};
 
 
 /**
@@ -2540,7 +2670,9 @@ chartEditor.model.Base.prototype.getGeoDataInfo = function() {return {};};
  *
  * @return {?Array.<Object>}
  */
-chartEditor.model.Base.prototype.getGeoDataIndexList = function() {return null;};
+chartEditor.model.Base.prototype.getGeoDataIndexList = function() {
+  return null;
+};
 
 
 /**
@@ -2549,11 +2681,13 @@ chartEditor.model.Base.prototype.getGeoDataIndexList = function() {return null;}
  * @param {string} scaleType
  * @return {Object|null}
  */
-chartEditor.model.Base.prototype.createScaleByType = function(scaleType) {return null;};
+chartEditor.model.Base.prototype.createScaleByType = function(scaleType) {
+  return null;
+};
 
 
 /** @inheritDoc */
-chartEditor.model.Base.prototype.disposeInternal = function(){
+chartEditor.model.Base.prototype.disposeInternal = function() {
   this.appearanceTabs.length = 0;
 };
 

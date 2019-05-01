@@ -4,17 +4,13 @@
   "description": "AnyChart Chart Editor utility",
   "main": "index.js",
   "scripts": {
-    "build": "sh ./bin/build.sh",
-    "compile": "sh ./bin/build.sh compile",
     "deps": "sh ./bin/build.sh deps",
     "css": "sh ./bin/build.sh css",
-    "buildChart": "sh ./bin/buildChart.sh",
-    "buildStock": "sh ./bin/buildStock.sh",
-    "buildMap": "sh ./bin/buildMap.sh",
-    "buildGantt": "sh ./bin/buildGantt.sh",
-    "buildBasic": "sh ./bin/buildBasic.sh",
-    "buildQlik": "sh ./bin/build_release_qlik.sh",
-    "bundle": "sh ./bin/bundle.sh"
+    "bundle": "sh ./bin/bundle.sh",
+    "bundleAll": "sh ./bin/bundle.sh all",
+    "bundleQlik": "sh ./bin/bundle.sh qlik",
+    "bundleTableau": "sh ./bin/bundle.sh tableau",
+    "bundleFreeboard": "sh ./bin/bundle.sh freeboard"
   },
   "repository": {
     "type": "git",

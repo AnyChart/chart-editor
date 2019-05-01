@@ -77,15 +77,6 @@ chartEditor.editor.Base = function (opt_domHelper, opt_lockedChartType) {
   this.listen(chartEditor.events.EventType.DATA_REMOVE, this.onDataRemove_);
   this.listen(chartEditor.events.EventType.WAIT, this.onWait_);
 
-  /**
-   * @type {?string}
-   * @private
-   */
-  this.theme_ = '';
-
-  // Enable Qlik theme
-  this.theme_ = 'qlik';
-
   this.addClassName(chartEditor.editor.Base.CSS_CLASS);
 };
 goog.inherits(chartEditor.editor.Base, chartEditor.ui.Component);
@@ -138,20 +129,6 @@ chartEditor.editor.Base.prototype.pluginMode = function(value) {
 };
 
 
-/**
- * Set/get the flag for qlikMode.
- * @param {boolean=} opt_value qlikMode flag.
- * @return {chartEditor.editor.Base|boolean}
- */
-chartEditor.editor.Base.prototype.qlikMode = function(opt_value) {
-  if (goog.isDef(opt_value) && goog.isBoolean(opt_value)) {
-    this.getModel().setValue([['editorSettings'], 'qlikMode'], opt_value);
-    return this;
-  }
-  return this.getModel().getValue([['editorSettings'], 'qlikMode']);
-};
-
-
 /** @inheritDoc */
 chartEditor.editor.Base.prototype.render = function (opt_parentElement) {
   chartEditor.editor.Base.base(this, 'render', opt_parentElement);
@@ -172,7 +149,7 @@ chartEditor.editor.Base.prototype.decorate = function (element) {
  * @return {?string|undefined}
  */
 chartEditor.editor.Base.prototype.getTheme = function () {
-  return this.theme_;
+  return chartEditor.model.Base.SOLUTION;
 };
 
 
@@ -190,7 +167,8 @@ chartEditor.editor.Base.prototype.dialogRender = function (opt_class, opt_useIfr
 
   this.dialogAdditionalClass_ = opt_class;
 
-  if (this.theme_) this.dialog_.setTheme(this.theme_);
+  if (chartEditor.model.Base.SOLUTION)
+    this.dialog_.setTheme(chartEditor.model.Base.SOLUTION);
 
   this.dialog_.addChild(this, true);
 
@@ -381,8 +359,8 @@ chartEditor.editor.Base.prototype.onHideDialog_ = function (evt) {
 chartEditor.editor.Base.prototype.createDom = function () {
   chartEditor.editor.Base.base(this, 'createDom');
 
-  if (this.theme_)
-    goog.dom.classlist.add(this.getElement(), 'anychart-' + this.theme_ + '-theme');
+  if (chartEditor.model.Base.SOLUTION)
+    goog.dom.classlist.add(this.getElement(), 'anychart-' + chartEditor.model.Base.SOLUTION + '-theme');
 
   // Add breadcrumbs
   var BreadcrumbsEventType = chartEditor.ui.breadcrumbs.Breadcrumbs.EventType;
@@ -732,7 +710,7 @@ chartEditor.editor.Base.Dialog.prototype.initTitleElements_ = function () {
   this.titleLogoEl_ = dom.createDom(
     goog.dom.TagName.A, {
       'class': goog.getCssName(this.getCssClass(), 'title-logo'),
-      'href': 'https://www.anychart.com/technical-integrations/samples/qlik-charts/overview/?utm_source=qlik-extension',
+      'href': chartEditor.model.Base.SOLUTION_DATA.overviewUrl,
       'target': '_blank'
     });
   goog.dom.insertSiblingBefore(this.titleLogoEl_, goog.dom.getFirstElementChild(titleElement));
@@ -796,7 +774,6 @@ window['anychart'] = window['anychart'] || {};
   proto['addClassName'] = proto.addClassName;
   proto['removeClassName'] = proto.removeClassName;
   proto['saveToCloud'] = proto.saveToCloud;
-  proto['qlikMode'] = proto.qlikMode;
   proto['pluginMode'] = proto.pluginMode;
   proto['getModelValue'] = proto.getModelValue;
 })();
