@@ -28,50 +28,56 @@ goog.inherits(chartEditor.ui.panel.ganttProject.GanttElements, chartEditor.ui.Pa
 chartEditor.ui.panel.ganttProject.GanttElements.prototype.createDom = function() {
   chartEditor.ui.panel.ganttProject.GanttElements.base(this, 'createDom');
 
+  var index = 0;
+
   var model = /** @type {chartEditor.model.Base} */(this.getModel());
 
-  var elements = new chartEditor.ui.panel.ganttProject.elements.Base(model, 'Timeline element');
+  var elements = new chartEditor.ui.panel.ganttProject.elements.Base(model, index++, 'Timeline element');
+  elements.labelsPanel.hideField('enabled');
   elements.allowEnabled(false);
   elements.addClassName(goog.getCssName('anychart-ce-panel-gantt-element-timeline'));
   elements.setKey(this.genKey('elements()'));
   this.addChildControl(elements);
   this.addContentSeparator();
 
-  var baseLinesElement = new chartEditor.ui.panel.ganttProject.elements.Base(model, 'Baseline elements');
+  var baseLinesElement = new chartEditor.ui.panel.ganttProject.elements.Base(model, index++,  'Baseline elements');
   baseLinesElement.setKey(this.genKey('baselines()'));
+  baseLinesElement.showElement('above');
   baseLinesElement.addClassName(goog.getCssName('anychart-ce-panel-gantt-element-baselines'));
   baseLinesElement.allowEnabled(false);
   this.addChildControl(baseLinesElement);
   this.addContentSeparator();
 
-  var connectorElement = new chartEditor.ui.panel.ganttProject.elements.Base(model, 'Connector elements');
+  var connectorElement = new chartEditor.ui.panel.ganttProject.elements.Base(model, index++, 'Connector elements');
   connectorElement.setKey(this.genKey('connectors()'));
   connectorElement.allowEnabled(false);
   connectorElement.hideField('anchor');
   connectorElement.hideField('position');
   connectorElement.hideField('height');
+  connectorElement.hideField('offset');
+  connectorElement.hideField('labels');
   connectorElement.addClassName(goog.getCssName('anychart-ce-panel-gantt-element-connector'));
   this.addChildControl(connectorElement);
   this.addContentSeparator();
 
-  var groupingTasksElement = new chartEditor.ui.panel.ganttProject.elements.GroupingTasksElement(model);
+  var groupingTasksElement = new chartEditor.ui.panel.ganttProject.elements.GroupingTasksElement(model, index++);
   groupingTasksElement.setKey(this.genKey('groupingTasks()'));
   this.addChildControl(groupingTasksElement);
   this.addContentSeparator();
 
-  var milestonesElement = new chartEditor.ui.panel.ganttProject.elements.MilestonesElement(model);
+  var milestonesElement = new chartEditor.ui.panel.ganttProject.elements.MilestonesElement(model, index++);
   milestonesElement.setKey(this.genKey('milestones()'));
   this.addChildControl(milestonesElement);
   this.addContentSeparator();
 
-  var periodsElement = new chartEditor.ui.panel.ganttProject.elements.Base(model, 'Periods element');
+  var periodsElement = new chartEditor.ui.panel.ganttProject.elements.Base(model , index++, 'Periods element');
   periodsElement.allowEnabled(false);
   periodsElement.addClassName(goog.getCssName('anychart-ce-panel-element-period'));
   periodsElement.setKey(this.genKey('periods()'));
   this.addChildControl(periodsElement);
   this.addContentSeparator();
 
-  var taskElement = new chartEditor.ui.panel.ganttProject.elements.TaskElement(model);
+  var taskElement = new chartEditor.ui.panel.ganttProject.elements.TaskElement(model, index++);
   taskElement.setKey(this.genKey('tasks()'));
   this.addChildControl(taskElement);
 };

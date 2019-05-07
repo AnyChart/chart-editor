@@ -4,8 +4,11 @@ goog.require('chartEditor.ui.Panel');
 goog.require('chartEditor.ui.control.button.Bold');
 goog.require('chartEditor.ui.control.button.Italic');
 goog.require('chartEditor.ui.control.button.Underline');
+goog.require('chartEditor.ui.control.checkbox.Base');
 goog.require('chartEditor.ui.control.colorPicker.Base');
 goog.require('chartEditor.ui.control.comboBox.Base');
+goog.require('chartEditor.ui.control.fieldSelect.Base');
+goog.require('chartEditor.ui.control.input.Base');
 goog.require('chartEditor.ui.control.select.FontFamily');
 goog.require('chartEditor.ui.control.wrapped.Labeled');
 
@@ -31,7 +34,11 @@ chartEditor.ui.panel.Font = function(model, opt_domHelper) {
     'fontDecoration': true,
     'fontFamily': true,
     'fontSize': true,
-    'fontColor': true
+    'fontColor': true,
+    'format': false,
+    'position': false,
+    'anchor': false,
+    'enabled': false
   };
 
   this.allowEnabled(false);
@@ -45,6 +52,16 @@ goog.inherits(chartEditor.ui.panel.Font, chartEditor.ui.Panel);
 chartEditor.ui.panel.Font.prototype.hideField = function(name) {
   this.fields_[name] = false;
 };
+
+
+/**
+ * Show passed field in DOM.
+ * @param {string} name
+ * */
+chartEditor.ui.panel.Font.prototype.showField = function(name) {
+  this.fields_[name] = true;
+};
+
 
 /**
  * Default CSS class.
@@ -70,6 +87,12 @@ chartEditor.ui.panel.Font.prototype.createDom = function() {
   var content = this.getContentElement();
   var model = /** @type {chartEditor.model.Base} */(this.getModel());
 
+  if (this.fields_['enabled']) {
+    var enabled = new chartEditor.ui.control.checkbox.Base();
+    enabled.init(model, this.genKey('enabled()'));
+    enabled.setCaption('Enabled');
+    this.addChildControl(enabled);
+  }
   var pointWidthLC;
   if (this.fields_['fontFamily']) {
     var fontFamily = new chartEditor.ui.control.select.FontFamily();
@@ -84,6 +107,30 @@ chartEditor.ui.panel.Font.prototype.createDom = function() {
     pointWidthLC.init(model, this.genKey('fontSize()'));
     this.addChildControl(pointWidthLC);
   }
+
+  if (this.fields_['format']) {
+    var format = new chartEditor.ui.control.input.Base();
+    var formatLC = new chartEditor.ui.control.wrapped.Labeled(format, 'Format');
+    formatLC.init(model, this.genKey('format()'));
+    this.addChildControl(formatLC);
+  }
+
+  if (this.fields_['position']) {
+    var position = new chartEditor.ui.control.fieldSelect.Base();
+    position.getSelect().setOptions(goog.object.getValues(chartEditor.enums.Anchor));
+    var positionLC = new chartEditor.ui.control.wrapped.Labeled(position, 'Labels position');
+    positionLC.init(model, this.genKey('position()'));
+    this.addChildControl(positionLC);
+  }
+
+  if (this.fields_['anchor']) {
+    var anchor = new chartEditor.ui.control.fieldSelect.Base();
+    anchor.getSelect().setOptions(goog.object.getValues(chartEditor.enums.Anchor));
+    var anchorLC = new chartEditor.ui.control.wrapped.Labeled(anchor, 'Labels anchor');
+    anchorLC.init(model, this.genKey('anchor()'));
+    this.addChildControl(anchorLC);
+  }
+
   /**@type {Node|null}*/
   var buttonsWrapper;
 
