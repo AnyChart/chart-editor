@@ -86,8 +86,8 @@ chartEditor.model.Series['ganttResourceQlik'] = {
     {'field': 'periodId'},
     {'field': 'periodStart'},
     {'field': 'periodEnd'},
-    {'field': 'periodConnectTo', 'isOptional': true},
-    {'field': 'periodResourceId'}
+    {'field': 'periodConnectTo', 'isOptional': true}
+    // {'field': 'periodResourceId'}
   ]
 };
 chartEditor.model.Series['ganttResource'] = {
