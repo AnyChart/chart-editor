@@ -18,6 +18,8 @@ goog.require('chartEditor.ui.panel.Stroke');
 chartEditor.ui.panel.ganttProject.Coloring = function(model, opt_name, opt_domHelper) {
   chartEditor.ui.panel.ganttProject.Coloring.base(this, 'constructor', model, opt_name || 'Coloring', opt_domHelper);
 
+  this.allowReset(true);
+
   this.addClassName(goog.getCssName('anychart-ce-panel-gantt-coloring'));
 };
 goog.inherits(chartEditor.ui.panel.ganttProject.Coloring, chartEditor.ui.Panel);

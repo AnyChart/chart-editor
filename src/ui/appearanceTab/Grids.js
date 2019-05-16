@@ -37,3 +37,15 @@ chartEditor.ui.appearanceTabs.Grids.prototype.createPanels = function() {
     this.addPanelInstance(plotGrids);
   }
 };
+
+
+
+/** @inheritDoc */
+chartEditor.ui.appearanceTabs.Grids.prototype.onModelChange = function(evt) {
+  chartEditor.ui.appearanceTabs.Grids.base(this, 'onModelChange', evt);
+
+  var needRebuildFor = ['addPlot', 'dropPlot'];
+  if (!this.isExcluded() && evt && needRebuildFor.indexOf(evt.meta) !== -1) {
+    this.rebuildPanels();
+  }
+};

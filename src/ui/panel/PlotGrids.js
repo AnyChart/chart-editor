@@ -46,39 +46,11 @@ chartEditor.ui.panel.PlotGrids.prototype.createDom = function() {
 
   var xGrid = new chartEditor.ui.panel.Grid(model, 'X Grid');
   xGrid.setKey(this.genKey('xGrid()'));
-  this.addChild(xGrid, true);
-  this.xGrid_ = xGrid;
+  this.addChildControl(xGrid);
 
   this.addContentSeparator();
 
   var yGrid = new chartEditor.ui.panel.Grid(model, 'Y Grid');
   yGrid.setKey(this.genKey('yGrid()'));
-  this.addChild(yGrid, true);
-  this.yGrid_ = yGrid;
-};
-
-
-/** @inheritDoc */
-chartEditor.ui.panel.PlotGrids.prototype.updateKeys = function() {
-  if (!this.isExcluded()) {
-    this.key = [['chart'], ['settings']];
-    if (goog.isDef(this.plotIndex_))
-      this.key.push('plot(' + this.plotIndex_ + ')');
-
-    // Update keys of children
-    if (this.xGrid_) this.xGrid_.setKey(this.genKey('xGrid()'));
-    if (this.yGrid_) this.yGrid_.setKey(this.genKey('yGrid()'));
-  }
-
-  // Update key of enabled checkbox
-  chartEditor.ui.panel.PlotGrids.base(this, 'updateKeys');
-};
-
-
-/** @override */
-chartEditor.ui.panel.PlotGrids.prototype.disposeInternal = function() {
-  goog.disposeAll(this.xGrid_, this.yGrid_);
-  this.xGrid_ = this.yGrid_ = null;
-
-  chartEditor.ui.panel.PlotGrids.base(this, 'disposeInternal');
+  this.addChildControl(yGrid);
 };

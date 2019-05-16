@@ -205,7 +205,7 @@ chartEditor.model.Base.SOLUTION_DATA = (function(){
       });
     case 'freeboard':
       return /** @type {chartEditor.model.Base.SolutionData} */ ({
-        overviewUrl: 'https://www.anychart.com/products/freeboard/overview/?utm_source=freeboard-extension',
+        overviewUrl: 'https://freeboard.anychart.com/overview/?utm_source=freeboard-extension',
         basicTitle: '',
         basicUrl: '',
         chartTitle: '',
@@ -1016,7 +1016,7 @@ chartEditor.model.Base.prototype.createDefaultStandalones = function() {
     for (var i = 0; i < chartSettings['scales'].length; i++) {
       this.addStandalone('scale', chartSettings['scales'][i]);
     }
-    this.resumeDispatch(true);
+    this.resumeDispatch(false);
   }
 };
 // endregion
@@ -1026,14 +1026,14 @@ chartEditor.model.Base.prototype.createDefaultStandalones = function() {
 /**
  *
  * @param {Object} chart
- * @param {boolean} rebuild
+ * @param {boolean} afterChartRebuild
  */
-chartEditor.model.Base.prototype.onChartDraw = function(chart, rebuild) {
+chartEditor.model.Base.prototype.onChartDraw = function(chart, afterChartRebuild) {
   if (chart) { // todo: sometimes it's null
     this.dispatchEvent({
       type: chartEditor.events.EventType.CHART_DRAW,
       chart: chart,
-      rebuild: rebuild
+      afterChartRebuild: afterChartRebuild
     });
   }
 };
@@ -1152,7 +1152,7 @@ chartEditor.model.Base.prototype.addSeries = function(plotIndex) {
       /** @type {string} */(this.model['chart']['seriesType']));
 
   this.model['dataSettings']['mappings'][plotIndex].push(mapping);
-  this.dispatchUpdate();
+  this.dispatchUpdate('addSeries', true);
 };
 
 
@@ -1168,7 +1168,7 @@ chartEditor.model.Base.prototype.dropSeries = function(plotIndex, seriesIndex) {
     var removedSeries = goog.array.splice(this.model['dataSettings']['mappings'][plotIndex], seriesIndex, 1);
     var stringKey = this.chartTypeLike('gauges') ? 'getPointer' : 'getSeries';
     this.dropChartSettings(stringKey + '(\'' + removedSeries[0]['id'] + '\')');
-    this.dispatchUpdate();
+    this.dispatchUpdate('dropSeries', true);
   }
 };
 
@@ -1193,15 +1193,15 @@ chartEditor.model.Base.prototype.setActiveAndField = function(input) {
     this.createDefaultMappings();
     this.createDefaultStandalones();
 
-    this.dispatchUpdate();
+    this.dispatchUpdate('setActiveAndField', true);
 
   } else if (field !== this.model['dataSettings']['field']) {
     this.model['dataSettings']['field'] = field;
 
-    this.dispatchUpdate();
+    this.dispatchUpdate('setActiveAndField', true);
   }
 
-  this.resumeDispatch();
+  this.resumeDispatch(true);
 };
 
 
@@ -1273,7 +1273,7 @@ chartEditor.model.Base.prototype.setChartType = function(input) {
 
   this.setStackMode(selectValue.stackMode);
 
-  this.dispatchUpdate();
+  this.dispatchUpdate('setChartType', true);
 };
 
 
@@ -1286,7 +1286,9 @@ chartEditor.model.Base.prototype.setStackMode = function(opt_stackMode) {
   this.stackMode = false;
   if (opt_stackMode) {
     if (this.model['chart']['type'] !== 'stock') {
-      this.setValue([['chart'], ['settings'], 'yScale().stackMode()'], opt_stackMode, true);
+      this.suspendDispatch();
+      this.setValue([['chart'], ['settings'], 'yScale().stackMode()'], opt_stackMode);
+      this.resumeDispatch(false);
       this.stackMode = opt_stackMode;
     }
   }
@@ -1307,7 +1309,7 @@ chartEditor.model.Base.prototype.setSeriesType = function(input) {
   if (this.model['dataSettings']['mappings'][plotIndex][seriesIndex]['ctor'] !== type) {
     var oldConfig = this.model['dataSettings']['mappings'][plotIndex][seriesIndex];
     this.model['dataSettings']['mappings'][plotIndex][seriesIndex] = this.createDefaultSeriesMapping(seriesIndex, type, oldConfig['id']);
-    this.dispatchUpdate();
+    this.dispatchUpdate('setSeriesType', true);
   }
 };
 
@@ -1321,7 +1323,7 @@ chartEditor.model.Base.prototype.setTheme = function(input) {
   delete this.model['chart']['settings']['palette()'];
   var inputValue = input.getValue();
   this.setValue([['anychart'], 'theme()'], inputValue.value);
-  this.resumeDispatch();
+  this.resumeDispatch(true);
 };
 
 
@@ -1368,7 +1370,7 @@ chartEditor.model.Base.prototype.dropAxis = function(index, opt_xOrY) {
 
   var regExp = new RegExp(pattern);
   this.dropChartSettings(regExp);
-  this.dispatchUpdate(false, true);
+  this.dispatchUpdate('dropAxis ' + pattern, true);
 };
 
 
@@ -1404,7 +1406,7 @@ chartEditor.model.Base.prototype.addIndexedSetting = function(stringKeyBase, opt
     value = true;
   }
 
-  this.setValue([['chart'], ['settings'], stringKey], value);
+  this.setValue([['chart'], ['settings'], stringKey], value, true);
 
   return index;
 };
@@ -1418,7 +1420,7 @@ chartEditor.model.Base.prototype.dropIndexedSetting = function(index, stringKeyB
   var pattern = '^' + stringKeyBase + '\\(' + index + '\\)';
   var regExp = new RegExp(pattern);
   this.dropChartSettings(regExp);
-  this.dispatchUpdate(false, true);
+  this.dispatchUpdate('dropIndexedSetting ' + pattern, true);
 };
 
 
@@ -1436,8 +1438,9 @@ chartEditor.model.Base.prototype.addStandalone = function(stringKeyBase, opt_fie
 
   this.setValue([['standalones'], [stringKeyBase, index]], void 0);
   this.model['standalones'][stringKeyBase][index] = opt_fieldValues;
+
   // Should dispatch because two previous lines do not do this
-  this.dispatchUpdate();
+  this.dispatchUpdate('addStandalone', true);
 
   return index;
 };
@@ -1463,7 +1466,7 @@ chartEditor.model.Base.prototype.dropStandalone = function(stringKeyBase) {
 chartEditor.model.Base.prototype.setModel = function(value) {
   this.model = value;
   this.afterSetModel_ = true;
-  this.dispatchUpdate();
+  this.dispatchUpdate('setModel', true);
 };
 
 
@@ -1527,16 +1530,12 @@ chartEditor.model.Base.prototype.loadLocales_ = function(locales) {
  * Setter for model's field state
  * @param {chartEditor.model.Base.Key} key
  * @param {*} value
- * @param {boolean=} opt_noDispatch
- * @param {boolean=} opt_noRebuildChart
- * @param {boolean=} opt_noRebuildMapping
+ * @param {boolean=} opt_rebuildChart
  * @param {boolean=} opt_noOverride Write value only if key not exists.
  */
 chartEditor.model.Base.prototype.setValue = function(key,
                                                      value,
-                                                     opt_noDispatch,
-                                                     opt_noRebuildChart,
-                                                     opt_noRebuildMapping,
+                                                     opt_rebuildChart,
                                                      opt_noOverride) {
   var target = this.model;
   for (var i = 0; i < key.length; i++) {
@@ -1559,8 +1558,11 @@ chartEditor.model.Base.prototype.setValue = function(key,
       // Set value
       target[level] = value;
 
-      if (!opt_noDispatch)
-        this.dispatchUpdate(opt_noRebuildChart, opt_noRebuildMapping, level);
+      this.dispatchUpdate({
+        key: key,
+        stringKey: level,
+        method: 'setValue'
+      }, opt_rebuildChart);
     }
   }
   // console.log(this.model['chart']['panel']);
@@ -1632,17 +1634,17 @@ chartEditor.model.Base.prototype.removeByKey = function(key, opt_noDispatch) {
         break;
     }
   }
+
   if (!opt_noDispatch)
-    this.dispatchUpdate();
+    this.dispatchUpdate('removeByKey ' + level, true);
 };
 
 
 /**
- * @param {boolean=} opt_noRebuildChart
- * @param {boolean=} opt_noRebuildMapping
- * @param {string=} opt_lastKey
+ * @param {(Object|string)=} opt_metaData
+ * @param {boolean=} opt_rebuildChart
  */
-chartEditor.model.Base.prototype.dispatchUpdate = function(opt_noRebuildChart, opt_noRebuildMapping, opt_lastKey) {
+chartEditor.model.Base.prototype.dispatchUpdate = function(opt_metaData, opt_rebuildChart) {
   if (this.suspendQueue_ > 0) {
     this.needDispatch_ = true;
     return;
@@ -1650,9 +1652,8 @@ chartEditor.model.Base.prototype.dispatchUpdate = function(opt_noRebuildChart, o
 
   this.dispatchEvent({
     type: chartEditor.events.EventType.EDITOR_MODEL_UPDATE,
-    rebuildChart: !opt_noRebuildChart,
-    rebuildMapping: !opt_noRebuildMapping,
-    lastKey: opt_lastKey
+    meta: opt_metaData,
+    rebuildChart: Boolean(opt_rebuildChart)
   });
 
   this.needDispatch_ = false;
@@ -1669,12 +1670,12 @@ chartEditor.model.Base.prototype.suspendDispatch = function() {
 
 /**
  * suspend queue minus one.
- * @param {boolean=} opt_skipDispatch
+ * @param {boolean} finalDispatch
  */
-chartEditor.model.Base.prototype.resumeDispatch = function(opt_skipDispatch) {
+chartEditor.model.Base.prototype.resumeDispatch = function(finalDispatch) {
   this.suspendQueue_--;
-  if (this.suspendQueue_ === 0 && this.needDispatch_ && !opt_skipDispatch)
-    this.dispatchUpdate();
+  if (this.suspendQueue_ === 0 && this.needDispatch_ && finalDispatch)
+    this.dispatchUpdate('resumeDispatch', true);
 };
 
 
@@ -1720,12 +1721,14 @@ chartEditor.model.Base.prototype.getModel = function() {
  * @return {chartEditor.model.Base|Object}
  */
 chartEditor.model.Base.prototype.defaults = function(opt_values) {
-  if (goog.isDef(opt_values)) {
-    if (!goog.isDef(this.model['defaults']))
-      this.model['defaults'] = {};
-    this.model['defaults'] = Object.assign(this.model['defaults'], opt_values);
+  if (!goog.isDef(this.model['defaults']))
+    this.model['defaults'] = {};
+
+  if (goog.isObject(opt_values)) {
+    goog.object.extend(this.model['defaults'], opt_values);
     return this;
   }
+
   return this.model['defaults'];
 };
 // endregion
@@ -1824,7 +1827,7 @@ chartEditor.model.Base.prototype.addDataInternal = function(dataSet) {
     this.dirtyInitialDefaults_ = true;
   }
 
-  this.dispatchUpdate();
+  this.dispatchUpdate('addDataInternal', true);
 };
 
 /**
@@ -1841,7 +1844,7 @@ chartEditor.model.Base.prototype.removeData = function(setFullId) {
   this.preparedData_.length = 0;
   this.dirtyInitialDefaults_ = true;
 
-  this.dispatchUpdate();
+  this.dispatchUpdate('removeData', true);
 };
 
 

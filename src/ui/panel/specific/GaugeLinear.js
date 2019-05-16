@@ -48,6 +48,6 @@ chartEditor.ui.panel.specific.GaugeLinear.prototype.createDom = function() {
   this.addChildControl(paletteLC);
 
   var scale = new chartEditor.ui.control.select.Scales({label: 'Scale', scaleName: 'Default Scale'});
-  scale.init(model, this.genKey('scale()'));
+  scale.init(model, this.genKey('scale()'), void 0, true);
   this.addChildControl(scale);
 };

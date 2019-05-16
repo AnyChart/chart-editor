@@ -17,5 +17,6 @@ chartEditor.ui.panel.axes.Cartesian = function(model, index, xOrY, opt_domHelper
   this.xOrY = xOrY;
   this.name = this.xOrY + 'Axis(' + this.index_ + ')';
   this.key = [['chart'], ['settings'], this.xOrY + 'Axis(' + this.index_ + ')'];
+  this.allowReset(true);
 };
 goog.inherits(chartEditor.ui.panel.axes.Cartesian, chartEditor.ui.panel.axes.Linear);

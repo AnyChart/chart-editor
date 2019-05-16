@@ -43,22 +43,11 @@ chartEditor.ui.appearanceTabs.Legend.prototype.createPanels = function() {
 
 
 /** @inheritDoc */
-chartEditor.ui.appearanceTabs.Legend.prototype.getPanelsCount = function() {
-  return this.panels_.length;
-};
-
-
-/** @inheritDoc */
 chartEditor.ui.appearanceTabs.Legend.prototype.onModelChange = function(evt) {
   chartEditor.ui.appearanceTabs.Legend.base(this, 'onModelChange', evt);
-  if (evt && !this.isExcluded()) {
-    var panelsCount = this.getPanelsCount();
-    var model = /** @type {chartEditor.model.Base} */(this.getModel());
-    var mappings = model.getValue([['dataSettings'], 'mappings']);
-    var count =  mappings.length;
-    if (count !== panelsCount) {
-      this.removeAllPanels();
-      this.createPanels();
-    }
+
+  var needRebuildFor = ['addPlot', 'dropPlot'];
+  if (!this.isExcluded() && evt && needRebuildFor.indexOf(evt.meta) !== -1) {
+    this.rebuildPanels();
   }
 };

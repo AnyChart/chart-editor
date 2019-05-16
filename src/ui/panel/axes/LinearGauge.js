@@ -15,6 +15,8 @@ goog.require('chartEditor.ui.panel.scales.Base');
  */
 chartEditor.ui.panel.axes.LinearGauge = function(model, index, opt_domHelper) {
   chartEditor.ui.panel.axes.LinearGauge.base(this, 'constructor', model, index, opt_domHelper);
+
+  this.allowReset(true);
 };
 goog.inherits(chartEditor.ui.panel.axes.LinearGauge, chartEditor.ui.panel.axes.Linear);
 
@@ -28,6 +30,6 @@ chartEditor.ui.panel.axes.LinearGauge.prototype.createDom = function() {
   var offset = new chartEditor.ui.control.comboBox.Percent();
   offset.allowNegative(true);
   var offsetLC = new chartEditor.ui.control.wrapped.Labeled(offset, 'Offset');
-  offsetLC.init(model, this.genKey('offset()'));
+  offsetLC.init(model, this.genKey('offset()'), void 0, true);
   this.addChildControl(offsetLC, 1);
 };

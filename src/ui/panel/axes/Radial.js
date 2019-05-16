@@ -29,7 +29,7 @@ chartEditor.ui.panel.axes.Radial.prototype.createDom = function() {
   var model = /** @type {chartEditor.model.Base} */(this.getModel());
 
   var scale = new chartEditor.ui.control.select.Scales({label: 'Scale'});
-  scale.init(model, this.genKey('scale()'));
+  scale.init(model, this.genKey('scale()'), void 0, true);
   this.addChildControl(scale);
 
   var overlapMode = new chartEditor.ui.control.fieldSelect.Base({label: 'Labels Overlap'});

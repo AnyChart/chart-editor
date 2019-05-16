@@ -30,7 +30,7 @@ chartEditor.ui.control.button.Toggle = function(opt_content, opt_renderer, opt_d
    * @type {boolean}
    * @protected
    */
-  this.noRebuild = false;
+  this.rebuildChart = false;
 
   /**
    * Target object (usually it's chart)
@@ -135,7 +135,7 @@ chartEditor.ui.control.button.Toggle.prototype.onChange = function(evt) {
     if (this.callback)
       this.editorModel.callbackByString(this.callback, this);
     else
-      this.editorModel.setValue(this.key, value, false, this.noRebuild);
+      this.editorModel.setValue(this.key, value, this.rebuildChart);
   }
 };
 
@@ -147,9 +147,8 @@ chartEditor.ui.control.button.Toggle.prototype.onChange = function(evt) {
  * @param {chartEditor.model.Base.Key} key Key of control's field in model's structure.
  * @param {string=} opt_callback Callback function that will be called on control's value change instead of simple change value in model.
  *  This function should be model's public method.
- * @param {boolean=} opt_noRebuild Should or not rebuild chart on change value of this control.
  */
-chartEditor.ui.control.button.Toggle.prototype.init = function(model, key, opt_callback, opt_noRebuild) {
+chartEditor.ui.control.button.Toggle.prototype.init = function(model, key, opt_callback) {
   /**
    * @type {chartEditor.model.Base}
    * @protected
@@ -159,8 +158,6 @@ chartEditor.ui.control.button.Toggle.prototype.init = function(model, key, opt_c
   this.key = key;
 
   this.callback = opt_callback;
-
-  this.noRebuild = !!opt_noRebuild;
 };
 
 

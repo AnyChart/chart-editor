@@ -59,14 +59,14 @@ chartEditor.ui.PanelZippy.prototype.createDom = function() {
   }
 
   if (this.allowReset()) {
-    goog.dom.appendChild(this.zippyHeader.getElement(), this.resetButton_.getElement());
+    goog.dom.appendChild(this.topEl, this.resetButton_.getElement());
   }
 
   var plusMinus = goog.dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-plus-minus'), [
     goog.dom.createDom(goog.dom.TagName.DIV, 'expand ac ac-chevron-circle-down'),
     goog.dom.createDom(goog.dom.TagName.DIV, 'collapse ac ac-chevron-circle-up')
   ]);
-  this.zippyHeader.getElement().appendChild(plusMinus);
+  this.topEl.appendChild(plusMinus);
   // endregion
 
   // region == zippyContent element ==

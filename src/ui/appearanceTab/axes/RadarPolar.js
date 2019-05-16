@@ -59,7 +59,7 @@ chartEditor.ui.appearanceTabs.axes.RadarPolar.prototype.createPanels = function(
           :
           new chartEditor.ui.panel.axes.Radial(model);
       this.addPanelInstance(panel);
-      model.resumeDispatch(true);
+      model.resumeDispatch(false);
     }
   }
 };

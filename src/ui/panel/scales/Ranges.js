@@ -37,6 +37,7 @@ chartEditor.ui.panel.scales.Ranges.prototype.createDom = function() {
 
   this.rangesComponent_ = new chartEditor.ui.Panel(model, null);
   this.rangesComponent_.allowEnabled(false);
+  this.rangesComponent_.setCssNestedIndex(this.cssNestedIndex + 1);
   this.rangesComponent_.setKey(this.genKey('ranges', true));
   this.addChild(this.rangesComponent_, true);
 
@@ -110,7 +111,7 @@ chartEditor.ui.panel.scales.Ranges.prototype.onChangeRange_ = function() {
   }
 
   var model = /** @type {chartEditor.model.Base} */(this.getModel());
-  model.setValue(this.rangesComponent_.getKey(), rangesValue, false);
+  model.setValue(this.rangesComponent_.getKey(), rangesValue, true);
 };
 
 
@@ -120,6 +121,7 @@ chartEditor.ui.panel.scales.Ranges.prototype.onChangeRange_ = function() {
 chartEditor.ui.panel.scales.Ranges.prototype.addRange = function(index) {
   var model = /** @type {chartEditor.model.Base} */(this.getModel());
   var range = new chartEditor.ui.panel.ColorScaleSingleRange(model, index);
+  range.setCssNestedIndex(this.rangesComponent_.cssNestedIndex + 1);
   range.allowRemove(true);
   this.getHandler().listen(range, chartEditor.events.EventType.PANEL_CLOSE, this.onRemoveRange_);
   this.getHandler().listen(range, goog.ui.Component.EventType.CHANGE, this.onChangeRange_);

@@ -45,14 +45,15 @@ chartEditor.ui.panel.ScaleBar.prototype.createDom = function() {
   };
 
   // region ==== Header
-  var fill = new chartEditor.ui.control.colorPicker.Base();
-  fill.addClassName(goog.getCssName('anychart-ce-panel-control-right'));
-  fill.init(model, this.genKey('fill', true));
-  this.addHeaderChildControl(fill);
   // endregion
 
+  var fill = new chartEditor.ui.control.colorPicker.Base();
+  var fillLC = new chartEditor.ui.control.wrapped.Labeled(fill, 'Fill');
+  fillLC.init(model, this.genKey('fill', true));
+  this.addChildControl(fillLC);
+
   var scale = new chartEditor.ui.control.select.Scales({label: 'Scale'});
-  scale.init(model, this.genKey('scale()'));
+  scale.init(model, this.genKey('scale()'), void 0, true);
   this.addChildControl(scale);
 
   var stroke = new chartEditor.ui.panel.Stroke(model);

@@ -51,8 +51,6 @@ chartEditor.ui.dataSettings.Widget.prototype.createDom = function() {
  * @param {?Object} evt
  */
 chartEditor.ui.dataSettings.Widget.prototype.onModelChange = function(evt) {
-  if (evt && !evt.rebuildMapping) return;
-
   var model = /** @type {chartEditor.model.Base} */(this.getModel());
   var chartType = model.getValue([['chart'], 'type']);
 
@@ -60,6 +58,8 @@ chartEditor.ui.dataSettings.Widget.prototype.onModelChange = function(evt) {
   this.activeAndFieldSelect_ = null;
 
   if (model.chartTypeLike('gauges') || model.chartTypeLike('gantt') || chartType === 'sankey') {
+    goog.dom.classlist.add(this.getElement(), 'anychart-ce-data-settings-panel-no-x');
+
     // Data Set select
     this.activeAndFieldSelect_ = new chartEditor.ui.control.fieldSelect.Base({
       caption: 'Select data set',

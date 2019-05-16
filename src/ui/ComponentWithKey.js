@@ -110,5 +110,4 @@ chartEditor.ui.ComponentWithKey.prototype.onModelChange = function(evt) {
  */
 chartEditor.ui.ComponentWithKey.prototype.onChartDraw = function(evt) {
   // evt.chart
-  // evt.rebuild
 };

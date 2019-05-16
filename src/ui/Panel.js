@@ -20,7 +20,7 @@ chartEditor.ui.Panel = function(model, opt_name, opt_domHelper) {
    * @type {?string|undefined}
    * @protected
    */
-  this.name = goog.isDef(opt_name) ? opt_name : 'Settings Panel';
+  this.name = goog.isDef(opt_name) ? opt_name : 'Settings panel';
 
   /**
    * String id for excludes.
@@ -42,11 +42,6 @@ chartEditor.ui.Panel = function(model, opt_name, opt_domHelper) {
    */
   this.enabledContent = true;
 
-  /**
-   * @type {boolean}
-   * @private
-   */
-  this.allowRemove_ = false;
 
   /**
    * @type {Array.<chartEditor.ui.Panel|
@@ -76,9 +71,52 @@ chartEditor.ui.Panel = function(model, opt_name, opt_domHelper) {
    */
   this.labels = [];
 
+
+  /**
+   * Index for nested class
+   * @type {number}
+   */
+  this.cssNestedIndex = 0;
+
+
+  /**
+   * Flags to set fields shown or not
+   * @type {Object}
+   */
+  this.options = {
+    'enabled': true,
+    'reset': false,
+    'remove': false
+  };
+
   this.addClassName(goog.getCssName('anychart-ce-panel'));
 };
 goog.inherits(chartEditor.ui.Panel, chartEditor.ui.ComponentWithKey);
+
+
+
+/**
+ * Enable/disable option. Should be called before createDom() call.
+ *
+ * @param {string} name
+ * @param {boolean} state
+ * @return {chartEditor.ui.Panel}
+ * */
+chartEditor.ui.Panel.prototype.setOption = function(name, state) {
+  this.options[name] = state;
+  return this;
+};
+
+
+/**
+ * Show passed field in DOM.
+ * @param {string} name
+ * @return {boolean}
+ */
+chartEditor.ui.Panel.prototype.getOption = function(name) {
+  return Boolean(this.options[name]);
+};
+
 
 
 /**
@@ -109,6 +147,12 @@ chartEditor.ui.Panel.prototype.setName = function(value) {
 };
 
 
+/** @param {number} value */
+chartEditor.ui.Panel.prototype.setCssNestedIndex = function(value) {
+  this.cssNestedIndex = value;
+};
+
+
 /**
  * @param {chartEditor.model.Base.Key=} opt_key
  * @return {chartEditor.model.Base.Key|chartEditor.ui.Panel}
@@ -122,68 +166,40 @@ chartEditor.ui.Panel.prototype.enabledKey = function(opt_key) {
 };
 
 
-/**
- * @type {boolean}
- * @private
- */
-chartEditor.ui.Panel.prototype.allowEnabled_ = true;
-
-
 /** @param {boolean} value */
 chartEditor.ui.Panel.prototype.allowEnabled = function(value) {
-  this.allowEnabled_ = value;
+  this.setOption('enabled', value);
 };
-
-
-/**
- * @type {boolean}
- * @private
- */
-chartEditor.ui.Panel.prototype.allowReset_ = false;
 
 
 /**
  * @param {boolean=} opt_value
  *
- * @return {boolean}
+ * @return {boolean|chartEditor.ui.Panel}
  */
 chartEditor.ui.Panel.prototype.allowReset = function(opt_value) {
-  if (goog.isDef(opt_value))
-    this.allowReset_ = opt_value;
+  if (goog.isDef(opt_value)) {
+    this.setOption('reset', opt_value);
+    return this;
+  }
 
-  return this.allowReset_;
+  return this.getOption('reset');
 };
 
 
 /**
  * @param {boolean=} opt_value
- * @return {boolean}
+ * @return {boolean|chartEditor.ui.Panel}
  */
 chartEditor.ui.Panel.prototype.allowRemove = function(opt_value) {
   if (goog.isDef(opt_value)) {
-    this.allowRemove_ = opt_value;
-    if (this.removeButton) {
-      goog.style.setElementShown(this.removeButton, this.allowRemove_);
-    }
+    this.setOption('remove', opt_value);
+    if (this.removeButton)
+      goog.style.setElementShown(this.removeButton, this.getOption('remove'));
+
+    return this;
   }
-  return this.allowRemove_;
-};
-
-
-/**
- * Container for enabled button.
- * @type {Element}
- * @private
- */
-chartEditor.ui.Panel.prototype.enabledButtonContainer_ = null;
-
-
-/**
- * Set container for enabled button.
- * @param {Element} enabledButtonContainer
- */
-chartEditor.ui.Panel.prototype.setEnabledButtonContainer = function(enabledButtonContainer) {
-  this.enabledButtonContainer_ = enabledButtonContainer;
+  return this.getOption('remove');
 };
 
 
@@ -192,6 +208,7 @@ chartEditor.ui.Panel.prototype.createDom = function() {
   chartEditor.ui.Panel.base(this, 'createDom');
 
   var element = /** @type {Element} */(this.getElement());
+  goog.dom.classlist.add(element, 'anychart-ce-panel-nested-' + this.cssNestedIndex);
 
   var dom = this.getDomHelper();
   this.topEl = dom.createDom(goog.dom.TagName.DIV, 'top');
@@ -202,7 +219,7 @@ chartEditor.ui.Panel.prototype.createDom = function() {
   } else
     goog.dom.classlist.add(element, 'anychart-ce-panel-no-title');
 
-  if (this.allowReset_) {
+  if (this.getOption('reset')) {
     var button = new chartEditor.ui.control.button.Base();
     button.setIcon('ac ac-clear');
     button.addClassName('anychart-ce-button-reset');
@@ -213,7 +230,7 @@ chartEditor.ui.Panel.prototype.createDom = function() {
     this.resetButton_ = button;
   }
 
-  if (this.allowRemove_) {
+  if (this.getOption('remove')) {
     var removeBtn = dom.createDom(goog.dom.TagName.DIV, 'anychart-ce-panel-remove-btn', '');
     goog.dom.appendChild(this.topEl, removeBtn);
     this.removeButton = removeBtn;
@@ -223,20 +240,15 @@ chartEditor.ui.Panel.prototype.createDom = function() {
     var enableContentCheckbox = new chartEditor.ui.control.checkbox.Base();
     var model = /** @type {chartEditor.model.Base} */(this.getModel());
     if (!this.enabledKey_) this.enabledKey(this.genKey('enabled()'));
-    enableContentCheckbox.init(model, this.enabledKey_);
+    enableContentCheckbox.init(model, this.enabledKey_, void 0, true); // Should redraw chart for calling setContentEnabled method
+    this.addChild(enableContentCheckbox, true);
 
-    if (this.enabledButtonContainer_) {
-      enableContentCheckbox.render(this.enabledButtonContainer_);
-      enableContentCheckbox.setParent(this);
-    } else {
-      this.addChild(enableContentCheckbox, true);
-    }
     this.enableContentCheckbox = enableContentCheckbox;
-    this.topEl.appendChild(this.enableContentCheckbox && !this.enabledButtonContainer_ ? this.enableContentCheckbox.getElement() : null);
+    this.topEl.appendChild(this.enableContentCheckbox ? this.enableContentCheckbox.getElement() : null);
   } else
     goog.dom.classlist.add(element, 'anychart-ce-panel-no-checkbox');
 
-  var noTop = !this.name && !this.allowRemove_ && !(this.enableContentCheckbox && !this.enabledButtonContainer_);
+  var noTop = !this.name && !this.getOption('remove') && !this.enableContentCheckbox;
   if (noTop)
     goog.dom.classlist.add(element, 'anychart-ce-panel-no-top');
 
@@ -310,13 +322,12 @@ chartEditor.ui.Panel.prototype.onChartDraw = function(evt) {
     var target;
     if (this.key[0] && this.key[0][0] == 'standalones') {
       var key = [this.key[0], this.key[1], 'instance'];
-
       target = model.getValue(key);
     } else
       target = evt.chart;
 
     if (target) {
-      if (evt.rebuild && this.enableContentCheckbox && this.canBeEnabled()) {
+      if (this.enableContentCheckbox && this.canBeEnabled()) {
         this.enableContentCheckbox.setValueByTarget(target);
         this.setContentEnabled(this.enableContentCheckbox.isChecked());
       }
@@ -332,7 +343,7 @@ chartEditor.ui.Panel.prototype.onChartDraw = function(evt) {
         evt.stopPropagation();
         evt.preventDefault();
         model.removeAllListeners(chartEditor.events.EventType.CHART_DRAW);
-        model.dispatchUpdate();
+        model.dispatchUpdate('Panel.onChartDraw');
       }
     }
   }
@@ -352,6 +363,7 @@ chartEditor.ui.Panel.prototype.onReset = function(evt) {
  */
 chartEditor.ui.Panel.prototype.reset = function() {
   var model = /** @type {chartEditor.model.Base} */(this.getModel());
+
   model.suspendDispatch();
 
   model.removeByKey(this.getKey());
@@ -366,7 +378,7 @@ chartEditor.ui.Panel.prototype.reset = function() {
     }
   }
 
-  model.resumeDispatch();
+  model.resumeDispatch(true);
 };
 
 
@@ -377,7 +389,7 @@ chartEditor.ui.Panel.prototype.reset = function() {
  * @return {boolean}
  */
 chartEditor.ui.Panel.prototype.canBeEnabled = function() {
-  return this.allowEnabled_ && Boolean(this.key.length);
+  return this.getOption('enabled') && Boolean(this.key.length);
 };
 
 
@@ -395,8 +407,18 @@ chartEditor.ui.Panel.prototype.setEnabled = function(enabled) {
   if (this.isInDocument())
     this.setContentEnabled(this.enabledContent);
 
+  // this hack should exist to make child.setEnabled() working
+  var tmp = this.enabled;
+  this.enabled = true;
+
+  if (this.resetButton_)
+    this.resetButton_.setEnabled(enabled);
+
   if (this.enableContentCheckbox)
     this.enableContentCheckbox.setEnabled(enabled);
+
+  // end of hack
+  this.enabled = tmp;
 };
 
 
@@ -409,14 +431,17 @@ chartEditor.ui.Panel.prototype.setEnabled = function(enabled) {
 chartEditor.ui.Panel.prototype.setContentEnabled = function(enabled) {
   this.enabledContent = this.enabled && enabled;
 
-  // this should be to get child.setEnabled() working
+  // this hack should exist to make child.setEnabled() working
   var tmp = this.enabled;
   this.enabled = true;
-  for (var i = 0, count = this.getChildCount(); i < count; i++) {
-    var child = this.getChildAt(i);
+
+  for (var i = 0, count = this.childControls_.length; i < count; i++) {
+    var child = this.childControls_[i];
     if (goog.isFunction(child.setEnabled))
       child.setEnabled(this.enabledContent);
   }
+
+  // end of hack
   this.enabled = tmp;
 
   for (var j = 0; j < this.labels.length; j++) {
@@ -430,9 +455,6 @@ chartEditor.ui.Panel.prototype.setContentEnabled = function(enabled) {
         goog.asserts.assert(this.topEl),
         goog.getCssName('anychart-ce-control-disabled'), !this.enabled);
   }
-
-  if (this.enableContentCheckbox)
-    this.enableContentCheckbox.setEnabled(this.enabled);
 };
 
 
@@ -500,6 +522,8 @@ chartEditor.ui.Panel.prototype.addChildControl = function(control, opt_index) {
   if (addControl) {
     this.childControls_.push(control);
     opt_index = goog.isDef(opt_index) ? opt_index : this.getChildCount();
+    if (goog.isFunction(control.setCssNestedIndex))
+      control.setCssNestedIndex(this.cssNestedIndex + 1);
     this.addChildAt(control, opt_index, true);
   }
 

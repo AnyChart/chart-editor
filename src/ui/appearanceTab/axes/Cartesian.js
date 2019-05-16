@@ -81,7 +81,7 @@ chartEditor.ui.appearanceTabs.axes.Cartesian.prototype.createPanels = function()
       this.addPanelInstance(/** @type {chartEditor.ui.PanelIndexed} */(this.createPanel()));
       if (model.getValue([['chart'], 'type']) === chartEditor.enums.ChartType.QUADRANT)
         this.addPanelInstance(/** @type {chartEditor.ui.PanelIndexed} */(this.createPanel()));
-      model.resumeDispatch(true);
+      model.resumeDispatch(false);
     }
   }
 };

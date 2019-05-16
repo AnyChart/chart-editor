@@ -180,7 +180,7 @@ chartEditor.model.Stock.prototype.needResetMappings = function(prevChartType, pr
 chartEditor.model.Stock.prototype.addPlot = function() {
   var mapping = this.createDefaultPlotMappings();
   this.model['dataSettings']['mappings'].push(mapping);
-  this.dispatchUpdate();
+  this.dispatchUpdate('addPlot', true);
 };
 
 
@@ -192,7 +192,7 @@ chartEditor.model.Stock.prototype.dropPlot = function(index) {
   if (index > 0 && this.model['dataSettings']['mappings'].length > index) {
     this.dropChartSettings('plot(');
     goog.array.splice(this.model['dataSettings']['mappings'], index, 1);
-    this.dispatchUpdate();
+    this.dispatchUpdate('dropPlot', true);
   }
 };
 // endregion
