@@ -222,14 +222,18 @@ chartEditor.editor.Base.prototype.getJavascript = function (
 
   if (opt_overrides) {
     // todo: (chernetsky) Портит модель оверрайдами
+    model.suspendDispatch();
     for (var i = 0; i < opt_overrides.length; i++) {
-      model.setValue(opt_overrides[i]['key'], opt_overrides[i]['value'], true);
+      model.setValue(opt_overrides[i]['key'], opt_overrides[i]['value']);
     }
+    model.resumeDispatch(false);
   }
   if (opt_defaults) {
+    model.suspendDispatch();
     for (var j = 0; j < opt_defaults.length; j++) {
-      model.setValue(opt_defaults[j]['key'], opt_defaults[j]['value'], true, void 0, void 0, true);
+      model.setValue(opt_defaults[j]['key'], opt_defaults[j]['value'], false, true);
     }
+    model.resumeDispatch(false);
   }
   return model.getChartAsJsCode(opt_outputOptions);
 };

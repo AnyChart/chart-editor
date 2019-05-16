@@ -60,7 +60,7 @@ chartEditor.ui.panel.specific.TagCloud.prototype.createDom = function() {
   this.addContentSeparator();
 
   var scale = new chartEditor.ui.control.select.Scales({label: 'Scale', scaleName: 'Default scale'});
-  scale.init(model, this.genKey('scale()'));
+  scale.init(model, this.genKey('scale()'), void 0, true);
   this.addChildControl(scale);
 
   var mode = new chartEditor.ui.control.fieldSelect.Base({label: 'Mode'});
@@ -74,7 +74,7 @@ chartEditor.ui.panel.specific.TagCloud.prototype.createDom = function() {
   this.addContentSeparator();
 
   var fontSettings = new chartEditor.ui.panel.Font(model);
-  fontSettings.hideField('fontDecoration');
+  fontSettings.setOption('fontDecoration', false);
   fontSettings.setFontColorKey('fill()');
   fontSettings.setKey(this.getKey());
   this.addChildControl(fontSettings);

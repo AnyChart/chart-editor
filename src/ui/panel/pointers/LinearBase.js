@@ -47,15 +47,15 @@ chartEditor.ui.panel.pointers.LinearBase.prototype.createDom = function() {
   name.init(model, this.genKey('name()'));
   this.addHeaderChildControl(name);
   goog.dom.classlist.add(name.getElement(), goog.getCssName('anychart-ce-series-name-input'));
-
-  var fill = new chartEditor.ui.control.colorPicker.Base();
-  fill.addClassName(goog.getCssName('anychart-ce-panel-control-right'));
-  fill.init(model, this.genKey('fill()'));
-  this.addHeaderChildControl(fill);
   // endregion
 
+  var fill = new chartEditor.ui.control.colorPicker.Base();
+  var fillLC = new chartEditor.ui.control.wrapped.Labeled(fill, 'Fill');
+  fillLC.init(model, this.genKey('fill()'));
+  this.addChildControl(fillLC);
+
   var scale = new chartEditor.ui.control.select.Scales({label: 'Scale'});
-  scale.init(model, this.genKey('scale()'));
+  scale.init(model, this.genKey('scale()'), void 0, true);
   this.addChildControl(scale);
 
   var stroke = new chartEditor.ui.panel.Stroke(model);

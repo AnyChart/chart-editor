@@ -122,6 +122,7 @@ chartEditor.ui.appearanceTabs.ChartSpecific.prototype.updateSpecific = function(
 
       this.specific_ = /** @type {chartEditor.ui.Panel} */(new descriptor.classFunc(model));
       this.specific_.allowEnabled(false);
+      this.specific_.setCssNestedIndex(1);
 
       this.addChild(this.specific_, true);
       goog.style.setElementShown(this.specific_.getTopElement(), false);

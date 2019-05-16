@@ -15,7 +15,12 @@ chartEditor.ui.appearanceTabs.GanttTimeLineTooltip = function(model, opt_domHelp
   chartEditor.ui.appearanceTabs.GanttTimeLineTooltip.base(this, 'constructor', model, 'Timeline tooltip', opt_domHelper);
 
   this.stringId = chartEditor.enums.EditorTabs.GANTT_TIMELINE_TOOLTIP;
-  this.allowEnabled(false);
+
+  this.setKey([['chart'], ['settings'], 'getTimeline().tooltip()']);
+
+  this.allowEnabled(true);
+  
+  this.allowReset(true);
 };
 goog.inherits(chartEditor.ui.appearanceTabs.GanttTimeLineTooltip, chartEditor.ui.Panel);
 
@@ -26,10 +31,13 @@ chartEditor.ui.appearanceTabs.GanttTimeLineTooltip.prototype.createDom = functio
 
   var model = /** @type {chartEditor.model.Base} */(this.getModel());
   var tooltip = new chartEditor.ui.panel.Tooltip(model);
+  tooltip.setKey(this.getKey());
+  tooltip.setName(null);
+  tooltip.allowEnabled(false);
+  tooltip.allowReset(false);
   tooltip.allowEditDisplayMode(false);
   tooltip.allowEditPositionMode(false);
-  tooltip.setKey([['chart'], ['settings'], 'getTimeline().tooltip()']);
-  this.addChild(tooltip, true);
+  this.addChildControl(tooltip);
 };
 
 

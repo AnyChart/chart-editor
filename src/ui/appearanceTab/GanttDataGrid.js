@@ -62,8 +62,7 @@ chartEditor.ui.appearanceTabs.GanttDataGrid.prototype.createPanels = function() 
       // Always create 2 column for gantt chart
       this.addPanelInstance(/** @type {chartEditor.ui.PanelIndexed} */(this.createPanel()));
       this.addPanelInstance(/** @type {chartEditor.ui.PanelIndexed} */(this.createPanel()));
-
-      model.resumeDispatch(true);
+      model.resumeDispatch(false);
     }
   }
 };

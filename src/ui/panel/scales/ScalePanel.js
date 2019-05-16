@@ -23,6 +23,8 @@ chartEditor.scales.ScalePanel = function(model, index, opt_name, opt_domHelper) 
   this.allowRemove(true);
 
   this.scale_ = null;
+
+  this.addClassName(goog.getCssName('anychart-ce-panel-scale-wrapper'));
 };
 goog.inherits(chartEditor.scales.ScalePanel, chartEditor.ui.PanelZippy);
 

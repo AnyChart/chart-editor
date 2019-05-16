@@ -44,7 +44,7 @@ chartEditor.ui.control.select.Base = function(opt_caption, opt_menu, opt_rendere
    * @type {boolean}
    * @protected
    */
-  this.noRebuild = false;
+  this.rebuildChart = false;
 
   /**
    * Target object (usually it's chart)
@@ -137,7 +137,7 @@ chartEditor.ui.control.select.Base.prototype.applySelection = function () {
   else {
     var value = this.getValue();
     value = goog.isObject(value) && goog.isDef(value.value) ? value.value : value;
-    this.editorModel.setValue(this.key, value, false, this.noRebuild);
+    this.editorModel.setValue(this.key, value, this.rebuildChart);
   }
 };
 
@@ -149,10 +149,10 @@ chartEditor.ui.control.select.Base.prototype.applySelection = function () {
  * @param {chartEditor.model.Base.Key} key Key of control's field in model's structure.
  * @param {string=} opt_callback Callback function that will be called on control's value change instead of simple change value in model.
  *  This function should be model's public method.
- * @param {boolean=} opt_noRebuild Should or not rebuild target (chart) on change value of this control.
+ * @param {boolean=} opt_rebuildChart Should or not rebuild target (chart) on change value of this control.
  * @public
  */
-chartEditor.ui.control.select.Base.prototype.init = function(model, key, opt_callback, opt_noRebuild) {
+chartEditor.ui.control.select.Base.prototype.init = function(model, key, opt_callback, opt_rebuildChart) {
   /**
    * @type {chartEditor.model.Base}
    * @protected
@@ -163,7 +163,7 @@ chartEditor.ui.control.select.Base.prototype.init = function(model, key, opt_cal
 
   this.callback = opt_callback;
 
-  this.noRebuild = !!opt_noRebuild;
+  this.rebuildChart = Boolean(opt_rebuildChart);
 
   this.updateExclusion();
 };

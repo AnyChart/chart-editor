@@ -36,6 +36,7 @@ chartEditor.ui.panel.Grid.prototype.createDom = function() {
   chartEditor.ui.panel.Grid.base(this, 'createDom');
 
   var model = /** @type {chartEditor.model.Base} */(this.getModel());
+  var chartType = model.getModel()['chart']['type'];
 
   if (this.isPolar_) {
     var xScale = new chartEditor.ui.control.select.Scales({label: 'X Scale'});
@@ -47,9 +48,9 @@ chartEditor.ui.panel.Grid.prototype.createDom = function() {
     this.addChildControl(yScale);
 
   } else {
-    if (chartEditor.PRODUCT != chartEditor.model.Product.STOCK) {
+    if (chartType !== 'stock') {
       var scale = new chartEditor.ui.control.select.Scales({label: 'Scale'});
-      scale.init(model, this.genKey('scale()'));
+      scale.init(model, this.genKey('scale()'), void 0, true);
       this.addChildControl(scale);
     }
 

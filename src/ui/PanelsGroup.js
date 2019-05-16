@@ -139,13 +139,6 @@ chartEditor.ui.PanelsGroup.prototype.exitDocument = function() {
 };
 
 
-/** @override */
-chartEditor.ui.PanelsGroup.prototype.disposeInternal = function() {
-  this.removeAllPanels();
-  chartEditor.ui.PanelsGroup.base(this, 'disposeInternal');
-};
-
-
 /** @private */
 chartEditor.ui.PanelsGroup.prototype.onAddPanel = function() {
   var panel = /** @type {chartEditor.ui.PanelIndexed} */(this.createPanel());
@@ -191,7 +184,13 @@ chartEditor.ui.PanelsGroup.prototype.addPanelInstance = function(panelInstance) 
     /** @type {chartEditor.ui.PanelIndexed} */(this.panels_[panelPlotIndex][panelIndex - 1]).allowRemove(false);
   }
 
+  if (goog.isFunction(panelInstance.setCssNestedIndex))
+    panelInstance.setCssNestedIndex(this.cssNestedIndex + 1);
+
   this.panelsContainer_.addChild(panelInstance, true);
+
+  var model = /** @type {chartEditor.model.Base} */(this.getModel());
+  model.dispatchUpdate('addPanelInstance', true);
 };
 
 
@@ -235,15 +234,6 @@ chartEditor.ui.PanelsGroup.prototype.onReset = function(evt) {
 
 
 /**
- * Get number of existing panels
- * @return {number}
- */
-chartEditor.ui.PanelsGroup.prototype.getPanelsCount = function() {
-  return this.panels_[0] && this.panels_[0].length;
-};
-
-
-/**
  * @return {?chartEditor.ui.PanelIndexed}
  * @protected
  */
@@ -275,10 +265,18 @@ chartEditor.ui.PanelsGroup.prototype.createPanels = function() {
   // Should be overridden
 };
 
+
 /**
- * Get all panels.
- * @return {Array} panels
+ * Drops panels and builds them again
  */
-chartEditor.ui.PanelsGroup.prototype.getPanels = function() {
-  return this.panels_[0];
+chartEditor.ui.PanelsGroup.prototype.rebuildPanels = function() {
+  this.removeAllPanels();
+  this.createPanels();
+};
+
+
+/** @override */
+chartEditor.ui.PanelsGroup.prototype.disposeInternal = function() {
+  this.removeAllPanels();
+  chartEditor.ui.PanelsGroup.base(this, 'disposeInternal');
 };

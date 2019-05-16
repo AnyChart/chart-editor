@@ -156,19 +156,6 @@ chartEditor.ui.panel.Title.prototype.getAlignField = function() {
 };
 
 
-/**
- * @type {boolean}
- * @private
- */
-chartEditor.ui.panel.Title.prototype.allowEditColor_ = true;
-
-
-/** @param {boolean} value */
-chartEditor.ui.panel.Title.prototype.allowEditColor = function(value) {
-  this.allowEditColor_ = value;
-};
-
-
 /** @override */
 chartEditor.ui.panel.Title.prototype.createDom = function() {
   chartEditor.ui.panel.Title.base(this, 'createDom');

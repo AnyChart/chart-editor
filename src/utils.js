@@ -23,7 +23,7 @@ chartEditor.utils.searchUniqueValues = function(arr, field) {
  * @return {Object}
  */
 chartEditor.utils.preprocessResourceMapping = function(mappingObj) {
-  var resourceMapping = Object.assign({}, mappingObj);
+  var resourceMapping = goog.object.clone(mappingObj);
   resourceMapping['periods'] = 'periods';
   delete resourceMapping['periodId'];
   delete resourceMapping['periodStart'];
@@ -81,4 +81,34 @@ chartEditor.utils.preprocessResourceData = function(rawData, mappingObj) {
     }
   }
   return preprocessedData;
+};
+
+
+/**
+ *
+ * @param {chartEditor.model.Base.Key} key1
+ * @param {chartEditor.model.Base.Key} key2
+ * @return {boolean}
+ * @private
+ */
+chartEditor.utils.compareKeys = function(key1, key2) {
+  if (key1.length !== key2.length)
+    return false;
+
+  for (var i = key1.length; i--;) {
+    if (typeof key1[i] == 'string' && key1[i] !== key2[i])
+      return false;
+
+    var type = goog.typeOf(key1[i]);
+    if (type !== goog.typeOf(key2[i]))
+      return false;
+
+    if (type == 'array' && !goog.array.equals(/** @type {Array} */(key1[i]), /** @type {Array} */(key2[i])))
+      return false;
+
+    if (type == 'object' && !goog.object.equals(/** @type {!Object} */(key1[i]), /** @type {!Object} */(key2[i])))
+      return false;
+  }
+
+  return true;
 };

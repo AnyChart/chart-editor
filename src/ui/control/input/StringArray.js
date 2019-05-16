@@ -50,7 +50,7 @@ chartEditor.ui.control.input.StringArray.prototype.onChange = function() {
     if (this.callback)
       this.editorModel.callbackByString(this.callback, this);
     else
-      this.editorModel.setValue(this.key, value, false, this.noRebuild, this.noRebuildMapping);
+      this.editorModel.setValue(this.key, value, this.rebuildChart);
 
     goog.dom.selection.setCursorPosition(this.getElement(), caretPosition);
   }
