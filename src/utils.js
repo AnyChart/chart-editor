@@ -5,7 +5,7 @@ goog.provide('chartEditor.utils');
  * Qlik's HyperCube includes concatenated values as a string with "," delimeter or
  * as a number if there's a single value. This function parse concatenated by Qlik values to
  * normal array for further preprocessing.
- * @param {Array.<string> | number} value input array of objects
+ * @param {string | number} value input array of objects
  * @return {Array.<string | number>} array of values
  */
 chartEditor.utils.parseConcatenatedValue = function (value) {
@@ -64,10 +64,10 @@ chartEditor.utils.preprocessResourceData = function (rawData, mappingObj) {
         var connectToArr = chartEditor.utils.parseConcatenatedValue(rawData[i][mappingObj['periodConnectTo']]);
 
         for (var j = 0; j < idArr.length; j++) {
-            var periodObj = {id: idArr[j], connectTo: connectToArr[j]};
+            var periodObj = {'id': idArr[j], 'connectTo': connectToArr[j]};
             // start and end value MUST NEVER be an empty string
-            periodObj.start = startArr[j] ? startArr[j] : null;
-            periodObj.end = endArr[j] ? endArr[j] : null;
+            periodObj['start'] = startArr[j] ? startArr[j] : null;
+            periodObj['end'] = endArr[j] ? endArr[j] : null;
             resourceObj['periods'].push(periodObj);
         }
         preprocessedData.push(resourceObj);
