@@ -52,8 +52,8 @@ chartEditor.ui.control.fieldSelect.Base.prototype.setSelect = function(select) {
 
 
 /** @inheritDoc */
-chartEditor.ui.control.fieldSelect.Base.prototype.init = function(model, key, opt_callback, opt_noRebuild, opt_noRebuildMapping) {
-  chartEditor.ui.control.fieldSelect.Base.base(this, 'init', model, key, opt_callback, opt_noRebuild, opt_noRebuildMapping);
+chartEditor.ui.control.fieldSelect.Base.prototype.init = function(model, key, opt_callback, opt_rebuilcChart) {
+  chartEditor.ui.control.fieldSelect.Base.base(this, 'init', model, key, opt_callback, opt_rebuilcChart);
 
   this.updateExclusion();
 };

@@ -135,7 +135,7 @@ chartEditor.ui.dataSettings.Series.prototype.createFields = function() {
       isOptional: item['isOptional']
     });
 
-    fieldSelect.getSelect().init(model, this.getKey([['mapping'], item['field']]));
+    fieldSelect.getSelect().init(model, this.getKey([['mapping'], item['field']]), void 0, true);
     fieldSelect.addClassName('anychart-select-with-content');
 
     this.fields_.push(fieldSelect);

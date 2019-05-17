@@ -120,7 +120,7 @@ chartEditor.model.Gantt.prototype.chooseDefaultSeriesType = function() {
   if (this.getChartTypeKey() == 'ganttProject') {
     ganttSeriesType = 'ganttProject';
     // Use special mapping for Gantt Resource in Qlik environment
-  } else if (this.model['editorSettings']['qlikMode']) {
+  } else if (chartEditor.model.Base.SOLUTION == 'qlik') {
     ganttSeriesType = 'ganttResourceQlik';
   } else {
     ganttSeriesType = 'ganttResource';
@@ -177,7 +177,7 @@ chartEditor.model.Gantt.prototype.needResetMappings = function(prevChartType, pr
 
 /** @inheritDoc */
 chartEditor.model.Gantt.prototype.preprocessMapping = function(mappingObj) {
-  if (this.model['chart']['type'] === 'ganttResource' && this.model['editorSettings']['qlikMode'])
+  if (this.model['chart']['type'] === 'ganttResource' && chartEditor.model.Base.SOLUTION == 'qlik')
     return chartEditor.utils.preprocessResourceMapping(mappingObj);
   return mappingObj;
 };
@@ -185,7 +185,7 @@ chartEditor.model.Gantt.prototype.preprocessMapping = function(mappingObj) {
 
 /** @inheritDoc */
 chartEditor.model.Gantt.prototype.preprocessData = function(rawData, mappingObj) {
-  if (this.model['chart']['type'] === 'ganttResource' && this.model['editorSettings']['qlikMode'])
+  if (this.model['chart']['type'] === 'ganttResource' && chartEditor.model.Base.SOLUTION == 'qlik')
     return chartEditor.utils.preprocessResourceData(rawData, mappingObj);
   return rawData;
 };

@@ -25,32 +25,16 @@ chartEditor.ui.panel.Font = function(model, opt_domHelper) {
    * */
   this.fontColorKey_ = 'fontColor()';
 
-  this.fields_ = {
-    'fontWeight': true,
-    'fontStyle': true,
-    'fontDecoration': true,
-    'fontFamily': true,
-    'fontSize': true,
-    'fontColor': true
-  };
+  this.options['fontWeight'] = true;
+  this.options['fontStyle'] = true;
+  this.options['fontDecoration'] = true;
+  this.options['fontFamily'] = true;
+  this.options['fontSize'] = true;
+  this.options['fontColor'] = true;
 
   this.allowEnabled(false);
 };
 goog.inherits(chartEditor.ui.panel.Font, chartEditor.ui.Panel);
-
-/**
- * Hide passed field in DOM.
- * @param {string} name
- * */
-chartEditor.ui.panel.Font.prototype.hideField = function(name) {
-  this.fields_[name] = false;
-};
-
-/**
- * Default CSS class.
- * @type {string}
- */
-chartEditor.ui.panel.Font.CSS_CLASS = goog.getCssName('anychart-ce-panel-font');
 
 
 /**
@@ -65,33 +49,35 @@ chartEditor.ui.panel.Font.prototype.setFontColorKey = function(fontColorKey) {
 chartEditor.ui.panel.Font.prototype.createDom = function() {
   chartEditor.ui.panel.Font.base(this, 'createDom');
 
-  goog.dom.classlist.add(this.getElement(), chartEditor.ui.panel.Font.CSS_CLASS);
+  goog.dom.classlist.add(this.getElement(), goog.getCssName('anychart-ce-panel-font'));
 
   var content = this.getContentElement();
   var model = /** @type {chartEditor.model.Base} */(this.getModel());
 
   var pointWidthLC;
-  if (this.fields_['fontFamily']) {
+  if (this.getOption('fontFamily')) {
     var fontFamily = new chartEditor.ui.control.select.FontFamily();
-    pointWidthLC = new chartEditor.ui.control.wrapped.Labeled(fontFamily, 'Family');
+    pointWidthLC = new chartEditor.ui.control.wrapped.Labeled(fontFamily, 'Font family');
     pointWidthLC.init(model, this.genKey('fontFamily()'));
     this.addChildControl(pointWidthLC);
   }
-  if (this.fields_['fontSize']) {
+
+  if (this.getOption('fontSize')) {
     var fontSizeSelect = new chartEditor.ui.control.comboBox.Base();
     fontSizeSelect.setOptions([10, 12, 14, 16, 18, 20, 22]);
     pointWidthLC = new chartEditor.ui.control.wrapped.Labeled(fontSizeSelect, 'Font Size');
     pointWidthLC.init(model, this.genKey('fontSize()'));
     this.addChildControl(pointWidthLC);
   }
+
   /**@type {Node|null}*/
   var buttonsWrapper;
 
-  if (this.fields_['fontWeight'] || this.fields_['fontStyle'] || this.fields_['fontDecoration']) {
+  if (this.getOption('fontWeight') || this.getOption('fontStyle') || this.getOption('fontDecoration')) {
     buttonsWrapper = goog.dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-ce-panel-font-style-buttons-right'));
   }
 
-  if (this.fields_['fontWeight']) {
+  if (this.getOption('fontWeight')) {
     var boldBtn = new chartEditor.ui.control.button.Bold();
     boldBtn.addClassName(goog.getCssName('anychart-ce-panel-bold'));
     boldBtn.init(model, this.genKey('fontWeight()'));
@@ -99,27 +85,31 @@ chartEditor.ui.panel.Font.prototype.createDom = function() {
     goog.dom.appendChild(buttonsWrapper, boldBtn.getElement());
     boldBtn.setCollapsed(goog.ui.ButtonSide.END);
   }
-  if (this.fields_['fontStyle']) {
+
+  if (this.getOption('fontStyle')) {
     var italicBtn = new chartEditor.ui.control.button.Italic();
     italicBtn.init(model, this.genKey('fontStyle()'));
     this.addChildControl(italicBtn);
     goog.dom.appendChild(buttonsWrapper, italicBtn.getElement());
     italicBtn.setCollapsed(goog.ui.ButtonSide.END | goog.ui.ButtonSide.START);
   }
-  if (this.fields_['fontDecoration']) {
+
+  if (this.getOption('fontDecoration')) {
     var underlineBtn = new chartEditor.ui.control.button.Underline();
     underlineBtn.init(model, this.genKey('fontDecoration()'));
     this.addChildControl(underlineBtn);
     goog.dom.appendChild(buttonsWrapper, underlineBtn.getElement());
     underlineBtn.setCollapsed(goog.ui.ButtonSide.START);
   }
-  if (this.fields_['fontColor']) {
+
+  if (this.getOption('fontColor')) {
     var colorPicker = new chartEditor.ui.control.colorPicker.Base();
     colorPicker.addClassName(goog.getCssName('anychart-ce-panel-font-color'));
     this.addChild(colorPicker, true);
     colorPicker.init(model, this.genKey(this.fontColorKey_));
     this.addChildControl(colorPicker);
   }
+
   if (goog.isDef(buttonsWrapper)) {
     goog.dom.appendChild(content, buttonsWrapper);
   }

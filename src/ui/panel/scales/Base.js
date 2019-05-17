@@ -96,10 +96,11 @@ chartEditor.ui.panel.scales.Base.prototype.createDom = function() {
     caption: 'Choose scale type'
   });
   type.getControl().setOptions(this.typeOptions_);
-  type.init(model, this.genKey('type', true));
+  type.init(model, this.genKey('type', true), void 0, true);
   this.addChild(type, true);
   this.scaleTypeField = type;
 
+  goog.dom.classlist.add(this.resetButton_.getElement(), goog.getCssName('anychart-ce-button-reset-scale'));
   this.getContentElement().appendChild(this.resetButton_.getElement());
 
   var specificWrapper = new chartEditor.ui.Component();
@@ -183,9 +184,10 @@ chartEditor.ui.panel.scales.Base.prototype.updateSpecific = function(opt_force) 
     this.specificComponent.allowEnabled(false);
     this.specificComponent.allowReset(true);
     this.specificComponent.skipSettings(this.skippedSettings);
-
+    this.specificComponent.setCssNestedIndex(1);
     this.specificWrapper_.addChild(this.specificComponent, true);
 
+    model.dispatchUpdate('scales.Base.updateSpecific', true);
     return true;
   }
 

@@ -34,7 +34,7 @@ chartEditor.ui.control.input.Base = function(opt_label, opt_domHelper) {
    * @type {boolean}
    * @protected
    */
-  this.noRebuild = false;
+  this.rebuildChart = false;
 
   this.revisionCount1 = 0;
 
@@ -135,7 +135,7 @@ chartEditor.ui.control.input.Base.prototype.onChange = function() {
       if (this.callback)
         this.editorModel.callbackByString(this.callback, this);
       else
-        this.editorModel.setValue(this.key, value, false, this.noRebuild, this.noRebuildMapping);
+        this.editorModel.setValue(this.key, value, this.rebuildChart);
 
       goog.dom.selection.setCursorPosition(this.getElement(), caretPosition);
     } else {
@@ -165,10 +165,9 @@ chartEditor.ui.control.input.Base.prototype.resetRevisions = function() {
  * @param {chartEditor.model.Base.Key} key Key of control's field in model's structure.
  * @param {string=} opt_callback Callback function that will be called on control's value change instead of simple change value in model.
  *  This function should be model's public method.
- * @param {boolean=} opt_noRebuildChart Should or not rebuild chart on change value of this control.
- * @param {boolean=} opt_noRebuildMapping
+ * @param {boolean=} opt_rebuildChart Should or not rebuild chart on change value of this control.
  */
-chartEditor.ui.control.input.Base.prototype.init = function(model, key, opt_callback, opt_noRebuildChart, opt_noRebuildMapping) {
+chartEditor.ui.control.input.Base.prototype.init = function(model, key, opt_callback, opt_rebuildChart) {
   /**
    * @type {chartEditor.model.Base}
    * @protected
@@ -179,9 +178,7 @@ chartEditor.ui.control.input.Base.prototype.init = function(model, key, opt_call
 
   this.callback = opt_callback;
 
-  this.noRebuild = !!opt_noRebuildChart;
-
-  this.noRebuildMapping = !!opt_noRebuildMapping;
+  this.rebuildChart = Boolean(opt_rebuildChart);
 };
 
 

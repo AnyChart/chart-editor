@@ -69,7 +69,7 @@ chartEditor.ui.breadcrumbs.Breadcrumbs.prototype.createDom = function() {
   var dom = this.getDomHelper();
   var link = dom.createDom(goog.dom.TagName.A,
       {
-        'href': 'https://www.anychart.com/technical-integrations/samples/qlik-charts/overview/?utm_source=qlik-extension',
+        'href': chartEditor.model.Base.SOLUTION_DATA.overviewUrl,
         'target': '_blank',
         'class': 'anychart-ce-read-more-link'
       },

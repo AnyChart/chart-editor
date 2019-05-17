@@ -181,7 +181,7 @@ chartEditor.ui.dataSets.edit.Table.prototype.updateData = function() {
   }
 
   model.resetPreparedData();
-  model.dispatchUpdate();
+  model.dispatchUpdate('updateData', true);
 };
 
 

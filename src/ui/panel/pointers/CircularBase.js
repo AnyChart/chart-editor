@@ -3,7 +3,9 @@ goog.provide('chartEditor.ui.panel.pointers.CircularBase');
 goog.require('chartEditor.ui.PanelZippy');
 goog.require('chartEditor.ui.control.colorPicker.Base');
 goog.require('chartEditor.ui.control.fieldSelect.Base');
+goog.require('chartEditor.ui.control.wrapped.Labeled');
 goog.require('chartEditor.ui.panel.Stroke');
+
 
 
 /**
@@ -42,11 +44,13 @@ chartEditor.ui.panel.pointers.CircularBase.prototype.createDom = function() {
   var model = /** @type {chartEditor.model.Base} */(this.getModel());
 
   // region ==== Header
-  var fill = new chartEditor.ui.control.colorPicker.Base();
-  fill.addClassName(goog.getCssName('anychart-ce-panel-control-right'));
-  fill.init(model, this.genKey('fill()'));
-  this.addHeaderChildControl(fill);
+
   // endregion
+
+  var fill = new chartEditor.ui.control.colorPicker.Base();
+  var fillLC = new chartEditor.ui.control.wrapped.Labeled(fill, 'Fill');
+  fillLC.init(model, this.genKey('fill()'));
+  this.addChildControl(fillLC);
 
   var stroke = new chartEditor.ui.panel.Stroke(model);
   stroke.setKey(this.genKey('stroke()'));

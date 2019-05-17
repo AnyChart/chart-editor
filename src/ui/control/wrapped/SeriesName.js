@@ -68,14 +68,14 @@ chartEditor.ui.control.wrapped.SeriesName.prototype.enterDocument = function() {
 
 
 /** @override */
-chartEditor.ui.control.wrapped.SeriesName.prototype.init = function(model, key, opt_callback, opt_noRebuild, opt_noRebuildMapping) {
-  chartEditor.ui.control.wrapped.SeriesName.base(this, 'init', model, key, opt_callback, opt_noRebuild, opt_noRebuildMapping);
+chartEditor.ui.control.wrapped.SeriesName.prototype.init = function(model, key, opt_callback, opt_rebuildChart) {
+  chartEditor.ui.control.wrapped.SeriesName.base(this, 'init', model, key, opt_callback, opt_rebuildChart);
 
   this.lockKey_ = [['editorSettings'], ['lockSeriesName'], this.control_.getKey()[2]];
 
   if (this.lockButton_) {
     if (model.getValue(this.lockKey_) === void 0)
-      model.setValue(this.lockKey_, true, true);
+      model.setValue(this.lockKey_, true);
 
     this.lockButton_.init(model, this.lockKey_);
   } else
