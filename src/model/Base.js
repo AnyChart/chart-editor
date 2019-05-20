@@ -188,7 +188,7 @@ chartEditor.model.Base.SOLUTION_DATA = (function(){
       });
     case 'tableau':
       return /** @type {chartEditor.model.Base.SolutionData} */ ({
-        overviewUrl: 'https://www.anychart.com/products/tableau/overview/?utm_source=tableau-extension',
+        overviewUrl: 'https://tableau.anychart.com/overview/?utm_source=tableau-extension',
         basicTitle: '',
         basicUrl: '',
         chartTitle: '',
