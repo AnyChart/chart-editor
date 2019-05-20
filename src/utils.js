@@ -48,26 +48,30 @@ chartEditor.utils.preprocessResourceData = function (rawData, mappingObj) {
     var preprocessedData = [];
     // add resources to preprocessed data
     for (var i = 0; i < rawData.length; i++) {
+        // create resource object and add required properties
         var resourceObj = {};
         resourceObj[mappingObj['id']] = rawData[i][mappingObj['id']];
         resourceObj[mappingObj['name']] = rawData[i][mappingObj['name']];
         resourceObj[mappingObj['parent']] = rawData[i][mappingObj['parent']];
         resourceObj['periods'] = [];
 
-        // create periods like below
-        // periods: [
-        //     {id: "1_1", start: "2018-01-05", end: "2018-01-25"}
-        // ]
+        // parse concatenated values from the Qlik's HyperCube to normal arrays
         var idArr = chartEditor.utils.parseConcatenatedValue(rawData[i][mappingObj['periodId']]);
         var startArr = chartEditor.utils.parseConcatenatedValue(rawData[i][mappingObj['periodStart']]);
         var endArr = chartEditor.utils.parseConcatenatedValue(rawData[i][mappingObj['periodEnd']]);
         var connectToArr = chartEditor.utils.parseConcatenatedValue(rawData[i][mappingObj['periodConnectTo']]);
 
+        // create resource periods like the structure structure below
+        // periods: [
+        //     {id: "1_1", start: "2018-01-05", end: "2018-01-25"}
+        // ]
         for (var j = 0; j < idArr.length; j++) {
+            // create period object and fill properties
             var periodObj = {'id': idArr[j], 'connectTo': connectToArr[j]};
             // start and end value MUST NEVER be an empty string
             periodObj['start'] = startArr[j] ? startArr[j] : null;
             periodObj['end'] = endArr[j] ? endArr[j] : null;
+            // add the period to the current resource periods
             resourceObj['periods'].push(periodObj);
         }
         preprocessedData.push(resourceObj);
