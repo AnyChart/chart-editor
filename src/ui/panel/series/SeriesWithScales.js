@@ -185,17 +185,5 @@ chartEditor.ui.panel.series.SeriesWithScales.prototype.createDom = function() {
     pointWidthLC.init(model, this.genKey('pointWidth()'));
     this.addChildControl(pointWidthLC);
   }
-
-  var seriesSupportsError = ['splineArea', 'spline', 'stepArea', 'area', 'stick', 'bar', 'column', 'jumpLine', 'stepLine', 'line', 'marker'];
-  if (seriesSupportsError.indexOf(this.seriesType_) !== -1) {
-
-    this.addContentSeparator();
-
-    var error = new chartEditor.ui.panel.Error(model);
-    error.setName('Error');
-    error.allowEnabled(false);
-    error.setKey(this.genKey('error()'));
-    this.addChildControl(error);
-  }
   // endregion
 };

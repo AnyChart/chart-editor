@@ -189,7 +189,7 @@ chartEditor.ui.Chart.prototype.onModelChange = function(evt) {
 
           } else {
             var seriesCtor = plotMapping[j]['ctor'];
-            seriesCtor = chartEditor.model.Series[seriesCtor]['ctor'] || seriesCtor;
+            seriesCtor = model.getSeriesDescription()[seriesCtor]['ctor'] || seriesCtor;
 
             var series;
             var stringKey =  (model.chartTypeLike('gauges') ? 'getPointer' : 'getSeries') + '(\'' + plotMapping[j]['id'] + '\').name()';

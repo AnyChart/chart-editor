@@ -5,7 +5,6 @@ goog.require('chartEditor.ui.control.select.Base');
 goog.require('chartEditor.ui.control.select.MenuItem');
 goog.require('chartEditor.ui.dataSettings.chartTypeSelect.Menu');
 goog.require('chartEditor.ui.dataSettings.chartTypeSelect.MenuRenderer');
-goog.require('chartEditor.ui.dialog.Crosslink');
 goog.require('goog.ui.ButtonRenderer');
 
 
@@ -89,14 +88,6 @@ chartEditor.ui.dataSettings.chartTypeSelect.Widget.prototype.enterDocument = fun
 
   var renderer = /** @type {chartEditor.ui.dataSettings.chartTypeSelect.WidgetRenderer} */(this.getRenderer());
   renderer.updateIcon(this);
-
-  for (var i = this.getItemCount(); i--;) {
-    var item = this.getItemAt(i);
-    var itemModel = item.getModel();
-    if (itemModel.unavailable) {
-      this.getHandler().listen(item, goog.ui.Component.EventType.ACTION, this.onSelectUnavailableChart_);
-    }
-  }
 };
 
 
@@ -127,24 +118,6 @@ chartEditor.ui.dataSettings.chartTypeSelect.Widget.prototype.handleBlur = functi
     e.preventDefault();
     e.stopPropagation();
   }
-};
-
-
-/**
- * @param {Object} evt
- * @private
- */
-chartEditor.ui.dataSettings.chartTypeSelect.Widget.prototype.onSelectUnavailableChart_ = function(evt) {
-  evt.preventDefault();
-  evt.stopPropagation();
-  this.setOpen(false);
-  if (!this.crossLinkDialog_) {
-    this.crossLinkDialog_ = new chartEditor.ui.dialog.Crosslink();
-  }
-  var item = evt.target;
-  var itemModel = item.getModel();
-  this.crossLinkDialog_.updateContent(itemModel.product);
-  this.crossLinkDialog_.setVisible(true);
 };
 
 

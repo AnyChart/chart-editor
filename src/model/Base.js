@@ -171,71 +171,19 @@ chartEditor.model.Base.SOLUTION_DATA = (function(){
   switch (chartEditor.model.Base.SOLUTION) {
     case 'qlik':
       return /** @type {chartEditor.model.Base.SolutionData} */ ({
-        overviewUrl: 'https://www.anychart.com/products/qlik/overview/?utm_source=qlik-extension',
-        basicTitle: 'AnyChart Qlik Basic',
-        basicUrl: 'https://github.com/AnyChart/anychart-qlik-basic',
-        chartTitle: 'AnyChart Qlik Charts',
-        chartUrl: 'https://market.qlik.com/solutions/AnyChart_Qlik_Charts',
-        stockTitle: 'AnyChart Qlik Stock Charts',
-        stockUrl: 'https://market.qlik.com/solutions/AnyChart_Qlik_Stock_Charts',
-        mapTitle: 'AnyChart Qlik Geo Maps',
-        mapUrl: 'https://market.qlik.com/solutions/AnyChart_Qlik_Geo_Maps',
-        ganttTitle: 'AnyChart Qlik Gantt Chart',
-        ganttUrl: 'https://market.qlik.com/solutions/AnyChart_Qlik_Gantt_Chart',
-        bundleTitle: 'AnyChart Qlik Bundle',
-        bundleUrl: 'https://github.com/AnyChart/anychart-qlik-basic',
-        marketName: 'Qlik Market'
+        overviewUrl: 'https://qlik.anychart.com/overview/?utm_source=qlik-extension'
       });
     case 'tableau':
       return /** @type {chartEditor.model.Base.SolutionData} */ ({
-        overviewUrl: 'https://tableau.anychart.com/overview/?utm_source=tableau-extension',
-        basicTitle: '',
-        basicUrl: '',
-        chartTitle: '',
-        chartUrl: '',
-        stockTitle: '',
-        stockUrl: '',
-        mapTitle: '',
-        mapUrl: '',
-        ganttTitle: '',
-        ganttUrl: '',
-        bundleTitle: '',
-        bundleUrl: '',
-        marketName: ''
+        overviewUrl: 'https://tableau.anychart.com/overview/?utm_source=tableau-extension'
       });
     case 'freeboard':
       return /** @type {chartEditor.model.Base.SolutionData} */ ({
-        overviewUrl: 'https://freeboard.anychart.com/overview/?utm_source=freeboard-extension',
-        basicTitle: '',
-        basicUrl: '',
-        chartTitle: '',
-        chartUrl: '',
-        stockTitle: '',
-        stockUrl: '',
-        mapTitle: '',
-        mapUrl: '',
-        ganttTitle: '',
-        ganttUrl: '',
-        bundleTitle: '',
-        bundleUrl: '',
-        marketName: ''
+        overviewUrl: 'https://freeboard.anychart.com/overview/?utm_source=freeboard-extension'
       });
     default:
       return /** @type {chartEditor.model.Base.SolutionData} */ ({
-        overviewUrl: 'https://www.anychart.com/features/chart_editor/',
-        basicTitle: '',
-        basicUrl: '',
-        chartTitle: '',
-        chartUrl: '',
-        stockTitle: '',
-        stockUrl: '',
-        mapTitle: '',
-        mapUrl: '',
-        ganttTitle: '',
-        ganttUrl: '',
-        bundleTitle: '',
-        bundleUrl: '',
-        marketName: ''
+        overviewUrl: 'https://www.anychart.com/features/chart_editor/'
       });
   }
 })();
@@ -457,7 +405,7 @@ chartEditor.model.ChartTypes = (function() {
     'value': 'scatter',
     'name': 'Scatter',
     'icon': 'scatter-chart.svg',
-    'series': ['marker', 'bubble', 'line'],
+    'series': ['scatter.marker', 'bubble', 'scatter.line'],
     'scales': chartEditor.model.Scales.SCATTER,
     'dataSetCtor': 'set',
     product: chartEditor.model.Product.CHART
@@ -2158,7 +2106,7 @@ chartEditor.model.Base.prototype.getChartWithJsCode_ = function(opt_options) {
         plotMapping = settings['dataSettings']['mappings'][i];
         for (j = 0; j < plotMapping.length; j++) {
           var seriesCtor = plotMapping[j]['ctor'];
-          seriesCtor = chartEditor.model.Series[seriesCtor]['ctor'] || seriesCtor;
+          seriesCtor = this.getSeriesDescription()[seriesCtor]['ctor'] || seriesCtor;
           var series;
           var mappingPostfix = '(mapping' + (isSingleSeries ? '' : ((isSinglePlot ? '' : '_' + i) + '_' + j)) + ');';
           if (chartType === 'stock') {
@@ -2526,6 +2474,18 @@ chartEditor.model.Base.prototype.prepareDataSet_ = function(dataSet) {
 
 
 /**
+ * Returns series descriptions. It's redefined in Gantt and Map models.
+ * This is to avoid collision between models series descriptions.
+ * Like Gantt and Chart models both have line series, but Chart model adds value{Lower,Upper}Error fields
+ * to series description.
+ * @return {Object}
+ */
+chartEditor.model.Base.prototype.getSeriesDescription = function() {
+  return chartEditor.model.Series;
+};
+
+
+/**
  * Checks if current mapping are not compatible with new chart and series types.
  *
  * @param {string} prevChartType
@@ -2546,8 +2506,9 @@ chartEditor.model.Base.prototype.needResetMappings = function(prevChartType, pre
  * @return {boolean} true if compatible
  */
 chartEditor.model.Base.prototype.checkSeriesFieldsCompatible = function(seriesType1, seriesType2) {
-  var fields1 = chartEditor.model.Series[seriesType1]['fields'];
-  var fields2 = chartEditor.model.Series[seriesType2]['fields'];
+  var seriesDescription = this.getSeriesDescription();
+  var fields1 = seriesDescription[seriesType1]['fields'];
+  var fields2 = seriesDescription[seriesType2]['fields'];
   var compatible = true;
   if (fields1.length === fields2.length) {
     for (var i = fields1.length; i--;) {
