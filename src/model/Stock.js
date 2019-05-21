@@ -58,15 +58,16 @@ goog.inherits(chartEditor.model.Stock, chartEditor.model.Base);
 
 
 // region Structures
-chartEditor.model.Series['line'] = {'fields': [{'field': 'value', 'name': 'Y Value'}]};
-chartEditor.model.Series['spline'] = {'fields': [{'field': 'value', 'name': 'Y Value'}]};
-chartEditor.model.Series['column'] = {'fields': [{'field': 'value', 'name': 'Y Value'}]};
-chartEditor.model.Series['area'] = {'fields': [{'field': 'value', 'name': 'Y Value'}]};
-chartEditor.model.Series['splineArea'] = {
+chartEditor.model.Stock.Series = {};
+chartEditor.model.Stock.Series['line'] = {'fields': [{'field': 'value', 'name': 'Y Value'}]};
+chartEditor.model.Stock.Series['spline'] = {'fields': [{'field': 'value', 'name': 'Y Value'}]};
+chartEditor.model.Stock.Series['column'] = {'fields': [{'field': 'value', 'name': 'Y Value'}]};
+chartEditor.model.Stock.Series['area'] = {'fields': [{'field': 'value', 'name': 'Y Value'}]};
+chartEditor.model.Stock.Series['splineArea'] = {
   'name': 'Spline Area',
   'fields': [{'field': 'value', 'name': 'Y Value'}]
 };
-chartEditor.model.Series['ohlc'] = chartEditor.model.Series['candlestick'] = {
+chartEditor.model.Stock.Series['ohlc'] = chartEditor.model.Stock.Series['candlestick'] = {
   'fields': [
     {'field': 'open', 'name': 'Open Value'},
     {'field': 'high', 'name': 'High Value'},
@@ -74,6 +75,12 @@ chartEditor.model.Series['ohlc'] = chartEditor.model.Series['candlestick'] = {
     {'field': 'close', 'name': 'Close Value'}]
 };
 // endregion
+
+
+/** @inheritDoc */
+chartEditor.model.Stock.prototype.getSeriesDescription = function() {
+  return chartEditor.model.Stock.Series;
+};
 
 
 // region Model initialization
@@ -150,7 +157,7 @@ chartEditor.model.Stock.prototype.createDefaultSeriesMapping = function(index, t
 
   var strings = this.fieldsState.strings.filter(function(string) {return string != 'dimensionGroup';});
   var numbers = this.fieldsState.numbers.filter(function(string) {return string != 'dimensionGroup';});
-  var fields = chartEditor.model.Series[type]['fields'];
+  var fields = this.getSeriesDescription()[type]['fields'];
 
   for (var i = 0; i < fields.length; i++) {
     var j = index + i + (goog.isNumber(opt_startFieldIndex) ? opt_startFieldIndex : 0);

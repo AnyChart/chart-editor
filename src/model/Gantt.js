@@ -58,7 +58,8 @@ goog.inherits(chartEditor.model.Gantt, chartEditor.model.Base);
 
 
 // region Structures
-chartEditor.model.Series['ganttProject'] = {
+chartEditor.model.Gantt.Series = {};
+chartEditor.model.Gantt.Series['ganttProject'] = {
   'ctor': 'ganttProject',
   'name': 'Gantt Project',
   'fields': [
@@ -74,7 +75,7 @@ chartEditor.model.Series['ganttProject'] = {
     {'field': 'connectorType', 'type': 'string', 'isOptional': true}
   ]
 };
-chartEditor.model.Series['ganttResourceQlik'] = {
+chartEditor.model.Gantt.Series['ganttResourceQlik'] = {
   'ctor': 'ganttResource',
   'name': 'Gantt Resource',
   'fields': [
@@ -89,7 +90,7 @@ chartEditor.model.Series['ganttResourceQlik'] = {
     {'field': 'periodConnectTo', 'isOptional': true}
   ]
 };
-chartEditor.model.Series['ganttResource'] = {
+chartEditor.model.Gantt.Series['ganttResource'] = {
   'ctor': 'ganttResource',
   'name': 'Gantt Resource',
   'fields': [
@@ -101,6 +102,12 @@ chartEditor.model.Series['ganttResource'] = {
   ]
 };
 // endregion
+
+
+/** @inheritDoc */
+chartEditor.model.Gantt.prototype.getSeriesDescription = function() {
+  return chartEditor.model.Gantt.Series;
+};
 
 
 // region Model initialization
@@ -135,16 +142,17 @@ chartEditor.model.Gantt.prototype.createDefaultSeriesMapping = function(index, t
 
   var strings = this.fieldsState.strings.filter(function(string) {return string != 'dimensionGroup';});
   var numbers = this.fieldsState.numbers.filter(function(string) {return string != 'dimensionGroup';});
-  var fields = chartEditor.model.Series[type]['fields'];
+  var fields = this.getSeriesDescription()[type]['fields'];
 
   var preparedData = this.getPreparedData();
   var dataRow = preparedData[0].row;
   for (var i = 0; i < fields.length; i++) {
     var field = fields[i]['field'];
-    if (field in dataRow) {
+    if (fields[i]['isOptional']) {
+      /* Write nonexistent field value to mapping. This defaults selector to 'not selected' item. */
+      config['mapping'][fields[i]['field']] = '__STUB_NONSELECTED__';
+    } else if (field in dataRow) {
       config['mapping'][field] = field;
-    } else if (fields[i]['isOptional']) {
-      config['mapping'][field] = null;
     } else {
       var j = index + i + (goog.isNumber(opt_startFieldIndex) ? opt_startFieldIndex : 0);
       var numberIndex = numbers.length > j ? j : j % numbers.length;

@@ -68,6 +68,7 @@ chartEditor.ui.dataSettings.Series.prototype.onModelChange = function(evt) {
 
   var model = /** @type {chartEditor.model.Base} */(this.getModel());
   var seriesTypes = model.getChartTypeSettings()['series'];
+  var seriesDescription = model.getSeriesDescription();
 
   if (model.isChartSingleSeries() || seriesTypes.length === 1) {
     goog.dom.classlist.enable(this.type_.getElement(), 'anychart-ce-hidden', true);
@@ -77,8 +78,8 @@ chartEditor.ui.dataSettings.Series.prototype.onModelChange = function(evt) {
 
     for (var i = 0; i < seriesTypes.length; i++) {
       var type = seriesTypes[i];
-      var caption = chartEditor.model.Series[type]['name'] ?
-        chartEditor.model.Series[type]['name'] :
+      var caption = seriesDescription[type]['name'] ?
+        seriesDescription[type]['name'] :
         goog.string.capitalize(type);
 
       var item = new chartEditor.ui.control.fieldSelect.SelectMenuItem({
@@ -125,7 +126,7 @@ chartEditor.ui.dataSettings.Series.prototype.createFields = function() {
   var model = /** @type {chartEditor.model.Base} */(this.getModel());
   var seriesType = model.getValue(this.getKey('ctor'));
 
-  var fieldsMap = chartEditor.model.Series[seriesType]['fields'];
+  var fieldsMap = model.getSeriesDescription()[seriesType]['fields'];
   goog.object.forEach(fieldsMap, function(item) {
     var fieldLabel = item['name'] ? item['name'] : item['field'];
     var fieldSelect = new chartEditor.ui.control.fieldSelect.Base({
@@ -172,9 +173,10 @@ chartEditor.ui.dataSettings.Series.prototype.createFieldsOptions = function() {
       var dataFields = data.fields;
       var option;
       if (fieldSelect.getModel().isOptional) {
+        //Create item "not set" for optional fields
         option = new chartEditor.ui.control.fieldSelect.SelectMenuItem({
           caption: '--',
-          value: null
+          value: '__STUB_NONSELECTED__'//We use nonexistent data field name as value for "not set" item.
         });
         fieldSelect.addItem(option);
       }
