@@ -4,6 +4,7 @@ goog.require('chartEditor.ui.Panel');
 goog.require('chartEditor.ui.control.input.Base');
 goog.require('chartEditor.ui.control.wrapped.Labeled');
 goog.require('chartEditor.ui.panel.ganttProject.elements.Base');
+goog.require('chartEditor.ui.panel.ganttProject.elements.Connectors');
 
 
 
@@ -37,53 +38,56 @@ chartEditor.ui.appearanceTabs.GanttTimeLine.prototype.createDom = function() {
   this.addChildControl(splitterPositionLC);
   this.addContentSeparator();
 
-  var elements = new chartEditor.ui.panel.ganttProject.elements.Base(model, 'Timeline elements');
-  elements.allowEnabled(false);
-  elements.setKey(this.genKey('elements()'));
-  this.addChildControl(elements);
+  var allElements = new chartEditor.ui.panel.ganttProject.elements.Base(model, 'All elements');
+  allElements.setKey(this.genKey('elements()'));
+  this.addChildControl(allElements);
   this.addContentSeparator();
 
-  var baseLinesElement = new chartEditor.ui.panel.ganttProject.elements.Base(model, 'Baselines');
-  baseLinesElement.setKey(this.genKey('baselines()'));
-  baseLinesElement.allowEnabled(false);
-  baseLinesElement.setOption('above', true);
-  this.addChildControl(baseLinesElement);
+  var tasksElement = new chartEditor.ui.panel.ganttProject.elements.Base(model, 'Tasks');
+  tasksElement.setKey(this.genKey('tasks()'));
+  this.addChildControl(tasksElement);
+  this.addContentSeparator();
+
+  var tasksProgressElement = new chartEditor.ui.panel.ganttProject.elements.Base(model, 'Tasks progress');
+  tasksProgressElement.setKey(this.genKey('tasks().progress()'));
+  // tasksProgressElement.allowEnabled(false);
+  this.addChildControl(tasksProgressElement);
   this.addContentSeparator();
 
   var groupingTasksElement = new chartEditor.ui.panel.ganttProject.elements.Base(model, 'Grouping tasks');
   groupingTasksElement.setKey(this.genKey('groupingTasks()'));
-  groupingTasksElement.allowEnabled(false);
-  groupingTasksElement.allowReset(true);
   this.addChildControl(groupingTasksElement);
+  this.addContentSeparator();
+
+  var gTasksProgressElement = new chartEditor.ui.panel.ganttProject.elements.Base(model, 'Grouping tasks progress');
+  gTasksProgressElement.setKey(this.genKey('groupingTasks().progress()'));
+  this.addChildControl(gTasksProgressElement);
   this.addContentSeparator();
 
   var milestonesElement = new chartEditor.ui.panel.ganttProject.elements.Base(model, 'Milestones');
   milestonesElement.setKey(this.genKey('milestones()'));
-  milestonesElement.allowEnabled(false);
-  milestonesElement.allowReset(true);
   this.addChildControl(milestonesElement);
   this.addContentSeparator();
 
-  var periodsElement = new chartEditor.ui.panel.ganttProject.elements.Base(model , 'Periods');
-  periodsElement.setKey(this.genKey('periods()'));
-  periodsElement.allowEnabled(false);
-  this.addChildControl(periodsElement);
+  var milestonesPreviewElement = new chartEditor.ui.panel.ganttProject.elements.Base(model, 'Milestones preview');
+  milestonesPreviewElement.setKey(this.genKey('milestones().preview()'));
+  this.addChildControl(milestonesPreviewElement);
   this.addContentSeparator();
 
-  var taskElement = new chartEditor.ui.panel.ganttProject.elements.Base(model, 'Tasks');
-  taskElement.setKey(this.genKey('tasks()'));
-  taskElement.allowEnabled(false);
-  taskElement.allowReset(true);
-  this.addChildControl(taskElement);
+  var baseLinesElement = new chartEditor.ui.panel.ganttProject.elements.Base(model, 'Baselines (Planned)');
+  baseLinesElement.setKey(this.genKey('baselines()'));
+  baseLinesElement.setOption('above', true);
+  this.addChildControl(baseLinesElement);
   this.addContentSeparator();
 
-  var connectorElement = new chartEditor.ui.panel.ganttProject.elements.Base(model, 'Connectors');
-  connectorElement.setKey(this.genKey('connectors()'));
-  connectorElement.allowEnabled(false);
-  connectorElement.setOption('anchor', false);
-  connectorElement.setOption('position', false);
-  connectorElement.setOption('height', false);
-  connectorElement.setOption('offset', false);
-  connectorElement.setOption('labels', false);
-  this.addChildControl(connectorElement);
+  if (model.getModel()['chart']['type'] === chartEditor.enums.ChartType.GANTT_RESOURCE) {
+    var periodsElement = new chartEditor.ui.panel.ganttProject.elements.Base(model , 'Periods');
+    periodsElement.setKey(this.genKey('periods()'));
+    this.addChildControl(periodsElement);
+    this.addContentSeparator();
+  }
+
+  var connectorsElement = new chartEditor.ui.panel.ganttProject.elements.Connectors(model, 'Connectors');
+  connectorsElement.setKey(this.genKey('connectors()'));
+  this.addChildControl(connectorsElement);
 };

@@ -148,11 +148,11 @@ chartEditor.model.Gantt.prototype.createDefaultSeriesMapping = function(index, t
   var dataRow = preparedData[0].row;
   for (var i = 0; i < fields.length; i++) {
     var field = fields[i]['field'];
-    if (fields[i]['isOptional']) {
+    if (field in dataRow) {
+      config['mapping'][fields[i]['field']] = field;
+    } else if (fields[i]['isOptional']) {
       /* Write nonexistent field value to mapping. This defaults selector to 'not selected' item. */
       config['mapping'][fields[i]['field']] = '__STUB_NONSELECTED__';
-    } else if (field in dataRow) {
-      config['mapping'][field] = field;
     } else {
       var j = index + i + (goog.isNumber(opt_startFieldIndex) ? opt_startFieldIndex : 0);
       var numberIndex = numbers.length > j ? j : j % numbers.length;
