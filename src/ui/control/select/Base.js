@@ -118,12 +118,15 @@ chartEditor.ui.control.select.Base.prototype.handleSelectionChange = function (e
   evt.stopPropagation();
   if (this.excluded) return;
 
-  if (!this.noDispatch && this.editorModel && goog.isDefAndNotNull(this.getValue())) {
+  if (!this.noDispatch && goog.isDefAndNotNull(this.getValue())) {
     var selectedIndex = this.getSelectedIndex();
     if (this.prevSelectedIndex_ === selectedIndex) return;
     this.prevSelectedIndex_ = selectedIndex;
 
-    this.applySelection();
+    if (this.editorModel)
+      this.applySelection();
+    else
+      this.setValue(this.getValue());
   }
 };
 

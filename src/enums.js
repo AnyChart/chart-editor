@@ -320,5 +320,3 @@ chartEditor.enums.normalizeChartType = function(value, opt_default) {
   }
   return opt_default;
 };
-
-

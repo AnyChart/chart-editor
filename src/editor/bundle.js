@@ -2,9 +2,10 @@ goog.provide('chartEditor.editor.bundle');
 
 goog.require('chartEditor.editor.Chart');
 goog.require('chartEditor.editor.Gantt');
-// goog.require('chartEditor.editor.Map');
 goog.require('chartEditor.editor.Stock');
 goog.require('chartEditor.enums');
+goog.require('chartEditor.ui.dialog.Settings');
+
 
 
 /**
@@ -39,4 +40,3 @@ window['anychart'].editor = function(opt_lockedChartType) {
 (function() {
   goog.exportSymbol('anychart.editor', window['anychart'].editor);
 })();
-

@@ -126,22 +126,26 @@ chartEditor.ui.control.input.Base.prototype.onChange = function() {
   value = value.replace(/(\\)/g, '\\\\');
   value = value.replace(/(\\\\n)/g, '\\n');
 
-  if (!this.noDispatch && value !== this.lastValue && this.editorModel) {
+  if (!this.noDispatch && value !== this.lastValue) {
     if (this.validateFunction_(value)) {
       var caretPosition = goog.dom.selection.getStart(this.getElement());
-
       value = this.formatterFunction_(value);
 
-      if (this.callback)
-        this.editorModel.callbackByString(this.callback, this);
-      else
-        this.editorModel.setValue(this.key, value, this.rebuildChart);
+      if (this.editorModel) {
+        if (this.callback)
+          this.editorModel.callbackByString(this.callback, this);
+        else
+          this.editorModel.setValue(this.key, value, this.rebuildChart);
+      } else {
+        this.setValue(value);
+      }
 
       goog.dom.selection.setCursorPosition(this.getElement(), caretPosition);
     } else {
       // Input is not valid
-      this.setValue(this.lastValue);
       value = this.lastValue;
+      this.lastValue = ''; // this should exist to make setValue work
+      this.setValue(value);
     }
   }
 
