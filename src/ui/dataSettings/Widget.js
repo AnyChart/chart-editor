@@ -105,6 +105,7 @@ chartEditor.ui.dataSettings.Widget.prototype.onModelChange = function(evt) {
       'anychart-ce-blue-btn'));
     this.addPlotBtn_ = new goog.ui.Button('+ Add Plot', plotButtonRenderer);
     this.addPlotBtn_.addClassName('anychart-ce-add-btn');
+    this.addPlotBtn_.addClassName('anychart-ce-add-plot-btn');
     this.addChildAt(this.addPlotBtn_, this.getChildCount(), true);
     this.getHandler().listen(this.addPlotBtn_, goog.ui.Component.EventType.ACTION, this.onAddPlot_);
   }
