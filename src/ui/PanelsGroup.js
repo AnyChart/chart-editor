@@ -88,7 +88,6 @@ chartEditor.ui.PanelsGroup.prototype.createDom = function() {
         goog.ui.ButtonRenderer,
         'anychart-ce-blue-btn'));
 
-
     this.addPanelBtn_ = new goog.ui.Button(this.buttonLabel_, addPanelBtnRenderer);
     this.addPanelBtn_.addClassName('anychart-ce-add-btn');
     this.addChild(this.addPanelBtn_, true);

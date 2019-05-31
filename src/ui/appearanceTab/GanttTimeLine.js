@@ -38,56 +38,69 @@ chartEditor.ui.appearanceTabs.GanttTimeLine.prototype.createDom = function() {
   this.addChildControl(splitterPositionLC);
   this.addContentSeparator();
 
-  var allElements = new chartEditor.ui.panel.ganttProject.elements.Base(model, 'All elements');
-  allElements.setKey(this.genKey('elements()'));
-  this.addChildControl(allElements);
-  this.addContentSeparator();
-
-  var tasksElement = new chartEditor.ui.panel.ganttProject.elements.Base(model, 'Tasks');
-  tasksElement.setKey(this.genKey('tasks()'));
-  this.addChildControl(tasksElement);
-  this.addContentSeparator();
-
-  var tasksProgressElement = new chartEditor.ui.panel.ganttProject.elements.Base(model, 'Tasks progress');
-  tasksProgressElement.setKey(this.genKey('tasks().progress()'));
-  // tasksProgressElement.allowEnabled(false);
-  this.addChildControl(tasksProgressElement);
-  this.addContentSeparator();
-
-  var groupingTasksElement = new chartEditor.ui.panel.ganttProject.elements.Base(model, 'Grouping tasks');
-  groupingTasksElement.setKey(this.genKey('groupingTasks()'));
-  this.addChildControl(groupingTasksElement);
-  this.addContentSeparator();
-
-  var gTasksProgressElement = new chartEditor.ui.panel.ganttProject.elements.Base(model, 'Grouping tasks progress');
-  gTasksProgressElement.setKey(this.genKey('groupingTasks().progress()'));
-  this.addChildControl(gTasksProgressElement);
-  this.addContentSeparator();
-
-  var milestonesElement = new chartEditor.ui.panel.ganttProject.elements.Base(model, 'Milestones');
-  milestonesElement.setKey(this.genKey('milestones()'));
-  this.addChildControl(milestonesElement);
-  this.addContentSeparator();
-
-  var milestonesPreviewElement = new chartEditor.ui.panel.ganttProject.elements.Base(model, 'Milestones preview');
-  milestonesPreviewElement.setKey(this.genKey('milestones().preview()'));
-  this.addChildControl(milestonesPreviewElement);
-  this.addContentSeparator();
-
-  var baseLinesElement = new chartEditor.ui.panel.ganttProject.elements.Base(model, 'Baselines (Planned)');
-  baseLinesElement.setKey(this.genKey('baselines()'));
-  baseLinesElement.setOption('above', true);
-  this.addChildControl(baseLinesElement);
-  this.addContentSeparator();
-
   if (model.getModel()['chart']['type'] === chartEditor.enums.ChartType.GANTT_RESOURCE) {
     var periodsElement = new chartEditor.ui.panel.ganttProject.elements.Base(model , 'Periods');
     periodsElement.setKey(this.genKey('periods()'));
     this.addChildControl(periodsElement);
-    this.addContentSeparator();
-  }
+    this.panelToExpand_ = periodsElement;
 
-  var connectorsElement = new chartEditor.ui.panel.ganttProject.elements.Connectors(model, 'Connectors');
-  connectorsElement.setKey(this.genKey('connectors()'));
-  this.addChildControl(connectorsElement);
+  } else {
+    var allElements = new chartEditor.ui.panel.ganttProject.elements.Base(model, 'All elements');
+    allElements.setKey(this.genKey('elements()'));
+    this.addChildControl(allElements);
+    this.addContentSeparator();
+
+    var tasksElement = new chartEditor.ui.panel.ganttProject.elements.Base(model, 'Tasks');
+    tasksElement.setKey(this.genKey('tasks()'));
+    this.addChildControl(tasksElement);
+    this.addContentSeparator();
+
+    var tasksProgressElement = new chartEditor.ui.panel.ganttProject.elements.Base(model, 'Tasks progress');
+    tasksProgressElement.setKey(this.genKey('tasks().progress()'));
+    // tasksProgressElement.allowEnabled(false);
+    this.addChildControl(tasksProgressElement);
+    this.addContentSeparator();
+
+    var groupingTasksElement = new chartEditor.ui.panel.ganttProject.elements.Base(model, 'Grouping tasks');
+    groupingTasksElement.setKey(this.genKey('groupingTasks()'));
+    this.addChildControl(groupingTasksElement);
+    this.addContentSeparator();
+
+    var gTasksProgressElement = new chartEditor.ui.panel.ganttProject.elements.Base(model, 'Grouping progress');
+    gTasksProgressElement.setKey(this.genKey('groupingTasks().progress()'));
+    this.addChildControl(gTasksProgressElement);
+    this.addContentSeparator();
+
+    var milestonesElement = new chartEditor.ui.panel.ganttProject.elements.Base(model, 'Milestones');
+    milestonesElement.setKey(this.genKey('milestones()'));
+    this.addChildControl(milestonesElement);
+    this.addContentSeparator();
+
+    var milestonesPreviewElement = new chartEditor.ui.panel.ganttProject.elements.Base(model, 'Milestones preview');
+    milestonesPreviewElement.setKey(this.genKey('milestones().preview()'));
+    milestonesPreviewElement.setOption('depth', true);
+    this.addChildControl(milestonesPreviewElement);
+    this.addContentSeparator();
+
+    var baseLinesElement = new chartEditor.ui.panel.ganttProject.elements.Base(model, 'Baselines (Planned)');
+    baseLinesElement.setKey(this.genKey('baselines()'));
+    baseLinesElement.setOption('above', true);
+    this.addChildControl(baseLinesElement);
+    this.addContentSeparator();
+
+    var connectorsElement = new chartEditor.ui.panel.ganttProject.elements.Connectors(model, 'Connectors');
+    connectorsElement.setKey(this.genKey('connectors()'));
+    this.addChildControl(connectorsElement);
+  }
+};
+
+
+/** @inheritDoc */
+chartEditor.ui.appearanceTabs.GanttTimeLine.prototype.enterDocument = function() {
+  chartEditor.ui.appearanceTabs.GanttTimeLine.base(this, 'enterDocument');
+
+  var model = /** @type {chartEditor.model.Base} */(this.getModel());
+  if (model.getModel()['chart']['type'] === chartEditor.enums.ChartType.GANTT_RESOURCE) {
+    this.panelToExpand_.expand();
+  }
 };

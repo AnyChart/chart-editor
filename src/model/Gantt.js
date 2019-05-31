@@ -4,11 +4,10 @@ goog.require('chartEditor.model.Base');
 goog.require('chartEditor.ui.appearanceTabs.ChartTitle');
 goog.require('chartEditor.ui.appearanceTabs.Data');
 goog.require('chartEditor.ui.appearanceTabs.GanttDataGrid');
-goog.require('chartEditor.ui.appearanceTabs.GanttDataGridTooltip');
 goog.require('chartEditor.ui.appearanceTabs.GanttGridColoring');
 goog.require('chartEditor.ui.appearanceTabs.GanttTimeLine');
 goog.require('chartEditor.ui.appearanceTabs.GanttTimeLineHeader');
-goog.require('chartEditor.ui.appearanceTabs.GanttTimeLineTooltip');
+goog.require('chartEditor.ui.appearanceTabs.GanttTooltip');
 goog.require('chartEditor.utils');
 
 
@@ -42,16 +41,12 @@ chartEditor.model.Gantt = function() {
       name: chartEditor.enums.EditorTabs.GANTT_DATAGRID,
       classFunc: chartEditor.ui.appearanceTabs.GanttDataGrid
     }, {
+      name: chartEditor.enums.EditorTabs.GANTT_TOOLTIP,
+      classFunc: chartEditor.ui.appearanceTabs.GanttTooltip,
+      docsUrl: 'http://docs.anychart.com/Common_Settings/Tooltip'
+    }, {
       name: chartEditor.enums.EditorTabs.GANTT_GRID_COLORING,
       classFunc: chartEditor.ui.appearanceTabs.GanttGridColoring
-    }, {
-      name: chartEditor.enums.EditorTabs.GANTT_TIMELINE_TOOLTIP,
-      classFunc: chartEditor.ui.appearanceTabs.GanttTimeLineTooltip,
-      docsUrl: 'http://docs.anychart.com/Common_Settings/Tooltip'
-    }, {
-      name: chartEditor.enums.EditorTabs.GANTT_DATAGRID_TOOLTIP,
-      classFunc: chartEditor.ui.appearanceTabs.GanttDataGridTooltip,
-      docsUrl: 'http://docs.anychart.com/Common_Settings/Tooltip'
     }];
 };
 goog.inherits(chartEditor.model.Gantt, chartEditor.model.Base);

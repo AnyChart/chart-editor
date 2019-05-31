@@ -3,7 +3,7 @@ goog.provide('chartEditor.ui.panel.ganttProject.elements.Base');
 goog.require('chartEditor.ui.PanelZippy');
 goog.require('chartEditor.ui.control.checkbox.Base');
 goog.require('chartEditor.ui.control.colorPicker.Base');
-goog.require('chartEditor.ui.control.comboBox.Percent');
+goog.require('chartEditor.ui.control.comboBox.Base');
 goog.require('chartEditor.ui.control.fieldSelect.Base');
 goog.require('chartEditor.ui.control.input.Base');
 goog.require('chartEditor.ui.control.wrapped.Labeled');
@@ -23,6 +23,7 @@ chartEditor.ui.panel.ganttProject.elements.Base = function(model, opt_name, opt_
   chartEditor.ui.panel.ganttProject.elements.Base.base(this, 'constructor', model, -1, opt_name, opt_domHelper);
 
   this.options['above'] = false;
+  this.options['depth'] = false;
 
   this.allowEnabled(true);
   this.allowReset(true);
@@ -42,6 +43,15 @@ chartEditor.ui.panel.ganttProject.elements.Base.prototype.createDom = function()
     above.init(model, this.genKey('above()'));
     above.setCaption('Above');
     this.addChildControl(above);
+  }
+
+  if (this.getOption('depth')) {
+    var depth = new chartEditor.ui.control.comboBox.Base();
+    depth.setOptions([0, 1, 2, 3, 4, 5]);
+    depth.setRange(0, 20);
+    var depthLC = new chartEditor.ui.control.wrapped.Labeled(depth, 'Depth');
+    depthLC.init(model, this.genKey('depth()'));
+    this.addChildControl(depthLC);
   }
 
   var stroke = new chartEditor.ui.panel.Stroke(model);
