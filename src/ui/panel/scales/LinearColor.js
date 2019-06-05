@@ -27,7 +27,7 @@ chartEditor.ui.panel.scales.LinearColor.prototype.createDom = function() {
   var model = /** @type {chartEditor.model.Base} */(this.getModel());
   var colors = new chartEditor.ui.control.input.Palette('Comma separated colors');
   this.colors_ = new chartEditor.ui.control.wrapped.Labeled(colors, 'Palette');
-  this.colors_.init(model, this.genKey('colors', true));
+  this.colors_.init(model, this.genKey('colors', true), void 0, true);
   this.addChild(this.colors_, true);
 };
 

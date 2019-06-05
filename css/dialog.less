@@ -44,6 +44,11 @@
   cursor: default;
 }
 
+.anychart-ce-dialog-subtitle {
+  display: block;
+  font-size: 14px;
+  line-height: 24px;
+}
 .anychart-ce-dialog-title-close {
   .opacity(0.5);
   .rotate(45deg);
@@ -201,8 +206,7 @@
 // endregion
 
 // region ---- anychart-ce-dialog-confirm
-.anychart-ce-dialog-confirm,
-.anychart-ce-dialog-crosslink {
+.anychart-ce-dialog-confirm {
   .border-radius(3px);
   width: 400px;
   min-width: auto;
@@ -214,9 +218,6 @@
     top: 50px;
     font-size: 15px;
   }
-}
-.anychart-ce-dialog-crosslink {
-  height: 295px;
 }
 // endregion
 
@@ -325,20 +326,22 @@
 
 // endregion
 
-// region ---- Qlik theme
-.anychart-ce-dialog-qlik-theme {
-  .anychart-ce-dialog-title {
-    padding: 4px 14px;
+// region anychart-ce-dialog-settings
+.anychart-ce-dialog-settings {
+  width: 50%;
+  //height: auto;
+  max-height: 640px;
+  padding-bottom: 60px;
+
+  .anychart-ce-dialog-settings-controls {
+    width: 490px;
+    float: left;
   }
-  .anychart-ce-dialog-content {
-    top: 53px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-  }
-  .anychart-ce-dialog-title-close {
-    margin-top: -3px;
-    margin-right: 3px;
+
+  .anychart-ce-labeled-control {
+    .anychart-ce-panel-control {
+      width: 170px;
+    }
   }
 }
 // endregion

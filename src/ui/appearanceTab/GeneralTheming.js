@@ -71,14 +71,13 @@ chartEditor.ui.appearanceTabs.GeneralTheming.prototype.onModelChange = function(
 /** @inheritDoc */
 chartEditor.ui.appearanceTabs.GeneralTheming.prototype.onChartDraw = function(evt) {
   chartEditor.ui.appearanceTabs.GeneralTheming.base(this, 'onChartDraw', evt);
-  if (evt.rebuild) {
-    if (this.themeSelect)
-      this.themeSelect.getSelect().setValueByTarget(this.anychart_);
 
-    if (this.paletteSelect) {
-      this.paletteSelect.updateExclusion();
-      this.paletteSelect.getSelect().setValueByTarget(evt.chart);
-    }
+  if (this.themeSelect)
+    this.themeSelect.getSelect().setValueByTarget(this.anychart_);
+
+  if (this.paletteSelect) {
+    this.paletteSelect.updateExclusion();
+    this.paletteSelect.getSelect().setValueByTarget(evt.chart);
   }
 };
 

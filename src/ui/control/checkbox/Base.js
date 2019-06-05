@@ -109,9 +109,9 @@ chartEditor.ui.control.checkbox.Base.prototype.exitDocument = function() {
  * @param {chartEditor.model.Base.Key} key Key of control's field in model's structure.
  * @param {string=} opt_callback Callback function that will be called on control's value change instead of simple change value in model.
  *  This function should be model's public method.
- * @param {boolean=} opt_noRebuild Should or not rebuild target (chart) on change value of this control.
+ * @param {boolean=} opt_rebuildChart Should or not rebuild target (chart) on change value of this control.
  */
-chartEditor.ui.control.checkbox.Base.prototype.init = function(model, key, opt_callback, opt_noRebuild) {
+chartEditor.ui.control.checkbox.Base.prototype.init = function(model, key, opt_callback, opt_rebuildChart) {
   /**
    * @type {chartEditor.model.Base}
    * @protected
@@ -124,7 +124,7 @@ chartEditor.ui.control.checkbox.Base.prototype.init = function(model, key, opt_c
 
   this.callback = opt_callback;
 
-  this.noRebuild = !!opt_noRebuild;
+  this.rebuildChart = Boolean(opt_rebuildChart);
 
   this.updateExclusion();
 };
@@ -144,7 +144,7 @@ chartEditor.ui.control.checkbox.Base.prototype.onChange = function(evt) {
     if (this.callback)
       this.editorModel.callbackByString(this.callback, this);
     else
-      this.editorModel.setValue(this.key, this.getChecked(), false, this.noRebuild);
+      this.editorModel.setValue(this.key, this.getChecked(), this.rebuildChart);
   }
 };
 

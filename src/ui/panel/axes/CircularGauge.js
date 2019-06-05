@@ -31,6 +31,8 @@ chartEditor.ui.panel.axes.CircularGauge = function(model, index, opt_domHelper) 
   this.allowEnabled(true);
 
   this.allowRemove(true);
+
+  this.allowReset(true);
 };
 goog.inherits(chartEditor.ui.panel.axes.CircularGauge, chartEditor.ui.PanelZippy);
 
@@ -42,7 +44,7 @@ chartEditor.ui.panel.axes.CircularGauge.prototype.createDom = function() {
   var model = /** @type {chartEditor.model.Base} */(this.getModel());
 
   // var scale = new chartEditor.ui.control.select.Scales({label: 'Scale'});
-  // scale.init(model, this.genKey('scale()'));
+  // scale.init(model, this.genKey('scale()'), void 0, true);
   // this.addChildControl(scale);
 
   var startAngle = new chartEditor.ui.control.comboBox.Base();

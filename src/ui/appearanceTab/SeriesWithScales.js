@@ -41,13 +41,9 @@ chartEditor.ui.appearanceTabs.SeriesWithScales.prototype.createPanels = function
 /** @inheritDoc */
 chartEditor.ui.appearanceTabs.SeriesWithScales.prototype.onModelChange = function(evt) {
   chartEditor.ui.appearanceTabs.SeriesWithScales.base(this, 'onModelChange', evt);
-  if (evt && !this.isExcluded()) {
-    var panelsCount = this.getPanelsCount();
-    var model = /** @type {chartEditor.model.Base} */(this.getModel());
-    var mappings = model.getValue([['dataSettings'], 'mappings']);
-    if (mappings[0].length !== panelsCount) {
-      this.removeAllPanels();
-      this.createPanels();
-    }
+
+  var needRebuildFor = ['addSeries', 'dropSeries', 'setSeriesType'];
+  if (!this.isExcluded() && evt && needRebuildFor.indexOf(evt.meta) !== -1) {
+    this.rebuildPanels();
   }
 };

@@ -2,18 +2,23 @@ goog.provide('chartEditor.utils');
 
 
 /**
- * Find all unique values in array of object by a specific field name.
- * @param {Array.<Object>} arr input array of objects
- * @param {string} field field name of searching unique values
- * @return {Array.<string>}
+ * Qlik's HyperCube includes concatenated values as a string with "," delimeter or
+ * as a number if there's a single value. This function parse concatenated by Qlik values to
+ * normal array for further preprocessing.
+ * @param {string | number} value input array of objects
+ * @return {Array.<string | number>} array of values
  */
-chartEditor.utils.searchUniqueValues = function(arr, field) {
-  var obj = {};
-  for (var i = 0; i < arr.length; i++) {
-    var str = arr[i][field];
-    obj[str] = true;
+chartEditor.utils.parseConcatenatedValue = function(value) {
+  if (goog.isDef(value)) {
+    var array;
+    if (isNaN(value)) {
+      array = value.split(",");
+    } else {
+      array = [value];
+    }
+    return array;
   }
-  return Object.keys(obj);
+  return [];
 };
 
 
@@ -22,15 +27,14 @@ chartEditor.utils.searchUniqueValues = function(arr, field) {
  * @param {Object} mappingObj default mapping for the current chart type
  * @return {Object}
  */
-chartEditor.utils.preprocessResourceMapping = function(mappingObj) {
-  var resourceMapping = Object.assign({}, mappingObj);
-  resourceMapping['periods'] = 'periods';
-  delete resourceMapping['periodId'];
-  delete resourceMapping['periodStart'];
-  delete resourceMapping['periodEnd'];
-  delete resourceMapping['periodConnectTo'];
-  delete resourceMapping['periodResourceId'];
-  return resourceMapping;
+chartEditor.utils.preprocessResourceMapping = function (mappingObj) {
+    var resourceMapping = goog.object.clone(mappingObj);
+    resourceMapping['periods'] = 'periods';
+    delete resourceMapping['periodId'];
+    delete resourceMapping['periodStart'];
+    delete resourceMapping['periodEnd'];
+    delete resourceMapping['periodConnectTo'];
+    return resourceMapping;
 };
 
 
@@ -42,43 +46,65 @@ chartEditor.utils.preprocessResourceMapping = function(mappingObj) {
  */
 chartEditor.utils.preprocessResourceData = function(rawData, mappingObj) {
   var preprocessedData = [];
-  // search all unique resources ID
-  var resourceIds = chartEditor.utils.searchUniqueValues(rawData, mappingObj['id']);
   // add resources to preprocessed data
-  for (var i = 0; i < resourceIds.length; i++) {
-    for (var j = 0; j < rawData.length; j++) {
-      if (resourceIds[i] === rawData[j][mappingObj['id']]) {
-        var resourceObj = {};
-        resourceObj[mappingObj['id']] = resourceIds[i];
-        resourceObj[mappingObj['name']] = rawData[j][mappingObj['name']];
-        resourceObj[mappingObj['parent']] = rawData[j][mappingObj['parent']];
-        resourceObj['periods'] = [];
-        preprocessedData.push(resourceObj);
-        break;
-      }
-    }
-  }
+  for (var i = 0; i < rawData.length; i++) {
+    // create resource object and add required properties
+    var resourceObj = {};
+    resourceObj[mappingObj['id']] = rawData[i][mappingObj['id']];
+    resourceObj[mappingObj['name']] = rawData[i][mappingObj['name']];
+    resourceObj[mappingObj['parent']] = rawData[i][mappingObj['parent']];
+    resourceObj['periods'] = [];
 
-  // search all unique periods
-  var periodsIds = chartEditor.utils.searchUniqueValues(rawData, mappingObj['periodId']);
-  // add every unique period to its related resource
-  for (i = 0; i < periodsIds.length; i++) {
-    for (j = 0; j < rawData.length; j++) {
-      if (periodsIds[i] === rawData[j][mappingObj['periodId']]) {
-        var periodObj = {
-          id: periodsIds[i],
-          start: rawData[j][mappingObj['periodStart']],
-          end: rawData[j][mappingObj['periodEnd']],
-          connectTo: rawData[j][mappingObj['periodConnectTo']]
-        };
-        for (var l = 0; l < preprocessedData.length; l++) {
-          if (preprocessedData[l][mappingObj['id']] == rawData[j][mappingObj['periodResourceId']]) {
-            preprocessedData[l]['periods'].push(periodObj);
-          }
-        }
-        break;
-      }
+    // parse concatenated values from the Qlik's HyperCube to normal arrays
+    var idArr = chartEditor.utils.parseConcatenatedValue(rawData[i][mappingObj['periodId']]);
+    var startArr = chartEditor.utils.parseConcatenatedValue(rawData[i][mappingObj['periodStart']]);
+    var endArr = chartEditor.utils.parseConcatenatedValue(rawData[i][mappingObj['periodEnd']]);
+    var connectToArr = chartEditor.utils.parseConcatenatedValue(rawData[i][mappingObj['periodConnectTo']]);
+
+    // create resource periods like the structure structure below
+    // periods: [
+    //     {id: "1_1", start: "2018-01-05", end: "2018-01-25"}
+    // ]
+    for (var j = 0; j < idArr.length; j++) {
+      // create period object and fill properties
+      var periodObj = {'id': idArr[j], 'connectTo': connectToArr[j]};
+      // start and end value MUST NEVER be an empty string
+      periodObj['start'] = startArr[j] ? startArr[j] : null;
+      periodObj['end'] = endArr[j] ? endArr[j] : null;
+      // add the period to the current resource periods
+      resourceObj['periods'].push(periodObj);
     }
+    preprocessedData.push(resourceObj);
   }
   return preprocessedData;
+};
+
+
+/**
+ *
+ * @param {chartEditor.model.Base.Key} key1
+ * @param {chartEditor.model.Base.Key} key2
+ * @return {boolean}
+ * @private
+ */
+chartEditor.utils.compareKeys = function(key1, key2) {
+  if (key1.length !== key2.length)
+    return false;
+
+  for (var i = key1.length; i--;) {
+    if (typeof key1[i] == 'string' && key1[i] !== key2[i])
+      return false;
+
+    var type = goog.typeOf(key1[i]);
+    if (type !== goog.typeOf(key2[i]))
+      return false;
+
+    if (type == 'array' && !goog.array.equals(/** @type {Array} */(key1[i]), /** @type {Array} */(key2[i])))
+      return false;
+
+    if (type == 'object' && !goog.object.equals(/** @type {!Object} */(key1[i]), /** @type {!Object} */(key2[i])))
+      return false;
+  }
+
+  return true;
 };

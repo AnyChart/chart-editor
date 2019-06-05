@@ -86,21 +86,9 @@ chartEditor.ui.appearanceTabs.Pointers.prototype.createPanels = function() {
 /** @inheritDoc */
 chartEditor.ui.appearanceTabs.Pointers.prototype.onModelChange = function(evt) {
   chartEditor.ui.appearanceTabs.Pointers.base(this, 'onModelChange', evt);
-  if (evt && !this.isExcluded()) {
-    var panelsCount = this.getPanelsCount();
-    var model = /** @type {chartEditor.model.Base} */(this.getModel());
-    var mappings = model.getValue([['dataSettings'], 'mappings']);
-    if (mappings[0].length !== panelsCount) {
-      this.removeAllPanels();
-      this.createPanels();
-    }
-    var panels = this.getPanels();
-    // check if pointer type was changed
-    for (var i = 0; i < panels.length; i++) {
-      if (panels[i].getPointerType() !== mappings[0][i]['ctor']) {
-        this.removeAllPanels();
-        this.createPanels();
-      }
-    }
+
+  var needRebuildFor = ['addSeries', 'dropSeries', 'setSeriesType'];
+  if (!this.isExcluded() && evt && needRebuildFor.indexOf(evt.meta) !== -1) {
+    this.rebuildPanels();
   }
 };

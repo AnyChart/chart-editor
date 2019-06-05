@@ -30,7 +30,7 @@ chartEditor.ui.panel.axes.Polar.prototype.createDom = function() {
   var model = /** @type {chartEditor.model.Base} */(this.getModel());
 
   var scale = new chartEditor.ui.control.select.Scales({label: 'Scale'});
-  scale.init(model, this.genKey('scale()'));
+  scale.init(model, this.genKey('scale()'), void 0, true);
   this.addChildControl(scale);
 
   // Overlap mode

@@ -159,61 +159,61 @@ chartEditor.model.Chart = function() {
 };
 goog.inherits(chartEditor.model.Chart, chartEditor.model.Base);
 
-
 // region Structures
-chartEditor.model.Series['line'] = {
+chartEditor.model.Chart.Series = {};
+chartEditor.model.Chart.Series['line'] = {
   'fields': [{'field': 'value', 'name': 'Y Value'}]
 };
-chartEditor.model.Series['spline'] = {
+chartEditor.model.Chart.Series['spline'] = {
   'fields': [{'field': 'value', 'name': 'Y Value'}]
 };
-chartEditor.model.Series['column'] = {
+chartEditor.model.Chart.Series['column'] = {
   'fields': [{'field': 'value', 'name': 'Y Value'}]
 };
-chartEditor.model.Series['bar'] = {
+chartEditor.model.Chart.Series['bar'] = {
   'fields': [{'field': 'value', 'name': 'Y Value'}]
 };
-chartEditor.model.Series['area'] = {
+chartEditor.model.Chart.Series['area'] = {
   'fields': [{'field': 'value', 'name': 'Y Value'}]
 };
-chartEditor.model.Series['splineArea'] = {
+chartEditor.model.Chart.Series['splineArea'] = {
   'name': 'Spline Area',
   'fields': [{'field': 'value', 'name': 'Y Value'}]
 };
-chartEditor.model.Series['polygon'] = {
+chartEditor.model.Chart.Series['polygon'] = {
   'fields': [{'field': 'value', 'name': 'Y Value'}]
 };
-chartEditor.model.Series['polyline'] = {
+chartEditor.model.Chart.Series['polyline'] = {
   'fields': [{'field': 'value', 'name': 'Y Value'}]
 };
-chartEditor.model.Series['rangeColumn'] = {
+chartEditor.model.Chart.Series['rangeColumn'] = {
   'name': 'Range Column',
   'fields': [
     {'field': 'high', 'name': 'High'},
     {'field': 'low', 'name': 'Low'}
   ]
 };
-chartEditor.model.Series['waterfall'] = {
+chartEditor.model.Chart.Series['waterfall'] = {
   'name': 'Waterfall',
   'fields': [
     {'field': 'value', 'name': 'Value'}
   ]
 };
-chartEditor.model.Series['ohlc'] = {
+chartEditor.model.Chart.Series['ohlc'] = {
   'fields': [
     {'field': 'open', 'name': 'Open Value'},
     {'field': 'high', 'name': 'High Value'},
     {'field': 'low', 'name': 'Low Value'},
     {'field': 'close', 'name': 'Close Value'}]
 };
-chartEditor.model.Series['candlestick'] = {
+chartEditor.model.Chart.Series['candlestick'] = {
   'fields': [
     {'field': 'open'},
     {'field': 'high'},
     {'field': 'low'},
     {'field': 'close'}]
 };
-chartEditor.model.Series['box'] = {
+chartEditor.model.Chart.Series['box'] = {
   'fields': [
     {'field': 'lowest'},
     {'field': 'q1'},
@@ -222,93 +222,93 @@ chartEditor.model.Series['box'] = {
     {'field': 'highest'},
     {'field': 'outliers'}]
 };
-chartEditor.model.Series['marker'] = {
+chartEditor.model.Chart.Series['marker'] = {
   'fields': [
     {'field': 'value', 'name': 'Value'},
     {'field': 'name', 'name': 'Name', 'isOptional': true}]
 };
-chartEditor.model.Series['bubble'] = {
+chartEditor.model.Chart.Series['bubble'] = {
   'fields': [
     {'field': 'value', 'name': 'Value'},
     {'field': 'size', 'name': 'Size'}]
 };
-chartEditor.model.Series['heatMap'] = {
+chartEditor.model.Chart.Series['heatMap'] = {
   'fields': [
     {'field': 'y', 'name': 'Y Value', 'type': 'string'},
     {'field': 'heat', 'name': 'Heat'}
   ]
 };
-chartEditor.model.Series['mekko'] = {
+chartEditor.model.Chart.Series['mekko'] = {
   'fields': [{'field': 'value', 'name': 'Y Value'}]
 };
-chartEditor.model.Series['pie'] = {
+chartEditor.model.Chart.Series['pie'] = {
   'fields': [{'field': 'value', 'name': 'Value'}]
 };
-chartEditor.model.Series['sankey'] = {
+chartEditor.model.Chart.Series['sankey'] = {
   'fields': [
     {'field': 'from', 'name': 'From', 'type': 'string'},
     {'field': 'to', 'name': 'To', 'type': 'string'},
     {'field': 'weight', 'name': 'Weight'}]
 };
-chartEditor.model.Series['funnel'] = {
+chartEditor.model.Chart.Series['funnel'] = {
   'fields': [{'field': 'value', 'name': 'Value'}]
 };
-chartEditor.model.Series['pyramid'] = {
+chartEditor.model.Chart.Series['pyramid'] = {
   'fields': [{'field': 'value', 'name': 'Value'}]
 };
-chartEditor.model.Series['treeMap'] = {
+chartEditor.model.Chart.Series['treeMap'] = {
   'fields': [
     {'field': 'parent', 'name': 'Parent', 'type': 'string'},
     {'field': 'name', 'name': 'Name', 'type': 'string'},
     {'field': 'value', 'name': 'Value'}
   ]
 };
-chartEditor.model.Series['circularGauge.bar'] = {
+chartEditor.model.Chart.Series['circularGauge.bar'] = {
   'ctor': 'bar',
   'name': 'Bar',
   'fields': [{'field': 'value', 'name': 'Value'}]
 };
-chartEditor.model.Series['circularGauge.marker'] = {
+chartEditor.model.Chart.Series['circularGauge.marker'] = {
   'ctor': 'marker',
   'name': 'Marker',
   'fields': [{'field': 'value', 'name': 'Value'}]
 };
-chartEditor.model.Series['circularGauge.needle'] = {
+chartEditor.model.Chart.Series['circularGauge.needle'] = {
   'ctor': 'needle',
   'name': 'Needle',
   'fields': [{'field': 'value', 'name': 'Value'}]
 };
-chartEditor.model.Series['circularGauge.knob'] = {
+chartEditor.model.Chart.Series['circularGauge.knob'] = {
   'ctor': 'knob',
   'name': 'Knob',
   'fields': [{'field': 'value', 'name': 'Value'}]
 };
-chartEditor.model.Series['linearGauge.bar'] = {
+chartEditor.model.Chart.Series['linearGauge.bar'] = {
   'ctor': 'bar',
   'name': 'Bar',
   'fields': [{'field': 'value', 'name': 'Value'}]
 };
-chartEditor.model.Series['linearGauge.led'] = {
+chartEditor.model.Chart.Series['linearGauge.led'] = {
   'ctor': 'led',
   'name': 'Led',
   'fields': [{'field': 'value', 'name': 'Value'}]
 };
-chartEditor.model.Series['linearGauge.tank'] = {
+chartEditor.model.Chart.Series['linearGauge.tank'] = {
   'ctor': 'tank',
   'name': 'Tank',
   'fields': [{'field': 'value', 'name': 'Value'}]
 };
-chartEditor.model.Series['linearGauge.thermometer'] = {
+chartEditor.model.Chart.Series['linearGauge.thermometer'] = {
   'ctor': 'thermometer',
   'name': 'Thermometer',
   'fields': [{'field': 'value', 'name': 'Value'}]
 };
-chartEditor.model.Series['linearGauge.marker'] = {
+chartEditor.model.Chart.Series['linearGauge.marker'] = {
   'ctor': 'marker',
   'name': 'Marker',
   'fields': [{'field': 'value', 'name': 'Value'}]
 };
-chartEditor.model.Series['linearGauge.rangeBar'] = {
+chartEditor.model.Chart.Series['linearGauge.rangeBar'] = {
   'ctor': 'rangeBar',
   'name': 'Range Bar',
   'fields': [
@@ -316,12 +316,65 @@ chartEditor.model.Series['linearGauge.rangeBar'] = {
     {'field': 'high', 'name': 'High'}
   ]
 };
-chartEditor.model.Series['tagCloud'] = {
+chartEditor.model.Chart.Series['tagCloud'] = {
   'name': 'tagCloud',
   'fields': [
     {'field': 'value'},
     {'field': 'category', 'type': 'string'}
   ]
+};
+
+chartEditor.model.Chart.Series['scatter.line'] = {
+  'ctor': 'line',
+  'name': 'Line',
+  'fields': [{'field': 'value', 'name': 'Y Value'}]
+};
+
+chartEditor.model.Chart.Series['scatter.marker'] = {
+  'ctor': 'marker',
+  'name': 'Marker',
+  'fields': [
+    {'field': 'value', 'name': 'Value'},
+    {'field': 'name', 'name': 'Name', 'isOptional': true}]
+};
+
+chartEditor.model.ValueErrorFields = [
+  {'field': 'valueLowerError', 'name': 'Value Lower Error', 'isOptional': true},
+  {'field': 'valueUpperError', 'name': 'Value Upper Error', 'isOptional': true}
+];
+
+chartEditor.model.XErrorFields = [
+  {'field': 'xLowerError', 'name': 'X Lower Error', 'isOptional': true},
+  {'field': 'xUpperError', 'name': 'X Upper Error', 'isOptional': true}
+];
+
+//populate error values fields into series models
+(function() {
+  var name, model, i;
+
+  var supportsValueError = ['splineArea', 'spline', 'stepArea', 'area', 'stick', 'bar', 'column', 'jumpLine', 'stepLine', 'line', 'marker'];
+  for (i = 0; i < supportsValueError.length; i++) {
+    name = supportsValueError[i];
+    model = chartEditor.model.Chart.Series[name];
+    if (model && model['fields']) {
+      model['fields'] = goog.array.concat(model['fields'], chartEditor.model.ValueErrorFields);
+    }
+  }
+
+  var supportsAllErrors = ['scatter.line', 'scatter.marker'];
+  for (i = 0; i < supportsAllErrors.length; i++) {
+    name = supportsAllErrors[i];
+    model = chartEditor.model.Chart.Series[name];
+    if (model && model['fields']) {
+      model['fields'] = goog.array.concat(model['fields'], chartEditor.model.ValueErrorFields, chartEditor.model.XErrorFields);
+    }
+  }
+})();
+
+
+/** @inheritDoc */
+chartEditor.model.Chart.prototype.getSeriesDescription = function() {
+  return chartEditor.model.Chart.Series;
 };
 
 
@@ -503,6 +556,7 @@ chartEditor.model.Chart.prototype.chooseDefaultChartType = function() {
   chartEditor.model.Chart.base(this, 'chooseDefaultChartType');
 
   var chartType = this.model['chart']['type'];
+
   if (!chartType) {
     chartType = 'line';
     var rawData = this.getRawData();
@@ -540,7 +594,7 @@ chartEditor.model.Chart.prototype.chooseDefaultSeriesType = function() {
       if (!(this.fieldsState.numbersCount % 2))
         seriesType = 'bubble';
       else
-        seriesType = 'marker';
+        seriesType = 'scatter.marker';
     } else
       seriesType = this.getChartTypeSettings()['series'][0];
   }
@@ -588,10 +642,13 @@ chartEditor.model.Chart.prototype.createDefaultSeriesMapping = function(index, t
   var numbers = goog.array.clone(this.fieldsState.numbers);
   numbers = numbers.filter(function(item){ return item != xField && item != 'dimensionGroup';});
 
-  var fields = chartEditor.model.Series[type]['fields'];
+  var fields = this.getSeriesDescription()[type]['fields'];
 
   for (var i = 0; i < fields.length; i++) {
-    if (fields[i]['field'] === 'from') { // for Sankey
+    if (fields[i]['isOptional']) {
+      /* Write nonexistent field value to mapping. This defaults selector to 'not selected' item. */
+      config['mapping'][fields[i]['field']] = '__STUB_NONSELECTED__';
+    } else if (fields[i]['field'] === 'from') { // for Sankey
       config['mapping'][fields[i]['field']] = this.fieldsState.firstString;
     } else {
       var j = index + i + (goog.isNumber(opt_startFieldIndex) ? opt_startFieldIndex : 0);

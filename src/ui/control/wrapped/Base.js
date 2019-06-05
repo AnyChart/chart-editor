@@ -88,13 +88,12 @@ chartEditor.ui.control.wrapped.Base.prototype.reset = function() {
  * @param {chartEditor.model.Base.Key} key Key of control's field in model's structure.
  * @param {string=} opt_callback Callback function that will be called on control's value change instead of simple change value in model.
  *  This function should be model's public method.
- * @param {boolean=} opt_noRebuild Should or not rebuild target (chart) on change value of this control.
- * @param {boolean=} opt_noRebuildMapping
+ * @param {boolean=} opt_rebuildChart Should or not rebuild target (chart) on change value of this control.
  * @public
  */
-chartEditor.ui.control.wrapped.Base.prototype.init = function(model, key, opt_callback, opt_noRebuild, opt_noRebuildMapping) {
+chartEditor.ui.control.wrapped.Base.prototype.init = function(model, key, opt_callback, opt_rebuildChart) {
   this.setModel(model);
-  this.control_.init(model, key, opt_callback, opt_noRebuild, opt_noRebuildMapping);
+  this.control_.init(model, key, opt_callback, opt_rebuildChart);
 };
 
 

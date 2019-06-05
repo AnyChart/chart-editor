@@ -1,0 +1,176 @@
+@import "chartEditor.less";
+@import "variables.freeboard.less";
+
+
+// region ---- Freeboard specific
+.anychart-ce-dialog-freeboard-theme {
+  a {
+    color: @color-label;
+  }
+  .title {
+    //font-size: 17px;
+    color: @color-caption !important;
+    //margin-bottom: 4px;
+    //min-height: 33px;
+  }
+
+  textarea,
+  input[type="text"] {
+    background-color: @color-background;
+    border: 1px solid @color-background;
+    color: @color-text;
+    width: auto;
+    height: auto;
+  }
+
+  textarea:focus,
+  input[type="text"]:focus {
+  }
+
+  // Same as in Qlik theme
+  .anychart-ce-dialog-title {
+    padding: 4px 14px;
+  }
+  .anychart-ce-dialog-content {
+    top: 53px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  .anychart-ce-dialog-title-close {
+    margin-top: -3px;
+    margin-right: 3px;
+  }
+  .anychart-ce-chart-container,
+  .anychart-ce-data-set-item,
+    //.anychart-ce-buttons,
+  .anychart-ce-tabs-tab-content > .anychart-ce-panel > .content {
+    //border: 1px solid @color-border;
+    padding: 12px;
+    background-color: white;
+  }
+  .anychart-ce-data-set-item-disabled {
+    border-color: @color-border-disabled;
+  }
+  .anychart-ce-data-set-item-menuBtn {
+    display: none;
+  }
+
+  .anychart-ce-field-select-select,
+  .anychart-ui-select-with-icon,
+  .anychart-ce-combobox,
+  .anychart-ce-checkbox .anychart-ce-checkbox-element,
+  .anychart-ce-input,
+  .anychart-ce-flat-menu-button,
+  .anychart-ce-button-toggle {
+    background: white;
+    border-color: @color-border;
+  }
+
+  .anychart-ce-combobox-active {
+    background-color: @color-background;
+  }
+
+  .anychart-ui-select-indicator,
+  .anychart-ce-combobox-button,
+  .anychart-ce-flat-menu-button-dropdown {
+    &:before {
+      border-top-color: white;
+    }
+  }
+
+  .anychart-ce-field-select-select-open,
+  .anychart-ui-select-with-icon-open {
+    .anychart-ui-select-indicator:before {
+      border-top-color: @color-background;
+    }
+  }
+  .anychart-ce-combobox-active .anychart-ce-combobox-button:before {
+    border-top-color: @color-background;
+  }
+
+  .anychart-select-with-content {
+    .anychart-ce-field-select-select-open {
+      .anychart-ce-field-select-select-content {
+        background-color: white;
+      }
+    }
+  }
+  .anychart-ce-field-select-select-open,
+  .anychart-ui-select-with-icon-open {
+    background-color: @color-background;
+  }
+
+  .anychart-ce-breadcrumbs-item-caption {
+    color: @color-text-disabled;
+  }
+
+  .anychart-ce-breadcrumbs-item-indicator {
+    background: @color-text-disabled;
+  }
+
+  .anychart-ce-breadcrumbs-item-active,
+  .anychart-ce-breadcrumbs-item:hover {
+    .anychart-ce-breadcrumbs-item-caption {
+      color: white;
+    }
+    .anychart-ce-breadcrumbs-item-indicator {
+      background: white;
+    }
+  }
+  .anychart-ce-plot-panel {
+    border-top: none;
+  }
+  .anychart-ce-input {
+    background: white;
+  }
+
+  .anychart-ce-panel-remove-btn,
+  .anychart-ce-plot-panel-remove-btn,
+  .anychart-ce-plot-panel-series-remove-btn {
+    background: url("https://cdn.anychart.com/images/chart_editor/remove-btn-qlik.png") no-repeat;
+    width: 19px;
+    height: 19px;
+  }
+
+  .anychart-ce-checkbox-checked,
+  .anychart-ce-tabs-tab-content > .anychart-ce-panel > .top .anychart-ce-checkbox-checked {
+    .anychart-ce-checkbox-element {
+      background-color: @color-blue;
+      border-color: @color-blue;
+    }
+    .anychart-ce-checkbox-checkmark {
+      color: white;
+    }
+  }
+
+  .anychart-ce-button-standard {
+    &:hover {
+      //border-color: @color-caption;
+    }
+
+    &.anychart-ce-button-checked {
+      background-color: @color-breadcrumbs-back;
+      color: white;
+    }
+  }
+  .anychart-ce-button-disabled {
+    //background-color: white !important;
+    &.anychart-ce-button-checked {
+      //background-color: @color-background !important;
+    }
+  }
+  .anychart-ce-button-standard.anychart-ce-button-disabled {
+    background-color: unset !important;
+  }
+  .anychart-ce-input-with-function {
+    background: @color-special-value;
+  }
+}
+
+.anychart-ce-wide-width {
+  width: 100%;
+}
+
+// endregion
+

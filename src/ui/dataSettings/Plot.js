@@ -56,8 +56,6 @@ chartEditor.ui.dataSettings.Plot.prototype.createDom = function() {
 
 /** @inheritDoc */
 chartEditor.ui.dataSettings.Plot.prototype.onModelChange = function(evt) {
-  if (evt && !evt.rebuildMapping) return;
-
   var model = /** @type {chartEditor.model.Base} */(this.getModel());
   var chartType = model.getValue([['chart'], 'type']);
 

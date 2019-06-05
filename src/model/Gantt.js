@@ -4,11 +4,10 @@ goog.require('chartEditor.model.Base');
 goog.require('chartEditor.ui.appearanceTabs.ChartTitle');
 goog.require('chartEditor.ui.appearanceTabs.Data');
 goog.require('chartEditor.ui.appearanceTabs.GanttDataGrid');
-goog.require('chartEditor.ui.appearanceTabs.GanttDataGridTooltip');
 goog.require('chartEditor.ui.appearanceTabs.GanttGridColoring');
 goog.require('chartEditor.ui.appearanceTabs.GanttTimeLine');
 goog.require('chartEditor.ui.appearanceTabs.GanttTimeLineHeader');
-goog.require('chartEditor.ui.appearanceTabs.GanttTimeLineTooltip');
+goog.require('chartEditor.ui.appearanceTabs.GanttTooltip');
 goog.require('chartEditor.utils');
 
 
@@ -42,23 +41,20 @@ chartEditor.model.Gantt = function() {
       name: chartEditor.enums.EditorTabs.GANTT_DATAGRID,
       classFunc: chartEditor.ui.appearanceTabs.GanttDataGrid
     }, {
+      name: chartEditor.enums.EditorTabs.GANTT_TOOLTIP,
+      classFunc: chartEditor.ui.appearanceTabs.GanttTooltip,
+      docsUrl: 'http://docs.anychart.com/Common_Settings/Tooltip'
+    }, {
       name: chartEditor.enums.EditorTabs.GANTT_GRID_COLORING,
       classFunc: chartEditor.ui.appearanceTabs.GanttGridColoring
-    }, {
-      name: chartEditor.enums.EditorTabs.GANTT_TIMELINE_TOOLTIP,
-      classFunc: chartEditor.ui.appearanceTabs.GanttTimeLineTooltip,
-      docsUrl: 'http://docs.anychart.com/Common_Settings/Tooltip'
-    }, {
-      name: chartEditor.enums.EditorTabs.GANTT_DATAGRID_TOOLTIP,
-      classFunc: chartEditor.ui.appearanceTabs.GanttDataGridTooltip,
-      docsUrl: 'http://docs.anychart.com/Common_Settings/Tooltip'
     }];
 };
 goog.inherits(chartEditor.model.Gantt, chartEditor.model.Base);
 
 
 // region Structures
-chartEditor.model.Series['ganttProject'] = {
+chartEditor.model.Gantt.Series = {};
+chartEditor.model.Gantt.Series['ganttProject'] = {
   'ctor': 'ganttProject',
   'name': 'Gantt Project',
   'fields': [
@@ -74,7 +70,7 @@ chartEditor.model.Series['ganttProject'] = {
     {'field': 'connectorType', 'type': 'string', 'isOptional': true}
   ]
 };
-chartEditor.model.Series['ganttResourceQlik'] = {
+chartEditor.model.Gantt.Series['ganttResourceQlik'] = {
   'ctor': 'ganttResource',
   'name': 'Gantt Resource',
   'fields': [
@@ -86,11 +82,10 @@ chartEditor.model.Series['ganttResourceQlik'] = {
     {'field': 'periodId'},
     {'field': 'periodStart'},
     {'field': 'periodEnd'},
-    {'field': 'periodConnectTo', 'isOptional': true},
-    {'field': 'periodResourceId'}
+    {'field': 'periodConnectTo', 'isOptional': true}
   ]
 };
-chartEditor.model.Series['ganttResource'] = {
+chartEditor.model.Gantt.Series['ganttResource'] = {
   'ctor': 'ganttResource',
   'name': 'Gantt Resource',
   'fields': [
@@ -102,6 +97,12 @@ chartEditor.model.Series['ganttResource'] = {
   ]
 };
 // endregion
+
+
+/** @inheritDoc */
+chartEditor.model.Gantt.prototype.getSeriesDescription = function() {
+  return chartEditor.model.Gantt.Series;
+};
 
 
 // region Model initialization
@@ -120,7 +121,7 @@ chartEditor.model.Gantt.prototype.chooseDefaultSeriesType = function() {
   if (this.getChartTypeKey() == 'ganttProject') {
     ganttSeriesType = 'ganttProject';
     // Use special mapping for Gantt Resource in Qlik environment
-  } else if (this.model['editorSettings']['qlikMode']) {
+  } else if (chartEditor.model.Base.SOLUTION == 'qlik') {
     ganttSeriesType = 'ganttResourceQlik';
   } else {
     ganttSeriesType = 'ganttResource';
@@ -136,16 +137,17 @@ chartEditor.model.Gantt.prototype.createDefaultSeriesMapping = function(index, t
 
   var strings = this.fieldsState.strings.filter(function(string) {return string != 'dimensionGroup';});
   var numbers = this.fieldsState.numbers.filter(function(string) {return string != 'dimensionGroup';});
-  var fields = chartEditor.model.Series[type]['fields'];
+  var fields = this.getSeriesDescription()[type]['fields'];
 
   var preparedData = this.getPreparedData();
   var dataRow = preparedData[0].row;
   for (var i = 0; i < fields.length; i++) {
     var field = fields[i]['field'];
     if (field in dataRow) {
-      config['mapping'][field] = field;
+      config['mapping'][fields[i]['field']] = field;
     } else if (fields[i]['isOptional']) {
-      config['mapping'][field] = null;
+      /* Write nonexistent field value to mapping. This defaults selector to 'not selected' item. */
+      config['mapping'][fields[i]['field']] = '__STUB_NONSELECTED__';
     } else {
       var j = index + i + (goog.isNumber(opt_startFieldIndex) ? opt_startFieldIndex : 0);
       var numberIndex = numbers.length > j ? j : j % numbers.length;
@@ -177,7 +179,7 @@ chartEditor.model.Gantt.prototype.needResetMappings = function(prevChartType, pr
 
 /** @inheritDoc */
 chartEditor.model.Gantt.prototype.preprocessMapping = function(mappingObj) {
-  if (this.model['chart']['type'] === 'ganttResource' && this.model['editorSettings']['qlikMode'])
+  if (this.model['chart']['type'] === 'ganttResource' && chartEditor.model.Base.SOLUTION == 'qlik')
     return chartEditor.utils.preprocessResourceMapping(mappingObj);
   return mappingObj;
 };
@@ -185,7 +187,7 @@ chartEditor.model.Gantt.prototype.preprocessMapping = function(mappingObj) {
 
 /** @inheritDoc */
 chartEditor.model.Gantt.prototype.preprocessData = function(rawData, mappingObj) {
-  if (this.model['chart']['type'] === 'ganttResource' && this.model['editorSettings']['qlikMode'])
+  if (this.model['chart']['type'] === 'ganttResource' && chartEditor.model.Base.SOLUTION == 'qlik')
     return chartEditor.utils.preprocessResourceData(rawData, mappingObj);
   return rawData;
 };

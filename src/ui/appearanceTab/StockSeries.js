@@ -41,19 +41,8 @@ chartEditor.ui.appearanceTabs.StockSeries.prototype.createPanels = function() {
 /** @inheritDoc */
 chartEditor.ui.appearanceTabs.StockSeries.prototype.onModelChange = function(evt) {
   chartEditor.ui.appearanceTabs.StockSeries.base(this, 'onModelChange', evt);
-  if (evt && !this.isExcluded()) {
-    var panelsCount = this.getPanelsCount();
-    var model = /** @type {chartEditor.model.Base} */(this.getModel());
-    var mappings = model.getValue([['dataSettings'], 'mappings']);
-    var count = 0;
-    for (var i = 0, plotsCount = mappings.length; i < plotsCount; i++) {
-      for (var j = 0, seriesCounts = mappings[i].length; j < seriesCounts; j++) {
-        count++;
-      }
-    }
-    if (count !== panelsCount) {
-      this.removeAllPanels();
-      this.createPanels();
-    }
+  var needRebuildFor = ['addPlot', 'dropPlot', 'addSeries', 'dropSeries', 'setSeriesType'];
+  if (!this.isExcluded() && evt && needRebuildFor.indexOf(evt.meta) !== -1) {
+    this.rebuildPanels();
   }
 };

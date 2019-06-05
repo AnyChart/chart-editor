@@ -247,6 +247,7 @@ chartEditor.enums.EditorTabs = {
   DROP_OFF: 'dropOff',
   GANTT_TIMELINE_HEADER: 'timeLineHeader',
   GANTT_TIMELINE: 'timeLine',
+  GANTT_TOOLTIP: 'ganttTooltip',
   GANTT_DATAGRID: 'dataGrid',
   GANTT_GRID_COLORING: 'gridColoring',
   GANTT_TIMELINE_TOOLTIP: 'ganttTimelineTooltip',
@@ -320,5 +321,3 @@ chartEditor.enums.normalizeChartType = function(value, opt_default) {
   }
   return opt_default;
 };
-
-

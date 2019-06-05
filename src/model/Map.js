@@ -148,7 +148,7 @@ chartEditor.model.Map.prototype.createDefaultSeriesMapping = function(index, typ
 
   var strings = goog.array.clone(this.fieldsState.strings);
   var numbers = goog.array.clone(this.fieldsState.numbers);
-  var fields = chartEditor.model.Series[type]['fields'];
+  var fields = this.getSeriesDescription()[type]['fields'];
 
   // Subtract coordinate fields from numbers list
   var self = this;

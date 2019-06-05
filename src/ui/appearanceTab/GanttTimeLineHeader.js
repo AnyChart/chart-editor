@@ -2,8 +2,6 @@ goog.provide('chartEditor.ui.appearanceTabs.GanttTimeLineHeader');
 
 goog.require("chartEditor.ui.Panel");
 goog.require("chartEditor.ui.panel.ganttProject.LevelWrapper");
-goog.require("chartEditor.ui.panel.ganttProject.TimeLineHeader");
-
 
 
 /**
@@ -31,7 +29,8 @@ chartEditor.ui.appearanceTabs.GanttTimeLineHeader.prototype.createDom = function
   chartEditor.ui.appearanceTabs.GanttTimeLineHeader.base(this, 'createDom');
 
   var model = /** @type {chartEditor.model.Base} */(this.getModel());
-  var timeLineHeader = new chartEditor.ui.panel.ganttProject.TimeLineHeader(model);
+  var timeLineHeader = new chartEditor.ui.panel.ganttProject.LevelWrapper(model, void 0, 'Common settings');
+  timeLineHeader.allowEnabled(false);
   timeLineHeader.setKey(this.getKey());
   this.addChildControl(timeLineHeader);
 
@@ -55,12 +54,6 @@ chartEditor.ui.appearanceTabs.GanttTimeLineHeader.prototype.createDom = function
   var level2 = new chartEditor.ui.panel.ganttProject.LevelWrapper(model, levelIndex);
   level2.setKey(this.genKey('level(' + levelIndex + ')'));
   this.addChildControl(level2);
-
-  // Not implemented
-  // holidays()	Padding panel
-  // overlay()	Overlay element..
-  //   Coloring
-  // background()	Background panel.
 };
 
 

@@ -1,7 +1,7 @@
 goog.provide('chartEditor.ui.panel.Legend');
 
 goog.require('chartEditor.ui.PanelZippy');
-goog.require('chartEditor.ui.panel.LegendAppearance');
+goog.require('chartEditor.ui.control.fieldSelect.Base');
 goog.require('chartEditor.ui.panel.Title');
 
 
@@ -47,13 +47,42 @@ goog.inherits(chartEditor.ui.panel.Legend,chartEditor.ui.PanelZippy);
 chartEditor.ui.panel.Legend.prototype.createDom = function() {
   chartEditor.ui.panel.Legend.base(this, 'createDom');
 
-  var content = this.getContentElement();
   var model = /** @type {chartEditor.model.Base} */(this.getModel());
 
-  var appearance = new chartEditor.ui.panel.LegendAppearance(model);
-  appearance.setKey(this.key);
-  appearance.allowEnabled(false);
-  this.addChildControl(appearance);
+  var layout = new chartEditor.ui.control.fieldSelect.Base({label: 'Layout'});
+  layout.getSelect().setOptions([
+    {value: 'horizontal'},
+    {value: 'vertical'}
+  ]);
+  layout.init(model, this.genKey('itemsLayout()'));
+  this.addChildControl(layout);
+
+  var position = new chartEditor.ui.control.fieldSelect.Base({label: 'Orientation'});
+  position.getSelect().setOptions([
+    {value: 'left', icon: 'ac ac-position-left'},
+    {value: 'right', icon: 'ac ac-position-right'},
+    {value: 'top', icon: 'ac ac-position-top'},
+    {value: 'bottom', icon: 'ac ac-position-bottom'}
+  ]);
+  position.init(model, this.genKey('position()'));
+  this.addChildControl(position);
+
+  var align = new chartEditor.ui.control.fieldSelect.Base({label: 'Align'});
+  align.getSelect().setOptions([
+    {value: 'left', icon: 'ac ac-position-left'},
+    {value: 'center', icon: 'ac ac-position-center'},
+    {value: 'right', icon: 'ac ac-position-right'}
+  ]);
+  align.init(model, this.genKey('align()'));
+  this.addChildControl(align);
+
+  var items = new chartEditor.ui.panel.Title(model, null);
+  items.allowEnabled(false);
+  items.allowEditTitle(false);
+  items.allowEditPosition(false);
+  items.allowEditAlign(false);
+  items.setKey(this.getKey());
+  this.addChildControl(items);
 
   this.addContentSeparator();
 
@@ -61,25 +90,4 @@ chartEditor.ui.panel.Legend.prototype.createDom = function() {
   title.setPositionKey('orientation()');
   title.setKey(this.genKey('title()'));
   this.addChildControl(title);
-
-  this.appearance_ = appearance;
-  this.title_ = title;
-};
-
-
-/** @inheritDoc */
-chartEditor.ui.panel.Legend.prototype.updateKeys = function() {
-  if (!this.isExcluded()) {
-    var stringKey = 'legend()';
-    if (goog.isDef(this.plotIndex_))
-      stringKey = 'plot(' + this.plotIndex_ + ').' + stringKey;
-    this.key = [['chart'], ['settings'], stringKey];
-
-    // Update keys of children
-    if (this.appearance_) this.appearance_.setKey(this.key);
-    if (this.title_) this.title_.setKey(this.genKey('title()'));
-  }
-
-  // Update key of enabled checkbox
-  chartEditor.ui.panel.Legend.base(this, 'updateKeys');
 };
