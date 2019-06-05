@@ -15,6 +15,7 @@ goog.require('chartEditor.ui.panel.Title');
 goog.require('chartEditor.ui.panel.scales.Base');
 
 
+
 /**
  * @param {chartEditor.model.Base} model
  * @param {string|number} seriesId
@@ -192,7 +193,6 @@ chartEditor.ui.panel.series.SeriesWithScales.prototype.createDom = function() {
   }
 
   var seriesSettings = model.getSeriesTypeSettings(this.seriesConstructor_);
-  console.log(this.seriesConstructor_, seriesSettings);
   if (seriesSettings.error) {
       this.addContentSeparator();
       var error = new chartEditor.ui.panel.Error(model);
