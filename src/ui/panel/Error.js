@@ -1,9 +1,9 @@
 goog.provide('chartEditor.ui.panel.Error');
 
 goog.require('chartEditor.ui.Panel');
-goog.require('chartEditor.ui.control.comboBox.Percent');
 goog.require('chartEditor.ui.control.input.Numbers');
 goog.require('chartEditor.ui.control.wrapped.Labeled');
+goog.require('chartEditor.ui.panel.Stroke');
 
 
 
@@ -16,6 +16,7 @@ goog.require('chartEditor.ui.control.wrapped.Labeled');
 chartEditor.ui.panel.Error = function(model, opt_domHelper) {
   chartEditor.ui.panel.Error.base(this, 'constructor', model, 'Error', opt_domHelper);
 
+  this.allowEnabled(false);
   this.allowReset(true);
 };
 goog.inherits(chartEditor.ui.panel.Error, chartEditor.ui.Panel);
@@ -27,31 +28,27 @@ chartEditor.ui.panel.Error.prototype.createDom = function() {
 
   var model = /** @type {chartEditor.model.Base} */(this.getModel());
 
-  var valueError = new chartEditor.ui.control.comboBox.Percent();
-  valueError.setOptions([1, 2, 3, 4, 5, 10, 15]);
-  var valueErrorLC = new chartEditor.ui.control.wrapped.Labeled(valueError, 'Value Error');
-  valueErrorLC.init(model, this.genKey(['valueError()']));
-  this.addChildControl(valueErrorLC);
+  var hasXError = model.getModel()['chart']['type'] === 'scatter';
 
-  var valueUpperError = new chartEditor.ui.control.input.Numbers();
-  var valueUpperErrorLC = new chartEditor.ui.control.wrapped.Labeled(valueUpperError, 'Value Upper Error');
-  valueUpperErrorLC.init(model, this.genKey(['valueUpperError()']));
-  this.addChildControl(valueUpperErrorLC);
+  var valueErrorStroke = new chartEditor.ui.panel.Stroke(model, hasXError ? 'Value Stroke' : 'Stroke');
+  valueErrorStroke.setKey(this.genKey('valueErrorStroke()'));
+  this.addChildControl(valueErrorStroke);
 
-  var valueLowerError = new chartEditor.ui.control.input.Numbers();
-  var valueLowerErrorLC = new chartEditor.ui.control.wrapped.Labeled(valueLowerError, 'Value Lower Error');
-  valueLowerErrorLC.init(model, this.genKey(['valueLowerError()']));
-  this.addChildControl(valueLowerErrorLC);
+  var valueErrorWidth = new chartEditor.ui.control.input.Numbers();
+  var valueErrorWidthLC = new chartEditor.ui.control.wrapped.Labeled(valueErrorWidth, hasXError ? 'Value Width' : 'Width');
+  valueErrorWidthLC.init(model, this.genKey('valueErrorWidth()'));
+  this.addChildControl(valueErrorWidthLC);
 
-  if (model.getModel()['chart']['type'] === 'scatter') {
-    var xUpperError = new chartEditor.ui.control.input.Numbers();
-    var xUpperErrorLC = new chartEditor.ui.control.wrapped.Labeled(xUpperError, 'X Upper Error');
-    xUpperErrorLC.init(model, this.genKey(['xUpperError()']));
-    this.addChildControl(xUpperErrorLC);
+  if (hasXError) {
+    this.addContentSeparator();
 
-    var xLowerError = new chartEditor.ui.control.input.Numbers();
-    var xLowerErrorLC = new chartEditor.ui.control.wrapped.Labeled(xLowerError, 'X Lower Error');
-    xLowerErrorLC.init(model, this.genKey(['xLowerError()']));
-    this.addChildControl(xLowerErrorLC);
+    var xErrorStroke = new chartEditor.ui.panel.Stroke(model, 'X Stroke');
+    xErrorStroke.setKey(this.genKey('xErrorStroke()'));
+    this.addChildControl(xErrorStroke);
+
+    var xErrorWidth = new chartEditor.ui.control.input.Numbers();
+    var xErrorWidthLC = new chartEditor.ui.control.wrapped.Labeled(xErrorWidth, 'X Width');
+    xErrorWidthLC.init(model, this.genKey('xErrorWidth()'));
+    this.addChildControl(xErrorWidthLC);
   }
 };

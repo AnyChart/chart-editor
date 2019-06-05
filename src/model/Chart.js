@@ -162,23 +162,29 @@ goog.inherits(chartEditor.model.Chart, chartEditor.model.Base);
 // region Structures
 chartEditor.model.Chart.Series = {};
 chartEditor.model.Chart.Series['line'] = {
-  'fields': [{'field': 'value', 'name': 'Y Value'}]
+  'fields': [{'field': 'value', 'name': 'Y Value'}],
+  'error': true
 };
 chartEditor.model.Chart.Series['spline'] = {
-  'fields': [{'field': 'value', 'name': 'Y Value'}]
+  'fields': [{'field': 'value', 'name': 'Y Value'}],
+  'error': true
 };
 chartEditor.model.Chart.Series['column'] = {
-  'fields': [{'field': 'value', 'name': 'Y Value'}]
+  'fields': [{'field': 'value', 'name': 'Y Value'}],
+  'error': true
 };
 chartEditor.model.Chart.Series['bar'] = {
-  'fields': [{'field': 'value', 'name': 'Y Value'}]
+  'fields': [{'field': 'value', 'name': 'Y Value'}],
+  'error': true
 };
 chartEditor.model.Chart.Series['area'] = {
-  'fields': [{'field': 'value', 'name': 'Y Value'}]
+  'fields': [{'field': 'value', 'name': 'Y Value'}],
+  'error': true
 };
 chartEditor.model.Chart.Series['splineArea'] = {
   'name': 'Spline Area',
-  'fields': [{'field': 'value', 'name': 'Y Value'}]
+  'fields': [{'field': 'value', 'name': 'Y Value'}],
+  'error': true
 };
 chartEditor.model.Chart.Series['polygon'] = {
   'fields': [{'field': 'value', 'name': 'Y Value'}]
@@ -225,7 +231,8 @@ chartEditor.model.Chart.Series['box'] = {
 chartEditor.model.Chart.Series['marker'] = {
   'fields': [
     {'field': 'value', 'name': 'Value'},
-    {'field': 'name', 'name': 'Name', 'isOptional': true}]
+    {'field': 'name', 'name': 'Name', 'isOptional': true}],
+  'error': true
 };
 chartEditor.model.Chart.Series['bubble'] = {
   'fields': [
@@ -335,7 +342,8 @@ chartEditor.model.Chart.Series['scatter.marker'] = {
   'name': 'Marker',
   'fields': [
     {'field': 'value', 'name': 'Value'},
-    {'field': 'name', 'name': 'Name', 'isOptional': true}]
+    {'field': 'name', 'name': 'Name', 'isOptional': true}],
+  'error': true
 };
 
 chartEditor.model.ValueErrorFields = [

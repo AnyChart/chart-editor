@@ -15,7 +15,6 @@ goog.require('chartEditor.ui.panel.Title');
 goog.require('chartEditor.ui.panel.scales.Base');
 
 
-
 /**
  * @param {chartEditor.model.Base} model
  * @param {string|number} seriesId
@@ -36,11 +35,11 @@ chartEditor.ui.panel.series.SeriesWithScales = function(model, seriesId, seriesI
     stringKey = 'plot(' + this.plotIndex_ + ').' + stringKey;
   }
 
-  this.seriesType_ = model.getValue([['dataSettings'], ['mappings', this.getPlotIndex()], [this.index_, 'ctor']]);
+  this.seriesConstructor_ = /** @type {string} */(model.getValue([['dataSettings'], ['mappings', this.getPlotIndex()], [this.index_, 'ctor']]));
   this.key = [['chart'], ['settings'], stringKey];
 
-  this.hasFallingRising_ = this.seriesType_ == 'candlestick' || this.seriesType_ == 'waterfall' || this.seriesType_ == 'ohlc';
-  this.hasFillStroke_ = this.seriesType_ == 'waterfall' || !this.hasFallingRising_;
+  this.hasFallingRising_ = this.seriesConstructor_ == 'candlestick' || this.seriesConstructor_ == 'waterfall' || this.seriesConstructor_ == 'ohlc';
+  this.hasFillStroke_ = this.seriesConstructor_ == 'waterfall' || !this.hasFallingRising_;
 
   this.allowEnabled(false);
 
@@ -66,7 +65,7 @@ chartEditor.ui.panel.series.SeriesWithScales.prototype.createDom = function() {
 
   // region ==== Content
   var dataMarkers = new chartEditor.ui.panel.Markers(model);
-  if (this.seriesType_ === 'marker') {
+  if (this.seriesConstructor_ === 'marker') {
     dataMarkers.setFillKey('color()');
     dataMarkers.setName(null);
     dataMarkers.allowEnabled(false);
@@ -92,7 +91,7 @@ chartEditor.ui.panel.series.SeriesWithScales.prototype.createDom = function() {
   }
 
   if (this.hasFallingRising_) {
-    if (this.seriesType_ != 'ohlc') {
+    if (this.seriesConstructor_ != 'ohlc') {
       var risingFill = new chartEditor.ui.control.colorPicker.Base();
       var risingFillLC = new chartEditor.ui.control.wrapped.Labeled(risingFill, 'Rising Fill');
       risingFillLC.init(model, this.genKey('risingFill()'));
@@ -103,7 +102,7 @@ chartEditor.ui.panel.series.SeriesWithScales.prototype.createDom = function() {
     risingStroke.setKey(this.genKey('risingStroke()'));
     this.addChildControl(risingStroke);
 
-    if (this.seriesType_ != 'ohlc') {
+    if (this.seriesConstructor_ != 'ohlc') {
       var fallingFill = new chartEditor.ui.control.colorPicker.Base();
       var fallingFillLC = new chartEditor.ui.control.wrapped.Labeled(fallingFill, 'Falling Fill');
       fallingFillLC.init(model, this.genKey('fallingFill()'));
@@ -119,11 +118,17 @@ chartEditor.ui.panel.series.SeriesWithScales.prototype.createDom = function() {
 
   var chartType = model.getModel()['chart']['type'];
   if (chartType != 'stock' && chartType != 'map') {
-    var xScale = new chartEditor.ui.control.select.Scales({label: 'X Scale', availableOptions: ['ordinal', 'linear', 'date-time']});
+    var xScale = new chartEditor.ui.control.select.Scales({
+      label: 'X Scale',
+      availableOptions: ['ordinal', 'linear', 'date-time']
+    });
     xScale.init(model, this.genKey('xScale()'));
     this.addChildControl(xScale);
 
-    var yScale = new chartEditor.ui.control.select.Scales({label: 'Y Scale', availableOptions: ['linear', 'log', 'date-time']});
+    var yScale = new chartEditor.ui.control.select.Scales({
+      label: 'Y Scale',
+      availableOptions: ['linear', 'log', 'date-time']
+    });
     yScale.init(model, this.genKey('yScale()'));
     this.addChildControl(yScale);
 
@@ -151,7 +156,7 @@ chartEditor.ui.panel.series.SeriesWithScales.prototype.createDom = function() {
   this.addContentSeparator();
 
   // Data markers
-  if (this.seriesType_ !== 'marker') {
+  if (this.seriesConstructor_ !== 'marker') {
     dataMarkers.setName('Data Markers');
     dataMarkers.allowEnabled(true);
     dataMarkers.setKey(this.genKey('markers()'));
@@ -159,7 +164,7 @@ chartEditor.ui.panel.series.SeriesWithScales.prototype.createDom = function() {
   }
 
   // Color Scale
-  if (this.seriesType_ === 'choropleth') {
+  if (this.seriesConstructor_ === 'choropleth') {
     this.addContentSeparator();
 
     var colorScale = new chartEditor.ui.panel.scales.Base(model, ['linear-color', 'ordinal-color']);
@@ -172,7 +177,7 @@ chartEditor.ui.panel.series.SeriesWithScales.prototype.createDom = function() {
   // series support xPointPosition() method, some oof them supports pointWidth()
   var xPointPositionSeries = ['box', 'splineArea', 'spline', 'area', 'stick', 'bubble', 'bar', 'ohlc', 'candlestick', 'column', 'line', 'marker'];
 
-  if (xPointPositionSeries.indexOf(this.seriesType_) !== -1) {
+  if (xPointPositionSeries.indexOf(this.seriesConstructor_) !== -1) {
     this.addContentSeparator();
     var xPointPosition = new chartEditor.ui.control.input.Numbers();
     var xPointPositionLC = new chartEditor.ui.control.wrapped.Labeled(xPointPosition, 'X Point Position');
@@ -184,6 +189,15 @@ chartEditor.ui.panel.series.SeriesWithScales.prototype.createDom = function() {
     var pointWidthLC = new chartEditor.ui.control.wrapped.Labeled(pointWidth, 'Point width');
     pointWidthLC.init(model, this.genKey('pointWidth()'));
     this.addChildControl(pointWidthLC);
+  }
+
+  var seriesSettings = model.getSeriesTypeSettings(this.seriesConstructor_);
+  console.log(this.seriesConstructor_, seriesSettings);
+  if (seriesSettings.error) {
+      this.addContentSeparator();
+      var error = new chartEditor.ui.panel.Error(model);
+      error.setKey(this.genKey('error()'));
+      this.addChildControl(error);
   }
   // endregion
 };

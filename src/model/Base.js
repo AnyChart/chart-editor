@@ -2583,6 +2583,20 @@ chartEditor.model.Base.prototype.getChartTypeKey = function() {
   return /** @type {chartEditor.enums.ChartType} */ (chartTypeKey);
 };
 
+/**
+ * Returns series settings by series name (constructor)
+ * @param {string} seriesConstructor
+ * @return {?Object}
+ */
+chartEditor.model.Base.prototype.getSeriesTypeSettings = function(seriesConstructor) {
+  var seriesDescriptions = this.getSeriesDescription();
+  for (var name in seriesDescriptions) {
+    if ((seriesDescriptions[name]['ctor'] && seriesDescriptions[name]['ctor'] === seriesConstructor) || name === seriesConstructor)
+      return seriesDescriptions[name];
+  }
+  return null;
+};
+
 
 /**
  * Returns panel object for current chart type
