@@ -5,6 +5,7 @@ goog.require('chartEditor.ui.control.input.Base');
 goog.require('chartEditor.ui.control.input.Numbers');
 goog.require('chartEditor.ui.control.wrapped.Labeled');
 goog.require('chartEditor.ui.dialog.Base');
+goog.require('chartEditor.ui.panel.Stroke');
 goog.require('goog.ui.Dialog');
 
 
@@ -76,8 +77,6 @@ chartEditor.ui.dialog.Settings = function(config) {
 
   this.setDraggable(false);
 
-  //this.setTextContent(message);
-
   this.setButtonSet(goog.ui.Dialog.ButtonSet.createOkCancel());
 };
 goog.inherits(chartEditor.ui.dialog.Settings, chartEditor.ui.dialog.Base);
@@ -118,6 +117,9 @@ chartEditor.ui.dialog.Settings.prototype.createDom = function() {
         break;
       case 'number':
         control = new chartEditor.ui.control.input.Numbers();
+        break;
+      case 'stroke':
+        control = new chartEditor.ui.panel.Stroke(null);
         break;
       default:
         control = new chartEditor.ui.control.input.Base();

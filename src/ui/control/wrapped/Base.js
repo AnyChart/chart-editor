@@ -7,7 +7,7 @@ goog.require('chartEditor.ui.control.button.Base');
 /**
  * Component with control.
  *
- * @param {chartEditor.model.Base.Control} control
+ * @param {chartEditor.model.Base.Control|chartEditor.ui.Component} control
  *
  * @param {boolean=} opt_allowReset
  * @param {goog.dom.DomHelper=} opt_domHelper
@@ -48,7 +48,7 @@ chartEditor.ui.control.wrapped.Base.prototype.createDom = function() {
 
 
 /**
- * @return {chartEditor.model.Base.Control}
+ * @return {chartEditor.model.Base.Control|chartEditor.ui.Component}
  */
 chartEditor.ui.control.wrapped.Base.prototype.getControl = function() {
   return this.control_;
@@ -56,7 +56,7 @@ chartEditor.ui.control.wrapped.Base.prototype.getControl = function() {
 
 
 /**
- * @param {chartEditor.model.Base.Control} control
+ * @param {chartEditor.model.Base.Control|chartEditor.ui.Component} control
  */
 chartEditor.ui.control.wrapped.Base.prototype.setControl = function(control) {
   goog.dispose(this.control_);

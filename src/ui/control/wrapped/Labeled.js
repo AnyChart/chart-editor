@@ -4,7 +4,7 @@ goog.require('chartEditor.ui.control.wrapped.Base');
 
 
 /**
- * @param {chartEditor.model.Base.Control} control
+ * @param {chartEditor.model.Base.Control|chartEditor.ui.Component} control
  * @param {string=} opt_label
  * @param {boolean=} opt_allowReset
  * @param {goog.dom.DomHelper=} opt_domHelper
