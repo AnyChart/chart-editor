@@ -35,10 +35,10 @@ chartEditor.ui.panel.Stroke.prototype.createDom = function() {
 
   var dash = new chartEditor.ui.control.fieldSelect.Select('solid');
   dash.setOptions([
-    {value: '0', icon: 'ac ac-position-bottom'},
-    {value: '5 5', icon: 'ac ac-position-top'},
-    {value: '5 10', icon: 'ac ac-position-bottom'},
-    {value: '10 5', icon: 'ac ac-position-top'}
+    {value: '0', caption: '------', icon: 'ac ac-position-bottom'},
+    {value: '5 5', caption: '- - - ', icon: 'ac ac-position-top'},
+    {value: '5 10', caption: '-  -  ', icon: 'ac ac-position-bottom'},
+    {value: '10 5', caption: '-- -- ', icon: 'ac ac-position-top'}
   ]);
   this.addChild(dash, true);
   goog.dom.classlist.add(dash.getElement(), goog.getCssName('anychart-ce-stroke-dash'));
