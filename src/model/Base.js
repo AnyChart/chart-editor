@@ -687,6 +687,10 @@ chartEditor.model.ChartTypes = (function() {
     'dataSetCtor': 'tree',
     'singleSeries': true,
     'settingsExcludes': ['palette()'],
+    'defaults': {
+      'getTimeline().lineMarker(0).enabled()': false,
+      'getTimeline().lineMarker(0).value()': 'current'
+    },
     filters: ['gantt'],
     product: chartEditor.model.Product.GANTT
   };

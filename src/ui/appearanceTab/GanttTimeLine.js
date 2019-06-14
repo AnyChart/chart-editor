@@ -3,6 +3,7 @@ goog.provide('chartEditor.ui.appearanceTabs.GanttTimeLine');
 goog.require('chartEditor.ui.Panel');
 goog.require('chartEditor.ui.control.input.Base');
 goog.require('chartEditor.ui.control.wrapped.Labeled');
+goog.require('chartEditor.ui.panel.ganttProject.LineMarker');
 goog.require('chartEditor.ui.panel.ganttProject.elements.Base');
 goog.require('chartEditor.ui.panel.ganttProject.elements.Connectors');
 
@@ -92,6 +93,11 @@ chartEditor.ui.appearanceTabs.GanttTimeLine.prototype.createDom = function() {
     connectorsElement.setKey(this.genKey('connectors()'));
     this.addChildControl(connectorsElement);
   }
+
+  this.addContentSeparator();
+  var todateMarker = new chartEditor.ui.panel.ganttProject.LineMarker(model);
+  todateMarker.setKey(this.genKey('lineMarker(0)'));
+  this.addChildControl(todateMarker);
 };
 
 
