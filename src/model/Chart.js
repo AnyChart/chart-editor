@@ -154,6 +154,11 @@ chartEditor.model.Chart = function() {
       name: chartEditor.enums.EditorTabs.COLOR_RANGE,
       classFunc: chartEditor.ui.appearanceTabs.ColorRange,
       docsUrl: 'http://api.anychart.com/v8/anychart.core.ui.ColorRange'
+    },
+    {
+      name: chartEditor.enums.EditorTabs.THEMING,
+      classFunc: chartEditor.ui.appearanceTabs.Theming,
+      docsUrl: 'https://docs.anychart.com/Appearance_Settings/Themes'
     }
   ];
 };
