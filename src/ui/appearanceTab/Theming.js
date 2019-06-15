@@ -21,7 +21,7 @@ chartEditor.ui.appearanceTabs.Theming = function(model, opt_domHelper) {
 
   this.anychart_ = goog.dom.getWindow()['anychart'];
 
-  this.allowReset(false);
+  this.allowReset(true);
   this.allowEnabled(false);
 };
 goog.inherits(chartEditor.ui.appearanceTabs.Theming, chartEditor.ui.Panel);
@@ -37,7 +37,7 @@ chartEditor.ui.appearanceTabs.Theming.prototype.createDom = function() {
   this.themeTextArea = new chartEditor.ui.control.textArea.Base();
   this.themeTextArea.init(model, this.getKey(), void 0, true);
   // debugger;
-  // this.themeTextArea.setPlaceholder('LOOOL');
+  this.themeTextArea.setPlaceholder('LOOOL');
 
   this.addChildControl(this.themeTextArea);
 };
@@ -50,5 +50,15 @@ chartEditor.ui.appearanceTabs.Theming.prototype.onChartDraw = function(evt) {
 
   if (this.themeTextArea)
     this.themeTextArea.setValueByTarget(this.anychart_);
+};
+
+// TODO: срабатывает со второго клика и не очищает текстарию
+/** @inheritDoc */
+chartEditor.ui.appearanceTabs.Theming.prototype.reset = function() {
+  var model = /** @type {chartEditor.model.Base} */(this.getModel());
+  model.removeByKey(this.themeTextArea.getKey());
+  debugger;
+  chartEditor.binding.exec(goog.dom.getWindow()['anychart'], 'theme()', 'defaultTheme');
+  this.themeTextArea.setValue([]);
 };
 

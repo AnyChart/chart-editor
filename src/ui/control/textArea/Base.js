@@ -9,6 +9,7 @@ goog.require('chartEditor.ui.control.textArea.Base');
 // goog.require('goog.ui.ColorMenuButton');
 // goog.require('goog.ui.LabelInput');
 goog.require('goog.ui.Control');
+goog.require('goog.ui.Textarea');
 goog.require('goog.events.InputHandler');
 
 
@@ -54,7 +55,7 @@ chartEditor.ui.control.textArea.Base = function(opt_content, opt_renderer, opt_d
 
   this.excluded = false;
 };
-goog.inherits(chartEditor.ui.control.textArea.Base, goog.ui.Control);
+goog.inherits(chartEditor.ui.control.textArea.Base, goog.ui.Textarea);
 
 
 /**
@@ -122,11 +123,11 @@ chartEditor.ui.control.textArea.Base.prototype.exitDocument = function() {
  * @private
  */
 chartEditor.ui.control.textArea.Base.prototype.onChange_ = function(evt) {
-  debugger;
   evt.stopPropagation();
   if (this.excluded) return;
   if (!this.noDispatch && this.editorModel) {
-    var value = JSON.parse(this.getCaption());
+    var string = this.getValue();
+    var value = JSON.parse(string);
     if (value) {
       if (this.callback)
         this.editorModel.callbackByString(this.callback, this);
