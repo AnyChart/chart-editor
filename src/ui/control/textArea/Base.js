@@ -2,12 +2,6 @@ goog.provide('chartEditor.ui.control.textArea.Base');
 
 goog.require('chartEditor.events');
 goog.require('chartEditor.ui.control.textArea.Base');
-// goog.require('chartEditor.ui.control.colorPicker.Renderer');
-// goog.require('goog.dom.classlist');
-// goog.require('goog.dom.selection');
-// goog.require('goog.events.KeyHandler');
-// goog.require('goog.ui.ColorMenuButton');
-// goog.require('goog.ui.LabelInput');
 goog.require('goog.ui.Control');
 goog.require('goog.ui.Textarea');
 goog.require('goog.events.InputHandler');
@@ -16,9 +10,8 @@ goog.require('goog.events.InputHandler');
 
 
 /**
- * A color menu button control.  Extends {@link goog.ui.MenuButton} by adding
- * an API for getting and setting the currently selected color from a menu of
- * color palettes.
+ * A text area control. Extends {@link goog.ui.Textarea} by adding
+ * an API for getting and setting the custom theme applied by user.
  *
  * @param {goog.ui.ControlContent=} opt_content Text caption or existing DOM
  *     structure to display as the button's caption.
@@ -27,7 +20,7 @@ goog.require('goog.events.InputHandler');
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM helper, used for
  *     document interaction.
  * @constructor
- * @extends {goog.ui.Control}
+ * @extends {goog.ui.Textarea}
  */
 chartEditor.ui.control.textArea.Base = function(opt_content, opt_renderer, opt_domHelper) {
   chartEditor.ui.control.textArea.Base.base(this, 'constructor',
@@ -35,9 +28,8 @@ chartEditor.ui.control.textArea.Base = function(opt_content, opt_renderer, opt_d
     opt_renderer,
     opt_domHelper);
 
-  // this.addClassName('anychart-ce-color');
-
-  // this.setFocusablePopupMenu(true);
+  this.addClassName('anychart-ce-textArea');
+  this.addClassName('anychart-ce-input');
 
   /**
    * Editor Model key.
@@ -53,18 +45,14 @@ chartEditor.ui.control.textArea.Base = function(opt_content, opt_renderer, opt_d
    */
   this.noDispatch = false;
 
+  /**
+   * @type {boolean}
+   * @protected
+   */
   this.excluded = false;
 };
 goog.inherits(chartEditor.ui.control.textArea.Base, goog.ui.Textarea);
 
-
-/**
- * @type {boolean}
- * @private
- */
-// TODO: check the reset
-// chartEditor.ui.control.textArea.Base.prototype.allowReset_ = true;
-chartEditor.ui.control.textArea.Base.prototype.allowReset_ = false;
 
 /**
  * @type {boolean}
@@ -90,6 +78,7 @@ chartEditor.ui.control.textArea.Base.prototype.setKey = function(value) {
  */
 chartEditor.ui.control.textArea.Base.prototype.reset = function() {
   this.editorModel.removeByKey(this.key);
+  this.removeClassName('anychart-ce-error');
 };
 
 
@@ -97,17 +86,15 @@ chartEditor.ui.control.textArea.Base.prototype.reset = function() {
 chartEditor.ui.control.textArea.Base.prototype.enterDocument = function() {
   chartEditor.ui.control.textArea.Base.base(this, 'enterDocument');
 
-  // TODO: what event type should I handle?
-  // goog.dom.classlist.enable(this.getElement(), 'anychart-ce-hidden', this.excluded);
-  // if (!this.excluded)
-  //   this.getHandler().listen(this, goog.ui.Component.EventType.ACTION, this.onChange_, false);
-
-
   goog.style.setElementShown(this.getElement(), !this.excluded);
-
   this.inputHandler_ = new goog.events.InputHandler(this.getElement());
   goog.events.listen(this.inputHandler_, goog.events.InputHandler.EventType.INPUT,
     this.onChange_, false, this);
+
+  // handle Enter key press separately to add new line to the textarea string
+  this.inputHandler_ = new goog.events.KeyHandler(this.getElement());
+  goog.events.listen(this.inputHandler_, goog.events.KeyHandler.EventType.KEY,
+    this.onEnterPress_, false, this);
 };
 
 
@@ -117,7 +104,7 @@ chartEditor.ui.control.textArea.Base.prototype.exitDocument = function() {
   chartEditor.ui.control.textArea.Base.base(this, 'exitDocument');
 };
 
-// TODO: тут надо переписать поведение
+
 /**
  * @param {goog.events.Event} evt
  * @private
@@ -127,13 +114,35 @@ chartEditor.ui.control.textArea.Base.prototype.onChange_ = function(evt) {
   if (this.excluded) return;
   if (!this.noDispatch && this.editorModel) {
     var string = this.getValue();
-    var value = JSON.parse(string);
-    if (value) {
+    // check if the textarea string can be parsed to valid JSON
+    try {
+      var value = JSON.parse(string);
       if (this.callback)
         this.editorModel.callbackByString(this.callback, this);
       else
         this.editorModel.setValue(this.key, value, this.rebuildChart);
+
+      this.removeClassName('anychart-ce-error');
+    } catch (e) {
+      // highlight the textarea border red
+      this.addClassName('anychart-ce-error')
     }
+  }
+};
+
+
+/**
+ * Handle the Enter key press separately. Adds new line to the
+ * textarea string
+ * @param {goog.events.Event} evt
+ * @private
+ */
+chartEditor.ui.control.textArea.Base.prototype.onEnterPress_ = function(evt) {
+  evt.stopPropagation();
+  var string = this.getValue();
+  if (evt.key == 'Enter') {
+    string += '\n';
+    this.setValue(string);
   }
 };
 
@@ -174,15 +183,17 @@ chartEditor.ui.control.textArea.Base.prototype.setValueByTarget = function(targe
 
   this.target = target;
 
-  var stringKey = chartEditor.model.Base.getStringKey(this.key);
-  var value = /** @type {string} */(chartEditor.binding.exec(this.target, stringKey));
-  // TODO: recreate behavior
-  if (goog.isObject(value))
-    value = value['color'];
+  // the key is theme() because appendTheme() is only setter, theme() can be a getter
+  var stringKey = chartEditor.model.Base.getStringKey('theme()');
+  var value = /** @type {Array} */(chartEditor.binding.exec(this.target, stringKey));
+  value = value[value.length - 1];
+  var stringValue;
+  if (value)
+    stringValue = JSON.stringify(value, null, '\t');
+  else
+    stringValue = '';
 
-  this.noDispatch = true;
-  // this.setSelectedColor(value);
-  this.noDispatch = false;
+  this.setValue(stringValue);
 };
 
 
@@ -221,30 +232,10 @@ chartEditor.ui.control.textArea.Base.prototype.updateExclusion = function() {
 };
 
 
-// /** @protected */
-// chartEditor.ui.control.textArea.Base.prototype.onReset = function() {
-//   this.setValue(null);
-//   this.editorModel.removeByKey(this.getKey());
-// };
-
-
 /** @override */
 chartEditor.ui.control.textArea.Base.prototype.disposeInternal = function() {
   goog.dispose(this.resetButton_);
   this.resetButton_ = null;
 
   chartEditor.ui.control.textArea.Base.base(this, 'disposeInternal');
-};
-
-
-/**
- * Creates the DOM nodes needed for the textarea input.
- * @override
- */
-chartEditor.ui.control.textArea.Base.prototype.createDom = function() {
-  this.setElementInternal(this.getDomHelper().createDom(
-    goog.dom.TagName.TEXTAREA, {
-      'type': goog.dom.InputType.TEXTAREA,
-      'className': goog.getCssName('anychart-ce-input')
-    }));
 };

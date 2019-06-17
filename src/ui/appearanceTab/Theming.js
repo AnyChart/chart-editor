@@ -33,11 +33,9 @@ chartEditor.ui.appearanceTabs.Theming.prototype.createDom = function() {
 
   var model = /** @type {chartEditor.model.Base} */(this.getModel());
 
-  this.themeTextArea = new chartEditor.ui.control.textArea.Base('{"column":{"title":{"text":"Bar Chart","enabled":true}}}');
   this.themeTextArea = new chartEditor.ui.control.textArea.Base();
   this.themeTextArea.init(model, this.getKey(), void 0, true);
-  // debugger;
-  this.themeTextArea.setPlaceholder('LOOOL');
+  this.themeTextArea.setPlaceholder('Type in custom theme code');
 
   this.addChildControl(this.themeTextArea);
 };
@@ -45,17 +43,16 @@ chartEditor.ui.appearanceTabs.Theming.prototype.createDom = function() {
 
 /** @inheritDoc */
 chartEditor.ui.appearanceTabs.Theming.prototype.onChartDraw = function(evt) {
-  // TODO: why I should execute this? it breaks targeting
-  // chartEditor.ui.appearanceTabs.Theming.base(this, 'onChartDraw', evt);
-
   if (this.themeTextArea)
     this.themeTextArea.setValueByTarget(this.anychart_);
 };
 
-// TODO: срабатывает со второго клика и не очищает текстарию
+
 /** @inheritDoc */
 chartEditor.ui.appearanceTabs.Theming.prototype.reset = function() {
-  chartEditor.binding.exec(this.anychart_, 'theme()', 'defaultTheme');
+  // drop the custom theme
+  chartEditor.binding.exec(this.anychart_, 'theme()', []);
+  // clear model and text area
   this.themeTextArea.reset();
   this.themeTextArea.setValue('');
 };
