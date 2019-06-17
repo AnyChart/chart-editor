@@ -221,11 +221,11 @@ chartEditor.ui.control.textArea.Base.prototype.updateExclusion = function() {
 };
 
 
-/** @protected */
-chartEditor.ui.control.textArea.Base.prototype.onReset = function() {
-  this.setValue(null);
-  this.editorModel.removeByKey(this.getKey());
-};
+// /** @protected */
+// chartEditor.ui.control.textArea.Base.prototype.onReset = function() {
+//   this.setValue(null);
+//   this.editorModel.removeByKey(this.getKey());
+// };
 
 
 /** @override */

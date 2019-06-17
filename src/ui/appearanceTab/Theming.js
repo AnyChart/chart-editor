@@ -17,7 +17,7 @@ chartEditor.ui.appearanceTabs.Theming = function(model, opt_domHelper) {
 
   this.stringId = chartEditor.enums.EditorTabs.THEMING;
 
-  this.key = [['anychart'], 'theme()'];
+  this.key = [['anychart'], 'appendTheme()'];
 
   this.anychart_ = goog.dom.getWindow()['anychart'];
 
@@ -55,10 +55,8 @@ chartEditor.ui.appearanceTabs.Theming.prototype.onChartDraw = function(evt) {
 // TODO: срабатывает со второго клика и не очищает текстарию
 /** @inheritDoc */
 chartEditor.ui.appearanceTabs.Theming.prototype.reset = function() {
-  var model = /** @type {chartEditor.model.Base} */(this.getModel());
-  model.removeByKey(this.themeTextArea.getKey());
-  debugger;
-  chartEditor.binding.exec(goog.dom.getWindow()['anychart'], 'theme()', 'defaultTheme');
-  this.themeTextArea.setValue([]);
+  chartEditor.binding.exec(this.anychart_, 'theme()', 'defaultTheme');
+  this.themeTextArea.reset();
+  this.themeTextArea.setValue('');
 };
 
