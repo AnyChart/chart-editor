@@ -44,7 +44,7 @@ chartEditor.ui.appearanceTabs.Theming.prototype.createDom = function() {
 /** @inheritDoc */
 chartEditor.ui.appearanceTabs.Theming.prototype.onChartDraw = function(evt) {
   if (this.themeTextArea)
-    this.themeTextArea.setValueByTarget(this.anychart_);
+    this.themeTextArea.setValueByTarget();
 };
 
 
@@ -52,7 +52,8 @@ chartEditor.ui.appearanceTabs.Theming.prototype.onChartDraw = function(evt) {
 chartEditor.ui.appearanceTabs.Theming.prototype.reset = function() {
   // drop the custom theme
   chartEditor.binding.exec(this.anychart_, 'theme()', []);
-  // clear model and text area
+
+  // clear model and text area content
   this.themeTextArea.reset();
   this.themeTextArea.setValue('');
 };

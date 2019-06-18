@@ -1976,10 +1976,20 @@ chartEditor.model.Base.prototype.getChartWithJsCode_ = function(opt_options) {
   // Global panel
   if (!goog.object.isEmpty(settings['anychart'])) {
     result.push('// Applying global panel');
+
     goog.object.forEach(settings['anychart'], function(value, key) {
-      // if (chartEditor.binding.testExec(anychartGlobal, key, value)) {
-      result.push(self.printKey(printer, 'anychart', key, value, minify));
-      // }
+
+      // instead of appendTheme() model field use customTheme which stores
+      // string representation of the custom theme
+      // for the rest keys as usual
+      if (key != 'appendTheme()') {
+        if (key == 'customTheme') {
+          value = 'var customTheme = ' + value + ';\nanychart.appendTheme(customTheme);';
+          result.push(value);
+        }
+        else
+          result.push(self.printKey(printer, 'anychart', key, value, minify));
+      }
     });
     result.push('');
   }

@@ -5,6 +5,7 @@ goog.require('chartEditor.ui.control.textArea.Base');
 goog.require('goog.ui.Control');
 goog.require('goog.ui.Textarea');
 goog.require('goog.events.InputHandler');
+goog.require('goog.events.KeyHandler');
 
 
 
@@ -74,10 +75,14 @@ chartEditor.ui.control.textArea.Base.prototype.setKey = function(value) {
 
 
 /**
- * Removes control's value from model
+ * Removes control's value from model.
+ * It removes by key appendTheme() and
+ * and special field customTheme which stores
+ * string value for the text area and output JS code.
  */
 chartEditor.ui.control.textArea.Base.prototype.reset = function() {
   this.editorModel.removeByKey(this.key);
+  this.editorModel.removeByKey([['anychart'], 'customTheme']);
   this.removeClassName('anychart-ce-error');
 };
 
@@ -113,19 +118,29 @@ chartEditor.ui.control.textArea.Base.prototype.onChange_ = function(evt) {
   evt.stopPropagation();
   if (this.excluded) return;
   if (!this.noDispatch && this.editorModel) {
+    // string representation of the theme
     var string = this.getValue();
-    // check if the textarea string can be parsed to valid JSON
-    try {
-      var value = JSON.parse(string);
-      if (this.callback)
-        this.editorModel.callbackByString(this.callback, this);
-      else
-        this.editorModel.setValue(this.key, value, this.rebuildChart);
 
-      this.removeClassName('anychart-ce-error');
+    // modified theme string for calling eval to store the theme in globals
+    var evalString = 'window.acCustomTheme = ' + string;
+
+    try {
+      eval(evalString);
+
+      // append theme as object to the chart
+      this.editorModel.setValue(this.key, window['acCustomTheme'], this.rebuildChart);
+
+      // store in model the string representation of the custom theme
+      // it requires for applying theme code back to the text area and for output JS code
+      this.editorModel.setValue([['anychart'], 'customTheme'], string, false);
+
+      // remove error highlight
+      if (goog.isObject(window['acCustomTheme']))
+        this.removeClassName('anychart-ce-error');
+
     } catch (e) {
-      // highlight the textarea border red
-      this.addClassName('anychart-ce-error')
+      // apply error highlight
+      this.addClassName('anychart-ce-error');
     }
   }
 };
@@ -133,7 +148,7 @@ chartEditor.ui.control.textArea.Base.prototype.onChange_ = function(evt) {
 
 /**
  * Handle the Enter key press separately. Adds new line to the
- * textarea string
+ * textarea string.
  * @param {goog.events.Event} evt
  * @private
  */
@@ -175,25 +190,19 @@ chartEditor.ui.control.textArea.Base.prototype.init = function(model, key, opt_c
 
 /**
  * Sets value of this control to target's value.
+ * Here the target is a special model field which
+ * stores the string representation of the custom theme.
  * Updates model state.
- * @param {?Object} target Object, who's property corresponds to control's key. Used to get value of this control.
  */
-chartEditor.ui.control.textArea.Base.prototype.setValueByTarget = function(target) {
+chartEditor.ui.control.textArea.Base.prototype.setValueByTarget = function() {
   if (this.excluded) return;
 
-  this.target = target;
+  var string = this.editorModel.getValue([['anychart'], 'customTheme']);
 
-  // the key is theme() because appendTheme() is only setter, theme() can be a getter
-  var stringKey = chartEditor.model.Base.getStringKey('theme()');
-  var value = /** @type {Array} */(chartEditor.binding.exec(this.target, stringKey));
-  value = value[value.length - 1];
-  var stringValue;
-  if (value)
-    stringValue = JSON.stringify(value, null, '\t');
+  if (string)
+    this.setValue(string);
   else
-    stringValue = '';
-
-  this.setValue(stringValue);
+    this.setValue('');
 };
 
 
