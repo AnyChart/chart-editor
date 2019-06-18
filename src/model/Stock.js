@@ -6,6 +6,7 @@ goog.require('chartEditor.ui.appearanceTabs.Data');
 goog.require('chartEditor.ui.appearanceTabs.GeneralTheming');
 goog.require('chartEditor.ui.appearanceTabs.Grids');
 goog.require('chartEditor.ui.appearanceTabs.Legend');
+goog.require('chartEditor.ui.appearanceTabs.StockScales');
 goog.require('chartEditor.ui.appearanceTabs.StockSeries');
 goog.require('chartEditor.ui.appearanceTabs.Tooltip');
 
@@ -51,6 +52,11 @@ chartEditor.model.Stock = function() {
       name: chartEditor.enums.EditorTabs.GRIDS,
       classFunc: chartEditor.ui.appearanceTabs.Grids,
       docsUrl: 'http://docs.anychart.com/Axes_and_Grids/Axis_Basics#grids'
+    },
+    {
+      name: chartEditor.enums.EditorTabs.STOCK_SCALES,
+      classFunc: chartEditor.ui.appearanceTabs.StockScales,
+      docsUrl: 'https://docs.anychart.com/Stock_Charts/Scales'
     }
   ];
 };
