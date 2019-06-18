@@ -1,8 +1,8 @@
 goog.provide('chartEditor.ui.appearanceTabs.Theming');
 
 goog.require('chartEditor.ui.Panel');
-goog.require('chartEditor.ui.panel.Title');
 goog.require('chartEditor.ui.control.textArea.Base');
+goog.require('chartEditor.ui.panel.Title');
 
 
 

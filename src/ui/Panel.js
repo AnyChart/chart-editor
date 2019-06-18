@@ -51,7 +51,8 @@ chartEditor.ui.Panel = function(model, opt_name, opt_domHelper) {
    *   chartEditor.ui.control.comboBox.Base|
    *   chartEditor.ui.control.colorPicker.Base|
    *   chartEditor.ui.control.input.Base|
-   *   chartEditor.ui.control.button.Toggle
+   *   chartEditor.ui.control.button.Toggle|
+   *   chartEditor.ui.control.textArea.Base
    * >}
    * @private
    */
@@ -505,7 +506,7 @@ chartEditor.ui.Panel.prototype.registerLabel = function(labelElement) {
  * chartEditor.ui.control.comboBox.Base|
  * chartEditor.ui.control.colorPicker.Base|
  * chartEditor.ui.control.input.Base|
- * chartEditor.ui.control.button.Toggle\
+ * chartEditor.ui.control.button.Toggle|
  * chartEditor.ui.control.textArea.Base
  * } control
  * @param {number=} opt_index

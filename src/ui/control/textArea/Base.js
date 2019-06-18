@@ -2,10 +2,10 @@ goog.provide('chartEditor.ui.control.textArea.Base');
 
 goog.require('chartEditor.events');
 goog.require('chartEditor.ui.control.textArea.Base');
-goog.require('goog.ui.Control');
-goog.require('goog.ui.Textarea');
 goog.require('goog.events.InputHandler');
 goog.require('goog.events.KeyHandler');
+goog.require('goog.ui.Control');
+goog.require('goog.ui.Textarea');
 
 
 
@@ -14,7 +14,7 @@ goog.require('goog.events.KeyHandler');
  * A text area control. Extends {@link goog.ui.Textarea} by adding
  * an API for getting and setting the custom theme applied by user.
  *
- * @param {goog.ui.ControlContent=} opt_content Text caption or existing DOM
+ * @param {string=} opt_content Text caption or existing DOM
  *     structure to display as the button's caption.
  * @param {goog.ui.TextareaRenderer=} opt_renderer Renderer used to render or
  *     decorate the textarea. Defaults to {@link goog.ui.TextareaRenderer}.

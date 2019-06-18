@@ -11,7 +11,7 @@ goog.provide('chartEditor.binding');
  *
  * @param {(Object|string)} targetOrPath
  * @param {(string|number|boolean)} pathOrValue
- * @param {(string|number|boolean)=} opt_valueOrPathArgs
+ * @param {(string|number|boolean| Array)=} opt_valueOrPathArgs
  * @param {...(string|number)} var_args
  * @return {*}
  */
