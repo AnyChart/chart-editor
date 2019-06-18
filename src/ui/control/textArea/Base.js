@@ -121,13 +121,18 @@ chartEditor.ui.control.textArea.Base.prototype.onChange_ = function(evt) {
     // string representation of the theme
     var string = this.getValue();
 
-    // modified theme string for calling eval to store the theme in globals
-    var evalString = 'window.acCustomTheme = ' + string;
-
     try {
+      // tricky check to avoid access to objects with minified names in the current scope
+      // it happens when the user types in 'h' or 'vz'
+      // theme always starts with { brace
+      if (string.charAt(0) !== '{')
+        throw new SyntaxError("Not valid object");
+
+      // modified theme string for calling eval to store the theme in globals
+      var evalString = 'window.acCustomTheme = ' + string;
       eval(evalString);
 
-      // check if the theme content is valid object
+      // check if the theme content is completely valid object
       if (!goog.isObject(window['acCustomTheme']))
         throw new SyntaxError("Not valid object");
 
