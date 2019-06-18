@@ -8,6 +8,7 @@ goog.require('chartEditor.ui.appearanceTabs.GanttGridColoring');
 goog.require('chartEditor.ui.appearanceTabs.GanttTimeLine');
 goog.require('chartEditor.ui.appearanceTabs.GanttTimeLineHeader');
 goog.require('chartEditor.ui.appearanceTabs.GanttTooltip');
+goog.require('chartEditor.ui.appearanceTabs.Theming');
 goog.require('chartEditor.utils');
 
 
@@ -47,6 +48,11 @@ chartEditor.model.Gantt = function() {
     }, {
       name: chartEditor.enums.EditorTabs.GANTT_GRID_COLORING,
       classFunc: chartEditor.ui.appearanceTabs.GanttGridColoring
+    },
+    {
+      name: chartEditor.enums.EditorTabs.THEMING,
+      classFunc: chartEditor.ui.appearanceTabs.Theming,
+      docsUrl: 'https://docs.anychart.com/Appearance_Settings/Themes'
     }];
 };
 goog.inherits(chartEditor.model.Gantt, chartEditor.model.Base);

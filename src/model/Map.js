@@ -7,6 +7,7 @@ goog.require('chartEditor.ui.appearanceTabs.Data');
 goog.require('chartEditor.ui.appearanceTabs.DataLabels');
 goog.require('chartEditor.ui.appearanceTabs.Legend');
 goog.require('chartEditor.ui.appearanceTabs.SeriesWithScales');
+goog.require('chartEditor.ui.appearanceTabs.Theming');
 goog.require('chartEditor.ui.appearanceTabs.Tooltip');
 
 
@@ -55,6 +56,11 @@ chartEditor.model.Map = function() {
       name: chartEditor.enums.EditorTabs.COLOR_RANGE,
       classFunc: chartEditor.ui.appearanceTabs.ColorRange,
       docsUrl: 'http://api.anychart.com/v8/anychart.core.ui.ColorRange'
+    },
+    {
+      name: chartEditor.enums.EditorTabs.THEMING,
+      classFunc: chartEditor.ui.appearanceTabs.Theming,
+      docsUrl: 'https://docs.anychart.com/Appearance_Settings/Themes'
     }];
 
   /**

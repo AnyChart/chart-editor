@@ -127,6 +127,10 @@ chartEditor.ui.control.textArea.Base.prototype.onChange_ = function(evt) {
     try {
       eval(evalString);
 
+      // check if the theme content is valid object
+      if (!goog.isObject(window['acCustomTheme']))
+        throw new SyntaxError("Not valid object");
+
       // append theme as object to the chart
       this.editorModel.setValue(this.key, window['acCustomTheme'], this.rebuildChart);
 
