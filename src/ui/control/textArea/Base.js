@@ -1,10 +1,8 @@
 goog.provide('chartEditor.ui.control.textArea.Base');
 
-goog.require('chartEditor.events');
 goog.require('chartEditor.ui.control.textArea.Base');
 goog.require('goog.events.InputHandler');
 goog.require('goog.events.KeyHandler');
-goog.require('goog.ui.Control');
 goog.require('goog.ui.Textarea');
 
 
