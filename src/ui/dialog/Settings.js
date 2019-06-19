@@ -212,6 +212,9 @@ chartEditor.ui.dialog.Settings.prototype.createDom = function() {
       dom.appendChild(/** @type {Node} */(containerEl), labeledControl.getElement());
       if (goog.isDef(controlDescription['default']))
         control.setValue(controlDescription['default']);
+
+      if (controlDescription['class'])
+        labeledControl.addClassName(controlDescription['class']);
     }
   }
 
