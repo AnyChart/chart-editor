@@ -2,7 +2,6 @@ goog.provide('chartEditor.ui.control.textArea.Base');
 
 goog.require('chartEditor.ui.control.textArea.Base');
 goog.require('goog.events.InputHandler');
-goog.require('goog.events.KeyHandler');
 goog.require('goog.ui.Textarea');
 
 
@@ -93,11 +92,6 @@ chartEditor.ui.control.textArea.Base.prototype.enterDocument = function() {
   this.inputHandler_ = new goog.events.InputHandler(this.getElement());
   goog.events.listen(this.inputHandler_, goog.events.InputHandler.EventType.INPUT,
     this.onChange_, false, this);
-
-  // handle Enter key press separately to add new line to the textarea string
-  this.inputHandler_ = new goog.events.KeyHandler(this.getElement());
-  goog.events.listen(this.inputHandler_, goog.events.KeyHandler.EventType.KEY,
-    this.onEnterPress_, false, this);
 };
 
 
@@ -149,22 +143,6 @@ chartEditor.ui.control.textArea.Base.prototype.onChange_ = function(evt) {
       // apply error highlight
       this.addClassName('anychart-ce-error');
     }
-  }
-};
-
-
-/**
- * Handle the Enter key press separately. Adds new line to the
- * textarea string.
- * @param {goog.events.Event} evt
- * @private
- */
-chartEditor.ui.control.textArea.Base.prototype.onEnterPress_ = function(evt) {
-  evt.stopPropagation();
-  var string = this.getValue();
-  if (evt.key == 'Enter') {
-    string += '\n';
-    this.setValue(string);
   }
 };
 
