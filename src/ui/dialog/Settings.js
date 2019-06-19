@@ -222,6 +222,12 @@ chartEditor.ui.dialog.Settings.prototype.createDom = function() {
 
   dom.appendChild(this.getContentElement(),
       dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-ce-dialog-settings-description'), this.description_));
+
+  this.listen(chartEditor.events.EventType.CONTROL_VALUE_CHANGE, function(evt) {
+    this.dispatchEvent({
+      type: 'valueschange'
+    });
+  });
 };
 
 

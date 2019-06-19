@@ -25,5 +25,6 @@ chartEditor.events.EventType = {
 
   LOCK: goog.events.getUniqueId('lock'),
 
-  EDIT_DATA_SUBMIT: goog.events.getUniqueId('edit-data-submit')
+  EDIT_DATA_SUBMIT: goog.events.getUniqueId('edit-data-submit'),
+  CONTROL_VALUE_CHANGE: 'controlvaluechange'
 };

@@ -127,6 +127,12 @@ chartEditor.ui.control.select.Base.prototype.handleSelectionChange = function (e
       this.applySelection();
     else
       this.setValue(this.getValue());
+
+    this.dispatchEvent({
+      type: chartEditor.events.EventType.CONTROL_VALUE_CHANGE,
+      value: this.getValue(),
+      control: this
+    });
   }
 };
 
