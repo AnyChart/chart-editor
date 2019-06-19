@@ -32,16 +32,14 @@ chartEditor.ui.appearanceTabs.StockScales.prototype.createPanels = function() {
   var mappings = model.getValue([['dataSettings'], 'mappings']);
 
   // add X scale
-  var scale = new chartEditor.ui.panel.scales.StockX(model);
-  // this.addPanelInstance(scale);
-  this.addChildControl(scale);
+  var scale = new chartEditor.ui.panel.scales.StockX(model, 0);
+  this.addPanelInstance(scale);
 
   // add Y scales
-  // TODO: create stock scale panel
   for (var i = 0; i < mappings.length; i++) {
-    // scale = new chartEditor.ui.panel.Legend(model, i);
-
-    // this.addPanelInstance(scale);
+    // var panel = new chartEditor.scales.ScalePanel(model, i);
+    // panel.setScaleAsDefault('linear');
+    // this.addPanelInstance(panel);
   }
 };
 
