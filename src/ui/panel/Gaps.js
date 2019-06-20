@@ -37,39 +37,6 @@ goog.inherits(chartEditor.ui.panel.Gaps, chartEditor.ui.Panel);
 chartEditor.ui.panel.Gaps.prototype.createDom = function() {
   chartEditor.ui.panel.Gaps.base(this, 'createDom');
 
-  var model = /** @type {chartEditor.model.Base} */(this.getModel());
-
-
-// TODO: check if the labeld controls available
-/*
-  var intervals = new chartEditor.ui.control.input.Numbers('Intervals count');
-  var intervalsLC = new chartEditor.ui.control.wrapped.Labeled(intervals, 'Intervals count');
-  intervalsLC.init(model, this.genKey('intervalsCount', true));
-  this.addChildControl(intervalsLC);
-
-  var units = new chartEditor.ui.control.input.Numbers('Unit count');
-  var unitsLC = new chartEditor.ui.control.wrapped.Labeled(units, 'Unit count');
-  unitsLC.init(model, this.genKey('unitCount', true));
-  this.addChildControl(unitsLC);
-
-  var scaleType = new chartEditor.ui.control.fieldSelect.Base({label: 'Unit type'});
-  scaleType.getSelect().setOptions([
-    {value: 'day'},
-    {value: 'hour'},
-    {value: 'millisecond'},
-    {value: 'minute'},
-    {value: 'month'},
-    {value: 'quarter'},
-    {value: 'second'},
-    {value: 'semester'},
-    {value: 'third-of-month'},
-    {value: 'week'},
-    {value: 'year'}
-  ]);
-  scaleType.init(model, this.genKey('unitType'));
-  this.addChildControl(scaleType);
-*/
-
   var intervalsCount = new chartEditor.ui.control.comboBox.Base();
   intervalsCount.allowReset(false);
   intervalsCount.setOptions([0, 1, 2, 3, 4, 5]);
@@ -77,6 +44,18 @@ chartEditor.ui.panel.Gaps.prototype.createDom = function() {
   this.addChild(intervalsCount, true);
   goog.dom.classlist.add(intervalsCount.getElement(), goog.getCssName('anychart-ce-stroke-thickness'));
   this.intervalsCount_ = intervalsCount;
+
+  debugger;
+
+  // TODO: create wrapper with label or title for every control
+  var element = intervalsCount.getElement();
+
+  // this.label_ = goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-ce-labeled-control-label', this.labelString_);
+  this.label_ = goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-ce-labeled-control-label', 'LOOOL');
+  goog.dom.insertChildAt(element, this.label_, 0);
+
+  // goog.dom.classlist.add(this.control_.getElement(), 'anychart-ce-panel-control-right');
+  // goog.dom.appendChild(element, goog.dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-ce-clearboth')));
 
   var unitType = new chartEditor.ui.control.fieldSelect.Select('Unit type');
   unitType.setOptions([
@@ -123,17 +102,14 @@ chartEditor.ui.panel.Gaps.prototype.enterDocument = function() {
 chartEditor.ui.panel.Gaps.prototype.onChange = function() {
   if (this.noDispatch) return;
 
-  debugger;
-
   var value = {};
   var intervalsCount = this.intervalsCount_.getToken();
   if (intervalsCount)
     value['intervalsCount'] = intervalsCount;
 
-  // var unitType = this.unitType_.getKey();
-  var unitType = this.unitType_.getValue()['value'];
+  var unitType = this.unitType_.getValue();
   if (unitType)
-    value['unitType'] = unitType;
+    value['unitType'] = unitType['value'];
 
   var unitCount = this.unitCount_.getToken();
   if (unitCount)
@@ -146,4 +122,45 @@ chartEditor.ui.panel.Gaps.prototype.onChange = function() {
       this.dispatchEvent(goog.ui.Component.EventType.ACTION);
     }
   }
+};
+
+
+/** @inheritDoc */
+chartEditor.ui.panel.Gaps.prototype.onChartDraw = function(evt) {
+  chartEditor.ui.panel.Gaps.base(this, 'onChartDraw', evt);
+  this.setValueByTarget(evt.chart);
+};
+
+
+/**
+ * Sets values of child controls.
+ * @param {?Object} target Object, who's property corresponds to control's key. Used to get value of this control.
+ */
+chartEditor.ui.panel.Gaps.prototype.setValueByTarget = function(target) {
+  if (this.excluded) return;
+
+  var stringKey = chartEditor.model.Base.getStringKey(this.key);
+  var value = /** @type {string|Object|Function} */(chartEditor.binding.exec(target, stringKey));
+
+  // TODO: after switching scale type chart holds the applied intervalsCount even though it returns intervalsCount = 0
+
+  this.noDispatch = true;
+  // default always is 0
+  this.intervalsCount_.setValue((value && value['intervalsCount']) ? value['intervalsCount'] : '0');
+  // default is always milliseconds
+  this.unitType_.setValue((value && value['unitType']) ? value['unitType'] : 'milliseconds');
+  // default is always 1
+  this.unitCount_.setValue((value && value['unitCount']) ? value['unitCount'] : '1');
+  this.noDispatch = false;
+};
+
+
+/** @override */
+chartEditor.ui.panel.Gaps.prototype.disposeInternal = function() {
+  goog.disposeAll([this.intervalsCount_, this.unitType_, this.unitCount_]);
+  this.intervalsCount_ = null;
+  this.unitType_ = null;
+  this.unitCount_ = null;
+
+  chartEditor.ui.panel.Gaps.base(this, 'disposeInternal');
 };
