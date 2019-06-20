@@ -1,6 +1,5 @@
-goog.provide('chartEditor.ui.control.textArea.Base');
+goog.provide('chartEditor.ui.control.textarea.Base');
 
-goog.require('chartEditor.ui.control.textArea.Base');
 goog.require('goog.events.InputHandler');
 goog.require('goog.events.KeyHandler');
 goog.require('goog.ui.Textarea');
@@ -21,13 +20,13 @@ goog.require('goog.ui.Textarea');
  * @constructor
  * @extends {goog.ui.Textarea}
  */
-chartEditor.ui.control.textArea.Base = function(opt_content, opt_renderer, opt_domHelper) {
-  chartEditor.ui.control.textArea.Base.base(this, 'constructor',
+chartEditor.ui.control.textarea.Base = function(opt_content, opt_renderer, opt_domHelper) {
+  chartEditor.ui.control.textarea.Base.base(this, 'constructor',
     opt_content || '',
     opt_renderer,
     opt_domHelper);
 
-  this.addClassName('anychart-ce-textArea');
+  this.addClassName('anychart-ce-textarea');
   this.addClassName('anychart-ce-input');
 
   /**
@@ -50,24 +49,24 @@ chartEditor.ui.control.textArea.Base = function(opt_content, opt_renderer, opt_d
    */
   this.excluded = false;
 };
-goog.inherits(chartEditor.ui.control.textArea.Base, goog.ui.Textarea);
+goog.inherits(chartEditor.ui.control.textarea.Base, goog.ui.Textarea);
 
 
 /**
  * @type {boolean}
  * @private
  */
-chartEditor.ui.control.textArea.Base.prototype.allowEnabled = false;
+chartEditor.ui.control.textarea.Base.prototype.allowEnabled = false;
 
 
 /** @return {chartEditor.model.Base.Key} */
-chartEditor.ui.control.textArea.Base.prototype.getKey = function() {
+chartEditor.ui.control.textarea.Base.prototype.getKey = function() {
   return this.key;
 };
 
 
 /** @param {chartEditor.model.Base.Key} value */
-chartEditor.ui.control.textArea.Base.prototype.setKey = function(value) {
+chartEditor.ui.control.textarea.Base.prototype.setKey = function(value) {
   this.key = value;
 };
 
@@ -78,7 +77,7 @@ chartEditor.ui.control.textArea.Base.prototype.setKey = function(value) {
  * and special field customTheme which stores
  * string value for the text area and output JS code.
  */
-chartEditor.ui.control.textArea.Base.prototype.reset = function() {
+chartEditor.ui.control.textarea.Base.prototype.reset = function() {
   this.editorModel.removeByKey(this.key);
   this.editorModel.removeByKey([['anychart'], 'customTheme']);
   this.removeClassName('anychart-ce-error');
@@ -86,8 +85,8 @@ chartEditor.ui.control.textArea.Base.prototype.reset = function() {
 
 
 /** @override */
-chartEditor.ui.control.textArea.Base.prototype.enterDocument = function() {
-  chartEditor.ui.control.textArea.Base.base(this, 'enterDocument');
+chartEditor.ui.control.textarea.Base.prototype.enterDocument = function() {
+  chartEditor.ui.control.textarea.Base.base(this, 'enterDocument');
 
   goog.style.setElementShown(this.getElement(), !this.excluded);
   this.inputHandler_ = new goog.events.InputHandler(this.getElement());
@@ -102,9 +101,9 @@ chartEditor.ui.control.textArea.Base.prototype.enterDocument = function() {
 
 
 /** @override */
-chartEditor.ui.control.textArea.Base.prototype.exitDocument = function() {
+chartEditor.ui.control.textarea.Base.prototype.exitDocument = function() {
   this.getHandler().unlisten(this, goog.ui.Component.EventType.ACTION, this.onChange_, false);
-  chartEditor.ui.control.textArea.Base.base(this, 'exitDocument');
+  chartEditor.ui.control.textarea.Base.base(this, 'exitDocument');
 };
 
 
@@ -112,7 +111,7 @@ chartEditor.ui.control.textArea.Base.prototype.exitDocument = function() {
  * @param {goog.events.Event} evt
  * @private
  */
-chartEditor.ui.control.textArea.Base.prototype.onChange_ = function(evt) {
+chartEditor.ui.control.textarea.Base.prototype.onChange_ = function(evt) {
   evt.stopPropagation();
   if (this.excluded) return;
   if (!this.noDispatch && this.editorModel) {
@@ -159,7 +158,7 @@ chartEditor.ui.control.textArea.Base.prototype.onChange_ = function(evt) {
  * @param {goog.events.Event} evt
  * @private
  */
-chartEditor.ui.control.textArea.Base.prototype.onEnterPress_ = function(evt) {
+chartEditor.ui.control.textarea.Base.prototype.onEnterPress_ = function(evt) {
   evt.stopPropagation();
   var string = this.getValue();
   if (evt.key == 'Enter') {
@@ -178,7 +177,7 @@ chartEditor.ui.control.textArea.Base.prototype.onEnterPress_ = function(evt) {
  *  This function should be model's public method.
  * @param {boolean=} opt_rebuildChart Should or not rebuild chart on change value of this control.
  */
-chartEditor.ui.control.textArea.Base.prototype.init = function(model, key, opt_callback, opt_rebuildChart) {
+chartEditor.ui.control.textarea.Base.prototype.init = function(model, key, opt_callback, opt_rebuildChart) {
   /**
    * @type {chartEditor.model.Base}
    * @protected
@@ -201,7 +200,7 @@ chartEditor.ui.control.textArea.Base.prototype.init = function(model, key, opt_c
  * stores the string representation of the custom theme.
  * Updates model state.
  */
-chartEditor.ui.control.textArea.Base.prototype.setValueByTarget = function() {
+chartEditor.ui.control.textarea.Base.prototype.setValueByTarget = function() {
   if (this.excluded) return;
 
   var string = this.editorModel.getValue([['anychart'], 'customTheme']);
@@ -217,7 +216,7 @@ chartEditor.ui.control.textArea.Base.prototype.setValueByTarget = function() {
  * Hide or show control by assigning 'hidden' class
  * @param {boolean} value True if excluded.
  */
-chartEditor.ui.control.textArea.Base.prototype.exclude = function(value) {
+chartEditor.ui.control.textarea.Base.prototype.exclude = function(value) {
   var dirty = this.excluded !== value;
   this.excluded = value;
 
@@ -232,7 +231,7 @@ chartEditor.ui.control.textArea.Base.prototype.exclude = function(value) {
 /**
  * @return {boolean}
  */
-chartEditor.ui.control.textArea.Base.prototype.isExcluded = function() {
+chartEditor.ui.control.textarea.Base.prototype.isExcluded = function() {
   return this.excluded;
 };
 
@@ -240,7 +239,7 @@ chartEditor.ui.control.textArea.Base.prototype.isExcluded = function() {
 /**
  * @public
  */
-chartEditor.ui.control.textArea.Base.prototype.updateExclusion = function() {
+chartEditor.ui.control.textarea.Base.prototype.updateExclusion = function() {
   if (!this.key || !this.key.length || !this.editorModel) return;
 
   var stringKey = this.editorModel.getStringKey(this.key);
@@ -249,9 +248,9 @@ chartEditor.ui.control.textArea.Base.prototype.updateExclusion = function() {
 
 
 /** @override */
-chartEditor.ui.control.textArea.Base.prototype.disposeInternal = function() {
+chartEditor.ui.control.textarea.Base.prototype.disposeInternal = function() {
   goog.dispose(this.resetButton_);
   this.resetButton_ = null;
 
-  chartEditor.ui.control.textArea.Base.base(this, 'disposeInternal');
+  chartEditor.ui.control.textarea.Base.base(this, 'disposeInternal');
 };

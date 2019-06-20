@@ -1,7 +1,7 @@
 goog.provide('chartEditor.ui.appearanceTabs.Theming');
 
 goog.require('chartEditor.ui.Panel');
-goog.require('chartEditor.ui.control.textArea.Base');
+goog.require('chartEditor.ui.control.textarea.Base');
 
 
 
@@ -32,18 +32,18 @@ chartEditor.ui.appearanceTabs.Theming.prototype.createDom = function() {
 
   var model = /** @type {chartEditor.model.Base} */(this.getModel());
 
-  this.themeTextArea = new chartEditor.ui.control.textArea.Base();
-  this.themeTextArea.init(model, this.getKey(), void 0, true);
-  this.themeTextArea.setPlaceholder('Type in custom theme code');
+  this.themeTextarea = new chartEditor.ui.control.textarea.Base();
+  this.themeTextarea.init(model, this.getKey(), void 0, true);
+  this.themeTextarea.setPlaceholder('Type in custom theme code');
 
-  this.addChildControl(this.themeTextArea);
+  this.addChildControl(this.themeTextarea);
 };
 
 
 /** @inheritDoc */
 chartEditor.ui.appearanceTabs.Theming.prototype.onChartDraw = function(evt) {
-  if (this.themeTextArea)
-    this.themeTextArea.setValueByTarget();
+  if (this.themeTextarea)
+    this.themeTextarea.setValueByTarget();
 };
 
 
@@ -53,7 +53,7 @@ chartEditor.ui.appearanceTabs.Theming.prototype.reset = function() {
   chartEditor.binding.exec(this.anychart_, 'theme()', []);
 
   // clear model and text area content
-  this.themeTextArea.reset();
-  this.themeTextArea.setValue('');
+  this.themeTextarea.reset();
+  this.themeTextarea.setValue('');
 };
 
