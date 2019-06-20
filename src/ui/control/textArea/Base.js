@@ -79,8 +79,6 @@ chartEditor.ui.control.textarea.Base.prototype.setKey = function(value) {
  */
 chartEditor.ui.control.textarea.Base.prototype.reset = function() {
   this.editorModel.removeByKey(this.key);
-  this.editorModel.removeByKey([['anychart'], 'customTheme']);
-  this.removeClassName('anychart-ce-error');
 };
 
 
