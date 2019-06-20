@@ -1,13 +1,8 @@
 goog.provide('chartEditor.ui.panel.scales.StockX');
 
 goog.require('chartEditor.ui.PanelZippy');
-goog.require('chartEditor.ui.control.checkbox.Base');
-goog.require('chartEditor.ui.control.input.StringArray');
-goog.require('chartEditor.ui.control.wrapped.Labeled');
-goog.require('chartEditor.ui.panel.scales.OrdinalTicks');
 goog.require('chartEditor.ui.panel.Gaps');
 goog.require('chartEditor.ui.control.fieldSelect.Base');
-goog.require('chartEditor.ui.control.wrapped.Labeled');
 
 
 

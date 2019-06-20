@@ -2,6 +2,7 @@ goog.provide('chartEditor.ui.appearanceTabs.StockScales');
 
 goog.require('chartEditor.scales.ScalePanel');
 goog.require('chartEditor.ui.panel.scales.StockX');
+goog.require('chartEditor.ui.panel.scales.StockY');
 goog.require('chartEditor.ui.PanelsGroup');
 
 
@@ -32,14 +33,17 @@ chartEditor.ui.appearanceTabs.StockScales.prototype.createPanels = function() {
   var mappings = model.getValue([['dataSettings'], 'mappings']);
 
   // add X scale
-  var scale = new chartEditor.ui.panel.scales.StockX(model, 0);
-  this.addPanelInstance(scale);
+  if (!this.scaleX_) {
+    var scaleX = new chartEditor.ui.panel.scales.StockX(model, 0);
+    this.addPanelInstance(scaleX);
+    this.scaleX_ = scaleX;
+  }
 
   // add Y scales
-  for (var i = 0; i < mappings.length; i++) {
-    // var panel = new chartEditor.scales.ScalePanel(model, i);
+  for (var plotIndex = 0; plotIndex < mappings.length; plotIndex++) {
+    var plotScaleY = new chartEditor.ui.panel.scales.StockY(model, plotIndex);
     // panel.setScaleAsDefault('linear');
-    // this.addPanelInstance(panel);
+    this.addPanelInstance(plotScaleY);
   }
 };
 
