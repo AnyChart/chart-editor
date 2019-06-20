@@ -69,3 +69,21 @@ chartEditor.ui.control.textarea.CustomTheme.prototype.onChange = function(evt) {
     }
   }
 };
+
+
+/** @override */
+chartEditor.ui.control.textarea.CustomTheme.prototype.setValueByTarget = function(target) {
+  if (this.excluded) return;
+
+  /** customTheme code is stored as String in the model.
+   * Anychart returns the theme code as JS object with object methods,
+   * it's quite tricky to this object to string for textarea.
+   * So we store and get back customTheme code as string in the model.
+   */
+  var string = this.editorModel.getValue(this.key);
+
+  if (string)
+    this.setValue(string);
+  else
+    this.setValue('');
+};

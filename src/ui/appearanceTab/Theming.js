@@ -39,13 +39,6 @@ chartEditor.ui.appearanceTabs.Theming.prototype.createDom = function() {
 
 
 /** @inheritDoc */
-chartEditor.ui.appearanceTabs.Theming.prototype.onChartDraw = function(evt) {
-  if (this.themeTextarea)
-    this.themeTextarea.setValueByTarget();
-};
-
-
-/** @inheritDoc */
 chartEditor.ui.appearanceTabs.Theming.prototype.reset = function() {
   // drop the custom theme
   chartEditor.binding.exec(this.anychart_, 'theme()', []);

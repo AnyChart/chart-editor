@@ -140,16 +140,24 @@ chartEditor.ui.control.textarea.Base.prototype.init = function(model, key, opt_c
 /**
  * Sets value of this control to target's value.
  * Updates model state.
+ * @param {?Object} target Object, who's property corresponds to control's key. Used to get value of this control.
+ * @return {boolean|undefined} If model was updated
  */
-chartEditor.ui.control.textarea.Base.prototype.setValueByTarget = function() {
+chartEditor.ui.control.textarea.Base.prototype.setValueByTarget = function(target) {
   if (this.excluded) return;
 
-  var string = this.editorModel.getValue(this.key);
+  if (!this.key || !this.key.length) {
+    console.warn("Control with no key!");
+    return;
+  }
+  this.target = target;
 
-  if (string)
-    this.setValue(string);
-  else
-    this.setValue('');
+  var stringKey = chartEditor.model.Base.getStringKey(this.key);
+  var value = /** @type {string} */(chartEditor.binding.exec(this.target, stringKey));
+
+  this.noDispatch = true;
+  this.setValue(value);
+  this.noDispatch = false;
 };
 
 
