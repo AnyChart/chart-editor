@@ -45,9 +45,9 @@ chartEditor.ui.panel.Gaps.prototype.createDom = function() {
   goog.dom.classlist.add(intervalsCount.getElement(), goog.getCssName('anychart-ce-stroke-thickness'));
   this.intervalsCount_ = intervalsCount;
 
-  debugger;
 
   // TODO: create wrapper with label or title for every control
+  /*
   var element = intervalsCount.getElement();
 
   // this.label_ = goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-ce-labeled-control-label', this.labelString_);
@@ -56,6 +56,9 @@ chartEditor.ui.panel.Gaps.prototype.createDom = function() {
 
   // goog.dom.classlist.add(this.control_.getElement(), 'anychart-ce-panel-control-right');
   // goog.dom.appendChild(element, goog.dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-ce-clearboth')));
+  */
+
+  //***************
 
   var unitType = new chartEditor.ui.control.fieldSelect.Select('Unit type');
   unitType.setOptions([

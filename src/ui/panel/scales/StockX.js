@@ -44,11 +44,15 @@ chartEditor.ui.panel.scales.StockX.prototype.createDom = function() {
     {value: 'scatter'}
   ]);
   scaleType.init(model, this.getKey());
- this.addChildControl(scaleType);
+  this.addChildControl(scaleType);
 
 
- var minimumGap = new chartEditor.ui.panel.Gaps(model, 'Minimum Gap');
- minimumGap.setKey(this.genKey('minimumGap()'));
- this.addChildControl(minimumGap);
+  var minimumGap = new chartEditor.ui.panel.Gaps(model, 'Minimum Gap');
+  minimumGap.setKey(this.genKey('minimumGap()'));
+  this.addChildControl(minimumGap);
+
+  var maximumGap = new chartEditor.ui.panel.Gaps(model, 'Maximum Gap');
+  maximumGap.setKey(this.genKey('maximumGap()'));
+  this.addChildControl(maximumGap);
 
 };
