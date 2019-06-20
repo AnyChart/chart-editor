@@ -1,14 +1,14 @@
 goog.provide('chartEditor.ui.panel.Gaps');
 
 goog.require('chartEditor.ui.Panel');
-goog.require('chartEditor.ui.PanelZippy');
-goog.require('chartEditor.ui.control.colorPicker.Base');
-goog.require('chartEditor.ui.control.comboBox.Percent');
-goog.require('chartEditor.ui.control.input.Numbers');
-goog.require('chartEditor.ui.control.select.Scales');
-goog.require('chartEditor.ui.control.wrapped.Labeled');
-goog.require('chartEditor.ui.panel.Stroke');
-goog.require('chartEditor.ui.panel.scales.Base');
+// goog.require('chartEditor.ui.PanelZippy');
+// goog.require('chartEditor.ui.control.colorPicker.Base');
+// goog.require('chartEditor.ui.control.comboBox.Percent');
+// goog.require('chartEditor.ui.control.input.Numbers');
+// goog.require('chartEditor.ui.control.select.Scales');
+// goog.require('chartEditor.ui.control.wrapped.Labeled');
+// goog.require('chartEditor.ui.panel.Stroke');
+// goog.require('chartEditor.ui.panel.scales.Base');
 goog.require('chartEditor.ui.control.comboBox.Base');
 goog.require('chartEditor.ui.control.fieldSelect.Select');
 
@@ -43,22 +43,15 @@ chartEditor.ui.panel.Gaps.prototype.createDom = function() {
   intervalsCount.setRange(0, 50);
   this.addChild(intervalsCount, true);
   goog.dom.classlist.add(intervalsCount.getElement(), goog.getCssName('anychart-ce-stroke-thickness'));
+  // goog.dom.classlist.add(intervalsCount.getElement(), goog.getCssName('anychart-ce-stockGaps'));
   this.intervalsCount_ = intervalsCount;
 
 
-  // TODO: create wrapper with label or title for every control
-  /*
+  // TODO: adjust CSS and try to wrap it to a private function
   var element = intervalsCount.getElement();
-
-  // this.label_ = goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-ce-labeled-control-label', this.labelString_);
-  this.label_ = goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-ce-labeled-control-label', 'LOOOL');
-  goog.dom.insertChildAt(element, this.label_, 0);
-
-  // goog.dom.classlist.add(this.control_.getElement(), 'anychart-ce-panel-control-right');
-  // goog.dom.appendChild(element, goog.dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-ce-clearboth')));
-  */
-
-  //***************
+  // this.intervalsCountLabel_ = goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-ce-labeled-control-label', 'LOOOL');
+  this.intervalsCountLabel_ = goog.dom.createDom(goog.dom.TagName.LABEL, void 0, 'Intervals Count');
+  goog.dom.insertChildAt(element, this.intervalsCountLabel_, 0);
 
   var unitType = new chartEditor.ui.control.fieldSelect.Select('Unit type');
   unitType.setOptions([
@@ -78,6 +71,10 @@ chartEditor.ui.panel.Gaps.prototype.createDom = function() {
   // goog.dom.classlist.add(dash.getElement(), goog.getCssName('anychart-ce-stroke-dash'));
   this.unitType_ = unitType;
 
+  element = unitType.getElement();
+  this.intervalsCountLabel_ = goog.dom.createDom(goog.dom.TagName.LABEL, void 0, 'Unit type');
+  goog.dom.insertChildAt(element, this.intervalsCountLabel_, 0);
+
   var unitCount = new chartEditor.ui.control.comboBox.Base();
   unitCount.allowReset(false);
   unitCount.setOptions([0, 1, 2, 3, 4, 5]);
@@ -85,6 +82,10 @@ chartEditor.ui.panel.Gaps.prototype.createDom = function() {
   this.addChild(unitCount, true);
   goog.dom.classlist.add(unitCount.getElement(), goog.getCssName('anychart-ce-stroke-thickness'));
   this.unitCount_ = unitCount;
+
+  element = unitCount.getElement();
+  this.intervalsCountLabel_ = goog.dom.createDom(goog.dom.TagName.LABEL, void 0, 'Unit count');
+  goog.dom.insertChildAt(element, this.intervalsCountLabel_, 0);
 };
 
 
