@@ -52,8 +52,7 @@ chartEditor.ui.Panel = function(model, opt_name, opt_domHelper) {
    *   chartEditor.ui.control.colorPicker.Base|
    *   chartEditor.ui.control.input.Base|
    *   chartEditor.ui.control.button.Toggle|
-   *   chartEditor.ui.control.textarea.Base|
-   *   chartEditor.ui.control.textarea.CustomTheme
+   *   chartEditor.ui.control.textarea.Base
    * >}
    * @private
    */
@@ -508,8 +507,7 @@ chartEditor.ui.Panel.prototype.registerLabel = function(labelElement) {
  * chartEditor.ui.control.colorPicker.Base|
  * chartEditor.ui.control.input.Base|
  * chartEditor.ui.control.button.Toggle|
- * chartEditor.ui.control.textarea.Base|
- * chartEditor.ui.control.textarea.CustomTheme
+ * chartEditor.ui.control.textarea.Base
  * } control
  * @param {number=} opt_index
  * @return {boolean} true if control was added.

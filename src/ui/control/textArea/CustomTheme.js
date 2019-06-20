@@ -29,7 +29,7 @@ goog.inherits(chartEditor.ui.control.textarea.CustomTheme, chartEditor.ui.contro
 
 /** @override */
 chartEditor.ui.control.textarea.CustomTheme.prototype.reset = function() {
-  this.editorModel.removeByKey(this.key);
+  chartEditor.ui.control.textarea.CustomTheme.base(this, 'reset');
   this.removeClassName('anychart-ce-error');
 };
 
@@ -69,24 +69,3 @@ chartEditor.ui.control.textarea.CustomTheme.prototype.onChange = function(evt) {
     }
   }
 };
-
-
-/**
- * Sets value of this control to target's value.
- * Here the target is a special model field which
- * stores the string representation of the custom theme.
- * Updates model state.
- */
-chartEditor.ui.control.textarea.CustomTheme.prototype.setValueByTarget = function() {
-  if (this.excluded) return;
-
-  var string = this.editorModel.getValue(this.key);
-
-  if (string)
-    this.setValue(string);
-  else
-    this.setValue('');
-};
-
-
-
