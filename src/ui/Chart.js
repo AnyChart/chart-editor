@@ -97,7 +97,14 @@ chartEditor.ui.Chart.prototype.onModelChange = function(evt) {
 
   // Global settings
   goog.object.forEach(settings['anychart'], function(value, key) {
-    chartEditor.binding.exec(self.anychart, key, value);
+    if (key === 'appendTheme()') {
+      // theme is stored as string, it should be evaled before applying to the anychart
+      var themeObj;
+      var evalString = 'themeObj = ' + value;
+      eval(evalString);
+      chartEditor.binding.exec(self.anychart, key, themeObj);
+    } else
+      chartEditor.binding.exec(self.anychart, key, value);
   });
 
   // Chart creation

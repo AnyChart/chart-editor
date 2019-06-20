@@ -1,7 +1,7 @@
 goog.provide('chartEditor.ui.appearanceTabs.Theming');
 
 goog.require('chartEditor.ui.Panel');
-goog.require('chartEditor.ui.control.textarea.Base');
+goog.require('chartEditor.ui.control.textarea.CustomTheme');
 
 
 
@@ -15,8 +15,6 @@ chartEditor.ui.appearanceTabs.Theming = function(model, opt_domHelper) {
   chartEditor.ui.appearanceTabs.Theming.base(this, 'constructor', model, 'Chart Theme', opt_domHelper);
 
   this.stringId = chartEditor.enums.EditorTabs.THEMING;
-
-  this.key = [['anychart'], 'appendTheme()'];
 
   this.anychart_ = goog.dom.getWindow()['anychart'];
 
@@ -32,8 +30,8 @@ chartEditor.ui.appearanceTabs.Theming.prototype.createDom = function() {
 
   var model = /** @type {chartEditor.model.Base} */(this.getModel());
 
-  this.themeTextarea = new chartEditor.ui.control.textarea.Base();
-  this.themeTextarea.init(model, this.getKey(), void 0, true);
+  this.themeTextarea = new chartEditor.ui.control.textarea.CustomTheme();
+  this.themeTextarea.init(model, [['anychart'], 'appendTheme()'], void 0, true);
   this.themeTextarea.setPlaceholder('Type in custom theme code');
 
   this.addChildControl(this.themeTextarea);

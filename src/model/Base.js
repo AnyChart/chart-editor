@@ -1978,18 +1978,13 @@ chartEditor.model.Base.prototype.getChartWithJsCode_ = function(opt_options) {
     result.push('// Applying global panel');
 
     goog.object.forEach(settings['anychart'], function(value, key) {
-
-      // instead of appendTheme() model field use customTheme which stores
-      // string representation of the custom theme
-      // for the rest keys as usual
-      if (key != 'appendTheme()') {
-        if (key == 'customTheme') {
+        if (key == 'appendTheme()') {
+          // apply the user's custom theme
           value = 'var customTheme = ' + value + ';\nanychart.appendTheme(customTheme);';
           result.push(value);
         }
         else
           result.push(self.printKey(printer, 'anychart', key, value, minify));
-      }
     });
     result.push('');
   }

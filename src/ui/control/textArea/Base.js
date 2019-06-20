@@ -1,7 +1,6 @@
 goog.provide('chartEditor.ui.control.textarea.Base');
 
 goog.require('goog.events.InputHandler');
-goog.require('goog.events.KeyHandler');
 goog.require('goog.ui.Textarea');
 
 
@@ -73,9 +72,6 @@ chartEditor.ui.control.textarea.Base.prototype.setKey = function(value) {
 
 /**
  * Removes control's value from model.
- * It removes by key appendTheme() and
- * and special field customTheme which stores
- * string value for the text area and output JS code.
  */
 chartEditor.ui.control.textarea.Base.prototype.reset = function() {
   this.editorModel.removeByKey(this.key);
@@ -89,79 +85,28 @@ chartEditor.ui.control.textarea.Base.prototype.enterDocument = function() {
   goog.style.setElementShown(this.getElement(), !this.excluded);
   this.inputHandler_ = new goog.events.InputHandler(this.getElement());
   goog.events.listen(this.inputHandler_, goog.events.InputHandler.EventType.INPUT,
-    this.onChange_, false, this);
-
-  // handle Enter key press separately to add new line to the textarea string
-  this.inputHandler_ = new goog.events.KeyHandler(this.getElement());
-  goog.events.listen(this.inputHandler_, goog.events.KeyHandler.EventType.KEY,
-    this.onEnterPress_, false, this);
+    this.onChange, false, this);
 };
 
 
 /** @override */
 chartEditor.ui.control.textarea.Base.prototype.exitDocument = function() {
-  this.getHandler().unlisten(this, goog.ui.Component.EventType.ACTION, this.onChange_, false);
+  this.getHandler().unlisten(this, goog.ui.Component.EventType.ACTION, this.onChange, false);
   chartEditor.ui.control.textarea.Base.base(this, 'exitDocument');
 };
 
 
 /**
  * @param {goog.events.Event} evt
- * @private
+ * @protected
  */
-chartEditor.ui.control.textarea.Base.prototype.onChange_ = function(evt) {
+chartEditor.ui.control.textarea.Base.prototype.onChange = function(evt) {
   evt.stopPropagation();
   if (this.excluded) return;
   if (!this.noDispatch && this.editorModel) {
-    // string representation of the theme
-    var string = this.getValue();
-
-    try {
-      // tricky check to avoid access to objects with minified names in the current scope
-      // it happens when the user types in 'h' or 'vz'
-      // theme always starts with { brace
-      if (string.charAt(0) !== '{')
-        throw new SyntaxError("Not valid object");
-
-      // modified theme string for calling eval to store the theme in globals
-      var evalString = 'window.acCustomTheme = ' + string;
-      eval(evalString);
-
-      // check if the theme content is completely valid object
-      if (!goog.isObject(window['acCustomTheme']))
-        throw new SyntaxError("Not valid object");
-
-      // append theme as object to the chart
-      this.editorModel.setValue(this.key, window['acCustomTheme'], this.rebuildChart);
-
-      // store in model the string representation of the custom theme
-      // it requires for applying theme code back to the text area and for output JS code
-      this.editorModel.setValue([['anychart'], 'customTheme'], string, false);
-
-      // remove error highlight
-      if (goog.isObject(window['acCustomTheme']))
-        this.removeClassName('anychart-ce-error');
-
-    } catch (e) {
-      // apply error highlight
-      this.addClassName('anychart-ce-error');
-    }
-  }
-};
-
-
-/**
- * Handle the Enter key press separately. Adds new line to the
- * textarea string.
- * @param {goog.events.Event} evt
- * @private
- */
-chartEditor.ui.control.textarea.Base.prototype.onEnterPress_ = function(evt) {
-  evt.stopPropagation();
-  var string = this.getValue();
-  if (evt.key == 'Enter') {
-    string += '\n';
-    this.setValue(string);
+    var value = this.getValue();
+    this.editorModel.setValue(this.key, value, this.rebuildChart);
+    this.setValue(value);
   }
 };
 
@@ -194,14 +139,12 @@ chartEditor.ui.control.textarea.Base.prototype.init = function(model, key, opt_c
 
 /**
  * Sets value of this control to target's value.
- * Here the target is a special model field which
- * stores the string representation of the custom theme.
  * Updates model state.
  */
 chartEditor.ui.control.textarea.Base.prototype.setValueByTarget = function() {
   if (this.excluded) return;
 
-  var string = this.editorModel.getValue([['anychart'], 'customTheme']);
+  var string = this.editorModel.getValue(this.key);
 
   if (string)
     this.setValue(string);
