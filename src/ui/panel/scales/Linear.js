@@ -30,6 +30,7 @@ chartEditor.ui.panel.scales.Linear.prototype.createDom = function() {
   chartEditor.ui.panel.scales.Linear.base(this, 'createDom');
 
   var model = /** @type {chartEditor.model.Base} */(this.getModel());
+  var chartType = model.getValue([['chart'], 'type']);
 
   var inverted = new chartEditor.ui.control.checkbox.Base();
   inverted.setCaption('Inverted');
@@ -97,4 +98,26 @@ chartEditor.ui.panel.scales.Linear.prototype.createDom = function() {
   minorTicks.allowEnabled(false);
   minorTicks.setKey(this.genKey('minorTicks()'));
   this.addChildControl(minorTicks);
+
+  // Specific Stock chart yScale settings
+  if (chartType === 'stock') {
+    this.addContentSeparator();
+
+    var comparisonMode = new chartEditor.ui.control.fieldSelect.Base({label: 'Comparison Mode'});
+    comparisonMode.getSelect().setOptions([
+      {value: 'none'},
+      {value: 'percent'},
+      {value: 'value'}
+    ]);
+    comparisonMode.init(model, this.genKey('comparisonMode()'));
+    this.addChildControl(comparisonMode);
+
+    var compareWith = new chartEditor.ui.control.fieldSelect.Base({label: 'Compare With'});
+    compareWith.getSelect().setOptions([
+      {value: 'first-visible'},
+      {value: 'series-start'}
+    ]);
+    compareWith.init(model, this.genKey('compareWith()'));
+    this.addChildControl(compareWith);
+  }
 };

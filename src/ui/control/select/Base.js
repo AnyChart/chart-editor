@@ -35,6 +35,13 @@ chartEditor.ui.control.select.Base = function(opt_caption, opt_menu, opt_rendere
   this.key = [];
 
   /**
+   * Custom getter key
+   * @type {chartEditor.model.Base.Key}
+   * @private
+   */
+  this.getterKey_ = null;
+
+  /**
    * @type {boolean}
    * @protected
    */
@@ -246,7 +253,8 @@ chartEditor.ui.control.select.Base.prototype.setValueByTarget = function(target)
   }
   this.target = target;
 
-  var stringKey = chartEditor.model.Base.getStringKey(this.key);
+  // use special getter key if it is defined for this control
+  var stringKey = chartEditor.model.Base.getStringKey(this.getterKey_ || this.key);
   var value = /** @type {string} */(chartEditor.binding.exec(this.target, stringKey));
 
   this.noDispatch = true;
@@ -295,4 +303,23 @@ chartEditor.ui.control.select.Base.prototype.updateExclusion = function() {
 
   var stringKey = this.editorModel.getStringKey(this.key);
   return this.exclude(this.editorModel.checkSettingForExclusion(stringKey));
+};
+
+
+/**
+ * Apply the getter key for the control.
+ * It requires when the same value is applied to the chart by one key, and gets back by another one.
+ * @param {chartEditor.model.Base.Key} key custom getter key.
+ */
+chartEditor.ui.control.select.Base.prototype.setGetterKey = function(key) {
+  this.getterKey_ = key;
+};
+
+
+/**
+ * Returns the control's getter key.
+ * @return {?chartEditor.model.Base.Key} key custom getter key.
+ */
+chartEditor.ui.control.select.Base.prototype.getGetterKey = function() {
+    return this.getterKey_;
 };

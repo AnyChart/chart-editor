@@ -1,14 +1,6 @@
 goog.provide('chartEditor.ui.panel.Gaps');
 
 goog.require('chartEditor.ui.Panel');
-// goog.require('chartEditor.ui.PanelZippy');
-// goog.require('chartEditor.ui.control.colorPicker.Base');
-// goog.require('chartEditor.ui.control.comboBox.Percent');
-// goog.require('chartEditor.ui.control.input.Numbers');
-// goog.require('chartEditor.ui.control.select.Scales');
-// goog.require('chartEditor.ui.control.wrapped.Labeled');
-// goog.require('chartEditor.ui.panel.Stroke');
-// goog.require('chartEditor.ui.panel.scales.Base');
 goog.require('chartEditor.ui.control.comboBox.Base');
 goog.require('chartEditor.ui.control.fieldSelect.Select');
 
@@ -22,7 +14,7 @@ goog.require('chartEditor.ui.control.fieldSelect.Select');
  * @extends {chartEditor.ui.Panel}
  */
 chartEditor.ui.panel.Gaps = function(model, name, opt_domHelper) {
-  chartEditor.ui.panel.Gaps.base(this, 'constructor', model, name, null, opt_domHelper);
+  chartEditor.ui.panel.Gaps.base(this, 'constructor', model, name, opt_domHelper);
   
   this.name = name || '';
 
@@ -94,16 +86,17 @@ chartEditor.ui.panel.Gaps.prototype.enterDocument = function() {
   chartEditor.ui.panel.Gaps.base(this, 'enterDocument');
 
   var handler = this.getHandler();
-  handler.listen(this.intervalsCount_, goog.ui.Component.EventType.CHANGE, this.onChange);
-  handler.listen(this.unitType_, goog.ui.Component.EventType.CHANGE, this.onChange);
-  handler.listen(this.unitCount_, goog.ui.Component.EventType.CHANGE, this.onChange);
+  handler.listen(this.intervalsCount_, goog.ui.Component.EventType.CHANGE, this.onChange_);
+  handler.listen(this.unitType_, goog.ui.Component.EventType.CHANGE, this.onChange_);
+  handler.listen(this.unitCount_, goog.ui.Component.EventType.CHANGE, this.onChange_);
 };
 
 
 /**
  * Common handler function for every control in ui. Sets value for stroke() key as Object.
+ * @private
  */
-chartEditor.ui.panel.Gaps.prototype.onChange = function() {
+chartEditor.ui.panel.Gaps.prototype.onChange_ = function() {
   if (this.noDispatch) return;
 
   var value = {};
@@ -145,8 +138,6 @@ chartEditor.ui.panel.Gaps.prototype.setValueByTarget = function(target) {
 
   var stringKey = chartEditor.model.Base.getStringKey(this.key);
   var value = /** @type {string|Object|Function} */(chartEditor.binding.exec(target, stringKey));
-
-  // TODO: after switching scale type chart holds the applied intervalsCount even though it returns intervalsCount = 0
 
   this.noDispatch = true;
   // default always is 0

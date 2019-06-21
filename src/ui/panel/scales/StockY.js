@@ -2,7 +2,6 @@ goog.provide('chartEditor.ui.panel.scales.StockY');
 
 goog.require('chartEditor.ui.PanelZippy');
 goog.require('chartEditor.ui.control.fieldSelect.Base');
-goog.require('chartEditor.ui.panel.Title');
 goog.require('chartEditor.ui.panel.scales.Linear');
 
 
@@ -44,28 +43,23 @@ chartEditor.ui.panel.scales.StockY.prototype.createDom = function() {
 
   var model = /** @type {chartEditor.model.Base} */(this.getModel());
 
-
   var scaleType = new chartEditor.ui.control.fieldSelect.Base({label: 'Scale type'});
   scaleType.getSelect().setOptions([
     {value: 'linear'},
     {value: 'log'}
   ]);
-  scaleType.setGetterKey('plot(' + this.plotIndex_ + ').yScale().getType()');
+  scaleType.setGetterKey(this.genKey('getType()'));
 
   /**
    *  Force chart rebuild is required to avoid the AnyChart bug 8.6.0
    *  When the yScale type has changed it requires force redraw
    */
   scaleType.init(model, this.getKey(), void 0, true);
-  // scaleType.init(model, this.getKey());
-
   this.addChildControl(scaleType);
 
   this.addContentSeparator();
 
   var scale = new chartEditor.ui.panel.scales.Linear(model);
-  var key = this.getKey();
-  // scale.setKey(this.getKey());
-  scale.setKey(key);
+  scale.setKey(this.getKey());
   this.addChildControl(scale);
 };

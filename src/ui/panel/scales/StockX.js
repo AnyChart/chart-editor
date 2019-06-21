@@ -1,8 +1,8 @@
 goog.provide('chartEditor.ui.panel.scales.StockX');
 
 goog.require('chartEditor.ui.PanelZippy');
-goog.require('chartEditor.ui.panel.Gaps');
 goog.require('chartEditor.ui.control.fieldSelect.Base');
+goog.require('chartEditor.ui.panel.Gaps');
 
 
 
@@ -18,6 +18,8 @@ chartEditor.ui.panel.scales.StockX = function(model, index, opt_domHelper) {
 
   this.allowEnabled(false);
 
+  this.allowReset(true);
+
   this.key = [['chart'], ['settings'], 'xScale()'];
 
   this.name = 'X Scale';
@@ -32,15 +34,17 @@ chartEditor.ui.panel.scales.StockX.prototype.createDom = function() {
   var model = /** @type {chartEditor.model.Base} */(this.getModel());
 
   var scaleType = new chartEditor.ui.control.fieldSelect.Base({label: 'Scale type'});
-  // TODO: Stock xScale doesn't return its type by xScale(), getType() is not a function of Stock xScale
-  // that's why the control is empty after applying setting
+
+  /**
+   *  Stock xScale doesn't return its type by xScale(), getType() is not a function of Stock xScale.
+   *  That's why the control is empty after applying setting.
+   */
   scaleType.getSelect().setOptions([
     {value: 'ordinal'},
     {value: 'scatter'}
   ]);
   scaleType.init(model, this.getKey());
   this.addChildControl(scaleType);
-
 
   var minimumGap = new chartEditor.ui.panel.Gaps(model, 'Minimum Gap');
   minimumGap.setKey(this.genKey('minimumGap()'));

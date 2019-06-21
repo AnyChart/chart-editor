@@ -25,13 +25,6 @@ chartEditor.ui.control.fieldSelect.Base = function(opt_model, opt_menu, opt_rend
       opt_menuRenderer,
       opt_menuAdditionalClass);
 
-  /**
-   * Custom getter key
-   * @type {string}}
-   * @private
-   */
-  this.getterKey_ = null;
-
   var label = opt_model && opt_model.label || '';
   chartEditor.ui.control.fieldSelect.Base.base(this, 'constructor', select, label, false, opt_domHelper);
 };
@@ -81,38 +74,4 @@ chartEditor.ui.control.fieldSelect.Base.prototype.exclude = function(value) {
  */
 chartEditor.ui.control.fieldSelect.Base.prototype.updateExclusion = function() {
   this.exclude(!!this.control_.updateExclusion());
-};
-
-
-/**
- * @param {string} key custom getter key.
- * It requires when the same value is applied to the chart by one key, and gets back by another one.
- */
-chartEditor.ui.control.fieldSelect.Base.prototype.setGetterKey = function(key) {
-  this.getterKey_ = key;
-};
-
-
-/**
- * @return {?string} key custom getter key.
- */
-chartEditor.ui.control.fieldSelect.Base.prototype.getGetterKey = function() {
-  return this.getterKey_;
-};
-
-
-/** @override */
-chartEditor.ui.control.fieldSelect.Base.prototype.setValueByTarget = function(target) {
-  /**
-   * If the value can returned from the chart by another key, use this getter key for it.
-   * It means that setter and getter keys are different.
-   */
-  if (this.getterKey_) {
-    var value = chartEditor.binding.exec(target, this.getterKey_);
-    this.setValue(value);
-  } else
-    chartEditor.ui.control.fieldSelect.Base.base(this, 'setValueByTarget', target);
-  // for jsdoc compatibility
-  // TODO: probably we should remove the @return from the superclass method
-  return;
 };

@@ -1,9 +1,8 @@
 goog.provide('chartEditor.ui.appearanceTabs.StockScales');
 
-goog.require('chartEditor.scales.ScalePanel');
+goog.require('chartEditor.ui.PanelsGroup');
 goog.require('chartEditor.ui.panel.scales.StockX');
 goog.require('chartEditor.ui.panel.scales.StockY');
-goog.require('chartEditor.ui.PanelsGroup');
 
 
 
@@ -39,10 +38,9 @@ chartEditor.ui.appearanceTabs.StockScales.prototype.createPanels = function() {
     this.scaleX_ = scaleX;
   }
 
-  // add Y scales
+  // add one Y scale panel for every existing plot
   for (var plotIndex = 0; plotIndex < mappings.length; plotIndex++) {
     var plotScaleY = new chartEditor.ui.panel.scales.StockY(model, plotIndex);
-    // panel.setScaleAsDefault('linear');
     this.addPanelInstance(plotScaleY);
   }
 };
@@ -52,7 +50,6 @@ chartEditor.ui.appearanceTabs.StockScales.prototype.createPanels = function() {
 chartEditor.ui.appearanceTabs.StockScales.prototype.onModelChange = function(evt) {
   chartEditor.ui.appearanceTabs.StockScales.base(this, 'onModelChange', evt);
 
-  // TODO: check behavior
   var needRebuildFor = ['addPlot', 'dropPlot'];
   if (!this.isExcluded() && evt && needRebuildFor.indexOf(evt.meta) !== -1) {
     this.rebuildPanels();
