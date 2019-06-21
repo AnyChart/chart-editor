@@ -46,9 +46,13 @@ chartEditor.ui.panel.scales.StockX.prototype.createDom = function() {
   scaleType.init(model, this.getKey());
   this.addChildControl(scaleType);
 
+  this.addContentSeparator();
+
   var minimumGap = new chartEditor.ui.panel.Gaps(model, 'Minimum Gap');
   minimumGap.setKey(this.genKey('minimumGap()'));
   this.addChildControl(minimumGap);
+
+  this.addContentSeparator();
 
   var maximumGap = new chartEditor.ui.panel.Gaps(model, 'Maximum Gap');
   maximumGap.setKey(this.genKey('maximumGap()'));

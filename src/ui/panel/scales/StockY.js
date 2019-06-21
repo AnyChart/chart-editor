@@ -59,6 +59,8 @@ chartEditor.ui.panel.scales.StockY.prototype.createDom = function() {
 
   this.addContentSeparator();
 
+  // Linear scale implements the same functionality as Logarithmic
+  // Here is no need in switching scale type panels
   var scale = new chartEditor.ui.panel.scales.Linear(model);
   scale.setKey(this.getKey());
   this.addChildControl(scale);

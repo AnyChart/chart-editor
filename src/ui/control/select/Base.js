@@ -245,7 +245,8 @@ chartEditor.ui.control.select.Base.prototype.setValueByModel = function(opt_addi
  * @return {boolean|undefined} If model was updated
  */
 chartEditor.ui.control.select.Base.prototype.setValueByTarget = function(target) {
-  if (this.excluded) return;
+  // key length check is required for case when the control has no key and was not initiated
+  if (this.excluded || !this.key.length) return;
 
   if (!this.key || !this.key.length) {
     console.warn("Control with no key!");

@@ -3,6 +3,7 @@ goog.provide('chartEditor.ui.panel.Gaps');
 goog.require('chartEditor.ui.Panel');
 goog.require('chartEditor.ui.control.comboBox.Base');
 goog.require('chartEditor.ui.control.fieldSelect.Select');
+goog.require('chartEditor.ui.control.wrapped.Labeled');
 
 
 
@@ -16,7 +17,7 @@ goog.require('chartEditor.ui.control.fieldSelect.Select');
 chartEditor.ui.panel.Gaps = function(model, name, opt_domHelper) {
   chartEditor.ui.panel.Gaps.base(this, 'constructor', model, name, opt_domHelper);
   
-  this.name = name || '';
+  this.name = name;
 
   this.allowEnabled(false);
 
@@ -29,55 +30,37 @@ goog.inherits(chartEditor.ui.panel.Gaps, chartEditor.ui.Panel);
 chartEditor.ui.panel.Gaps.prototype.createDom = function() {
   chartEditor.ui.panel.Gaps.base(this, 'createDom');
 
-  var intervalsCount = new chartEditor.ui.control.comboBox.Base();
-  intervalsCount.allowReset(false);
-  intervalsCount.setOptions([0, 1, 2, 3, 4, 5]);
-  intervalsCount.setRange(0, 50);
-  this.addChild(intervalsCount, true);
-  goog.dom.classlist.add(intervalsCount.getElement(), goog.getCssName('anychart-ce-stroke-thickness'));
-  // goog.dom.classlist.add(intervalsCount.getElement(), goog.getCssName('anychart-ce-stockGaps'));
-  this.intervalsCount_ = intervalsCount;
+  this.intervalsCount_ = new chartEditor.ui.control.comboBox.Base();
+  this.intervalsCount_.allowReset(false);
+  this.intervalsCount_.setOptions([0, 1, 2, 3, 4, 5]);
+  this.intervalsCount_.setRange(0, 50);
+  var intervalsCountLC = new chartEditor.ui.control.wrapped.Labeled(this.intervalsCount_, 'Intervals Count');
+  this.addChildControl(intervalsCountLC);
 
-
-  // TODO: adjust CSS and try to wrap it to a private function
-  var element = intervalsCount.getElement();
-  // this.intervalsCountLabel_ = goog.dom.createDom(goog.dom.TagName.DIV, 'anychart-ce-labeled-control-label', 'LOOOL');
-  this.intervalsCountLabel_ = goog.dom.createDom(goog.dom.TagName.LABEL, void 0, 'Intervals Count');
-  goog.dom.insertChildAt(element, this.intervalsCountLabel_, 0);
-
-  var unitType = new chartEditor.ui.control.fieldSelect.Select('Unit type');
-  unitType.setOptions([
-    {value: 'day'},
-    {value: 'hour'},
+  this.unitType_ = new chartEditor.ui.control.fieldSelect.Select('Unit type');
+  this.unitType_.setOptions([
     {value: 'millisecond'},
+    {value: 'second'},
     {value: 'minute'},
+    {value: 'hour'},
+    {value: 'day'},
+    {value: 'week'},
+    {value: 'third-of-month'},
     {value: 'month'},
     {value: 'quarter'},
-    {value: 'second'},
     {value: 'semester'},
-    {value: 'third-of-month'},
-    {value: 'week'},
     {value: 'year'}
   ]);
-  this.addChild(unitType, true);
-  // goog.dom.classlist.add(dash.getElement(), goog.getCssName('anychart-ce-stroke-dash'));
-  this.unitType_ = unitType;
 
-  element = unitType.getElement();
-  this.intervalsCountLabel_ = goog.dom.createDom(goog.dom.TagName.LABEL, void 0, 'Unit type');
-  goog.dom.insertChildAt(element, this.intervalsCountLabel_, 0);
+  var unitTypeLC = new chartEditor.ui.control.wrapped.Labeled(this.unitType_, 'Unit Type');
+  this.addChildControl(unitTypeLC);
 
-  var unitCount = new chartEditor.ui.control.comboBox.Base();
-  unitCount.allowReset(false);
-  unitCount.setOptions([0, 1, 2, 3, 4, 5]);
-  unitCount.setRange(0, 50);
-  this.addChild(unitCount, true);
-  goog.dom.classlist.add(unitCount.getElement(), goog.getCssName('anychart-ce-stroke-thickness'));
-  this.unitCount_ = unitCount;
-
-  element = unitCount.getElement();
-  this.intervalsCountLabel_ = goog.dom.createDom(goog.dom.TagName.LABEL, void 0, 'Unit count');
-  goog.dom.insertChildAt(element, this.intervalsCountLabel_, 0);
+  this.unitCount_ = new chartEditor.ui.control.comboBox.Base();
+  this.unitCount_.allowReset(false);
+  this.unitCount_.setOptions([0, 1, 2, 3, 4, 5]);
+  this.unitCount_.setRange(0, 50);
+  var unitCountLC = new chartEditor.ui.control.wrapped.Labeled(this.unitCount_, 'Unit Count');
+  this.addChildControl(unitCountLC);
 };
 
 
@@ -158,4 +141,11 @@ chartEditor.ui.panel.Gaps.prototype.disposeInternal = function() {
   this.unitCount_ = null;
 
   chartEditor.ui.panel.Gaps.base(this, 'disposeInternal');
+};
+
+
+/** @override */
+chartEditor.ui.panel.Gaps.prototype.reset = function() {
+  var model = /** @type {chartEditor.model.Base} */(this.getModel());
+  model.removeByKey(this.key);
 };
