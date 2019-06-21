@@ -50,68 +50,22 @@ chartEditor.ui.panel.scales.StockY.prototype.createDom = function() {
     {value: 'linear'},
     {value: 'log'}
   ]);
+  scaleType.setGetterKey('plot(' + this.plotIndex_ + ').yScale().getType()');
+
   /**
    *  Force chart rebuild is required to avoid the AnyChart bug 8.6.0
    *  When the yScale type has changed it requires force redraw
    */
   scaleType.init(model, this.getKey(), void 0, true);
+  // scaleType.init(model, this.getKey());
 
-  // TODO: we have to override properly it to get the value by another key
-  scaleType.setValueByTarget = function (target) {
-    debugger;
-    this.target = target;
-    // var stringKey = chartEditor.model.Base.getStringKey(this.key);
-    // var value = chartEditor.binding.exec(this.target, 'plot(' + this.plotIndex_ + ').yScale().getType()');
-    var value = chartEditor.binding.exec(this.target, 'plot(' + 0 + ').yScale().getType()');
-    this.setValue(value);
-  };
   this.addChildControl(scaleType);
 
   this.addContentSeparator();
 
   var scale = new chartEditor.ui.panel.scales.Linear(model);
-  scale.setKey(this.getKey());
+  var key = this.getKey();
+  // scale.setKey(this.getKey());
+  scale.setKey(key);
   this.addChildControl(scale);
-
-  // var layout = new chartEditor.ui.control.fieldSelect.Base({label: 'Layout'});
-  // layout.getSelect().setOptions([
-  //   {value: 'horizontal'},
-  //   {value: 'vertical'}
-  // ]);
-  // layout.init(model, this.genKey('itemsLayout()'));
-  // this.addChildControl(layout);
-  //
-  // var position = new chartEditor.ui.control.fieldSelect.Base({label: 'Orientation'});
-  // position.getSelect().setOptions([
-  //   {value: 'left', icon: 'ac ac-position-left'},
-  //   {value: 'right', icon: 'ac ac-position-right'},
-  //   {value: 'top', icon: 'ac ac-position-top'},
-  //   {value: 'bottom', icon: 'ac ac-position-bottom'}
-  // ]);
-  // position.init(model, this.genKey('position()'));
-  // this.addChildControl(position);
-  //
-  // var align = new chartEditor.ui.control.fieldSelect.Base({label: 'Align'});
-  // align.getSelect().setOptions([
-  //   {value: 'left', icon: 'ac ac-position-left'},
-  //   {value: 'center', icon: 'ac ac-position-center'},
-  //   {value: 'right', icon: 'ac ac-position-right'}
-  // ]);
-  // align.init(model, this.genKey('align()'));
-  // this.addChildControl(align);
-  //
-  // var items = new chartEditor.ui.panel.Title(model, null);
-  // items.allowEnabled(false);
-  // items.allowEditTitle(false);
-  // items.allowEditPosition(false);
-  // items.allowEditAlign(false);
-  // items.setKey(this.getKey());
-  // this.addChildControl(items);
-  //
-  // this.addContentSeparator();
-  //
-  // var title = new chartEditor.ui.panel.Title(model, 'Title');
-  // title.setPositionKey('orientation()');
-  // title.setKey(this.genKey('title()'));
-  // this.addChildControl(title);
 };

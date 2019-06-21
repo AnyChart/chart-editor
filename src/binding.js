@@ -142,6 +142,7 @@ chartEditor.binding.applyPath_ = function(target, path, pathArguments, opt_lastA
       if (console) {
         var log = console['warn'] || console['log'];
         if (typeof log !== 'object') {
+          debugger;
           log.call(console, message);
         }
       }
