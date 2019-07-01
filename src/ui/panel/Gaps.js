@@ -57,8 +57,8 @@ chartEditor.ui.panel.Gaps.prototype.createDom = function() {
 
   this.unitCount_ = new chartEditor.ui.control.comboBox.Base();
   this.unitCount_.allowReset(false);
-  this.unitCount_.setOptions([0, 1, 2, 3, 4, 5]);
-  this.unitCount_.setRange(0, 50);
+  this.unitCount_.setOptions([1, 2, 3, 4, 5]);
+  this.unitCount_.setRange(1, 50);
   var unitCountLC = new chartEditor.ui.control.wrapped.Labeled(this.unitCount_, 'Unit Count');
   this.addChildControl(unitCountLC);
 };
