@@ -499,6 +499,7 @@ chartEditor.editor.Base.prototype.data = function (dataOrConfig) {
     preparedData.fieldNames = dataOrConfig['fieldNames'];
     preparedData.title = dataOrConfig['title'] || dataOrConfig['caption'] || dataOrConfig['name'];
     preparedData.defaults = dataOrConfig['defaults'];
+    preparedData.mapping = dataOrConfig['mapping'];
   }
 
   if (preparedData)

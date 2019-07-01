@@ -1733,7 +1733,8 @@ chartEditor.model.Base.prototype.addData = function(data) {
     seriesType: data.seriesType,
     activeGeo: data.activeGeo,
     fieldNames: data.fieldNames || {},
-    defaults: data.defaults || []
+    defaults: data.defaults || [],
+    mapping: data.mapping || {}
   };
 
   this.addDataInternal(dataSet);
@@ -2422,7 +2423,8 @@ chartEditor.model.Base.prototype.prepareDataSet_ = function(dataSet) {
     title: dataSet.title,
     fieldNames: dataSet.fieldNames,
     fields: [],
-    row: void 0
+    row: void 0,
+    mapping: dataSet.mapping
   };
 
   var row;
