@@ -254,7 +254,8 @@ chartEditor.enums.EditorTabs = {
   GANTT_DATAGRID_TOOLTIP: 'ganttDataGridTooltip',
   LABEL: 'label',
   QUARTERS: 'quarters',
-  CHART_LABELS: 'chartLabels'
+  CHART_LABELS: 'chartLabels',
+  STOCK_SCALES: 'stockScales'
 };
 
 
