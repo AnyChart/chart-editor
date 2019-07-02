@@ -595,7 +595,8 @@ chartEditor.ui.control.comboBox.Base.prototype.init = function(model, key, opt_c
  * @param {?Object} target Object, who's property corresponds to control's key. Used to get value of this control.
  */
 chartEditor.ui.control.comboBox.Base.prototype.setValueByTarget = function(target) {
-  if (this.excluded) return;
+  // key length check is required for case when the control has no key and was not initiated
+  if (this.excluded || !this.key.length) return;
 
   this.target = target;
 

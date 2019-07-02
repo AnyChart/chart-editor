@@ -175,3 +175,22 @@ chartEditor.ui.control.wrapped.Base.prototype.disposeInternal = function() {
 
   chartEditor.ui.control.wrapped.Base.base(this, 'disposeInternal');
 };
+
+
+/**
+ * Apply the getter key for the control.
+ * It requires when the same value is applied to the chart by one key, and gets back by another one.
+ * @param {chartEditor.model.Base.Key} key custom getter key.
+ */
+chartEditor.ui.control.wrapped.Base.prototype.setGetterKey = function(key) {
+  this.control_.setGetterKey(key);
+};
+
+
+/**
+ * Returns the control's getter key.
+ * @return {?chartEditor.model.Base.Key} key custom getter key.
+ */
+chartEditor.ui.control.wrapped.Base.prototype.getGetterKey = function() {
+  return this.control_.getGetterKey();
+};

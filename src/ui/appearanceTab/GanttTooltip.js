@@ -26,17 +26,18 @@ chartEditor.ui.appearanceTabs.GanttTooltip.prototype.createDom = function() {
 
   var model = /** @type {chartEditor.model.Base} */(this.getModel());
 
+  var dataGridTooltip = new chartEditor.ui.panel.ganttProject.Tooltip(model, 'Data grid tooltip');
+  dataGridTooltip.setKey([['chart'], ['settings'], 'dataGrid().tooltip()']);
+  this.addChildControl(dataGridTooltip);
+  this.addContentSeparator();
+
   if (model.getModel()['chart']['type'] === chartEditor.enums.ChartType.GANTT_RESOURCE) {
     var periodsTasksTooltip = new chartEditor.ui.panel.ganttProject.Tooltip(model, 'Periods tooltip');
-    periodsTasksTooltip.setKey([['chart'], ['settings'], 'getTimeline().periods().tooltip()']);
+    periodsTasksTooltip.setKey([['chart'], ['settings'], 'getTimeline().tooltip()']); // todo: key 'getTimeline().periods().tooltip()' is not working (DVF-4280)
     this.addChildControl(periodsTasksTooltip);
     this.panelToExpand_ = periodsTasksTooltip;
 
   } else {
-    var dataGridTooltip = new chartEditor.ui.panel.ganttProject.Tooltip(model, 'Data grid tooltip');
-    dataGridTooltip.setKey([['chart'], ['settings'], 'dataGrid().tooltip()']);
-    this.addChildControl(dataGridTooltip);
-    this.addContentSeparator();
 
     var TLElementsTooltip = new chartEditor.ui.panel.ganttProject.Tooltip(model, 'Timeline tooltip');
     TLElementsTooltip.setKey([['chart'], ['settings'], 'getTimeline().elements().tooltip()']);

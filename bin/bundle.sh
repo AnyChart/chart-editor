@@ -8,7 +8,7 @@ then
 else
     if [ $1 == 'all' ]
     then
-        sh ./bin/solution.sh
+        sh ./bin/solution.sh vanilla
         sh ./bin/solution.sh qlik
         sh ./bin/solution.sh tableau
         sh ./bin/solution.sh freeboard
