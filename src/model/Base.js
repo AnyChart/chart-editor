@@ -401,6 +401,17 @@ chartEditor.model.ChartTypes = (function() {
     product: chartEditor.model.Product.CHART
   };
 
+  types[chartEditor.enums.ChartType.DONUT3D] = {
+    'value': 'pie3d',
+    'name': '3D Donut',
+    'icon': 'pie-chart.svg',
+    'series': ['pie'],
+    'dataSetCtor': 'set',
+    'singleSeries': true,
+    'defaults': {'innerRadius()': '50%'},
+    product: chartEditor.model.Product.CHART
+  };
+
   types[chartEditor.enums.ChartType.SCATTER] = {
     'value': 'scatter',
     'name': 'Scatter',
@@ -478,6 +489,16 @@ chartEditor.model.ChartTypes = (function() {
   types[chartEditor.enums.ChartType.PIE] = {
     'value': 'pie',
     'name': 'Pie',
+    'icon': 'pie-chart.svg',
+    'series': ['pie'],
+    'dataSetCtor': 'set',
+    'singleSeries': true,
+    product: chartEditor.model.Product.CHART
+  };
+
+  types[chartEditor.enums.ChartType.PIE3D] = {
+    'value': 'pie3d',
+    'name': '3D Pie',
     'icon': 'pie-chart.svg',
     'series': ['pie'],
     'dataSetCtor': 'set',

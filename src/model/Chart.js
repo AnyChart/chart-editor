@@ -396,7 +396,9 @@ chartEditor.model.ExcludedPanelsForCharts.push({
     chartEditor.enums.ChartType.SCATTER,
     chartEditor.enums.ChartType.WATERFALL,
     chartEditor.enums.ChartType.PIE,
+    chartEditor.enums.ChartType.PIE3D,
     chartEditor.enums.ChartType.DONUT,
+    chartEditor.enums.ChartType.DONUT3D,
     chartEditor.enums.ChartType.FUNNEL,
     chartEditor.enums.ChartType.PYRAMID,
     chartEditor.enums.ChartType.BOX,
@@ -435,7 +437,9 @@ chartEditor.model.ExcludedPanelsForCharts.push({
 chartEditor.model.ExcludedPanelsForCharts.push({
   chartTypes: [
     chartEditor.enums.ChartType.PIE,
+    chartEditor.enums.ChartType.PIE3D,
     chartEditor.enums.ChartType.DONUT,
+    chartEditor.enums.ChartType.DONUT3D,
     chartEditor.enums.ChartType.FUNNEL,
     chartEditor.enums.ChartType.PYRAMID,
     chartEditor.enums.ChartType.TREEMAP,

@@ -39,7 +39,7 @@ chartEditor.ui.appearanceTabs.ChartSpecific = function(model, opt_domHelper) {
       classFunc: chartEditor.ui.panel.specific.Waterfall
     },
     {
-      chartType: 'pie',
+      chartType: ['pie', 'donut', 'pie3d', 'donut3d'],
       classFunc: chartEditor.ui.panel.specific.Pie
     },
     {

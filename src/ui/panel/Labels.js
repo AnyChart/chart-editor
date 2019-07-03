@@ -91,6 +91,7 @@ chartEditor.ui.panel.Labels.prototype.enterDocument = function() {
     var chartType = model.getModel()['chart']['type'];
     var addValueOption = false;
     switch (chartType) {
+      case 'pie3d':
       case 'pie':
         positionValuesEnum = chartEditor.enums.SidePosition;
         break;
