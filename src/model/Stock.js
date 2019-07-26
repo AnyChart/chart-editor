@@ -89,7 +89,7 @@ chartEditor.model.Stock.prototype.getSeriesDescription = function() {
 };
 
 
-// region Model initialization
+// region == Model initialization
 /** @inheritDoc */
 chartEditor.model.Stock.prototype.chooseDefaultChartType = function() {
   this.model['chart']['type'] = 'stock';
@@ -139,7 +139,7 @@ chartEditor.model.Stock.prototype.createDefaultPlotMappings = function() {
   var numSeries;
   var fieldIndex;
 
-  if (seriesType === 'column' && plotIndex === 1)
+  if (plotIndex > 0)
     numSeries = 1;
   else
     numSeries = Math.floor(this.fieldsState.numbersCount / numValues);
