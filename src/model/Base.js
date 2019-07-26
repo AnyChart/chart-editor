@@ -942,11 +942,11 @@ chartEditor.model.Base.prototype.createDefaultPlotMappings = function() {
  *
  * @param {number} index Series index (serial number)
  * @param {string} type Series type
- * @param {string=} opt_id Series id.
+ * @param {Object=} opt_oldConfig Old series config
  * @param {number=} opt_startFieldIndex Index of number field to start from.
  * @return {Object}
  */
-chartEditor.model.Base.prototype.createDefaultSeriesMapping = function(index, type, opt_id, opt_startFieldIndex) {
+chartEditor.model.Base.prototype.createDefaultSeriesMapping = function(index, type, opt_oldConfig, opt_startFieldIndex) {
   return {};
 };
 
@@ -1256,7 +1256,7 @@ chartEditor.model.Base.prototype.setSeriesType = function(input) {
 
   if (this.model['dataSettings']['mappings'][plotIndex][seriesIndex]['ctor'] !== type) {
     var oldConfig = this.model['dataSettings']['mappings'][plotIndex][seriesIndex];
-    this.model['dataSettings']['mappings'][plotIndex][seriesIndex] = this.createDefaultSeriesMapping(seriesIndex, type, oldConfig['id']);
+    this.model['dataSettings']['mappings'][plotIndex][seriesIndex] = this.createDefaultSeriesMapping(seriesIndex, type, oldConfig);
     this.dispatchUpdate('setSeriesType', true);
   }
 };
