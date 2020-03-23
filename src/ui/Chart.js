@@ -100,6 +100,19 @@ chartEditor.ui.Chart.prototype.onModelChange = function(evt) {
     chartEditor.binding.exec(self.anychart, key, value);
   });
 
+  // override default theme to load logo from qlik.anychart.com
+  var theme = {
+    'stageCredits': {
+      'logoSrc': 'https://qlik.anychart.com/logo.png'
+    },
+    'chart': {
+      'credits': {
+        'logoSrc': 'https://qlik.anychart.com/logo.png'
+      }
+    }
+  };
+  self.anychart['appendTheme'](theme);
+
   // Chart creation
   if (rebuildChart) {
     /**
