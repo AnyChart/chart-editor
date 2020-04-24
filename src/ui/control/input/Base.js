@@ -141,6 +141,12 @@ chartEditor.ui.control.input.Base.prototype.onChange = function() {
       }
 
       goog.dom.selection.setCursorPosition(this.getElement(), caretPosition);
+
+      this.dispatchEvent({
+        type: chartEditor.events.EventType.CONTROL_VALUE_CHANGE,
+        value: value,
+        control: this
+      });
     } else {
       // Input is not valid
       value = this.lastValue;

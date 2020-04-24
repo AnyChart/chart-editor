@@ -547,15 +547,19 @@ chartEditor.ui.control.comboBox.Base.prototype.onChange = function(evt) {
   evt.stopPropagation();
   if (this.excluded) return;
 
-  if (!this.noDispatch && this.editorModel) {
+  if (!this.noDispatch) {
     var value = this.getToken();
-    if (value == 'default') {
-      this.editorModel.removeByKey(this.key);
+    if (this.editorModel) {
+      if (value == 'default') {
+        this.editorModel.removeByKey(this.key);
+      } else {
+        if (this.callback)
+          this.editorModel.callbackByString(this.callback, this);
+        else
+          this.editorModel.setValue(this.key, value, this.rebuildChart);
+      }
     } else {
-      if (this.callback)
-        this.editorModel.callbackByString(this.callback, this);
-      else
-        this.editorModel.setValue(this.key, value, this.rebuildChart);
+      this.setValue(value);
     }
   }
 };
