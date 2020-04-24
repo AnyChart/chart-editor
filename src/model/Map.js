@@ -142,9 +142,9 @@ chartEditor.model.Map.prototype.chooseDefaultSeriesType = function() {
 
 
 /** @inheritDoc */
-chartEditor.model.Map.prototype.createDefaultSeriesMapping = function(index, type, opt_id, opt_startFieldIndex) {
+chartEditor.model.Map.prototype.createDefaultSeriesMapping = function(index, type, opt_oldConfig, opt_startFieldIndex) {
   var config = {'ctor': type, 'mapping': {}};
-  config['id'] = goog.isDef(opt_id) ? opt_id : goog.string.createUniqueString();
+  config['id'] = goog.isDef(opt_oldConfig) ? opt_oldConfig['id'] : goog.string.createUniqueString();
 
   var strings = goog.array.clone(this.fieldsState.strings);
   var numbers = goog.array.clone(this.fieldsState.numbers);

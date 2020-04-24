@@ -545,7 +545,6 @@ chartEditor.ui.control.comboBox.Base.prototype.setItemHighlightFromToken_ = func
 chartEditor.ui.control.comboBox.Base.prototype.onChange = function(evt) {
   evt.preventDefault();
   evt.stopPropagation();
-
   if (this.excluded) return;
 
   if (!this.noDispatch && this.editorModel) {

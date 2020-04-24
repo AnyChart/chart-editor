@@ -35,10 +35,10 @@ chartEditor.ui.panel.Stroke.prototype.createDom = function() {
 
   var dash = new chartEditor.ui.control.fieldSelect.Select('solid');
   dash.setOptions([
-    {value: '0', icon: 'ac ac-position-bottom'},
-    {value: '5 5', icon: 'ac ac-position-top'},
-    {value: '5 10', icon: 'ac ac-position-bottom'},
-    {value: '10 5', icon: 'ac ac-position-top'}
+    {value: '0', caption: '------', icon: 'ac ac-position-bottom'},
+    {value: '5 5', caption: '- - - ', icon: 'ac ac-position-top'},
+    {value: '5 10', caption: '-  -  ', icon: 'ac ac-position-bottom'},
+    {value: '10 5', caption: '-- -- ', icon: 'ac ac-position-top'}
   ]);
   this.addChild(dash, true);
   goog.dom.classlist.add(dash.getElement(), goog.getCssName('anychart-ce-stroke-dash'));
@@ -82,6 +82,42 @@ chartEditor.ui.panel.Stroke.prototype.enterDocument = function() {
 chartEditor.ui.panel.Stroke.prototype.onChange = function() {
   if (this.noDispatch) return;
 
+  var value = this.getValue();
+  if (value) {
+    var model = /** @type {chartEditor.model.Base} */(this.getModel());
+    if (model && goog.isFunction(model.setValue)) {
+      model.setValue(this.key, value);
+      this.dispatchEvent(goog.ui.Component.EventType.ACTION);
+    }
+  }
+};
+
+
+/**
+ * @param {string|Object} value
+ */
+chartEditor.ui.panel.Stroke.prototype.setValue = function(value) {
+  if (goog.isFunction(value)) {
+    // Should not call this function because of barmekko series stroke
+    // value = value();
+    value = {};
+  }
+
+  if (goog.isString(value))
+    value = {'color': value};
+
+  this.noDispatch = true;
+  this.color_.setSelectedColor((value && value['color'] && value['color'] != 'none') ? value['color'] : null);
+  this.thickness_.setValue((value && value['thickness']) ? value['thickness'] : void 0);
+  this.dash_.setValue((value && value['dash']) ? value['dash'] : void 0);
+  this.noDispatch = false;
+};
+
+
+/**
+ * @return {?Object}
+ */
+chartEditor.ui.panel.Stroke.prototype.getValue = function() {
   var value = {};
   var colorValue = this.color_.getSelectedColor();
   if (colorValue && colorValue != 'none')
@@ -95,13 +131,7 @@ chartEditor.ui.panel.Stroke.prototype.onChange = function() {
   if (dashValue)
     value['dash'] = dashValue.value;
 
-  if (colorValue || thicknessValue || dashValue) {
-    var model = /** @type {chartEditor.model.Base} */(this.getModel());
-    if (model) {
-      model.setValue(this.key, value);
-      this.dispatchEvent(goog.ui.Component.EventType.ACTION);
-    }
-  }
+  return (colorValue || thicknessValue || dashValue) ? value : null;
 };
 
 
@@ -121,21 +151,7 @@ chartEditor.ui.panel.Stroke.prototype.setValueByTarget = function(target) {
 
   var stringKey = chartEditor.model.Base.getStringKey(this.key);
   var value = /** @type {string|Object|Function} */(chartEditor.binding.exec(target, stringKey));
-
-  if (goog.isFunction(value)) {
-    // Should not call this function because of barmekko series stroke
-    // value = value();
-    value = {};
-  }
-
-  if (goog.isString(value))
-    value = {'color': value};
-
-  this.noDispatch = true;
-  this.color_.setSelectedColor((value && value['color'] && value['color'] != 'none') ? value['color'] : null);
-  this.thickness_.setValue((value && value['thickness']) ? value['thickness'] : void 0);
-  this.dash_.setValue((value && value['dash']) ? value['dash'] : void 0);
-  this.noDispatch = false;
+  this.setValue(value);
 };
 
 

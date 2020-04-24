@@ -1,10 +1,12 @@
 goog.provide('chartEditor.ui.dialog.Settings');
 
+goog.require('chartEditor.ui.control.colorPicker.Base');
 goog.require('chartEditor.ui.control.fieldSelect.Select');
 goog.require('chartEditor.ui.control.input.Base');
 goog.require('chartEditor.ui.control.input.Numbers');
 goog.require('chartEditor.ui.control.wrapped.Labeled');
 goog.require('chartEditor.ui.dialog.Base');
+goog.require('chartEditor.ui.panel.Stroke');
 goog.require('goog.ui.Dialog');
 
 
@@ -14,7 +16,6 @@ goog.require('goog.ui.Dialog');
 anychart.onDocumentReady(function() {
   var dialog = new chartEditor.ui.dialog.Settings(
       {
-        'id': 'someId',
         'title': 'My awesome indicator',
         'subtitle': 'Accumulation Distribution Line (ADL)',
         'description': 'Developed by Marc Chaikin, the Accumulation Distribution Line is a volume-based indicator designed to measure the cumulative flow of money into and out of a security. Chaikin originally referred to the indicator as the Cumulative Money Flow Line. As with cumulative indicators, the Accumulation Distribution Line is a running total of each period\'s Money Flow Volume. First, a multiplier is calculated based on the relationship of the close to the high-low range. Second, the Money Flow Multiplier is multiplied by the period\'s volume to come up with a Money Flow Volume. A running total of the Money Flow Volume forms the Accumulation Distribution Line. Chartists can use this indicator to affirm a security\'s underlying trend or anticipate reversals when the indicator diverges from the security price.\n\nNote that ADL indicator needs to be built on a separate plot due to rather huge difference between the indicator values and the data values.\n\nADL indicator requires a mapping with five fields in it: "open", "high", "low", "close", and "volume".',
@@ -33,15 +34,68 @@ anychart.onDocumentReady(function() {
           'name': 'slowPeriod',
           'control': 'number',
           'default': 30
-        }, {
-          'label': 'Series Type',
-          'name': 'seriesType',
-          'control': 'select',
-          'options': chartEditor.enums.StockSeriesType,
-          'default': 'line'
-        }]
+        },
+          // Series One
+          {
+            'group': 'Series One',
+            'label': 'Series Type',
+            'name': 'seriesType',
+            'control': 'select',
+            'options': [
+              {'value': 'One'},
+              {'value': 'Two'},
+              {'value': 'Three'},
+              {'value': 'Four'},
+            ],
+            'default': 'One'
+          }, {
+            'group': 'Series One',
+            'label': 'Series Stroke',
+            'name': 'seriesStroke',
+            'control': 'stroke',
+            'default': {
+              color: "#ff0000",
+              dash: "10 5",
+              thickness: "5"
+            }
+          }, {
+            'group': 'Series One',
+            'label': 'Series Fill',
+            'name': 'series().fill()',
+            'control': 'fill',
+            'default': '#00ff00'
+          },
+          // Series Two
+          {
+            'group': 'Series Two',
+            'label': 'Series Type',
+            'name': 'seriesType',
+            'control': 'select',
+            'options': [
+              {'value': 'One'},
+              {'value': 'Two'},
+              {'value': 'Three'},
+              {'value': 'Four'},
+            ],
+            'default': 'Two'
+          }, {
+            'group': 'Series Two',
+            'label': 'Series Stroke',
+            'name': 'seriesStroke',
+            'control': 'stroke',
+            'default': {
+              color: "#ff00ff",
+              dash: "10 5",
+              thickness: "5"
+            }
+          }, {
+            'group': 'Series Two',
+            'label': 'Series Fill',
+            'name': 'series().fill()',
+            'control': 'fill',
+            'default': '#ffff00'
+          }]
       }
-  );
 
   dialog.setVisible(true);
 
@@ -76,8 +130,6 @@ chartEditor.ui.dialog.Settings = function(config) {
 
   this.setDraggable(false);
 
-  //this.setTextContent(message);
-
   this.setButtonSet(goog.ui.Dialog.ButtonSet.createOkCancel());
 };
 goog.inherits(chartEditor.ui.dialog.Settings, chartEditor.ui.dialog.Base);
@@ -104,6 +156,8 @@ chartEditor.ui.dialog.Settings.prototype.createDom = function() {
 
   dom.appendChild(this.getContentElement(), this.controlsWrapper_);
 
+  var group = void 0;
+  var groupContainerEl;
   for (var i = 0; i < this.controlsConfig_.length; i++) {
     var controlDescription = this.controlsConfig_[i];
     var control = null;
@@ -119,6 +173,12 @@ chartEditor.ui.dialog.Settings.prototype.createDom = function() {
       case 'number':
         control = new chartEditor.ui.control.input.Numbers();
         break;
+      case 'stroke':
+        control = new chartEditor.ui.panel.Stroke(null);
+        break;
+      case 'fill':
+        control = new chartEditor.ui.control.colorPicker.Base();
+        break;
       default:
         control = new chartEditor.ui.control.input.Base();
     }
@@ -126,11 +186,35 @@ chartEditor.ui.dialog.Settings.prototype.createDom = function() {
     if (control) {
       this.controls_.push(control);
       control.setModel(controlDescription);
+
+      var containerEl;
+
+      if (controlDescription['group']) {
+        if (group !== controlDescription['group']) {
+          group = controlDescription['group'];
+
+          groupContainerEl = dom.createDom(
+              goog.dom.TagName.DIV,
+              goog.getCssName('anychart-ce-dialog-settings-group'),
+              dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-ce-dialog-settings-group-label'), controlDescription['group']));
+
+          dom.appendChild(this.controlsWrapper_, groupContainerEl);
+          dom.appendChild(this.controlsWrapper_, dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-ce-clear')));
+        }
+        containerEl = groupContainerEl;
+      } else {
+        group = null;
+        containerEl = this.controlsWrapper_;
+      }
+
       var labeledControl = new chartEditor.ui.control.wrapped.Labeled(control, controlDescription['label']);
       this.addChild(labeledControl, true);
-      dom.appendChild(this.controlsWrapper_, labeledControl.getElement());
+      dom.appendChild(/** @type {Node} */(containerEl), labeledControl.getElement());
       if (goog.isDef(controlDescription['default']))
         control.setValue(controlDescription['default']);
+
+      if (controlDescription['class'])
+        labeledControl.addClassName(controlDescription['class']);
     }
   }
 
@@ -138,6 +222,12 @@ chartEditor.ui.dialog.Settings.prototype.createDom = function() {
 
   dom.appendChild(this.getContentElement(),
       dom.createDom(goog.dom.TagName.DIV, goog.getCssName('anychart-ce-dialog-settings-description'), this.description_));
+
+  this.listen(chartEditor.events.EventType.CONTROL_VALUE_CHANGE, function(evt) {
+    this.dispatchEvent({
+      type: 'valueschange'
+    });
+  });
 };
 
 

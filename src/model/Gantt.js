@@ -131,9 +131,9 @@ chartEditor.model.Gantt.prototype.chooseDefaultSeriesType = function() {
 
 
 /** @inheritDoc */
-chartEditor.model.Gantt.prototype.createDefaultSeriesMapping = function(index, type, opt_id, opt_startFieldIndex) {
+chartEditor.model.Gantt.prototype.createDefaultSeriesMapping = function(index, type, opt_oldConfig, opt_startFieldIndex) {
   var config = {'ctor': type, 'mapping': {}};
-  config['id'] = goog.isDef(opt_id) ? opt_id : goog.string.createUniqueString();
+  config['id'] = goog.isDef(opt_oldConfig) ? opt_oldConfig['id'] : goog.string.createUniqueString();
 
   var strings = this.fieldsState.strings.filter(function(string) {return string != 'dimensionGroup';});
   var numbers = this.fieldsState.numbers.filter(function(string) {return string != 'dimensionGroup';});

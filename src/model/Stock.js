@@ -89,7 +89,7 @@ chartEditor.model.Stock.prototype.getSeriesDescription = function() {
 };
 
 
-// region Model initialization
+// region == Model initialization
 /** @inheritDoc */
 chartEditor.model.Stock.prototype.chooseDefaultChartType = function() {
   this.model['chart']['type'] = 'stock';
@@ -139,7 +139,7 @@ chartEditor.model.Stock.prototype.createDefaultPlotMappings = function() {
   var numSeries;
   var fieldIndex;
 
-  if (seriesType === 'column' && plotIndex === 1)
+  if (plotIndex > 0)
     numSeries = 1;
   else
     numSeries = Math.floor(this.fieldsState.numbersCount / numValues);
@@ -157,9 +157,15 @@ chartEditor.model.Stock.prototype.createDefaultPlotMappings = function() {
 
 
 /** @inheritDoc */
-chartEditor.model.Stock.prototype.createDefaultSeriesMapping = function(index, type, opt_id, opt_startFieldIndex) {
+chartEditor.model.Stock.prototype.createDefaultSeriesMapping = function(index, type, opt_oldConfig, opt_startFieldIndex) {
   var config = {'ctor': type, 'mapping': {}};
-  config['id'] = goog.isDef(opt_id) ? opt_id : goog.string.createUniqueString();
+  config['id'] = goog.isDef(opt_oldConfig) ? opt_oldConfig['id'] : goog.string.createUniqueString();
+
+  if (goog.isDef(opt_oldConfig) && this.shouldJustChangeSeriesType(type, opt_oldConfig['ctor'])) {
+    // Should just change series type
+    config['mapping'] = opt_oldConfig['mapping'];
+    return config;
+  }
 
   var strings = this.fieldsState.strings.filter(function(string) {return string != 'dimensionGroup';});
   var numbers = this.fieldsState.numbers.filter(function(string) {return string != 'dimensionGroup';});
@@ -176,6 +182,24 @@ chartEditor.model.Stock.prototype.createDefaultSeriesMapping = function(index, t
             numbers[numberIndex];
   }
   return config;
+};
+
+
+/**
+ * Checks if fields for both series types are equal
+ * @param {string} newType
+ * @param {string} oldType
+ * @return {boolean} Equal or not
+ */
+chartEditor.model.Stock.prototype.shouldJustChangeSeriesType = function(newType, oldType) {
+  var newFields = this.getSeriesDescription()[newType]['fields'];
+  var oldFields = this.getSeriesDescription()[oldType]['fields'];
+
+  for (var i = 0; i < newFields.length; i++) {
+    if (!goog.isObject(oldFields[i]) || !goog.object.equals(newFields[i], oldFields[i]))
+      return false;
+  }
+  return true;
 };
 
 

@@ -630,9 +630,9 @@ chartEditor.model.Chart.prototype.createDefaultPlotMappings = function() {
 
 
 /** @inheritDoc */
-chartEditor.model.Chart.prototype.createDefaultSeriesMapping = function(index, type, opt_id, opt_startFieldIndex) {
+chartEditor.model.Chart.prototype.createDefaultSeriesMapping = function(index, type, opt_oldConfig, opt_startFieldIndex) {
   var config = {'ctor': type, 'mapping': {}};
-  config['id'] = goog.isDef(opt_id) ? opt_id : goog.string.createUniqueString();
+  config['id'] = goog.isDef(opt_oldConfig) ? opt_oldConfig['id'] : goog.string.createUniqueString();
 
   var xField = this.model['dataSettings']['field'];
 

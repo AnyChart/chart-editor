@@ -16,8 +16,8 @@ chartEditor.ui.ComponentWithKey = function(model, opt_domHelper) {
 
   if (model)
     this.setModel(model);
-  else
-    console.warn('ComponentWithKey: model could not be undefined!');
+  // else
+  //   console.warn('ComponentWithKey: model could not be undefined!');
 
   /**
    * Editor Model key.
