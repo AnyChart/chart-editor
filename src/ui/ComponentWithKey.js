@@ -35,7 +35,7 @@ chartEditor.ui.ComponentWithKey.prototype.enterDocument = function() {
   this.onModelChange(null);
 
   var model = /** @type {chartEditor.model.Base} */(this.getModel());
-  if (model)
+  if (model && goog.isFunction(model['getValue']))
     this.getHandler().listen(model, chartEditor.events.EventType.EDITOR_MODEL_UPDATE, this.onModelChange);
 
   chartEditor.ui.ComponentWithKey.base(this, 'enterDocument');
@@ -99,7 +99,7 @@ chartEditor.ui.ComponentWithKey.prototype.genKey = function(opt_completion, opt_
  */
 chartEditor.ui.ComponentWithKey.prototype.onModelChange = function(evt) {
   var model = /** @type {chartEditor.model.Base} */(this.getModel());
-  if (model)
+  if (model && goog.isFunction(model['getValue']))
     this.getHandler().listenOnce(model, chartEditor.events.EventType.CHART_DRAW, this.onChartDraw);
 };
 
