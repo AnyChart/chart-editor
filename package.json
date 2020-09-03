@@ -41,7 +41,7 @@
   "homepage": "https://github.com/AnyChart/chart-editor",
   "devDependencies": {
     "google-closure-compiler": "^20180204.0.0",
-    "google-closure-library": "^20180204.0.0",
+    "google-closure-library": "^20190301.0.0",
     "less": "^3.9.0",
     "less-plugin-clean-css": "^1.5.1"
   },
